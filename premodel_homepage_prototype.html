@@ -67,10 +67,10 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .header { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; border-bottom: 0.5px solid var(--color-border-tertiary); }
 .header .logo-name { font-size: 16px; font-weight: 500; margin: 0; letter-spacing: -0.005em; }
 .header .header-link { font-size: 13px; color: var(--color-text-secondary); text-decoration: none; font-weight: 400; }
+.locale-bug { display: inline-block; background: var(--color-background-warning); color: var(--color-text-warning); font-size: 9px; font-weight: 600; letter-spacing: 0.08em; padding: 2px 6px; border-radius: 4px; margin-left: 7px; vertical-align: 2px; text-transform: uppercase; }
 
 .reveal-hero { padding: 28px 20px 0; text-align: center; }
 .reveal-hero .h1-small { font-size: 17px; color: var(--color-text-secondary); margin: 0; line-height: 1.4; }
-.reveal-hero .pill { display: inline-block; background: var(--color-background-warning); color: var(--color-text-warning); padding: 2px 10px; border-radius: 999px; font-weight: 500; font-size: 15px; }
 .reveal-hero .h1-large { font-size: 30px; font-weight: 500; margin: 6px 0 0; letter-spacing: -0.015em; line-height: 1.05; }
 
 .carousel { display: flex; overflow-x: scroll; scroll-snap-type: x mandatory; scrollbar-width: none; margin: 16px 0 0; touch-action: pan-x; }
@@ -84,34 +84,36 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .reveal-sub { padding: 16px 20px 0; text-align: center; }
 .reveal-sub p { font-size: 14px; color: var(--color-text-secondary); margin: 0; line-height: 1.5; }
 .reveal-sub .italic { font-family: var(--font-serif); font-style: italic; color: var(--color-text-primary); }
+.plan-sub { grid-row: 1; grid-column: 1; align-self: end; width: 180px; box-sizing: border-box; padding: 0 8px 4px 16px; z-index: 0; pointer-events: none; }
+.plan-sub p { font-size: 14px; color: var(--color-text-secondary); margin: 0; line-height: 1.5; }
+.plan-sub .italic { font-family: var(--font-serif); font-style: italic; color: var(--color-text-primary); }
 
 .plan-block { margin-top: 40px; display: grid; grid-template-columns: 1fr; grid-template-rows: auto; }
 .plan-headline { grid-row: 1; grid-column: 1; align-self: start; justify-self: start; width: 180px; padding-left: 16px; padding-right: 8px; box-sizing: border-box; z-index: 0; pointer-events: none; }
-.plan-headline .h { font-size: 24px; font-weight: 500; margin: 0; line-height: 1.15; letter-spacing: -0.01em; display: block; }
+.plan-headline .h { font-size: 30px; font-weight: 500; margin: 0; line-height: 1.05; letter-spacing: -0.015em; display: block; }
 .plan-headline .h:first-child { margin-top: -3px; }
-.plan-headline .sub { font-size: 14px; color: var(--color-text-secondary); margin: 0; line-height: 1.5; display: block; }
-.plan-headline .sub-spacer { margin-top: 16px; }
-.plan-headline .italic { font-family: var(--font-serif); font-style: italic; color: var(--color-text-primary); }
 
-.plan-gallery { grid-row: 1; grid-column: 1; z-index: 1; display: flex; gap: 8px; overflow-x: scroll; scroll-snap-type: x mandatory; scrollbar-width: none; padding-left: 180px; padding-right: 16px; touch-action: pan-x; background: transparent; }
+.plan-gallery { grid-row: 1; grid-column: 1; z-index: 1; display: flex; gap: 8px; overflow-x: scroll; scroll-snap-type: x mandatory; scroll-padding-left: 180px; scrollbar-width: none; padding-left: 180px; padding-right: 16px; touch-action: pan-x; background: transparent; }
 .plan-gallery::-webkit-scrollbar { display: none; }
-.tile { flex: 0 0 160px; scroll-snap-align: start; background: var(--color-background-secondary); border-radius: var(--border-radius-lg); overflow: hidden; display: flex; flex-direction: column; }
-.tile-image { width: 100%; aspect-ratio: 4/3; background: rgba(120, 120, 120, 0.18); display: flex; align-items: center; justify-content: center; color: var(--color-text-tertiary); font-size: 10px; letter-spacing: 0.05em; text-transform: uppercase; }
+.tile { flex: 0 0 180px; scroll-snap-align: start; background: var(--color-background-secondary); border-radius: var(--border-radius-lg); overflow: hidden; display: flex; flex-direction: column; }
+.tile-image { width: 100%; aspect-ratio: 4/3; background: var(--color-background-secondary); display: flex; align-items: center; justify-content: center; color: var(--color-text-tertiary); font-size: 10px; letter-spacing: 0.05em; text-transform: uppercase; }
 .tile-body { padding: 10px 12px 12px; }
 .tile-title { font-size: 13px; font-weight: 500; margin: 0 0 2px; }
 .tile-tagline { font-size: 11px; color: var(--color-text-secondary); margin: 0 0 6px; font-weight: 500; }
 .tile-copy { font-size: 11px; color: var(--color-text-secondary); margin: 0; line-height: 1.45; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 
 .howto-section { padding: 0 16px; }
-.howto-header { padding: 40px 4px 8px; }
-.howto-header h1 { font-size: 22px; font-weight: 500; margin: 0 0 6px; letter-spacing: -0.01em; }
-.howto-header p { font-size: 14px; color: var(--color-text-secondary); margin: 0; line-height: 1.5; }
-.scroll-hint { text-align: center; font-size: 11px; color: var(--color-text-tertiary); padding: 4px 0 0; }
-.phase-label { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-text-secondary); padding: 28px 4px 8px; font-weight: 500; }
-.phase-label .bracket { color: var(--color-text-tertiary); }
-.step { display: grid; grid-template-columns: 22px 1fr; gap: 12px; padding: 14px 8px; border-radius: var(--border-radius-lg); opacity: 0.45; transition: opacity 0.35s ease, background 0.35s ease; margin-bottom: 2px; }
+.howto-header { padding: 40px 4px 8px; text-align: center; }
+.howto-header h1 { font-size: 22px; font-weight: 500; margin: 0; letter-spacing: -0.01em; }
+.phase-label { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-text-primary); padding: 32px 4px 14px; font-weight: 600; text-align: center; }
+.step { display: grid; grid-template-columns: 22px 1fr; gap: 12px; padding: 14px 8px; border-radius: var(--border-radius-lg); opacity: 0.45; transition: opacity 0.35s ease, background 0.35s ease; margin-bottom: 2px; position: relative; }
 .step.active { opacity: 1; background: var(--color-background-secondary); }
-.step .num { font-size: 13px; color: var(--color-text-secondary); font-weight: 500; padding-top: 2px; text-align: right; }
+.step::before, .step::after { content: ''; position: absolute; left: 18px; width: 2px; background: var(--color-border-primary); z-index: 0; }
+.step::before { top: 0; height: 14px; }
+.step::after { top: 36px; bottom: 0; }
+.step[data-step="r1"]::before, .step[data-step="p1"]::before { display: none; }
+.step[data-step="r3"]::after, .step[data-step="p6"]::after { display: none; }
+.step .num { width: 22px; height: 22px; border-radius: 50%; background: var(--color-text-primary); color: var(--color-background-primary); font-size: 11px; font-weight: 600; display: flex; align-items: center; justify-content: center; position: relative; z-index: 1; }
 .step .row { display: flex; align-items: flex-start; gap: 10px; }
 .step .icon { color: var(--color-text-primary); padding-top: 1px; flex: 0 0 24px; display: flex; align-items: center; }
 .step .icon svg { width: 20px; height: 20px; stroke-width: 1.75; }
@@ -120,8 +122,8 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .step .desc { font-size: 14px; color: var(--color-text-secondary); line-height: 1.55; margin: 0; max-height: 0; opacity: 0; overflow: hidden; transition: max-height 0.4s ease, opacity 0.35s ease, padding-top 0.35s ease; padding-left: 34px; }
 .step.active .desc { max-height: 240px; opacity: 1; padding-top: 8px; }
 .step.optional .heading { color: var(--color-text-secondary); }
-.separator { text-align: center; font-size: 14px; color: var(--color-text-secondary); padding: 18px 8px 8px; font-family: var(--font-serif); font-style: italic; }
-.closer { text-align: center; font-size: 14px; color: var(--color-text-secondary); padding: 28px 8px 32px; font-family: var(--font-serif); font-style: italic; }
+.separator { text-align: center; font-size: 14px; color: var(--color-text-primary); padding: 18px 8px 8px; font-family: var(--font-serif); font-style: italic; }
+.closer { text-align: center; font-size: 14px; color: var(--color-text-primary); padding: 28px 8px 32px; font-family: var(--font-serif); font-style: italic; }
 
 .why-section { padding: 48px 20px 24px; }
 .why-headline { font-size: 26px; font-weight: 500; line-height: 1.15; letter-spacing: -0.015em; margin: 0 0 24px; }
@@ -142,7 +144,6 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 
 .cta-bar { flex: 0 0 auto; border-top: 0.5px solid var(--color-border-tertiary); padding: 12px 16px; display: flex; gap: 12px; align-items: center; background: var(--color-background-primary); }
 .cta-button { flex: 1; padding: 12px; background: var(--color-text-primary); color: var(--color-background-primary); border-radius: var(--border-radius-md); text-align: center; font-weight: 500; font-size: 14px; border: none; cursor: pointer; font-family: inherit; }
-.cta-link { font-size: 13px; color: var(--color-text-secondary); text-decoration: none; padding: 0 6px; }
 </style>
 </head>
 <body>
@@ -172,12 +173,12 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
   <div class="phone-scroll" id="scroll">
 
     <div class="header">
-      <p class="logo-name">Premodel</p>
+      <p class="logo-name">Premodel<span class="locale-bug">Seattle</span></p>
       <a href="#" class="header-link" onclick="return false;">For builders →</a>
     </div>
 
     <div class="reveal-hero">
-      <p class="h1-small">Start with a <span class="pill">free</span></p>
+      <p class="h1-small">Start with a free</p>
       <p class="h1-large">Remodel Reveal</p>
     </div>
 
@@ -207,9 +208,10 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
         <span class="h">forward</span>
         <span class="h">with a</span>
         <span class="h">Plan</span>
-        <span class="sub sub-spacer">Refined design →</span>
-        <span class="sub">contractor-ready,</span>
-        <span class="sub italic">starting at $1,000</span>
+      </div>
+      <div class="plan-sub">
+        <p>Refined design → contractor-ready,</p>
+        <p class="italic">starting at $1,000</p>
       </div>
       <div class="plan-gallery">
         <div class="tile">
@@ -249,12 +251,10 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 
     <div class="howto-section">
       <div class="howto-header">
-        <h1>How to Premodel</h1>
-        <p>Most homeowners stall in the planning. We get yours moving.</p>
+        <h1>How it works</h1>
       </div>
-      <p class="scroll-hint">Scroll ↓</p>
 
-      <div class="phase-label"><span class="bracket">[</span> Reveal · no obligation <span class="bracket">]</span></div>
+      <div class="phase-label">Reveals in 3 Steps</div>
 
       <div class="step" data-step="r1">
         <div class="num">1</div>
@@ -280,9 +280,9 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
         </div>
       </div>
 
-      <div class="separator">Yours to keep.</div>
+      <div class="separator">Yours to keep. No obligation.</div>
 
-      <div class="phase-label"><span class="bracket">[</span> Plan · starts at $1,000 <span class="bracket">]</span></div>
+      <div class="phase-label">Plan in 3–6 Steps</div>
 
       <div class="step" data-step="p1">
         <div class="num">1</div>
@@ -404,7 +404,6 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 
   <div class="cta-bar">
     <button class="cta-button" type="button">Get a free Reveal</button>
-    <a href="#" class="cta-link" onclick="event.preventDefault();">FAQ</a>
   </div>
 </div>
 
@@ -412,7 +411,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
   <div class="phone-scroll">
 
     <div class="header">
-      <p class="logo-name">Premodel</p>
+      <p class="logo-name">Premodel<span class="locale-bug">Seattle</span></p>
       <a href="#" class="header-link" onclick="return false;">For builders →</a>
     </div>
 
@@ -425,7 +424,6 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 
   <div class="cta-bar">
     <button class="cta-button" type="button">Get a free Reveal</button>
-    <a href="#" class="cta-link" onclick="event.preventDefault();">FAQ</a>
   </div>
 </div>
 
