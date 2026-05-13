@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<title>Premodel — homepage prototype</title>
+<style>
+:root {
+  --color-background-primary: #ffffff;
+  --color-background-secondary: #f6f5f0;
+  --color-background-tertiary: #faf9f4;
+  --color-background-warning: #faeeda;
+  --color-text-primary: #1a1a18;
+  --color-text-secondary: #6b6a64;
+  --color-text-tertiary: #a8a7a1;
+  --color-text-warning: #854f0b;
+  --color-border-primary: rgba(0,0,0,0.25);
+  --color-border-secondary: rgba(0,0,0,0.18);
+  --color-border-tertiary: rgba(0,0,0,0.10);
+  --border-radius-md: 8px;
+  --border-radius-lg: 12px;
+  --border-radius-xl: 16px;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Helvetica, Arial, sans-serif;
+  --font-serif: "Iowan Old Style", "Palatino", Georgia, "Times New Roman", serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-background-primary: #1a1a18;
+    --color-background-secondary: #24241f;
+    --color-background-tertiary: #14140e;
+    --color-background-warning: #3d2e0a;
+    --color-text-primary: #f0eee5;
+    --color-text-secondary: #a8a7a1;
+    --color-text-tertiary: #6b6a64;
+    --color-text-warning: #fac775;
+    --color-border-primary: rgba(255,255,255,0.25);
+    --color-border-secondary: rgba(255,255,255,0.18);
+    --color-border-tertiary: rgba(255,255,255,0.10);
+  }
+}
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { margin: 0; padding: 0; background: var(--color-background-tertiary); font-family: var(--font-sans); -webkit-font-smoothing: antialiased; color: var(--color-text-primary); }
+body { display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+
+.phone-frame { width: 100%; max-width: 360px; height: 720px; background: var(--color-background-primary); border: 0.5px solid var(--color-border-secondary); border-radius: 28px; overflow: hidden; position: relative; display: flex; flex-direction: column; }
+.phone-scroll { flex: 1; overflow-y: scroll; scrollbar-width: thin; }
+
+.header { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; border-bottom: 0.5px solid var(--color-border-tertiary); }
+.header .logo-name { font-size: 16px; font-weight: 500; margin: 0; letter-spacing: -0.005em; }
+.header .header-link { font-size: 13px; color: var(--color-text-secondary); text-decoration: none; font-weight: 400; }
+
+.reveal-hero { padding: 28px 20px 0; text-align: center; }
+.reveal-hero .h1-small { font-size: 17px; color: var(--color-text-secondary); margin: 0; line-height: 1.4; }
+.reveal-hero .pill { display: inline-block; background: var(--color-background-warning); color: var(--color-text-warning); padding: 2px 10px; border-radius: 999px; font-weight: 500; font-size: 15px; }
+.reveal-hero .h1-large { font-size: 30px; font-weight: 500; margin: 6px 0 0; letter-spacing: -0.015em; line-height: 1.05; }
+
+.carousel { display: flex; overflow-x: scroll; scroll-snap-type: x mandatory; scrollbar-width: none; margin: 16px 0 0; touch-action: pan-x; }
+.carousel::-webkit-scrollbar { display: none; }
+.slide { flex: 0 0 100%; scroll-snap-align: center; padding: 0 16px; }
+.slide .img { width: 100%; aspect-ratio: 3/2; background: var(--color-background-secondary); border-radius: var(--border-radius-md); display: flex; align-items: center; justify-content: center; color: var(--color-text-tertiary); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; }
+.dots { display: flex; justify-content: center; gap: 5px; padding: 14px 0 0; align-items: center; }
+.dot { width: 4px; height: 4px; border-radius: 50%; background: var(--color-border-secondary); border: 0; padding: 0; margin: 0; appearance: none; -webkit-appearance: none; cursor: pointer; flex: 0 0 4px; display: inline-block; }
+.dot.active { background: var(--color-text-primary); }
+
+.reveal-sub { padding: 16px 20px 0; text-align: center; }
+.reveal-sub p { font-size: 14px; color: var(--color-text-secondary); margin: 0; line-height: 1.5; }
+.reveal-sub .italic { font-family: var(--font-serif); font-style: italic; color: var(--color-text-primary); }
+
+.plan-block { margin-top: 40px; display: grid; grid-template-columns: 1fr; grid-template-rows: auto; }
+.plan-headline { grid-row: 1; grid-column: 1; align-self: start; justify-self: start; width: 180px; padding-left: 16px; padding-right: 8px; box-sizing: border-box; z-index: 0; pointer-events: none; }
+.plan-headline .h { font-size: 24px; font-weight: 500; margin: 0; line-height: 1.15; letter-spacing: -0.01em; display: block; }
+.plan-headline .h:first-child { margin-top: -3px; }
+.plan-headline .sub { font-size: 14px; color: var(--color-text-secondary); margin: 0; line-height: 1.5; display: block; }
+.plan-headline .sub-spacer { margin-top: 16px; }
+.plan-headline .italic { font-family: var(--font-serif); font-style: italic; color: var(--color-text-primary); }
+
+.plan-gallery { grid-row: 1; grid-column: 1; z-index: 1; display: flex; gap: 8px; overflow-x: scroll; scroll-snap-type: x mandatory; scrollbar-width: none; padding-left: 180px; padding-right: 16px; touch-action: pan-x; background: transparent; }
+.plan-gallery::-webkit-scrollbar { display: none; }
+.tile { flex: 0 0 160px; scroll-snap-align: start; background: var(--color-background-secondary); border-radius: var(--border-radius-lg); overflow: hidden; display: flex; flex-direction: column; }
+.tile-image { width: 100%; aspect-ratio: 4/3; background: rgba(120, 120, 120, 0.18); display: flex; align-items: center; justify-content: center; color: var(--color-text-tertiary); font-size: 10px; letter-spacing: 0.05em; text-transform: uppercase; }
+.tile-body { padding: 10px 12px 12px; }
+.tile-title { font-size: 13px; font-weight: 500; margin: 0 0 2px; }
+.tile-tagline { font-size: 11px; color: var(--color-text-secondary); margin: 0 0 6px; font-weight: 500; }
+.tile-copy { font-size: 11px; color: var(--color-text-secondary); margin: 0; line-height: 1.45; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+
+.howto-section { padding: 0 16px; }
+.howto-header { padding: 40px 4px 8px; }
+.howto-header h1 { font-size: 22px; font-weight: 500; margin: 0 0 6px; letter-spacing: -0.01em; }
+.howto-header p { font-size: 14px; color: var(--color-text-secondary); margin: 0; line-height: 1.5; }
+.scroll-hint { text-align: center; font-size: 11px; color: var(--color-text-tertiary); padding: 4px 0 0; }
+.phase-label { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-text-secondary); padding: 28px 4px 8px; font-weight: 500; }
+.phase-label .bracket { color: var(--color-text-tertiary); }
+.step { display: grid; grid-template-columns: 22px 1fr; gap: 12px; padding: 14px 8px; border-radius: var(--border-radius-lg); opacity: 0.45; transition: opacity 0.35s ease, background 0.35s ease; margin-bottom: 2px; }
+.step.active { opacity: 1; background: var(--color-background-secondary); }
+.step .num { font-size: 13px; color: var(--color-text-secondary); font-weight: 500; padding-top: 2px; text-align: right; }
+.step .row { display: flex; align-items: flex-start; gap: 10px; }
+.step .icon { color: var(--color-text-primary); padding-top: 1px; flex: 0 0 24px; display: flex; align-items: center; }
+.step .icon svg { width: 20px; height: 20px; stroke-width: 1.75; }
+.step .heading { font-size: 16px; font-weight: 500; line-height: 1.35; margin: 0; }
+.step .opt { font-size: 11px; font-weight: 400; color: var(--color-text-tertiary); letter-spacing: 0.04em; text-transform: uppercase; margin-left: 6px; }
+.step .desc { font-size: 14px; color: var(--color-text-secondary); line-height: 1.55; margin: 0; max-height: 0; opacity: 0; overflow: hidden; transition: max-height 0.4s ease, opacity 0.35s ease, padding-top 0.35s ease; padding-left: 34px; }
+.step.active .desc { max-height: 240px; opacity: 1; padding-top: 8px; }
+.step.optional .heading { color: var(--color-text-secondary); }
+.separator { text-align: center; font-size: 14px; color: var(--color-text-secondary); padding: 18px 8px 8px; font-family: var(--font-serif); font-style: italic; }
+.closer { text-align: center; font-size: 14px; color: var(--color-text-secondary); padding: 28px 8px 32px; font-family: var(--font-serif); font-style: italic; }
+
+.why-section { padding: 48px 20px 24px; }
+.why-headline { font-size: 26px; font-weight: 500; line-height: 1.15; letter-spacing: -0.015em; margin: 0 0 24px; }
+.contrast-box { background: var(--color-background-secondary); border-radius: var(--border-radius-lg); padding: 28px 20px; text-align: center; }
+.problem-list, .outcome-list { list-style: none; padding: 0; margin: 0; }
+.problem-list li { font-size: 14px; color: var(--color-text-secondary); line-height: 1.8; margin: 0; }
+.outcome-list li { font-size: 14px; color: var(--color-text-primary); line-height: 1.8; margin: 0; font-weight: 500; }
+.pivot-statement { font-family: var(--font-serif); font-style: italic; font-size: 26px; line-height: 1.15; letter-spacing: -0.01em; margin: 22px 0; font-weight: 400; color: var(--color-text-primary); }
+.why-closer { font-family: var(--font-serif); font-style: italic; font-size: 16px; text-align: center; color: var(--color-text-primary); margin: 28px 4px 36px; line-height: 1.5; }
+.pricing-title { font-size: 16px; font-weight: 500; margin: 0 0 14px; letter-spacing: -0.005em; }
+.pricing-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+.pricing-table th, .pricing-table td { padding: 10px 4px; text-align: left; vertical-align: top; border-bottom: 0.5px solid var(--color-border-tertiary); }
+.pricing-table th { font-size: 10px; font-weight: 500; color: var(--color-text-secondary); letter-spacing: 0.06em; text-transform: uppercase; border-bottom: 0.5px solid var(--color-border-secondary); }
+.pricing-table td { font-size: 12px; color: var(--color-text-primary); line-height: 1.4; }
+.pricing-table .num { text-align: right; font-variant-numeric: tabular-nums; }
+.pricing-table tbody tr:last-child td { border-bottom: none; }
+.pricing-microcopy { font-size: 11px; color: var(--color-text-tertiary); margin: 14px 0 0; line-height: 1.55; }
+
+.cta-bar { flex: 0 0 auto; border-top: 0.5px solid var(--color-border-tertiary); padding: 12px 16px; display: flex; gap: 12px; align-items: center; background: var(--color-background-primary); }
+.cta-button { flex: 1; padding: 12px; background: var(--color-text-primary); color: var(--color-background-primary); border-radius: var(--border-radius-md); text-align: center; font-weight: 500; font-size: 14px; border: none; cursor: pointer; font-family: inherit; }
+.cta-link { font-size: 13px; color: var(--color-text-secondary); text-decoration: none; padding: 0 6px; }
+</style>
+</head>
+<body>
+
+<h2 class="sr-only">Premodel homepage mobile prototype with hero, How to Premodel, and editorial pricing section.</h2>
+
+<div class="phone-frame">
+  <div class="phone-scroll" id="scroll">
+
+    <div class="header">
+      <p class="logo-name">Premodel</p>
+      <a href="#" class="header-link" onclick="return false;">For builders →</a>
+    </div>
+
+    <div class="reveal-hero">
+      <p class="h1-small">Start with a <span class="pill">free</span></p>
+      <p class="h1-large">Remodel Reveal</p>
+    </div>
+
+    <div class="carousel" id="carousel">
+      <div class="slide"><div class="img">Reveal image 1</div></div>
+      <div class="slide"><div class="img">Reveal image 2</div></div>
+      <div class="slide"><div class="img">Reveal image 3</div></div>
+      <div class="slide"><div class="img">Reveal image 4</div></div>
+      <div class="slide"><div class="img">Reveal image 5</div></div>
+    </div>
+    <div class="dots" id="dots">
+      <button class="dot active" data-i="0" aria-label="Slide 1"></button>
+      <button class="dot" data-i="1" aria-label="Slide 2"></button>
+      <button class="dot" data-i="2" aria-label="Slide 3"></button>
+      <button class="dot" data-i="3" aria-label="Slide 4"></button>
+      <button class="dot" data-i="4" aria-label="Slide 5"></button>
+    </div>
+
+    <div class="reveal-sub">
+      <p>Remodel paralysis → 3 design directions,</p>
+      <p class="italic">ready in days</p>
+    </div>
+
+    <div class="plan-block">
+      <div class="plan-headline">
+        <span class="h">Move it</span>
+        <span class="h">forward</span>
+        <span class="h">with a</span>
+        <span class="h">Plan</span>
+        <span class="sub sub-spacer">Refined design →</span>
+        <span class="sub">contractor-ready,</span>
+        <span class="sub italic">starting at $1,000</span>
+      </div>
+      <div class="plan-gallery">
+        <div class="tile">
+          <div class="tile-image">Tile image</div>
+          <div class="tile-body">
+            <p class="tile-title">Refine</p>
+            <p class="tile-tagline">Make it yours.</p>
+            <p class="tile-copy">We sit with you, live, until your favorite Reveal becomes the one you can't wait to live in.</p>
+          </div>
+        </div>
+        <div class="tile">
+          <div class="tile-image">Tile image</div>
+          <div class="tile-body">
+            <p class="tile-title">Walk</p>
+            <p class="tile-tagline">Feel the space.</p>
+            <p class="tile-copy">Stand inside it in VR. Build the confidence to commit. Catch the change orders that would have cost you thousands.</p>
+          </div>
+        </div>
+        <div class="tile">
+          <div class="tile-image">Tile image</div>
+          <div class="tile-body">
+            <p class="tile-title">Shop</p>
+            <p class="tile-tagline">Buy exactly what you saw.</p>
+            <p class="tile-copy">Every material, ready to purchase, at every budget. Trade discounts often cover the Plan.</p>
+          </div>
+        </div>
+        <div class="tile">
+          <div class="tile-image">Tile image</div>
+          <div class="tile-body">
+            <p class="tile-title">Bid</p>
+            <p class="tile-tagline">Three bids. One decision.</p>
+            <p class="tile-copy">We introduce you to three trusted local contractors. The hard part is over.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="howto-section">
+      <div class="howto-header">
+        <h1>How to Premodel</h1>
+        <p>Most homeowners stall in the planning. We get yours moving.</p>
+      </div>
+      <p class="scroll-hint">Scroll ↓</p>
+
+      <div class="phase-label"><span class="bracket">[</span> Reveal · no obligation <span class="bracket">]</span></div>
+
+      <div class="step" data-step="r1">
+        <div class="num">1</div>
+        <div>
+          <div class="row"><span class="icon" aria-hidden="true"><i data-lucide="send"></i></span><p class="heading">Submit a Reveal request</p></div>
+          <p class="desc">Tell us about your project. We're upfront about whether Premodel's the right fit, and we'll point you elsewhere if we're not.</p>
+        </div>
+      </div>
+
+      <div class="step" data-step="r2">
+        <div class="num">2</div>
+        <div>
+          <div class="row"><span class="icon" aria-hidden="true"><i data-lucide="door-open"></i></span><p class="heading">Show us your home</p></div>
+          <p class="desc">Most homeowners struggle to put their ideas into words. We come listen, take notes, and turn what we hear into the Reveals.</p>
+        </div>
+      </div>
+
+      <div class="step" data-step="r3">
+        <div class="num">3</div>
+        <div>
+          <div class="row"><span class="icon" aria-hidden="true"><i data-lucide="layout-grid"></i></span><p class="heading">Review 3 design directions</p></div>
+          <p class="desc">The internet has infinite inspiration and no starting point. We give you three, designed for your room.</p>
+        </div>
+      </div>
+
+      <div class="separator">Yours to keep.</div>
+
+      <div class="phase-label"><span class="bracket">[</span> Plan · starts at $1,000 <span class="bracket">]</span></div>
+
+      <div class="step" data-step="p1">
+        <div class="num">1</div>
+        <div>
+          <div class="row"><span class="icon" aria-hidden="true"><i data-lucide="target"></i></span><p class="heading">Choose a direction to refine</p></div>
+          <p class="desc">Pick the one you keep thinking about, or just the elements from each that you love. That's where we start refining.</p>
+        </div>
+      </div>
+
+      <div class="step optional" data-step="p2">
+        <div class="num">2</div>
+        <div>
+          <div class="row"><span class="icon" aria-hidden="true"><i data-lucide="user-plus"></i></span><p class="heading">Work with our pros<span class="opt">optional</span></p></div>
+          <p class="desc">Skip the search for an architect or designer. When your project needs one, we bring them in and roll their cost into your Plan.</p>
+        </div>
+      </div>
+
+      <div class="step optional" data-step="p3">
+        <div class="num">3</div>
+        <div>
+          <div class="row"><span class="icon" aria-hidden="true"><i data-lucide="scan-eye"></i></span><p class="heading">Walk it in VR<span class="opt">optional</span></p></div>
+          <p class="desc">A rendering shows you the design. VR shows you what you'd otherwise miss until it's too late to fix.</p>
+        </div>
+      </div>
+
+      <div class="step" data-step="p4">
+        <div class="num">4</div>
+        <div>
+          <div class="row"><span class="icon" aria-hidden="true"><i data-lucide="video"></i></span><p class="heading">Finalize your design, live</p></div>
+          <p class="desc">Back-and-forth revisions sap your confidence and stall the project. In one live session, you direct the changes and we make them on the spot.</p>
+        </div>
+      </div>
+
+      <div class="step" data-step="p5">
+        <div class="num">5</div>
+        <div>
+          <div class="row"><span class="icon" aria-hidden="true"><i data-lucide="shopping-bag"></i></span><p class="heading">Shop with our list</p></div>
+          <p class="desc">Every finish in your design comes with quality alternatives at different price points. Our trade discounts often cover what you paid for the Plan.</p>
+        </div>
+      </div>
+
+      <div class="step optional" data-step="p6">
+        <div class="num">6</div>
+        <div>
+          <div class="row"><span class="icon" aria-hidden="true"><i data-lucide="hammer"></i></span><p class="heading">Get up to 3 builder bids<span class="opt">optional</span></p></div>
+          <p class="desc">Skip the contractor search. Our trusted local network comes to you: they visit, they bid, you pick.</p>
+        </div>
+      </div>
+
+      <div class="closer">Your builder takes it from here.</div>
+    </div>
+
+    <div class="why-section">
+      <h2 class="why-headline">For homeowners who are done guessing.</h2>
+
+      <div class="contrast-box">
+        <ul class="problem-list">
+          <li>Too many ideas</li>
+          <li>Too many tabs</li>
+          <li>Too many decisions</li>
+          <li>No clear way forward</li>
+        </ul>
+
+        <p class="pivot-statement">Plans deliver clarity</p>
+
+        <ul class="outcome-list">
+          <li>Real direction</li>
+          <li>Fewer surprises</li>
+          <li>Clearer bids</li>
+          <li>Confidence before construction</li>
+        </ul>
+      </div>
+
+      <p class="why-closer">Spend roughly 5% getting clear before the big money starts moving.</p>
+
+      <h3 class="pricing-title">What does that look like?</h3>
+
+      <table class="pricing-table">
+        <colgroup>
+          <col style="width: 50%;" />
+          <col style="width: 22%;" />
+          <col style="width: 28%;" />
+        </colgroup>
+        <thead>
+          <tr>
+            <th>Project type</th>
+            <th class="num">Budget</th>
+            <th class="num">Plan</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Cosmetic bathroom refresh</td>
+            <td class="num">$30K</td>
+            <td class="num">~$1.5K</td>
+          </tr>
+          <tr>
+            <td>Pull-and-replace bath or kitchen</td>
+            <td class="num">$75K</td>
+            <td class="num">~$3K–$5K</td>
+          </tr>
+          <tr>
+            <td>Kitchen or multi-room remodel</td>
+            <td class="num">$150K</td>
+            <td class="num">~$7.5K</td>
+          </tr>
+          <tr>
+            <td>Gut renovation or new build</td>
+            <td class="num">$300K+</td>
+            <td class="num">Scoped to project</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p class="pricing-microcopy">Actual Plan pricing depends on scope, room count, deliverables, and whether your project needs design, architecture, VR, shopping, or contractor bidding support.</p>
+    </div>
+
+  </div>
+
+  <div class="cta-bar">
+    <button class="cta-button" type="button">Get a free Reveal</button>
+    <a href="#" class="cta-link" onclick="event.preventDefault();">FAQ</a>
+  </div>
+</div>
+
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<script>
+(function() {
+  if (window.lucide && window.lucide.createIcons) window.lucide.createIcons();
+
+  var scrollEl = document.getElementById('scroll');
+  var steps = scrollEl.querySelectorAll('.step');
+  function updateSteps() {
+    var r = scrollEl.getBoundingClientRect();
+    var center = r.top + r.height * 0.45;
+    var best = null, bestDist = Infinity;
+    steps.forEach(function(s) {
+      var sr = s.getBoundingClientRect();
+      var sc = sr.top + sr.height / 2;
+      var d = Math.abs(sc - center);
+      if (d < bestDist) { bestDist = d; best = s; }
+    });
+    steps.forEach(function(s) { s.classList.toggle('active', s === best); });
+  }
+  scrollEl.addEventListener('scroll', updateSteps, { passive: true });
+  updateSteps();
+
+  var carousel = document.getElementById('carousel');
+  var dots = document.querySelectorAll('#dots .dot');
+  function updateDots() {
+    var i = Math.round(carousel.scrollLeft / carousel.clientWidth);
+    dots.forEach(function(d, j) { d.classList.toggle('active', j === i); });
+  }
+  carousel.addEventListener('scroll', updateDots, { passive: true });
+  dots.forEach(function(d, i) {
+    d.addEventListener('click', function() {
+      carousel.scrollTo({ left: i * carousel.clientWidth, behavior: 'smooth' });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
