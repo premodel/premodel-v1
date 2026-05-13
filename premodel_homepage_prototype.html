@@ -14,6 +14,7 @@
   --color-text-secondary: #6b6a64;
   --color-text-tertiary: #a8a7a1;
   --color-text-warning: #854f0b;
+  --color-brand-navy: #1f3a5f;
   --color-border-primary: rgba(0,0,0,0.25);
   --color-border-secondary: rgba(0,0,0,0.18);
   --color-border-tertiary: rgba(0,0,0,0.10);
@@ -33,6 +34,7 @@
     --color-text-secondary: #a8a7a1;
     --color-text-tertiary: #6b6a64;
     --color-text-warning: #fac775;
+    --color-brand-navy: #6b9dd1;
     --color-border-primary: rgba(255,255,255,0.25);
     --color-border-secondary: rgba(255,255,255,0.18);
     --color-border-tertiary: rgba(255,255,255,0.10);
@@ -131,22 +133,41 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .separator { text-align: center; font-size: 14px; color: var(--color-text-primary); padding: 18px 8px 8px; font-family: var(--font-serif); font-style: italic; }
 .closer { text-align: center; font-size: 14px; color: var(--color-text-primary); padding: 28px 8px 32px; font-family: var(--font-serif); font-style: italic; }
 
-.why-section { padding: 48px 20px 24px; }
-.why-headline { font-size: 26px; font-weight: 500; line-height: 1.15; letter-spacing: -0.015em; margin: 0 0 24px; }
-.contrast-box { background: var(--color-background-secondary); border-radius: var(--border-radius-lg); padding: 28px 20px; text-align: center; }
-.problem-list, .outcome-list { list-style: none; padding: 0; margin: 0; }
-.problem-list li { font-size: 14px; color: var(--color-text-secondary); line-height: 1.8; margin: 0; }
-.outcome-list li { font-size: 14px; color: var(--color-text-primary); line-height: 1.8; margin: 0; font-weight: 500; }
-.pivot-statement { font-family: var(--font-serif); font-style: italic; font-size: 26px; line-height: 1.15; letter-spacing: -0.01em; margin: 22px 0; font-weight: 400; color: var(--color-text-primary); }
-.why-closer { font-family: var(--font-serif); font-style: italic; font-size: 16px; text-align: center; color: var(--color-text-primary); margin: 28px 4px 36px; line-height: 1.5; }
-.pricing-title { font-size: 16px; font-weight: 500; margin: 0 0 14px; letter-spacing: -0.005em; }
+.who-section { padding: 56px 20px 36px; }
+.who-headline { font-size: 30px; font-weight: 500; line-height: 1.15; letter-spacing: -0.02em; margin: 0 0 28px; text-wrap: balance; }
+.who-headline-1 { color: var(--color-text-primary); }
+.who-headline-2 { color: var(--color-text-tertiary); }
+.who-headline-2 .brand-navy { color: var(--color-brand-navy); }
+
+.feature-card { position: relative; height: 400px; border-radius: var(--border-radius-lg); perspective: 1500px; }
+.card-flip-inner { position: absolute; inset: 0; transform-style: preserve-3d; transition: transform 0.65s cubic-bezier(0.4, 0.2, 0.2, 1); }
+.feature-card.show-back .card-flip-inner { transform: rotateY(180deg); }
+.card-face { position: absolute; inset: 0; padding: 20px 22px; display: flex; flex-direction: column; align-items: center; text-align: center; backface-visibility: hidden; -webkit-backface-visibility: hidden; background: var(--color-background-secondary); border-radius: var(--border-radius-lg); overflow: hidden; }
+.card-face-back { transform: rotateY(180deg); }
+.card-body { display: flex; flex-direction: column; align-items: center; gap: 16px; width: 100%; }
+.card-face-front .card-body { margin-top: auto; }
+.card-face-back .card-body { margin: auto 0; }
+
+.card-quotes, .card-affirmations { display: flex; flex-direction: column; gap: 4px; }
+.card-quotes p, .card-affirmations p { font-size: 18px; color: var(--color-text-secondary); font-style: italic; line-height: 1.5; margin: 0; }
+.card-affirmations strong { font-weight: 600; }
+.card-anchor { font-size: 26px; font-weight: 600; color: var(--color-text-primary); margin: 0; line-height: 1.15; letter-spacing: -0.015em; }
+.card-closer { font-size: 14px; color: var(--color-text-primary); font-family: var(--font-serif); font-style: italic; margin: auto 0; line-height: 1.5; max-width: 280px; }
+.card-action { appearance: none; -webkit-appearance: none; background: transparent; border: 1px solid var(--color-text-primary); color: var(--color-text-primary); padding: 9px 18px; border-radius: 999px; font-size: 13px; font-weight: 500; cursor: pointer; font-family: inherit; letter-spacing: 0.01em; transition: background 0.18s ease, color 0.18s ease; }
+.card-action:hover { background: var(--color-text-primary); color: var(--color-background-primary); }
+
+.card-back-header { display: flex; flex-direction: column; align-items: center; gap: 4px; width: 100%; }
+.card-back-title { font-size: 22px; font-weight: 500; color: var(--color-text-primary); margin: 0; letter-spacing: -0.01em; line-height: 1.15; }
+.card-back-subhead { font-size: 13px; color: var(--color-text-secondary); margin: 0; line-height: 1.5; }
+.card-back-pricing { display: flex; flex-direction: column; gap: 6px; width: 100%; }
+
 .pricing-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
-.pricing-table th, .pricing-table td { padding: 10px 4px; text-align: left; vertical-align: top; border-bottom: 0.5px solid var(--color-border-tertiary); }
+.pricing-table th, .pricing-table td { padding: 9px 4px; text-align: left; vertical-align: top; border-bottom: 0.5px solid var(--color-border-tertiary); }
 .pricing-table th { font-size: 10px; font-weight: 500; color: var(--color-text-secondary); letter-spacing: 0.06em; text-transform: uppercase; border-bottom: 0.5px solid var(--color-border-secondary); }
 .pricing-table td { font-size: 12px; color: var(--color-text-primary); line-height: 1.4; }
 .pricing-table .num { text-align: right; font-variant-numeric: tabular-nums; }
 .pricing-table tbody tr:last-child td { border-bottom: none; }
-.pricing-microcopy { font-size: 11px; color: var(--color-text-tertiary); margin: 14px 0 0; line-height: 1.55; }
+.pricing-microcopy { font-size: 11px; color: var(--color-text-tertiary); margin: 6px 0 0; line-height: 1.5; }
 
 .cta-bar { flex: 0 0 auto; border-top: 0.5px solid var(--color-border-tertiary); padding: 12px 16px; display: flex; gap: 12px; align-items: center; background: var(--color-background-primary); }
 .cta-button { flex: 1; padding: 12px; background: var(--color-text-primary); color: var(--color-background-primary); border-radius: var(--border-radius-md); text-align: center; font-weight: 500; font-size: 14px; border: none; cursor: pointer; font-family: inherit; }
@@ -177,7 +198,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
       </div>
     </div>
     <div class="version-pill">
-      v10.3
+      v10.4
       <button type="button" class="refresh-btn" onclick="location.reload()" aria-label="Refresh prototype">
         <i data-lucide="refresh-cw"></i>
       </button>
@@ -350,69 +371,82 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
       <div class="closer">Your builder takes it from here.</div>
     </div>
 
-    <div class="why-section">
-      <h2 class="why-headline">For homeowners who are done guessing.</h2>
+    <div class="who-section">
+      <h2 class="who-headline">
+        <span class="who-headline-1">Remodels go wrong before they start.</span>
+        <span class="who-headline-2">Homeowners who are done guessing <span class="brand-navy">premodel.</span></span>
+      </h2>
 
-      <div class="contrast-box">
-        <ul class="problem-list">
-          <li>Too many ideas</li>
-          <li>Too many tabs</li>
-          <li>Too many decisions</li>
-          <li>No clear way forward</li>
-        </ul>
+      <div class="feature-card" id="who-card">
+        <div class="card-flip-inner">
+        <div class="card-face card-face-front">
+          <div class="card-body">
+            <div class="card-quotes">
+              <p>"I can't picture it."</p>
+              <p>"I can't choose."</p>
+              <p>"I can't get this wrong."</p>
+            </div>
+            <p class="card-anchor">Planning buys confidence.</p>
+            <div class="card-affirmations">
+              <p>"I can <strong>see what works.</strong>"</p>
+              <p>"I can <strong>choose with confidence.</strong>"</p>
+              <p>"I can <strong>build with fewer surprises.</strong>"</p>
+            </div>
+          </div>
+          <p class="card-closer">Spend roughly 5% getting clear<br>before the big money starts moving.</p>
+          <button type="button" class="card-action" data-action="show-back">See example Plan pricing</button>
+        </div>
 
-        <p class="pivot-statement">Plans deliver clarity</p>
-
-        <ul class="outcome-list">
-          <li>Real direction</li>
-          <li>Fewer surprises</li>
-          <li>Clearer bids</li>
-          <li>Confidence before construction</li>
-        </ul>
+        <div class="card-face card-face-back">
+          <div class="card-body">
+            <div class="card-back-header">
+              <h3 class="card-back-title">Planning deserves a budget.</h3>
+              <p class="card-back-subhead">Example Plan pricing (3–5% of total budget)</p>
+            </div>
+            <div class="card-back-pricing">
+              <table class="pricing-table">
+                <colgroup>
+                  <col style="width: 54%;" />
+                  <col style="width: 22%;" />
+                  <col style="width: 24%;" />
+                </colgroup>
+                <thead>
+                  <tr>
+                    <th>Project</th>
+                    <th class="num">Budget</th>
+                    <th class="num">Plan</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Cosmetic bath refresh</td>
+                    <td class="num">$30K</td>
+                    <td class="num">$1K+</td>
+                  </tr>
+                  <tr>
+                    <td>Pull-and-replace kitchen</td>
+                    <td class="num">$75K</td>
+                    <td class="num">$2.5K+</td>
+                  </tr>
+                  <tr>
+                    <td>Multi-room remodel</td>
+                    <td class="num">$150K</td>
+                    <td class="num">$5K+</td>
+                  </tr>
+                  <tr>
+                    <td>Full home renovation</td>
+                    <td class="num">$300K+</td>
+                    <td class="num">$10K+</td>
+                  </tr>
+                </tbody>
+              </table>
+              <p class="pricing-microcopy">Actual pricing varies based on scope, room count,<br>and optional deliverables.</p>
+            </div>
+          </div>
+          <button type="button" class="card-action" data-action="show-front">← Back to why it matters</button>
+        </div>
+        </div>
       </div>
-
-      <p class="why-closer">Spend roughly 5% getting clear before the big money starts moving.</p>
-
-      <h3 class="pricing-title">What does that look like?</h3>
-
-      <table class="pricing-table">
-        <colgroup>
-          <col style="width: 50%;" />
-          <col style="width: 22%;" />
-          <col style="width: 28%;" />
-        </colgroup>
-        <thead>
-          <tr>
-            <th>Project type</th>
-            <th class="num">Budget</th>
-            <th class="num">Plan</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Cosmetic bathroom refresh</td>
-            <td class="num">$30K</td>
-            <td class="num">~$1.5K</td>
-          </tr>
-          <tr>
-            <td>Pull-and-replace bath or kitchen</td>
-            <td class="num">$75K</td>
-            <td class="num">~$3K–$5K</td>
-          </tr>
-          <tr>
-            <td>Kitchen or multi-room remodel</td>
-            <td class="num">$150K</td>
-            <td class="num">~$7.5K</td>
-          </tr>
-          <tr>
-            <td>Gut renovation or new build</td>
-            <td class="num">$300K+</td>
-            <td class="num">Scoped to project</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <p class="pricing-microcopy">Actual Plan pricing depends on scope, room count, deliverables, and whether your project needs design, architecture, VR, shopping, or contractor bidding support.</p>
     </div>
 
   </div>
@@ -504,6 +538,16 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
   }
   sizeSelect.addEventListener('change', applySize);
   applySize();
+
+  var whoCard = document.getElementById('who-card');
+  if (whoCard) {
+    whoCard.querySelectorAll('[data-action="show-back"]').forEach(function(btn) {
+      btn.addEventListener('click', function() { whoCard.classList.add('show-back'); });
+    });
+    whoCard.querySelectorAll('[data-action="show-front"]').forEach(function(btn) {
+      btn.addEventListener('click', function() { whoCard.classList.remove('show-back'); });
+    });
+  }
 })();
 </script>
 
