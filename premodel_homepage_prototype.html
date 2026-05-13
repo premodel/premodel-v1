@@ -40,10 +40,28 @@
 }
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 html, body { margin: 0; padding: 0; background: var(--color-background-tertiary); font-family: var(--font-sans); -webkit-font-smoothing: antialiased; color: var(--color-text-primary); }
-body { display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; }
+body { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; gap: 14px; }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
 
-.phone-frame { width: 100%; max-width: 360px; height: 720px; background: var(--color-background-primary); border: 0.5px solid var(--color-border-secondary); border-radius: 28px; overflow: hidden; position: relative; display: flex; flex-direction: column; }
+.prototype-wrapper { --frame-width: 390px; --frame-height: 844px; display: flex; flex-direction: column; align-items: center; gap: 14px; width: 100%; }
+.prototype-toolbar { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 18px; }
+.size-control { display: inline-flex; align-items: center; gap: 8px; }
+.size-label { font-size: 12px; font-weight: 500; color: var(--color-text-secondary); letter-spacing: 0.02em; }
+.size-select-wrap { position: relative; display: inline-flex; align-items: center; }
+.size-select { appearance: none; -webkit-appearance: none; background: var(--color-background-secondary); border: 0.5px solid var(--color-border-tertiary); border-radius: 999px; padding: 7px 28px 7px 14px; font-size: 12px; font-weight: 500; color: var(--color-text-primary); font-family: inherit; cursor: pointer; letter-spacing: 0.02em; line-height: 1; }
+.size-select:focus-visible { outline: 2px solid var(--color-text-primary); outline-offset: 1px; }
+.size-select-wrap::after { content: ''; position: absolute; right: 13px; top: 50%; width: 5px; height: 5px; border-right: 1.5px solid var(--color-text-secondary); border-bottom: 1.5px solid var(--color-text-secondary); transform: translate(0, -70%) rotate(45deg); pointer-events: none; }
+.layout-toggle { display: inline-flex; background: var(--color-background-secondary); border: 0.5px solid var(--color-border-tertiary); border-radius: 999px; padding: 3px; gap: 2px; }
+.toggle-btn { appearance: none; -webkit-appearance: none; background: transparent; border: 0; padding: 7px 16px; font-size: 12px; font-weight: 500; color: var(--color-text-secondary); border-radius: 999px; cursor: pointer; font-family: inherit; letter-spacing: 0.02em; transition: background 0.18s ease, color 0.18s ease, box-shadow 0.18s ease; }
+.toggle-btn.active { background: var(--color-background-primary); color: var(--color-text-primary); box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+.toggle-btn:focus-visible { outline: 2px solid var(--color-text-primary); outline-offset: 1px; }
+.phone-frame[hidden] { display: none; }
+
+.layout-b-placeholder { display: flex; flex-direction: column; align-items: center; justify-content: center; flex: 1; padding: 40px 20px; text-align: center; }
+.layout-b-label { font-size: 11px; font-weight: 500; color: var(--color-text-secondary); letter-spacing: 0.08em; text-transform: uppercase; margin: 0 0 10px; }
+.layout-b-hint { font-family: var(--font-serif); font-style: italic; font-size: 16px; color: var(--color-text-tertiary); margin: 0; line-height: 1.5; max-width: 240px; }
+
+.phone-frame { width: var(--frame-width); max-width: 100%; height: var(--frame-height); background: var(--color-background-primary); border: 0.5px solid var(--color-border-secondary); border-radius: 28px; overflow: hidden; position: relative; display: flex; flex-direction: column; transition: width 0.2s ease, height 0.2s ease; }
 .phone-scroll { flex: 1; overflow-y: scroll; scrollbar-width: thin; }
 
 .header { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; border-bottom: 0.5px solid var(--color-border-tertiary); }
@@ -131,7 +149,26 @@ body { display: flex; align-items: center; justify-content: center; min-height: 
 
 <h2 class="sr-only">Premodel homepage mobile prototype with hero, How to Premodel, and editorial pricing section.</h2>
 
-<div class="phone-frame">
+<div class="prototype-wrapper">
+
+  <div class="prototype-toolbar">
+    <div class="layout-toggle" role="tablist" aria-label="Layout selector">
+      <button type="button" class="toggle-btn active" data-layout="a" role="tab" aria-selected="true">Layout A</button>
+      <button type="button" class="toggle-btn" data-layout="b" role="tab" aria-selected="false">Layout B</button>
+    </div>
+    <div class="size-control">
+      <label for="size-select" class="size-label">Size</label>
+      <div class="size-select-wrap">
+        <select id="size-select" class="size-select">
+          <option value="s" data-w="320" data-h="568" title="iPhone SE — 320 × 568">Mobile S</option>
+          <option value="m" data-w="390" data-h="844" title="iPhone 14 — 390 × 844" selected>Mobile M</option>
+          <option value="l" data-w="430" data-h="932" title="iPhone 15 Pro Max — 430 × 932">Mobile L</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+<div class="phone-frame" data-layout="a">
   <div class="phone-scroll" id="scroll">
 
     <div class="header">
@@ -371,6 +408,29 @@ body { display: flex; align-items: center; justify-content: center; min-height: 
   </div>
 </div>
 
+<div class="phone-frame" data-layout="b" hidden>
+  <div class="phone-scroll">
+
+    <div class="header">
+      <p class="logo-name">Premodel</p>
+      <a href="#" class="header-link" onclick="return false;">For builders →</a>
+    </div>
+
+    <div class="layout-b-placeholder">
+      <p class="layout-b-label">Layout B</p>
+      <p class="layout-b-hint">Hero variation scaffold — ready for new structure.</p>
+    </div>
+
+  </div>
+
+  <div class="cta-bar">
+    <button class="cta-button" type="button">Get a free Reveal</button>
+    <a href="#" class="cta-link" onclick="event.preventDefault();">FAQ</a>
+  </div>
+</div>
+
+</div>
+
 <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 <script>
 (function() {
@@ -405,6 +465,32 @@ body { display: flex; align-items: center; justify-content: center; min-height: 
       carousel.scrollTo({ left: i * carousel.clientWidth, behavior: 'smooth' });
     });
   });
+
+  var toggleButtons = document.querySelectorAll('.toggle-btn');
+  var phoneFrames = document.querySelectorAll('.phone-frame');
+  toggleButtons.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var layout = btn.getAttribute('data-layout');
+      toggleButtons.forEach(function(b) {
+        var isActive = b === btn;
+        b.classList.toggle('active', isActive);
+        b.setAttribute('aria-selected', isActive ? 'true' : 'false');
+      });
+      phoneFrames.forEach(function(frame) {
+        frame.hidden = frame.getAttribute('data-layout') !== layout;
+      });
+    });
+  });
+
+  var sizeSelect = document.getElementById('size-select');
+  var wrapper = document.querySelector('.prototype-wrapper');
+  function applySize() {
+    var opt = sizeSelect.options[sizeSelect.selectedIndex];
+    wrapper.style.setProperty('--frame-width', opt.getAttribute('data-w') + 'px');
+    wrapper.style.setProperty('--frame-height', opt.getAttribute('data-h') + 'px');
+  }
+  sizeSelect.addEventListener('change', applySize);
+  applySize();
 })();
 </script>
 
