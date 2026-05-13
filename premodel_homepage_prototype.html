@@ -45,14 +45,20 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 
 .prototype-wrapper { --frame-width: 390px; --frame-height: 844px; display: flex; flex-direction: column; align-items: center; gap: 14px; width: 100%; }
 .prototype-toolbar { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 18px; }
-.size-control { display: inline-flex; align-items: center; gap: 8px; }
-.size-label { font-size: 12px; font-weight: 500; color: var(--color-text-secondary); letter-spacing: 0.02em; }
+.layout-control, .size-control { display: inline-flex; align-items: center; gap: 8px; }
+.layout-label, .size-label { font-size: 12px; font-weight: 500; color: var(--color-text-secondary); letter-spacing: 0.02em; }
 .size-select-wrap { position: relative; display: inline-flex; align-items: center; }
 .size-select { appearance: none; -webkit-appearance: none; background: var(--color-background-secondary); border: 0.5px solid var(--color-border-tertiary); border-radius: 999px; padding: 7px 28px 7px 14px; font-size: 12px; font-weight: 500; color: var(--color-text-primary); font-family: inherit; cursor: pointer; letter-spacing: 0.02em; line-height: 1; }
 .size-select:focus-visible { outline: 2px solid var(--color-text-primary); outline-offset: 1px; }
 .size-select-wrap::after { content: ''; position: absolute; right: 13px; top: 50%; width: 5px; height: 5px; border-right: 1.5px solid var(--color-text-secondary); border-bottom: 1.5px solid var(--color-text-secondary); transform: translate(0, -70%) rotate(45deg); pointer-events: none; }
+.version-pill { display: inline-flex; align-items: center; gap: 8px; background: var(--color-background-secondary); border: 0.5px solid var(--color-border-tertiary); border-radius: 999px; padding: 4px 5px 4px 12px; font-size: 11px; color: var(--color-text-secondary); letter-spacing: 0.02em; font-variant-numeric: tabular-nums; }
+.refresh-btn { appearance: none; -webkit-appearance: none; background: var(--color-background-primary); border: 0; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--color-text-secondary); padding: 0; font-family: inherit; transition: color 0.18s ease, transform 0.4s ease; }
+.refresh-btn:hover { color: var(--color-text-primary); }
+.refresh-btn:active { transform: rotate(360deg); }
+.refresh-btn:focus-visible { outline: 2px solid var(--color-text-primary); outline-offset: 1px; }
+.refresh-btn svg { width: 12px; height: 12px; stroke-width: 2; }
 .layout-toggle { display: inline-flex; background: var(--color-background-secondary); border: 0.5px solid var(--color-border-tertiary); border-radius: 999px; padding: 3px; gap: 2px; }
-.toggle-btn { appearance: none; -webkit-appearance: none; background: transparent; border: 0; padding: 7px 16px; font-size: 12px; font-weight: 500; color: var(--color-text-secondary); border-radius: 999px; cursor: pointer; font-family: inherit; letter-spacing: 0.02em; transition: background 0.18s ease, color 0.18s ease, box-shadow 0.18s ease; }
+.toggle-btn { appearance: none; -webkit-appearance: none; background: transparent; border: 0; padding: 7px 14px; font-size: 12px; font-weight: 500; color: var(--color-text-secondary); border-radius: 999px; cursor: pointer; font-family: inherit; letter-spacing: 0.02em; transition: background 0.18s ease, color 0.18s ease, box-shadow 0.18s ease; }
 .toggle-btn.active { background: var(--color-background-primary); color: var(--color-text-primary); box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
 .toggle-btn:focus-visible { outline: 2px solid var(--color-text-primary); outline-offset: 1px; }
 .phone-frame[hidden] { display: none; }
@@ -153,9 +159,12 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 <div class="prototype-wrapper">
 
   <div class="prototype-toolbar">
-    <div class="layout-toggle" role="tablist" aria-label="Layout selector">
-      <button type="button" class="toggle-btn active" data-layout="a" role="tab" aria-selected="true">Layout A</button>
-      <button type="button" class="toggle-btn" data-layout="b" role="tab" aria-selected="false">Layout B</button>
+    <div class="layout-control">
+      <span class="layout-label">Layout</span>
+      <div class="layout-toggle" role="tablist" aria-label="Layout selector">
+        <button type="button" class="toggle-btn active" data-layout="a" role="tab" aria-selected="true" aria-label="Layout A">A</button>
+        <button type="button" class="toggle-btn" data-layout="b" role="tab" aria-selected="false" aria-label="Layout B">B</button>
+      </div>
     </div>
     <div class="size-control">
       <label for="size-select" class="size-label">Size</label>
@@ -166,6 +175,12 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
           <option value="l" data-w="430" data-h="932" title="iPhone 15 Pro Max — 430 × 932">Mobile L</option>
         </select>
       </div>
+    </div>
+    <div class="version-pill">
+      v10.3
+      <button type="button" class="refresh-btn" onclick="location.reload()" aria-label="Refresh prototype">
+        <i data-lucide="refresh-cw"></i>
+      </button>
     </div>
   </div>
 
