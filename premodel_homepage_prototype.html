@@ -91,7 +91,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 
 .reveal-sub { padding: 16px 20px 0; text-align: center; }
 .reveal-sub p { font-size: 14px; color: var(--color-text-secondary); margin: 0; line-height: 1.5; }
-.reveal-sub .italic { font-family: var(--font-serif); font-style: italic; color: var(--color-text-primary); }
+.reveal-sub .italic { font-family: var(--font-serif); font-style: italic; color: var(--color-text-primary); white-space: nowrap; }
 .plan-sub { grid-row: 1; grid-column: 1; align-self: end; width: 180px; box-sizing: border-box; padding: 0 8px 4px 16px; z-index: 0; pointer-events: none; }
 .plan-sub p { font-size: 14px; color: var(--color-text-secondary); margin: 0; line-height: 1.5; }
 .plan-sub .italic { font-family: var(--font-serif); font-style: italic; color: var(--color-text-primary); }
@@ -112,7 +112,6 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 
 .howto-section { padding: 0 16px; }
 .howto-header { padding: 40px 4px 8px; text-align: center; }
-.howto-header h1 { font-size: 22px; font-weight: 500; margin: 0; letter-spacing: -0.01em; }
 .phase-label { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-text-primary); padding: 32px 4px 14px; font-weight: 600; text-align: center; }
 .step { display: grid; grid-template-columns: 22px 1fr; gap: 12px; padding: 14px 8px; border-radius: var(--border-radius-lg); opacity: 0.45; transition: opacity 0.35s ease, background 0.35s ease; margin-bottom: 2px; position: relative; }
 .step.active { opacity: 1; background: var(--color-background-secondary); }
@@ -133,11 +132,10 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .separator { text-align: center; font-size: 14px; color: var(--color-text-primary); padding: 18px 8px 8px; font-family: var(--font-serif); font-style: italic; }
 .closer { text-align: center; font-size: 14px; color: var(--color-text-primary); padding: 28px 8px 32px; font-family: var(--font-serif); font-style: italic; }
 
-.who-section { padding: 56px 20px 36px; }
-.who-headline { font-size: 30px; font-weight: 500; line-height: 1.15; letter-spacing: -0.02em; margin: 0 0 28px; text-wrap: balance; }
-.who-headline-1 { color: var(--color-text-primary); }
-.who-headline-2 { color: var(--color-text-tertiary); }
-.who-headline-2 .brand-navy { color: var(--color-brand-navy); }
+.who-section { padding: 56px 20px 36px; text-align: center; }
+.section-eyebrow { display: inline-block; background: var(--color-background-secondary); color: var(--color-text-primary); font-size: 11px; font-weight: 600; letter-spacing: 0.12em; padding: 5px 12px; border-radius: 999px; text-transform: uppercase; margin: 0 0 14px; }
+.section-headline { font-size: 30px; font-weight: 500; line-height: 1.15; letter-spacing: -0.02em; margin: 0 0 28px; text-wrap: balance; color: var(--color-text-primary); }
+.section-headline .brand-navy { color: var(--color-brand-navy); }
 
 .feature-card { position: relative; height: 400px; border-radius: var(--border-radius-lg); perspective: 1500px; }
 .card-flip-inner { position: absolute; inset: 0; transform-style: preserve-3d; transition: transform 0.65s cubic-bezier(0.4, 0.2, 0.2, 1); }
@@ -198,7 +196,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
       </div>
     </div>
     <div class="version-pill">
-      v10.4
+      v10.5
       <button type="button" class="refresh-btn" onclick="location.reload()" aria-label="Refresh prototype">
         <i data-lucide="refresh-cw"></i>
       </button>
@@ -214,8 +212,8 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
     </div>
 
     <div class="reveal-hero">
-      <p class="h1-small">Start with a free</p>
-      <p class="h1-large">Remodel Reveal</p>
+      <p class="h1-small">Stuck on your remodel?</p>
+      <p class="h1-large">Start with a free Reveal</p>
     </div>
 
     <div class="carousel" id="carousel">
@@ -234,8 +232,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
     </div>
 
     <div class="reveal-sub">
-      <p>Remodel paralysis → 3 design directions,</p>
-      <p class="italic">ready in days</p>
+      <p>3 ways to see your space, <span class="italic">before you hire anyone</span></p>
     </div>
 
     <div class="plan-block">
@@ -246,7 +243,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
         <span class="h">Plan</span>
       </div>
       <div class="plan-sub">
-        <p>Refined design → contractor-ready,</p>
+        <p>Our pros get you construction-ready,</p>
         <p class="italic">starting at $1,000</p>
       </div>
       <div class="plan-gallery">
@@ -287,7 +284,8 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 
     <div class="howto-section">
       <div class="howto-header">
-        <h1>How it works</h1>
+        <p class="section-eyebrow">How it works</p>
+        <h2 class="section-headline">Homeowners who are done guessing <span class="brand-navy">premodel.</span></h2>
       </div>
 
       <div class="phase-label">Reveals in 3 Steps</div>
@@ -372,10 +370,8 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
     </div>
 
     <div class="who-section">
-      <h2 class="who-headline">
-        <span class="who-headline-1">Remodels go wrong before they start.</span>
-        <span class="who-headline-2">Homeowners who are done guessing <span class="brand-navy">premodel.</span></span>
-      </h2>
+      <p class="section-eyebrow">Who it's for</p>
+      <h2 class="section-headline">Remodels go wrong before they start.</h2>
 
       <div class="feature-card" id="who-card">
         <div class="card-flip-inner">
