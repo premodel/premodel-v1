@@ -113,26 +113,37 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .howto-section { padding: 0 16px; }
 .howto-header { padding: 40px 4px 8px; text-align: center; }
 .phase-label { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-text-primary); padding: 32px 4px 14px; font-weight: 600; text-align: center; }
-.step { display: grid; grid-template-columns: 22px 1fr; gap: 12px; padding: 14px 8px; border-radius: var(--border-radius-lg); opacity: 0.45; transition: opacity 0.35s ease, background 0.35s ease; margin-bottom: 2px; position: relative; }
-.step.active { opacity: 1; background: var(--color-background-secondary); }
-.step::before, .step::after { content: ''; position: absolute; left: 18px; width: 2px; background: var(--color-border-primary); z-index: 0; }
+.step { display: grid; grid-template-columns: 30px 1fr; gap: 12px; padding: 14px 8px; border-radius: var(--border-radius-lg); transition: background 0.35s ease; margin-bottom: 2px; position: relative; }
+.step.active { background: var(--color-background-secondary); }
+.step:not(.phase-step) .num, .step:not(.phase-step) > div:not(.num) { opacity: 0.45; transition: opacity 0.35s ease; }
+.step:not(.phase-step).active .num, .step:not(.phase-step).active > div:not(.num) { opacity: 1; }
+.step.phase-step { align-items: center; }
+.step::before, .step::after { content: ''; position: absolute; left: 22px; width: 2px; background: var(--color-border-primary); z-index: 0; }
 .step::before { top: 0; height: 14px; }
-.step::after { top: 36px; bottom: 0; }
-.step[data-step="r1"]::before, .step[data-step="p1"]::before { display: none; }
-.step[data-step="r3"]::after, .step[data-step="p6"]::after { display: none; }
-.step .num { width: 22px; height: 22px; border-radius: 50%; background: var(--color-text-primary); color: var(--color-background-primary); font-size: 11px; font-weight: 600; display: flex; align-items: center; justify-content: center; position: relative; z-index: 1; }
-.step .row { display: flex; align-items: flex-start; gap: 10px; }
-.step .icon { color: var(--color-text-primary); padding-top: 1px; flex: 0 0 24px; display: flex; align-items: center; }
-.step .icon svg { width: 20px; height: 20px; stroke-width: 1.75; }
+.step::after { top: 44px; bottom: 0; }
+.step.phase-step::before { display: none; }
+.step.phase-step.active { background: transparent; }
+.step[data-step="r0"] { padding-top: 0; }
+.step[data-step="r0"]::after { top: 30px; }
+.step[data-step="p0"] { padding-top: 32px; }
+.step[data-step="p0"]::after { top: 62px; }
+.step[data-step="b0"] { padding-top: 32px; }
+.step[data-step="r3"]::after, .step[data-step="p6"]::after, .step[data-step="b0"]::after { display: none; }
+.step.optional::before, .step.optional::after { width: 0; background: transparent; border-left: 2px dashed var(--color-text-tertiary); }
+.step .num { width: 30px; height: 30px; justify-self: center; border-radius: 50%; background: var(--color-background-primary); color: var(--color-text-primary); border: 1.5px solid var(--color-text-primary); box-sizing: border-box; font-size: 11px; font-weight: 600; display: flex; align-items: center; justify-content: center; position: relative; z-index: 1; }
+.step .num svg { width: 16px; height: 16px; stroke-width: 1.75; }
+.step.phase-step .num { background: var(--color-text-primary); color: var(--color-background-primary); border: none; font-size: 14px; }
+.step.phase-step .heading { font-size: 18px; font-weight: 600; }
 .step .heading { font-size: 16px; font-weight: 500; line-height: 1.35; margin: 0; }
-.step .opt { font-size: 11px; font-weight: 400; color: var(--color-text-tertiary); letter-spacing: 0.04em; text-transform: uppercase; margin-left: 6px; }
-.step .desc { font-size: 14px; color: var(--color-text-secondary); line-height: 1.55; margin: 0; max-height: 0; opacity: 0; overflow: hidden; transition: max-height 0.4s ease, opacity 0.35s ease, padding-top 0.35s ease; padding-left: 34px; }
+.step:not(.phase-step) .heading { padding-top: 4px; }
+.step .opt { display: inline-block; background: var(--color-background-secondary); color: var(--color-text-secondary); font-size: 9px; font-weight: 600; letter-spacing: 0.08em; padding: 2px 6px; border-radius: 4px; margin-left: 7px; vertical-align: 2px; text-transform: uppercase; }
+.step .desc { font-size: 14px; color: var(--color-text-secondary); line-height: 1.55; margin: 0; max-height: 0; opacity: 0; overflow: hidden; transition: max-height 0.4s ease, opacity 0.35s ease, padding-top 0.35s ease; }
 .step.active .desc { max-height: 240px; opacity: 1; padding-top: 8px; }
 .step.optional .heading { color: var(--color-text-secondary); }
-.separator { text-align: center; font-size: 14px; color: var(--color-text-primary); padding: 18px 8px 8px; font-family: var(--font-serif); font-style: italic; }
-.closer { text-align: center; font-size: 14px; color: var(--color-text-primary); padding: 28px 8px 32px; font-family: var(--font-serif); font-style: italic; }
+.separator { display: flex; align-items: center; gap: 12px; margin: 0 -16px; padding: 10px 16px 0; font-size: 13px; color: var(--color-text-secondary); font-family: var(--font-serif); font-style: italic; text-align: center; }
+.separator::before, .separator::after { content: ''; flex: 1; height: 1px; background: var(--color-border-tertiary); }
 
-.who-section { padding: 56px 20px 36px; text-align: center; }
+.who-section { padding: 30px 20px 36px; text-align: center; }
 .section-eyebrow { display: inline-block; background: var(--color-background-secondary); color: var(--color-text-primary); font-size: 11px; font-weight: 600; letter-spacing: 0.12em; padding: 5px 12px; border-radius: 999px; text-transform: uppercase; margin: 0 0 14px; }
 .section-headline { font-size: 30px; font-weight: 500; line-height: 1.15; letter-spacing: -0.02em; margin: 0 0 28px; text-wrap: balance; color: var(--color-text-primary); }
 .section-headline .brand-navy { color: var(--color-brand-navy); }
@@ -196,7 +207,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
       </div>
     </div>
     <div class="version-pill">
-      v10.5
+      v10.6
       <button type="button" class="refresh-btn" onclick="location.reload()" aria-label="Refresh prototype">
         <i data-lucide="refresh-cw"></i>
       </button>
@@ -285,88 +296,105 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
     <div class="howto-section">
       <div class="howto-header">
         <p class="section-eyebrow">How it works</p>
-        <h2 class="section-headline">Homeowners who are done guessing <span class="brand-navy">premodel.</span></h2>
+        <h2 class="section-headline">Stop guessing. <span class="brand-navy">Premodel.</span></h2>
       </div>
 
-      <div class="phase-label">Reveals in 3 Steps</div>
-
-      <div class="step" data-step="r1">
+      <div class="step phase-step" data-step="r0">
         <div class="num">1</div>
         <div>
-          <div class="row"><span class="icon" aria-hidden="true"><i data-lucide="send"></i></span><p class="heading">Submit a Reveal request</p></div>
+          <p class="heading">Reveal</p>
+        </div>
+      </div>
+
+      <div class="step" data-step="r1">
+        <div class="num"><i data-lucide="send"></i></div>
+        <div>
+          <p class="heading">Submit a Reveal request</p>
           <p class="desc">Tell us about your project. We're upfront about whether Premodel's the right fit, and we'll point you elsewhere if we're not.</p>
         </div>
       </div>
 
       <div class="step" data-step="r2">
-        <div class="num">2</div>
+        <div class="num"><i data-lucide="door-open"></i></div>
         <div>
-          <div class="row"><span class="icon" aria-hidden="true"><i data-lucide="door-open"></i></span><p class="heading">Show us your home</p></div>
+          <p class="heading">Show us your home</p>
           <p class="desc">Most homeowners struggle to put their ideas into words. We come listen, take notes, and turn what we hear into the Reveals.</p>
         </div>
       </div>
 
       <div class="step" data-step="r3">
-        <div class="num">3</div>
+        <div class="num"><i data-lucide="layout-grid"></i></div>
         <div>
-          <div class="row"><span class="icon" aria-hidden="true"><i data-lucide="layout-grid"></i></span><p class="heading">Review 3 design directions</p></div>
+          <p class="heading">Review 3 design directions</p>
           <p class="desc">The internet has infinite inspiration and no starting point. We give you three, designed for your room.</p>
         </div>
       </div>
 
-      <div class="separator">Yours to keep. No obligation.</div>
+      <div class="separator">Yours to keep, even if you don't hire us.</div>
 
-      <div class="phase-label">Plan in 3–6 Steps</div>
+      <div class="step phase-step" data-step="p0">
+        <div class="num">2</div>
+        <div>
+          <p class="heading">Plan</p>
+        </div>
+      </div>
 
       <div class="step" data-step="p1">
-        <div class="num">1</div>
+        <div class="num"><i data-lucide="target"></i></div>
         <div>
-          <div class="row"><span class="icon" aria-hidden="true"><i data-lucide="target"></i></span><p class="heading">Choose a direction to refine</p></div>
+          <p class="heading">Choose a direction to refine</p>
           <p class="desc">Pick the one you keep thinking about, or just the elements from each that you love. That's where we start refining.</p>
         </div>
       </div>
 
       <div class="step optional" data-step="p2">
-        <div class="num">2</div>
+        <div class="num"><i data-lucide="user-plus"></i></div>
         <div>
-          <div class="row"><span class="icon" aria-hidden="true"><i data-lucide="user-plus"></i></span><p class="heading">Work with our pros<span class="opt">optional</span></p></div>
+          <p class="heading">Work with our pros<span class="opt">optional</span></p>
           <p class="desc">Skip the search for an architect or designer. When your project needs one, we bring them in and roll their cost into your Plan.</p>
         </div>
       </div>
 
       <div class="step optional" data-step="p3">
-        <div class="num">3</div>
+        <div class="num"><i data-lucide="scan-eye"></i></div>
         <div>
-          <div class="row"><span class="icon" aria-hidden="true"><i data-lucide="scan-eye"></i></span><p class="heading">Walk it in VR<span class="opt">optional</span></p></div>
+          <p class="heading">Walk it in VR<span class="opt">optional</span></p>
           <p class="desc">A rendering shows you the design. VR shows you what you'd otherwise miss until it's too late to fix.</p>
         </div>
       </div>
 
       <div class="step" data-step="p4">
-        <div class="num">4</div>
+        <div class="num"><i data-lucide="video"></i></div>
         <div>
-          <div class="row"><span class="icon" aria-hidden="true"><i data-lucide="video"></i></span><p class="heading">Finalize your design, live</p></div>
+          <p class="heading">Finalize your design, live</p>
           <p class="desc">Back-and-forth revisions sap your confidence and stall the project. In one live session, you direct the changes and we make them on the spot.</p>
         </div>
       </div>
 
       <div class="step" data-step="p5">
-        <div class="num">5</div>
+        <div class="num"><i data-lucide="shopping-bag"></i></div>
         <div>
-          <div class="row"><span class="icon" aria-hidden="true"><i data-lucide="shopping-bag"></i></span><p class="heading">Shop with our list</p></div>
+          <p class="heading">Shop with our list</p>
           <p class="desc">Every finish in your design comes with quality alternatives at different price points. Our trade discounts often cover what you paid for the Plan.</p>
         </div>
       </div>
 
       <div class="step optional" data-step="p6">
-        <div class="num">6</div>
+        <div class="num"><i data-lucide="hammer"></i></div>
         <div>
-          <div class="row"><span class="icon" aria-hidden="true"><i data-lucide="hammer"></i></span><p class="heading">Get up to 3 builder bids<span class="opt">optional</span></p></div>
+          <p class="heading">Get up to 3 builder bids<span class="opt">optional</span></p>
           <p class="desc">Skip the contractor search. Our trusted local network comes to you: they visit, they bid, you pick.</p>
         </div>
       </div>
 
-      <div class="closer">Your builder takes it from here.</div>
+      <div class="separator">Your contractor takes it from here.</div>
+
+      <div class="step phase-step" data-step="b0">
+        <div class="num">3</div>
+        <div>
+          <p class="heading">Build</p>
+        </div>
+      </div>
     </div>
 
     <div class="who-section">
