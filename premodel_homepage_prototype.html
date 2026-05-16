@@ -14,7 +14,7 @@
   --color-text-secondary: #6b6a64;
   --color-text-tertiary: #a8a7a1;
   --color-text-warning: #854f0b;
-  --color-brand-navy: #1f3a5f;
+  --color-brand-navy: #3b6eb5;
   --color-border-primary: rgba(0,0,0,0.25);
   --color-border-secondary: rgba(0,0,0,0.18);
   --color-border-tertiary: rgba(0,0,0,0.10);
@@ -34,7 +34,7 @@
     --color-text-secondary: #a8a7a1;
     --color-text-tertiary: #6b6a64;
     --color-text-warning: #fac775;
-    --color-brand-navy: #6b9dd1;
+    --color-brand-navy: #7eb3e8;
     --color-border-primary: rgba(255,255,255,0.25);
     --color-border-secondary: rgba(255,255,255,0.18);
     --color-border-tertiary: rgba(255,255,255,0.10);
@@ -147,36 +147,32 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .section-eyebrow { display: inline-block; background: var(--color-background-secondary); color: var(--color-text-primary); font-size: 11px; font-weight: 600; letter-spacing: 0.12em; padding: 5px 12px; border-radius: 999px; text-transform: uppercase; margin: 0 0 14px; }
 .section-headline { font-size: 30px; font-weight: 500; line-height: 1.15; letter-spacing: -0.02em; margin: 0 0 28px; text-wrap: balance; color: var(--color-text-primary); }
 .section-headline .brand-navy { color: var(--color-brand-navy); }
+.section-headline .strike { text-decoration: line-through; color: var(--color-text-tertiary); }
 
-.feature-card { position: relative; height: 400px; border-radius: var(--border-radius-lg); perspective: 1500px; }
-.card-flip-inner { position: absolute; inset: 0; transform-style: preserve-3d; transition: transform 0.65s cubic-bezier(0.4, 0.2, 0.2, 1); }
-.feature-card.show-back .card-flip-inner { transform: rotateY(180deg); }
-.card-face { position: absolute; inset: 0; padding: 20px 22px; display: flex; flex-direction: column; align-items: center; text-align: center; backface-visibility: hidden; -webkit-backface-visibility: hidden; background: var(--color-background-secondary); border-radius: var(--border-radius-lg); overflow: hidden; }
-.card-face-back { transform: rotateY(180deg); }
-.card-body { display: flex; flex-direction: column; align-items: center; gap: 16px; width: 100%; }
-.card-face-front .card-body { margin-top: auto; }
-.card-face-back .card-body { margin: auto 0; }
+/* Pull quotes — cards on a table with scroll-driven spread */
+.quotes { display: flex; flex-direction: column; align-items: center; margin: 0 -20px 32px; padding: 32px 0; text-align: left; --spread: 0; }
+.quote { margin: 0; width: 96%; background: var(--color-background-primary); border: 0.5px solid var(--color-border-secondary); border-radius: 10px; padding: 16px 18px; box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 2px 14px rgba(0,0,0,0.07); position: relative; display: flex; gap: 12px; align-items: flex-start; margin-top: calc(-120px + 134px * var(--spread)); }
+.quote:first-child { margin-top: 0; }
+.quote:nth-child(1) { transform: rotate(-1.5deg); z-index: 3; }
+.quote:nth-child(2) { transform: rotate(0.8deg); z-index: 2; }
+.quote:nth-child(3) { transform: rotate(-0.6deg); z-index: 1; }
+.quote-avatar { flex: 0 0 40px; width: 40px; height: 40px; border-radius: 50%; background: var(--color-background-secondary); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; color: var(--color-text-secondary); letter-spacing: 0.04em; }
+.quote-content { flex: 1; min-width: 0; }
+.quote-content p { font-size: 14px; color: var(--color-text-secondary); font-family: var(--font-serif); line-height: 1.5; margin: 0 0 10px; }
+.quote-content strong { font-weight: 700; color: var(--color-text-primary); }
+.quote-content cite { display: block; font-size: 11px; color: var(--color-text-secondary); font-style: normal; line-height: 1.4; }
+.quote-content cite strong { color: var(--color-text-primary); font-weight: 600; }
 
-.card-quotes, .card-affirmations { display: flex; flex-direction: column; gap: 4px; }
-.card-quotes p, .card-affirmations p { font-size: 18px; color: var(--color-text-secondary); font-style: italic; line-height: 1.5; margin: 0; }
-.card-affirmations strong { font-weight: 600; }
-.card-anchor { font-size: 26px; font-weight: 600; color: var(--color-text-primary); margin: 0; line-height: 1.15; letter-spacing: -0.015em; }
-.card-closer { font-size: 14px; color: var(--color-text-primary); font-family: var(--font-serif); font-style: italic; margin: auto 0; line-height: 1.5; max-width: 280px; }
-.card-action { appearance: none; -webkit-appearance: none; background: transparent; border: 1px solid var(--color-text-primary); color: var(--color-text-primary); padding: 9px 18px; border-radius: 999px; font-size: 13px; font-weight: 500; cursor: pointer; font-family: inherit; letter-spacing: 0.01em; transition: background 0.18s ease, color 0.18s ease; }
-.card-action:hover { background: var(--color-text-primary); color: var(--color-background-primary); }
+.pricing-headline { font-size: 22px; font-weight: 500; color: var(--color-text-primary); margin: 0 0 4px; letter-spacing: -0.01em; line-height: 1.15; }
+.pricing-subhead { font-size: 13px; color: var(--color-text-secondary); margin: 0 0 14px; line-height: 1.5; }
 
-.card-back-header { display: flex; flex-direction: column; align-items: center; gap: 4px; width: 100%; }
-.card-back-title { font-size: 22px; font-weight: 500; color: var(--color-text-primary); margin: 0; letter-spacing: -0.01em; line-height: 1.15; }
-.card-back-subhead { font-size: 13px; color: var(--color-text-secondary); margin: 0; line-height: 1.5; }
-.card-back-pricing { display: flex; flex-direction: column; gap: 6px; width: 100%; }
-
-.pricing-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+.pricing-table { width: 90%; margin: 0 auto; border-collapse: collapse; table-layout: fixed; }
 .pricing-table th, .pricing-table td { padding: 9px 4px; text-align: left; vertical-align: top; border-bottom: 0.5px solid var(--color-border-tertiary); }
 .pricing-table th { font-size: 10px; font-weight: 500; color: var(--color-text-secondary); letter-spacing: 0.06em; text-transform: uppercase; border-bottom: 0.5px solid var(--color-border-secondary); }
 .pricing-table td { font-size: 12px; color: var(--color-text-primary); line-height: 1.4; }
 .pricing-table .num { text-align: right; font-variant-numeric: tabular-nums; }
 .pricing-table tbody tr:last-child td { border-bottom: none; }
-.pricing-microcopy { font-size: 11px; color: var(--color-text-tertiary); margin: 6px 0 0; line-height: 1.5; }
+.pricing-microcopy { font-size: 11px; color: var(--color-text-tertiary); margin: 6px auto 0; line-height: 1.5; max-width: 280px; }
 
 .cta-bar { flex: 0 0 auto; border-top: 0.5px solid var(--color-border-tertiary); padding: 12px 16px; display: flex; gap: 12px; align-items: center; background: var(--color-background-primary); }
 .cta-button { flex: 1; padding: 12px; background: var(--color-text-primary); color: var(--color-background-primary); border-radius: var(--border-radius-md); text-align: center; font-weight: 500; font-size: 14px; border: none; cursor: pointer; font-family: inherit; }
@@ -207,7 +203,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
       </div>
     </div>
     <div class="version-pill">
-      v10.7
+      v10.8
       <button type="button" class="refresh-btn" onclick="location.reload()" aria-label="Refresh prototype">
         <i data-lucide="refresh-cw"></i>
       </button>
@@ -296,7 +292,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
     <div class="howto-section">
       <div class="howto-header">
         <p class="section-eyebrow">How it works</p>
-        <h2 class="section-headline">Stop guessing. <span class="brand-navy">Premodel.</span></h2>
+        <h2 class="section-headline"><span class="strike">Paralysis</span> Clarity</h2>
       </div>
 
       <div class="step phase-step" data-step="r0">
@@ -398,79 +394,74 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
     </div>
 
     <div class="who-section">
-      <p class="section-eyebrow">Who it's for</p>
-      <h2 class="section-headline">Remodels go wrong before they start.</h2>
+      <p class="section-eyebrow">For homeowners</p>
+      <h2 class="section-headline">Don't guess. <span class="brand-navy">Premodel.</span></h2>
 
-      <div class="feature-card" id="who-card">
-        <div class="card-flip-inner">
-        <div class="card-face card-face-front">
-          <div class="card-body">
-            <div class="card-quotes">
-              <p>"I can't picture it."</p>
-              <p>"I can't choose."</p>
-              <p>"I can't get this wrong."</p>
-            </div>
-            <p class="card-anchor">Planning buys confidence.</p>
-            <div class="card-affirmations">
-              <p>"I can <strong>see what works.</strong>"</p>
-              <p>"I can <strong>choose with confidence.</strong>"</p>
-              <p>"I can <strong>build with fewer surprises.</strong>"</p>
-            </div>
+      <div class="quotes">
+        <blockquote class="quote">
+          <div class="quote-avatar">AG</div>
+          <div class="quote-content">
+            <p>"Without Premodel, I honestly wouldn't have started this project because <strong>I didn't have time to agonize</strong> <strong>over possibilities</strong> I can't picture."</p>
+            <cite>—<strong>Anna G.</strong>, Edmonds · Master bath, pull-and-replace</cite>
           </div>
-          <p class="card-closer">Spend roughly 5% getting clear<br>before the big money starts moving.</p>
-          <button type="button" class="card-action" data-action="show-back">See example Plan pricing</button>
-        </div>
-
-        <div class="card-face card-face-back">
-          <div class="card-body">
-            <div class="card-back-header">
-              <h3 class="card-back-title">Planning deserves a budget.</h3>
-              <p class="card-back-subhead">Example Plan pricing (3–5% of total budget)</p>
-            </div>
-            <div class="card-back-pricing">
-              <table class="pricing-table">
-                <colgroup>
-                  <col style="width: 54%;" />
-                  <col style="width: 22%;" />
-                  <col style="width: 24%;" />
-                </colgroup>
-                <thead>
-                  <tr>
-                    <th>Project</th>
-                    <th class="num">Budget</th>
-                    <th class="num">Plan</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Cosmetic bath refresh</td>
-                    <td class="num">$30K</td>
-                    <td class="num">$1K+</td>
-                  </tr>
-                  <tr>
-                    <td>Pull-and-replace kitchen</td>
-                    <td class="num">$75K</td>
-                    <td class="num">$2.5K+</td>
-                  </tr>
-                  <tr>
-                    <td>Multi-room remodel</td>
-                    <td class="num">$150K</td>
-                    <td class="num">$5K+</td>
-                  </tr>
-                  <tr>
-                    <td>Full home renovation</td>
-                    <td class="num">$300K+</td>
-                    <td class="num">$10K+</td>
-                  </tr>
-                </tbody>
-              </table>
-              <p class="pricing-microcopy">Actual pricing varies based on scope, room count,<br>and optional deliverables.</p>
-            </div>
+        </blockquote>
+        <blockquote class="quote">
+          <div class="quote-avatar">SA</div>
+          <div class="quote-content">
+            <p>"We got a <strong>preview</strong> <strong>before committing to a big construction budget.</strong> It's crazy that it's the opposite for most remodels: commit first, see it months later."</p>
+            <cite>—<strong>Sasha A.</strong>, Seattle · Full home renovation</cite>
           </div>
-          <button type="button" class="card-action" data-action="show-front">← Back to why it matters</button>
-        </div>
-        </div>
+        </blockquote>
+        <blockquote class="quote">
+          <div class="quote-avatar">KB</div>
+          <div class="quote-content">
+            <p>"I had floor plans, Pinterest boards, and tons of tile samples, but <strong>putting it all together was a puzzle.</strong> Premodel eliminated the guesswork."</p>
+            <cite>—<strong>Kainaz B.</strong>, Seattle · Multi-room, new build</cite>
+          </div>
+        </blockquote>
       </div>
+
+      <h3 class="pricing-headline">Planning buys confidence.</h3>
+      <p class="pricing-subhead">For less than 5% of your remodel budget</p>
+
+      <table class="pricing-table">
+        <colgroup>
+          <col style="width: 48%;" />
+          <col style="width: 22%;" />
+          <col style="width: 30%;" />
+        </colgroup>
+        <thead>
+          <tr>
+            <th>Project</th>
+            <th class="num">Budget</th>
+            <th class="num">Starting at</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Cosmetic bath refresh</td>
+            <td class="num">$30K</td>
+            <td class="num">$1K+</td>
+          </tr>
+          <tr>
+            <td>Pull-and-replace kitchen</td>
+            <td class="num">$75K</td>
+            <td class="num">$2.5K+</td>
+          </tr>
+          <tr>
+            <td>Multi-room remodel</td>
+            <td class="num">$150K</td>
+            <td class="num">$5K+</td>
+          </tr>
+          <tr>
+            <td>Full home renovation</td>
+            <td class="num">$300K+</td>
+            <td class="num">$10K+</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p class="pricing-microcopy">Actual pricing varies based on scope, room count,<br>and optional deliverables.</p>
     </div>
 
   </div>
@@ -553,6 +544,22 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
     });
   });
 
+  var quotesEl = document.querySelector('.quotes');
+  function updateQuoteSpread() {
+    if (!quotesEl) return;
+    var rect = quotesEl.getBoundingClientRect();
+    var scrollRect = scrollEl.getBoundingClientRect();
+    var sectionTop = rect.top - scrollRect.top;
+    var viewportHeight = scrollRect.height;
+    var triggerStart = viewportHeight;
+    var triggerEnd = viewportHeight * 0.3;
+    var progress = (triggerStart - sectionTop) / (triggerStart - triggerEnd);
+    progress = Math.max(0, Math.min(1, progress));
+    quotesEl.style.setProperty('--spread', progress);
+  }
+  scrollEl.addEventListener('scroll', updateQuoteSpread, { passive: true });
+  updateQuoteSpread();
+
   var sizeSelect = document.getElementById('size-select');
   var wrapper = document.querySelector('.prototype-wrapper');
   function applySize() {
@@ -563,15 +570,6 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
   sizeSelect.addEventListener('change', applySize);
   applySize();
 
-  var whoCard = document.getElementById('who-card');
-  if (whoCard) {
-    whoCard.querySelectorAll('[data-action="show-back"]').forEach(function(btn) {
-      btn.addEventListener('click', function() { whoCard.classList.add('show-back'); });
-    });
-    whoCard.querySelectorAll('[data-action="show-front"]').forEach(function(btn) {
-      btn.addEventListener('click', function() { whoCard.classList.remove('show-back'); });
-    });
-  }
 })();
 </script>
 
