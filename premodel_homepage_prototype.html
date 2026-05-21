@@ -339,7 +339,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
       </div>
     </div>
     <div class="version-pill">
-      v11.13
+      v11.14
       <button type="button" class="refresh-btn" onclick="location.reload()" aria-label="Refresh prototype">
         <i data-lucide="refresh-cw"></i>
       </button>
@@ -1311,19 +1311,18 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 
     function closeForm() { overlay.classList.remove('open'); }
 
-    // ── CTA bar: hide immediately on click, then scroll anchor bottom into view ──
+    // ── CTA bar: scroll to anchor on click; IO owns show/hide in both directions ──
     ctaBtn.addEventListener('click', function() {
-      if (ctaBar) ctaBar.style.display = 'none'; // collapse bar first — frees viewport height
       requestAnimationFrame(function() {
         if (anchorEl) anchorEl.scrollIntoView({ behavior: 'smooth', block: 'end' });
       });
     });
 
-    // Restore the CTA bar only when the user scrolls back up past the anchor
+    // Hide bar when anchor is visible (scroll or click); restore when scrolled away
     if ('IntersectionObserver' in window && ctaBar && anchorEl) {
       var io = new IntersectionObserver(function(entries) {
         entries.forEach(function(e) {
-          if (!e.isIntersecting) ctaBar.style.display = '';
+          ctaBar.style.display = e.isIntersecting ? 'none' : '';
         });
       }, { root: scrollEl, threshold: 0.05 });
       io.observe(anchorEl);
