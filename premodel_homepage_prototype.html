@@ -330,7 +330,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
       </div>
     </div>
     <div class="version-pill">
-      v11.1
+      v11.2
       <button type="button" class="refresh-btn" onclick="location.reload()" aria-label="Refresh prototype">
         <i data-lucide="refresh-cw"></i>
       </button>
@@ -592,23 +592,18 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
     </div>
 
     <!-- Anchor section: room selection + deposit disclosure -->
-    <div class="rf-anchor" id="rf-anchor-a">
-      <p class="rf-eyebrow">Free to start</p>
-      <h2 class="rf-title">Request your free Reveal</h2>
-      <p class="rf-sub">See what your space could become — before you hire anyone.</p>
-      <div class="rf-q" style="margin-bottom:0">
-        <p class="rf-q-label">Which rooms are you planning to remodel?</p>
-        <div class="rf-chips" id="rf-anchor-chips-a">
-          <button class="rf-chip" type="button" data-room="kitchen">Kitchen</button>
-          <button class="rf-chip" type="button" data-room="primary_bath">Primary bath</button>
-          <button class="rf-chip" type="button" data-room="secondary_bath">Secondary bath</button>
-          <button class="rf-chip" type="button" data-room="living">Living room</button>
-          <button class="rf-chip" type="button" data-room="dining">Dining room</button>
-          <button class="rf-chip" type="button" data-room="office">Home office</button>
-          <button class="rf-chip" type="button" data-room="bedroom">Bedroom</button>
-          <button class="rf-chip" type="button" data-room="entry_mudroom">Entry / mudroom</button>
-          <button class="rf-chip" type="button" data-room="basement_adu">Basement ADU</button>
-        </div>
+    <div class="rf-anchor" id="rf-anchor-a" style="padding:24px 20px 20px">
+      <p style="font-size:15px;font-weight:500;letter-spacing:-0.01em;color:var(--color-text-primary);margin:0 0 14px">Which rooms are you planning to remodel?</p>
+      <div class="rf-chips" id="rf-anchor-chips-a">
+        <button class="rf-chip" type="button" data-room="kitchen">Kitchen</button>
+        <button class="rf-chip" type="button" data-room="primary_bath">Primary bath</button>
+        <button class="rf-chip" type="button" data-room="secondary_bath">Secondary bath</button>
+        <button class="rf-chip" type="button" data-room="living">Living room</button>
+        <button class="rf-chip" type="button" data-room="dining">Dining room</button>
+        <button class="rf-chip" type="button" data-room="office">Home office</button>
+        <button class="rf-chip" type="button" data-room="bedroom">Bedroom</button>
+        <button class="rf-chip" type="button" data-room="entry_mudroom">Entry / mudroom</button>
+        <button class="rf-chip" type="button" data-room="basement_adu">Basement ADU</button>
       </div>
       <button class="rf-anchor-cta" type="button" id="rf-anchor-cta-a" disabled>See my estimate →</button>
       <p style="font-size:11px;color:var(--color-text-tertiary);line-height:1.5;margin:10px 0 0;text-align:center">Scheduling requires a refundable $200 deposit, applied toward your service.</p>
@@ -771,23 +766,18 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
     </div>
 
     <!-- Anchor section: room selection + deposit disclosure -->
-    <div class="rf-anchor" id="rf-anchor-b">
-      <p class="rf-eyebrow">Free to start</p>
-      <h2 class="rf-title">Request your free Reveal</h2>
-      <p class="rf-sub">See what your space could become — before you hire anyone.</p>
-      <div class="rf-q" style="margin-bottom:0">
-        <p class="rf-q-label">Which rooms are you planning to remodel?</p>
-        <div class="rf-chips" id="rf-anchor-chips-b">
-          <button class="rf-chip" type="button" data-room="kitchen">Kitchen</button>
-          <button class="rf-chip" type="button" data-room="primary_bath">Primary bath</button>
-          <button class="rf-chip" type="button" data-room="secondary_bath">Secondary bath</button>
-          <button class="rf-chip" type="button" data-room="living">Living room</button>
-          <button class="rf-chip" type="button" data-room="dining">Dining room</button>
-          <button class="rf-chip" type="button" data-room="office">Home office</button>
-          <button class="rf-chip" type="button" data-room="bedroom">Bedroom</button>
-          <button class="rf-chip" type="button" data-room="entry_mudroom">Entry / mudroom</button>
-          <button class="rf-chip" type="button" data-room="basement_adu">Basement ADU</button>
-        </div>
+    <div class="rf-anchor" id="rf-anchor-b" style="padding:24px 20px 20px">
+      <p style="font-size:15px;font-weight:500;letter-spacing:-0.01em;color:var(--color-text-primary);margin:0 0 14px">Which rooms are you planning to remodel?</p>
+      <div class="rf-chips" id="rf-anchor-chips-b">
+        <button class="rf-chip" type="button" data-room="kitchen">Kitchen</button>
+        <button class="rf-chip" type="button" data-room="primary_bath">Primary bath</button>
+        <button class="rf-chip" type="button" data-room="secondary_bath">Secondary bath</button>
+        <button class="rf-chip" type="button" data-room="living">Living room</button>
+        <button class="rf-chip" type="button" data-room="dining">Dining room</button>
+        <button class="rf-chip" type="button" data-room="office">Home office</button>
+        <button class="rf-chip" type="button" data-room="bedroom">Bedroom</button>
+        <button class="rf-chip" type="button" data-room="entry_mudroom">Entry / mudroom</button>
+        <button class="rf-chip" type="button" data-room="basement_adu">Basement ADU</button>
       </div>
       <button class="rf-anchor-cta" type="button" id="rf-anchor-cta-b" disabled>See my estimate →</button>
       <p style="font-size:11px;color:var(--color-text-tertiary);line-height:1.5;margin:10px 0 0;text-align:center">Scheduling requires a refundable $200 deposit, applied toward your service.</p>
@@ -1254,17 +1244,20 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 
     function closeForm() { overlay.classList.remove('open'); }
 
-    // ── CTA bar: scroll to bottom, hide when anchor section enters view ──────
+    // ── CTA bar: hide immediately on click (expands scroll viewport),
+    //    then scroll to bottom so chips + button + note are all visible ───────
     ctaBtn.addEventListener('click', function() {
+      if (ctaBar) ctaBar.style.display = 'none'; // hide first — increases viewport height
       if (scrollEl) scrollEl.scrollTo({ top: scrollEl.scrollHeight, behavior: 'smooth' });
     });
 
+    // Restore the CTA bar only when the user scrolls back up past the anchor
     if ('IntersectionObserver' in window && ctaBar && anchorEl) {
       var io = new IntersectionObserver(function(entries) {
         entries.forEach(function(e) {
-          ctaBar.style.display = e.isIntersecting ? 'none' : '';
+          if (!e.isIntersecting) ctaBar.style.display = '';
         });
-      }, { root: scrollEl, threshold: 0.15 });
+      }, { root: scrollEl, threshold: 0.05 });
       io.observe(anchorEl);
     }
 
