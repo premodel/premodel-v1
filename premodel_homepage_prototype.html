@@ -229,6 +229,15 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .rf-est-hero-label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-text-tertiary); margin: 0 0 6px; }
 .rf-est-hero-range { font-size: 36px; font-weight: 500; letter-spacing: -0.03em; line-height: 1; color: var(--color-text-primary); margin: 0; }
 .rf-est-hero-caveat { font-size: 12px; color: var(--color-text-tertiary); font-family: var(--font-serif); font-style: italic; margin: 8px 0 0; }
+/* ── Premodel service price hero ────────────────────────────────────────────── */
+.rf-pm-hero { text-align: center; padding: 8px 0 20px; border-bottom: 0.5px solid var(--color-border-tertiary); margin-bottom: 16px; }
+.rf-pm-hero-label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-text-tertiary); margin: 0 0 6px; }
+.rf-pm-hero-price { font-size: 40px; font-weight: 500; letter-spacing: -0.03em; line-height: 1; color: var(--color-text-primary); margin: 0; }
+.rf-pm-hero-note { font-size: 12px; color: var(--color-text-tertiary); font-family: var(--font-serif); font-style: italic; margin: 8px 0 0; }
+/* ── Compact construction cost context row ──────────────────────────────────── */
+.rf-const-row { display: flex; align-items: baseline; justify-content: space-between; padding: 10px 14px; background: var(--color-background-secondary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); margin: 16px 0 8px; }
+.rf-const-label { font-size: 13px; color: var(--color-text-secondary); }
+.rf-const-range { font-size: 13px; color: var(--color-text-primary); font-variant-numeric: tabular-nums; white-space: nowrap; }
 .rf-breakdown { border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); overflow: hidden; }
 .rf-br-row { display: flex; align-items: baseline; justify-content: space-between; padding: 10px 14px; border-bottom: 0.5px solid var(--color-border-tertiary); gap: 8px; }
 .rf-br-row:last-child { border-bottom: 0; background: var(--color-background-secondary); }
@@ -330,7 +339,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
       </div>
     </div>
     <div class="version-pill">
-      v11.3
+      v11.4
       <button type="button" class="refresh-btn" onclick="location.reload()" aria-label="Refresh prototype">
         <i data-lucide="refresh-cw"></i>
       </button>
@@ -658,19 +667,24 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 
       <!-- Step 2: Estimate -->
       <div id="rf-s2-a" hidden>
-        <!-- Construction cost total (no per-room breakdown) -->
-        <div class="rf-est-hero" style="padding-bottom:14px;margin-bottom:12px">
-          <p class="rf-est-hero-label">Estimated construction cost</p>
-          <p class="rf-est-hero-range" id="rf-est-range-a"></p>
-          <p class="rf-est-hero-caveat">Rough Seattle market range · actual costs vary</p>
+        <!-- Premodel service hero — dominant price -->
+        <div class="rf-pm-hero">
+          <p class="rf-pm-hero-label">Your Premodel estimate</p>
+          <p class="rf-pm-hero-price" id="rf-pm-total-a"></p>
+          <p class="rf-pm-hero-note">Includes your reveal session</p>
         </div>
-        <!-- Compact budget comparison (injected by JS; hidden if no budget selected) -->
-        <div id="rf-cmp-a"></div>
-        <!-- Premodel service estimate with bundle discounts -->
-        <p class="rf-eyebrow">Your Premodel estimate</p>
+        <!-- Per-room breakdown with bundle discounts -->
         <div class="rf-breakdown" id="rf-pm-breakdown-a" style="margin-bottom:6px"></div>
-        <p style="font-size:11px;color:var(--color-text-tertiary);line-height:1.5;margin:0 0 20px">Each additional room is discounted — up to 30% off.</p>
-        <!-- Design fees for comparison -->
+        <p style="font-size:11px;color:var(--color-text-tertiary);line-height:1.5;margin:0 0 4px">Each additional room is discounted — up to 30% off.</p>
+        <!-- Construction cost context (compact, secondary) -->
+        <div class="rf-const-row">
+          <span class="rf-const-label">Est. construction cost</span>
+          <span class="rf-const-range" id="rf-est-range-a"></span>
+        </div>
+        <p style="font-size:11px;color:var(--color-text-tertiary);line-height:1.5;margin:0 0 10px">Rough Seattle market range · actual costs vary</p>
+        <!-- Budget alignment chip (injected by JS; hidden if no budget selected) -->
+        <div id="rf-cmp-a"></div>
+        <!-- Design fees comparison -->
         <div style="border-top:0.5px solid var(--color-border-tertiary);padding-top:16px">
           <p class="rf-df-eyebrow">vs. full-service design fees</p>
           <div class="rf-df-table" style="margin-bottom:8px">
@@ -832,15 +846,24 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 
       <!-- Step 2: Estimate -->
       <div id="rf-s2-b" hidden>
-        <div class="rf-est-hero" style="padding-bottom:14px;margin-bottom:12px">
-          <p class="rf-est-hero-label">Estimated construction cost</p>
-          <p class="rf-est-hero-range" id="rf-est-range-b"></p>
-          <p class="rf-est-hero-caveat">Rough Seattle market range · actual costs vary</p>
+        <!-- Premodel service hero — dominant price -->
+        <div class="rf-pm-hero">
+          <p class="rf-pm-hero-label">Your Premodel estimate</p>
+          <p class="rf-pm-hero-price" id="rf-pm-total-b"></p>
+          <p class="rf-pm-hero-note">Includes your reveal session</p>
         </div>
-        <div id="rf-cmp-b"></div>
-        <p class="rf-eyebrow">Your Premodel estimate</p>
+        <!-- Per-room breakdown with bundle discounts -->
         <div class="rf-breakdown" id="rf-pm-breakdown-b" style="margin-bottom:6px"></div>
-        <p style="font-size:11px;color:var(--color-text-tertiary);line-height:1.5;margin:0 0 20px">Each additional room is discounted — up to 30% off.</p>
+        <p style="font-size:11px;color:var(--color-text-tertiary);line-height:1.5;margin:0 0 4px">Each additional room is discounted — up to 30% off.</p>
+        <!-- Construction cost context (compact, secondary) -->
+        <div class="rf-const-row">
+          <span class="rf-const-label">Est. construction cost</span>
+          <span class="rf-const-range" id="rf-est-range-b"></span>
+        </div>
+        <p style="font-size:11px;color:var(--color-text-tertiary);line-height:1.5;margin:0 0 10px">Rough Seattle market range · actual costs vary</p>
+        <!-- Budget alignment chip (injected by JS; hidden if no budget selected) -->
+        <div id="rf-cmp-b"></div>
+        <!-- Design fees comparison -->
         <div style="border-top:0.5px solid var(--color-border-tertiary);padding-top:16px">
           <p class="rf-df-eyebrow">vs. full-service design fees</p>
           <div class="rf-df-table" style="margin-bottom:8px">
@@ -1120,6 +1143,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
   }
 
   // Premodel service estimate with bundle-discount breakdown
+  // Returns { html, total } so callers can display the total as a hero price
   function buildPmBreakdown(rooms, tier) {
     var prices    = tier === 'cosmetic_pull' ? PM_PRICES_RC : PM_PRICES_RCP;
     var base      = PM_BASE[tier];
@@ -1150,7 +1174,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
     html += '<div class="rf-br-row"><span class="rf-br-room">Total</span>'
       + '<span class="rf-br-price">' + fmtDollars(total) + '</span></div>';
 
-    return html;
+    return { html: html, total: total };
   }
 
   // ── Per-sheet logic ────────────────────────────────────────────────────────
@@ -1197,15 +1221,17 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
       var est = calcConstruction(rooms, tier);
       if (!est) return;
 
-      // Construction cost hero (total only)
+      // Premodel service hero — dominant price
+      var pm = buildPmBreakdown(rooms, tier);
+      document.getElementById('rf-pm-total-'    + id).textContent = fmtDollars(pm.total);
+      document.getElementById('rf-pm-breakdown-' + id).innerHTML  = pm.html;
+
+      // Construction cost context (compact row)
       document.getElementById('rf-est-range-' + id).textContent = fmtRange(est.lo, est.hi);
 
-      // Compact budget comparison chip
+      // Budget alignment chip
       var state = getBudgetState(est.lo, est.hi, budget);
       document.getElementById('rf-cmp-' + id).innerHTML = buildCmpHtml(state);
-
-      // Premodel service estimate with bundle discounts
-      document.getElementById('rf-pm-breakdown-' + id).innerHTML = buildPmBreakdown(rooms, tier);
 
       // Design fees (8–10% design-only, 12–15% full-service, round to $500)
       var dLo = roundNearest(est.lo * 0.08, 500);
