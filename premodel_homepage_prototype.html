@@ -339,7 +339,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
       </div>
     </div>
     <div class="version-pill">
-      v11.12
+      v11.13
       <button type="button" class="refresh-btn" onclick="location.reload()" aria-label="Refresh prototype">
         <i data-lucide="refresh-cw"></i>
       </button>
@@ -660,37 +660,6 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 
     <div class="rf-body" id="rf-body-a">
 
-      <!-- Step 1: Remodel type + budget -->
-      <div id="rf-s1-a">
-        <p class="rf-eyebrow">About your project</p>
-        <h2 class="rf-title">What kind of remodel?</h2>
-        <p class="rf-sub">This helps us estimate realistic costs for your selected rooms.</p>
-        <div class="rf-q">
-          <p class="rf-q-label">Type of remodel</p>
-          <div class="rf-tiers" id="rf-tiers-a">
-            <button class="rf-tier" type="button" data-tier="cosmetic_pull">
-              <span class="rf-tier-name">Style update</span>
-              <span class="rf-tier-desc">Updated finishes, same footprint</span>
-            </button>
-            <button class="rf-tier" type="button" data-tier="gut_reconfigure">
-              <span class="rf-tier-name">Functional fix</span>
-              <span class="rf-tier-desc">Layout reconfiguration or structural changes</span>
-            </button>
-          </div>
-        </div>
-        <div class="rf-q" style="margin-bottom:0">
-          <p class="rf-q-label">Rough construction budget<span class="rf-q-optional">optional</span></p>
-          <div class="rf-budgets" id="rf-budgets-a">
-            <button class="rf-budget" type="button" data-budget="under_50k">Under $50,000<span class="rf-budget-dot"></span></button>
-            <button class="rf-budget" type="button" data-budget="50k_100k">$50,000 – $100,000<span class="rf-budget-dot"></span></button>
-            <button class="rf-budget" type="button" data-budget="100k_200k">$100,000 – $200,000<span class="rf-budget-dot"></span></button>
-            <button class="rf-budget" type="button" data-budget="200k_400k">$200,000 – $400,000<span class="rf-budget-dot"></span></button>
-            <button class="rf-budget" type="button" data-budget="400k_plus">$400,000+<span class="rf-budget-dot"></span></button>
-            <button class="rf-budget" type="button" data-budget="not_sure">Not sure yet<span class="rf-budget-dot"></span></button>
-          </div>
-        </div>
-      </div>
-
       <!-- Step 2: Estimate -->
       <div id="rf-s2-a" hidden>
         <!-- Premodel service hero — dominant price -->
@@ -859,41 +828,6 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
     <div class="rf-progress"><div class="rf-progress-fill" id="rf-prog-b"></div></div>
 
     <div class="rf-body" id="rf-body-b">
-
-      <!-- Step 1: Remodel type + budget -->
-      <div id="rf-s1-b">
-        <p class="rf-eyebrow">About your project</p>
-        <h2 class="rf-title">What kind of remodel?</h2>
-        <p class="rf-sub">This helps us estimate realistic costs for your selected rooms.</p>
-        <div class="rf-q">
-          <p class="rf-q-label">Type of remodel</p>
-          <div class="rf-tiers" id="rf-tiers-b">
-            <button class="rf-tier" type="button" data-tier="cosmetic_update">
-              <span class="rf-tier-name">Cosmetic Update</span>
-              <span class="rf-tier-desc">Budget-driven strategic updates</span>
-            </button>
-            <button class="rf-tier" type="button" data-tier="style_makeover">
-              <span class="rf-tier-name">Style Makeover</span>
-              <span class="rf-tier-desc">All new fixtures and finishes, same footprint</span>
-            </button>
-            <button class="rf-tier" type="button" data-tier="functional_fix">
-              <span class="rf-tier-name">Functional Fix</span>
-              <span class="rf-tier-desc">Layout reconfiguration and/or structural changes</span>
-            </button>
-          </div>
-        </div>
-        <div class="rf-q" style="margin-bottom:0">
-          <p class="rf-q-label">Rough construction budget<span class="rf-q-optional">optional</span></p>
-          <div class="rf-budgets" id="rf-budgets-b">
-            <button class="rf-budget" type="button" data-budget="under_50k">Under $50,000<span class="rf-budget-dot"></span></button>
-            <button class="rf-budget" type="button" data-budget="50k_100k">$50,000 – $100,000<span class="rf-budget-dot"></span></button>
-            <button class="rf-budget" type="button" data-budget="100k_200k">$100,000 – $200,000<span class="rf-budget-dot"></span></button>
-            <button class="rf-budget" type="button" data-budget="200k_400k">$200,000 – $400,000<span class="rf-budget-dot"></span></button>
-            <button class="rf-budget" type="button" data-budget="400k_plus">$400,000+<span class="rf-budget-dot"></span></button>
-            <button class="rf-budget" type="button" data-budget="not_sure">Not sure yet<span class="rf-budget-dot"></span></button>
-          </div>
-        </div>
-      </div>
 
       <!-- Step 2: Estimate -->
       <div id="rf-s2-b" hidden>
