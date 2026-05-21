@@ -339,7 +339,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
       </div>
     </div>
     <div class="version-pill">
-      v11.5
+      v11.6
       <button type="button" class="refresh-btn" onclick="location.reload()" aria-label="Refresh prototype">
         <i data-lucide="refresh-cw"></i>
       </button>
@@ -813,13 +813,17 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
         <div class="rf-q">
           <p class="rf-q-label">Type of remodel</p>
           <div class="rf-tiers" id="rf-tiers-b">
-            <button class="rf-tier" type="button" data-tier="cosmetic_pull">
-              <span class="rf-tier-name">Style update</span>
-              <span class="rf-tier-desc">Updated finishes, same footprint</span>
+            <button class="rf-tier" type="button" data-tier="cosmetic_update">
+              <span class="rf-tier-name">Cosmetic Update</span>
+              <span class="rf-tier-desc">Budget-driven strategic updates</span>
             </button>
-            <button class="rf-tier" type="button" data-tier="gut_reconfigure">
-              <span class="rf-tier-name">Functional fix</span>
-              <span class="rf-tier-desc">Layout reconfiguration or structural changes</span>
+            <button class="rf-tier" type="button" data-tier="style_makeover">
+              <span class="rf-tier-name">Style Makeover</span>
+              <span class="rf-tier-desc">All new fixtures and finishes, same footprint</span>
+            </button>
+            <button class="rf-tier" type="button" data-tier="functional_fix">
+              <span class="rf-tier-name">Functional Fix</span>
+              <span class="rf-tier-desc">Layout reconfiguration and/or structural changes</span>
             </button>
           </div>
         </div>
@@ -1022,6 +1026,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
   };
 
   // ── Construction cost tables (summed, no discounts, round to $1k) ──────────
+  // Layout A: 2-type (combined cosmetic+pull, gut/reconfigure)
   var CONSTRUCTION_COSTS = {
     cosmetic_pull: {
       kitchen:        [12000,  90000],
@@ -1047,8 +1052,45 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
     }
   };
 
+  // Layout B: 3-type (cosmetic update, style makeover, functional fix)
+  var CONSTRUCTION_COSTS_3 = {
+    cosmetic_update: {
+      kitchen:        [12000,  30000],
+      primary_bath:   [8000,   18000],
+      secondary_bath: [6000,   14000],
+      living:         [6000,   16000],
+      dining:         [4000,   10000],
+      office:         [3000,    9000],
+      bedroom:        [3000,    9000],
+      entry_mudroom:  [3000,    8000],
+      basement_adu:   [15000,  40000]
+    },
+    style_makeover: {
+      kitchen:        [45000,  90000],
+      primary_bath:   [50000,  95000],
+      secondary_bath: [22000,  50000],
+      living:         [20000,  50000],
+      dining:         [12000,  28000],
+      office:         [12000,  30000],
+      bedroom:        [10000,  25000],
+      entry_mudroom:  [10000,  25000],
+      basement_adu:   [90000, 175000]
+    },
+    functional_fix: {
+      kitchen:        [90000,  175000],
+      primary_bath:   [95000,  160000],
+      secondary_bath: [50000,   80000],
+      living:         [50000,  100000],
+      dining:         [30000,   65000],
+      office:         [28000,   60000],
+      bedroom:        [22000,   50000],
+      entry_mudroom:  [20000,   45000],
+      basement_adu:  [150000,  350000]
+    }
+  };
+
   // ── Premodel service prices (per room, bundle discounts by sort order) ──────
-  // RC tier = Style update; RCP tier = Functional fix
+  // RC tier = Style update / cosmetic; RCP tier = Functional fix
   var PM_PRICES_RC = {
     kitchen: 1850, primary_bath: 1400, secondary_bath: 912,
     living: 912, dining: 912, office: 912,
@@ -1059,7 +1101,19 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
     living: 1275, dining: 1275, office: 1275,
     bedroom: 900, entry_mudroom: 1275, basement_adu: 2775
   };
-  var PM_BASE  = { cosmetic_pull: 1500, gut_reconfigure: 2500 };
+  var PM_BASE  = {
+    cosmetic_pull:   1500, gut_reconfigure: 2500,  // Layout A
+    cosmetic_update: 1500, style_makeover:  1500, functional_fix: 2500  // Layout B
+  };
+  var PM_SESSION_LABEL = {
+    cosmetic_pull:   'Style update session',
+    gut_reconfigure: 'Functional fix session',
+    cosmetic_update: 'Cosmetic update session',
+    style_makeover:  'Style makeover session',
+    functional_fix:  'Functional fix session'
+  };
+  // RC pricing: cosmetic tiers; RCP pricing: functional fix
+  var PM_RCP_TIERS = { gut_reconfigure: true, functional_fix: true };
   var PM_DISC  = [0, 0.20, 0.25, 0.30]; // anchor, 2nd, 3rd, 4th+
 
   var BUDGET_RANGES = {
@@ -1088,7 +1142,9 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
   // ── Calculators ────────────────────────────────────────────────────────────
   function calcConstruction(rooms, tier) {
     if (!rooms.length || !tier) return null;
-    var tbl = CONSTRUCTION_COSTS[tier], lo = 0, hi = 0;
+    var tbl = CONSTRUCTION_COSTS[tier] || CONSTRUCTION_COSTS_3[tier];
+    if (!tbl) return null;
+    var lo = 0, hi = 0;
     rooms.forEach(function(r) { if (tbl[r]) { lo += tbl[r][0]; hi += tbl[r][1]; } });
     return { lo: roundNearest(lo, 1000), hi: roundNearest(hi, 1000) };
   }
@@ -1129,9 +1185,9 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
   // Premodel service estimate with bundle-discount breakdown
   // Returns { html, total } so callers can display the total as a hero price
   function buildPmBreakdown(rooms, tier) {
-    var prices    = tier === 'cosmetic_pull' ? PM_PRICES_RC : PM_PRICES_RCP;
-    var base      = PM_BASE[tier];
-    var baseLabel = tier === 'cosmetic_pull' ? 'Style update session' : 'Functional fix session';
+    var prices    = PM_RCP_TIERS[tier] ? PM_PRICES_RCP : PM_PRICES_RC;
+    var base      = PM_BASE[tier] || 1500;
+    var baseLabel = PM_SESSION_LABEL[tier] || 'Reveal session';
 
     // Sort rooms by price high-to-low (anchor room gets no discount)
     var sorted = rooms.slice().sort(function(a, b) {
