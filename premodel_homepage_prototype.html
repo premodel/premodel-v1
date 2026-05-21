@@ -330,7 +330,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
       </div>
     </div>
     <div class="version-pill">
-      v11.2
+      v11.3
       <button type="button" class="refresh-btn" onclick="location.reload()" aria-label="Refresh prototype">
         <i data-lucide="refresh-cw"></i>
       </button>
@@ -605,8 +605,8 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
         <button class="rf-chip" type="button" data-room="entry_mudroom">Entry / mudroom</button>
         <button class="rf-chip" type="button" data-room="basement_adu">Basement ADU</button>
       </div>
+      <p style="font-size:12px;color:var(--color-text-secondary);line-height:1.55;margin:16px 0 12px;background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:6px;padding:10px 12px">Scheduling a home visit requires a <strong style="color:var(--color-text-primary);font-weight:500">refundable $200 deposit</strong>, applied toward your service if you move forward.</p>
       <button class="rf-anchor-cta" type="button" id="rf-anchor-cta-a" disabled>See my estimate →</button>
-      <p style="font-size:11px;color:var(--color-text-tertiary);line-height:1.5;margin:10px 0 0;text-align:center">Scheduling requires a refundable $200 deposit, applied toward your service.</p>
     </div>
 
   </div>
@@ -779,8 +779,8 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
         <button class="rf-chip" type="button" data-room="entry_mudroom">Entry / mudroom</button>
         <button class="rf-chip" type="button" data-room="basement_adu">Basement ADU</button>
       </div>
+      <p style="font-size:12px;color:var(--color-text-secondary);line-height:1.55;margin:16px 0 12px;background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:6px;padding:10px 12px">Scheduling a home visit requires a <strong style="color:var(--color-text-primary);font-weight:500">refundable $200 deposit</strong>, applied toward your service if you move forward.</p>
       <button class="rf-anchor-cta" type="button" id="rf-anchor-cta-b" disabled>See my estimate →</button>
-      <p style="font-size:11px;color:var(--color-text-tertiary);line-height:1.5;margin:10px 0 0;text-align:center">Scheduling requires a refundable $200 deposit, applied toward your service.</p>
     </div>
 
   </div>
@@ -1244,11 +1244,12 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 
     function closeForm() { overlay.classList.remove('open'); }
 
-    // ── CTA bar: hide immediately on click (expands scroll viewport),
-    //    then scroll to bottom so chips + button + note are all visible ───────
+    // ── CTA bar: hide immediately on click, then scroll anchor bottom into view ──
     ctaBtn.addEventListener('click', function() {
-      if (ctaBar) ctaBar.style.display = 'none'; // hide first — increases viewport height
-      if (scrollEl) scrollEl.scrollTo({ top: scrollEl.scrollHeight, behavior: 'smooth' });
+      if (ctaBar) ctaBar.style.display = 'none'; // collapse bar first — frees viewport height
+      requestAnimationFrame(function() {
+        if (anchorEl) anchorEl.scrollIntoView({ behavior: 'smooth', block: 'end' });
+      });
     });
 
     // Restore the CTA bar only when the user scrolls back up past the anchor
