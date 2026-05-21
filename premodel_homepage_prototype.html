@@ -330,7 +330,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
       </div>
     </div>
     <div class="version-pill">
-      v11.0
+      v11.1
       <button type="button" class="refresh-btn" onclick="location.reload()" aria-label="Refresh prototype">
         <i data-lucide="refresh-cw"></i>
       </button>
@@ -596,11 +596,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
       <p class="rf-eyebrow">Free to start</p>
       <h2 class="rf-title">Request your free Reveal</h2>
       <p class="rf-sub">See what your space could become — before you hire anyone.</p>
-      <div class="rf-disclosure">
-        <div class="rf-disclosure-icon"><i data-lucide="info"></i></div>
-        <p>Scheduling a home visit requires a <strong>refundable $200 deposit</strong>, applied toward your service if you move forward.</p>
-      </div>
-      <div class="rf-q" style="margin-top:20px;margin-bottom:0">
+      <div class="rf-q" style="margin-bottom:0">
         <p class="rf-q-label">Which rooms are you planning to remodel?</p>
         <div class="rf-chips" id="rf-anchor-chips-a">
           <button class="rf-chip" type="button" data-room="kitchen">Kitchen</button>
@@ -615,6 +611,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
         </div>
       </div>
       <button class="rf-anchor-cta" type="button" id="rf-anchor-cta-a" disabled>See my estimate →</button>
+      <p style="font-size:11px;color:var(--color-text-tertiary);line-height:1.5;margin:10px 0 0;text-align:center">Scheduling requires a refundable $200 deposit, applied toward your service.</p>
     </div>
 
   </div>
@@ -664,21 +661,24 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
         </div>
       </div>
 
-      <!-- Step 2: Construction cost estimate -->
+      <!-- Step 2: Estimate -->
       <div id="rf-s2-a" hidden>
-        <div class="rf-est-hero">
+        <!-- Construction cost total (no per-room breakdown) -->
+        <div class="rf-est-hero" style="padding-bottom:14px;margin-bottom:12px">
           <p class="rf-est-hero-label">Estimated construction cost</p>
           <p class="rf-est-hero-range" id="rf-est-range-a"></p>
-          <p class="rf-est-hero-caveat">Rough market range. Actual costs vary by scope and finishes.</p>
+          <p class="rf-est-hero-caveat">Rough Seattle market range · actual costs vary</p>
         </div>
-        <div class="rf-breakdown" id="rf-breakdown-a" style="margin-bottom:24px"></div>
-        <!-- Budget comparison card (injected by JS) -->
+        <!-- Compact budget comparison (injected by JS; hidden if no budget selected) -->
         <div id="rf-cmp-a"></div>
-        <!-- Design fees -->
-        <div style="border-top:0.5px solid var(--color-border-tertiary);padding-top:24px;margin-bottom:24px">
-          <p class="rf-df-eyebrow">Typical full-service design fees</p>
-          <p class="rf-df-sub">If you work with a designer or design-build firm, here's what to expect in the Seattle market — separate from and in addition to construction costs.</p>
-          <div class="rf-df-table">
+        <!-- Premodel service estimate with bundle discounts -->
+        <p class="rf-eyebrow">Your Premodel estimate</p>
+        <div class="rf-breakdown" id="rf-pm-breakdown-a" style="margin-bottom:6px"></div>
+        <p style="font-size:11px;color:var(--color-text-tertiary);line-height:1.5;margin:0 0 20px">Each additional room is discounted — up to 30% off.</p>
+        <!-- Design fees for comparison -->
+        <div style="border-top:0.5px solid var(--color-border-tertiary);padding-top:16px">
+          <p class="rf-df-eyebrow">vs. full-service design fees</p>
+          <div class="rf-df-table" style="margin-bottom:8px">
             <div class="rf-df-row">
               <span class="rf-df-label">Design services only</span>
               <span class="rf-df-price" id="rf-df-design-a"></span>
@@ -688,11 +688,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
               <span class="rf-df-price" id="rf-df-full-a"></span>
             </div>
           </div>
-          <p class="rf-df-microcopy">Ranges reflect full-service residential design in the Seattle/Eastside market. Fees vary widely by firm size, scope, and involvement during construction.</p>
-          <div class="rf-pm-callout">
-            <p style="font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#a0733a;margin:0 0 6px">Premodel is different</p>
-            <p style="font-size:13px;color:var(--color-text-secondary);line-height:1.6;margin:0">A Reveal is how you figure out what you actually want — before you commit to a designer, a contractor, or a budget. It's the step that makes every decision after it easier.</p>
-          </div>
+          <p class="rf-df-microcopy">Full-service design fees in the Seattle market, separate from and in addition to construction costs.</p>
         </div>
       </div>
 
@@ -779,11 +775,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
       <p class="rf-eyebrow">Free to start</p>
       <h2 class="rf-title">Request your free Reveal</h2>
       <p class="rf-sub">See what your space could become — before you hire anyone.</p>
-      <div class="rf-disclosure">
-        <div class="rf-disclosure-icon"><i data-lucide="info"></i></div>
-        <p>Scheduling a home visit requires a <strong>refundable $200 deposit</strong>, applied toward your service if you move forward.</p>
-      </div>
-      <div class="rf-q" style="margin-top:20px;margin-bottom:0">
+      <div class="rf-q" style="margin-bottom:0">
         <p class="rf-q-label">Which rooms are you planning to remodel?</p>
         <div class="rf-chips" id="rf-anchor-chips-b">
           <button class="rf-chip" type="button" data-room="kitchen">Kitchen</button>
@@ -798,6 +790,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
         </div>
       </div>
       <button class="rf-anchor-cta" type="button" id="rf-anchor-cta-b" disabled>See my estimate →</button>
+      <p style="font-size:11px;color:var(--color-text-tertiary);line-height:1.5;margin:10px 0 0;text-align:center">Scheduling requires a refundable $200 deposit, applied toward your service.</p>
     </div>
 
   </div>
@@ -847,19 +840,20 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
         </div>
       </div>
 
-      <!-- Step 2: Construction cost estimate -->
+      <!-- Step 2: Estimate -->
       <div id="rf-s2-b" hidden>
-        <div class="rf-est-hero">
+        <div class="rf-est-hero" style="padding-bottom:14px;margin-bottom:12px">
           <p class="rf-est-hero-label">Estimated construction cost</p>
           <p class="rf-est-hero-range" id="rf-est-range-b"></p>
-          <p class="rf-est-hero-caveat">Rough market range. Actual costs vary by scope and finishes.</p>
+          <p class="rf-est-hero-caveat">Rough Seattle market range · actual costs vary</p>
         </div>
-        <div class="rf-breakdown" id="rf-breakdown-b" style="margin-bottom:24px"></div>
         <div id="rf-cmp-b"></div>
-        <div style="border-top:0.5px solid var(--color-border-tertiary);padding-top:24px;margin-bottom:24px">
-          <p class="rf-df-eyebrow">Typical full-service design fees</p>
-          <p class="rf-df-sub">If you work with a designer or design-build firm, here's what to expect in the Seattle market — separate from and in addition to construction costs.</p>
-          <div class="rf-df-table">
+        <p class="rf-eyebrow">Your Premodel estimate</p>
+        <div class="rf-breakdown" id="rf-pm-breakdown-b" style="margin-bottom:6px"></div>
+        <p style="font-size:11px;color:var(--color-text-tertiary);line-height:1.5;margin:0 0 20px">Each additional room is discounted — up to 30% off.</p>
+        <div style="border-top:0.5px solid var(--color-border-tertiary);padding-top:16px">
+          <p class="rf-df-eyebrow">vs. full-service design fees</p>
+          <div class="rf-df-table" style="margin-bottom:8px">
             <div class="rf-df-row">
               <span class="rf-df-label">Design services only</span>
               <span class="rf-df-price" id="rf-df-design-b"></span>
@@ -869,11 +863,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
               <span class="rf-df-price" id="rf-df-full-b"></span>
             </div>
           </div>
-          <p class="rf-df-microcopy">Ranges reflect full-service residential design in the Seattle/Eastside market. Fees vary widely by firm size, scope, and involvement during construction.</p>
-          <div class="rf-pm-callout">
-            <p style="font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#a0733a;margin:0 0 6px">Premodel is different</p>
-            <p style="font-size:13px;color:var(--color-text-secondary);line-height:1.6;margin:0">A Reveal is how you figure out what you actually want — before you commit to a designer, a contractor, or a budget. It's the step that makes every decision after it easier.</p>
-          </div>
+          <p class="rf-df-microcopy">Full-service design fees in the Seattle market, separate from and in addition to construction costs.</p>
         </div>
       </div>
 
@@ -1026,7 +1016,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 // ── Reveal Form ───────────────────────────────────────
 (function() {
 
-  // ── Pricing data (construction costs, no discounts, sum all rooms) ─────────
+  // ── Room labels ────────────────────────────────────────────────────────────
   var ROOM_LABELS = {
     kitchen: 'Kitchen', primary_bath: 'Primary / master bath',
     secondary_bath: 'Secondary bath', living: 'Living room',
@@ -1034,6 +1024,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
     bedroom: 'Bedroom', entry_mudroom: 'Entry / mudroom', basement_adu: 'Basement ADU'
   };
 
+  // ── Construction cost tables (summed, no discounts, round to $1k) ──────────
   var CONSTRUCTION_COSTS = {
     cosmetic_pull: {
       kitchen:        [12000,  90000],
@@ -1059,6 +1050,21 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
     }
   };
 
+  // ── Premodel service prices (per room, bundle discounts by sort order) ──────
+  // RC tier = Style update; RCP tier = Functional fix
+  var PM_PRICES_RC = {
+    kitchen: 1850, primary_bath: 1400, secondary_bath: 912,
+    living: 912, dining: 912, office: 912,
+    bedroom: 650, entry_mudroom: 912, basement_adu: 1850
+  };
+  var PM_PRICES_RCP = {
+    kitchen: 2775, primary_bath: 2100, secondary_bath: 1275,
+    living: 1275, dining: 1275, office: 1275,
+    bedroom: 900, entry_mudroom: 1275, basement_adu: 2775
+  };
+  var PM_BASE  = { cosmetic_pull: 1500, gut_reconfigure: 2500 };
+  var PM_DISC  = [0, 0.20, 0.25, 0.30]; // anchor, 2nd, 3rd, 4th+
+
   var BUDGET_RANGES = {
     under_50k:   { lo: 0,      hi: 50000   },
     '50k_100k':  { lo: 50000,  hi: 100000  },
@@ -1071,31 +1077,25 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
   var STEP_LABELS = ['', 'Your project', 'Your estimate', 'Your info', ''];
   var TOTAL_STEPS = 4;
 
-  // ── Number formatting ──────────────────────────────────────────────────────
+  // ── Formatting helpers ─────────────────────────────────────────────────────
   function roundNearest(val, nearest) { return Math.round(val / nearest) * nearest; }
 
   function fmtMoney(n) {
-    if (n >= 1000000) {
-      var m = n / 1000000;
-      return '$' + (m % 1 === 0 ? m : m.toFixed(1)) + 'm';
-    }
-    if (n >= 100000) { return '$' + Math.round(n / 1000) + 'k'; }
+    if (n >= 1000000) { var m = n / 1000000; return '$' + (m % 1 === 0 ? m : m.toFixed(1)) + 'm'; }
+    if (n >= 100000)  { return '$' + Math.round(n / 1000) + 'k'; }
     return '$' + n.toLocaleString('en-US');
   }
   function fmtRange(lo, hi) { return fmtMoney(lo) + ' – ' + fmtMoney(hi); }
+  function fmtDollars(n) { return '$' + n.toLocaleString('en-US'); }
 
-  // ── Construction cost calculator ───────────────────────────────────────────
+  // ── Calculators ────────────────────────────────────────────────────────────
   function calcConstruction(rooms, tier) {
     if (!rooms.length || !tier) return null;
-    var tbl = CONSTRUCTION_COSTS[tier];
-    var lo = 0, hi = 0;
-    rooms.forEach(function(r) {
-      if (tbl[r]) { lo += tbl[r][0]; hi += tbl[r][1]; }
-    });
+    var tbl = CONSTRUCTION_COSTS[tier], lo = 0, hi = 0;
+    rooms.forEach(function(r) { if (tbl[r]) { lo += tbl[r][0]; hi += tbl[r][1]; } });
     return { lo: roundNearest(lo, 1000), hi: roundNearest(hi, 1000) };
   }
 
-  // ── Budget comparison state ────────────────────────────────────────────────
   function getBudgetState(lo, hi, budget) {
     if (!budget || budget === 'not_sure' || !BUDGET_RANGES[budget]) return 'not_sure';
     var b = BUDGET_RANGES[budget];
@@ -1104,42 +1104,63 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
     return 'aligned';
   }
 
+  // ── HTML builders ──────────────────────────────────────────────────────────
+
+  // Compact one-line budget comparison chip (hidden when budget = not_sure)
   function buildCmpHtml(state) {
-    if (state === 'not_sure') {
-      return '<div style="background:#fdf7ef;border:0.5px solid rgba(133,79,11,0.14);border-radius:12px;padding:20px;margin-bottom:24px">'
-        + '<p style="font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#a0733a;margin:0 0 10px">Not sure what to budget?</p>'
-        + '<p style="font-size:19px;font-weight:500;letter-spacing:-0.01em;line-height:1.2;color:var(--color-text-primary);margin:0 0 12px">That\'s exactly what we\'re here for.</p>'
-        + '<p style="font-size:14px;color:var(--color-text-secondary);line-height:1.65;margin:0">Most homeowners go into contractor conversations without a realistic number in mind. Premodel helps you establish that baseline before you ever sit down with a contractor — so you know what your remodel should actually cost.</p>'
-        + '</div>';
-    }
     var cfg = {
-      aligned: {
-        bg:'#eef6ee', border:'rgba(34,120,34,0.14)', iconColor:'#2d7a2d', labelColor:'#1e5c1e',
-        svgInner:'<circle cx="12" cy="12" r="10"></circle><polyline points="8 12 11 15 16 9"></polyline>',
-        title:'Your budget looks aligned with this scope.',
-        text:'The estimated construction cost for your selected rooms falls within the range you described. You\'re in the right ballpark to move forward with confidence.'
-      },
-      too_low: {
-        bg:'#faeeda', border:'rgba(133,79,11,0.2)', iconColor:'#854f0b', labelColor:'#854f0b',
-        svgInner:'<path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line>',
-        title:'Your budget may be on the low side for this scope.',
-        text:'The estimated construction cost for your selected rooms starts above the budget range you described. Scope adjustments, phasing, or a cosmetic-first approach can bring costs down. A Reveal is exactly the right first step.'
-      },
-      has_room: {
-        bg:'#eaf2fb', border:'rgba(59,110,181,0.2)', iconColor:'#3b6eb5', labelColor:'#2a5490',
-        svgInner:'<circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line>',
-        title:'Your budget has room beyond this scope.',
-        text:'The estimated construction cost for your selected rooms comes in well below the budget you described. That\'s a good position — it leaves room for higher-end finishes, contingency, or expanding the scope.'
-      }
+      aligned:  { bg:'#eef6ee', border:'rgba(34,120,34,0.14)',  color:'#1e5c1e',
+                  svg:'<circle cx="12" cy="12" r="10"/><polyline points="8 12 11 15 16 9"/>',
+                  text: 'Budget looks aligned with this scope.' },
+      too_low:  { bg:'#faeeda', border:'rgba(133,79,11,0.2)',   color:'#854f0b',
+                  svg:'<path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>',
+                  text: 'Budget may be on the low side for this scope.' },
+      has_room: { bg:'#eaf2fb', border:'rgba(59,110,181,0.2)',  color:'#2a5490',
+                  svg:'<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/>',
+                  text: 'Budget has room beyond this scope.' }
     };
     var c = cfg[state];
-    return '<div style="background:' + c.bg + ';border:0.5px solid ' + c.border + ';border-radius:12px;padding:16px;margin-bottom:24px">'
-      + '<div style="display:flex;gap:10px;align-items:flex-start;margin-bottom:6px">'
-      + '<div style="flex-shrink:0;margin-top:1px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="' + c.iconColor + '" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + c.svgInner + '</svg></div>'
-      + '<p style="font-size:14px;font-weight:600;color:' + c.labelColor + ';margin:0;line-height:1.3">' + c.title + '</p>'
-      + '</div>'
-      + '<p style="font-size:13px;color:var(--color-text-secondary);margin:0 0 0 28px;line-height:1.6">' + c.text + '</p>'
+    if (!c) return ''; // not_sure → nothing shown
+    return '<div style="display:flex;align-items:center;gap:8px;background:' + c.bg
+      + ';border:0.5px solid ' + c.border + ';border-radius:8px;padding:10px 12px;margin-bottom:16px">'
+      + '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="' + c.color
+      + '" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0">' + c.svg + '</svg>'
+      + '<span style="font-size:13px;font-weight:500;color:' + c.color + ';line-height:1.3">' + c.text + '</span>'
       + '</div>';
+  }
+
+  // Premodel service estimate with bundle-discount breakdown
+  function buildPmBreakdown(rooms, tier) {
+    var prices    = tier === 'cosmetic_pull' ? PM_PRICES_RC : PM_PRICES_RCP;
+    var base      = PM_BASE[tier];
+    var baseLabel = tier === 'cosmetic_pull' ? 'Style update session' : 'Functional fix session';
+
+    // Sort rooms by price high-to-low (anchor room gets no discount)
+    var sorted = rooms.slice().sort(function(a, b) {
+      return (prices[b] || 0) - (prices[a] || 0);
+    });
+
+    var total = base;
+    var html  = '<div class="rf-br-row">'
+      + '<span class="rf-br-room">' + baseLabel + '</span>'
+      + '<span class="rf-br-price">' + fmtDollars(base) + '</span>'
+      + '</div>';
+
+    sorted.forEach(function(r, i) {
+      var d     = i < PM_DISC.length ? PM_DISC[i] : 0.30;
+      var price = Math.round((prices[r] || 0) * (1 - d));
+      total += price;
+      var badge = d > 0 ? '<span class="rf-br-badge">–' + (d * 100) + '%</span>' : '';
+      html += '<div class="rf-br-row">'
+        + '<span class="rf-br-room">' + ROOM_LABELS[r] + badge + '</span>'
+        + '<span class="rf-br-price">' + fmtDollars(price) + '</span>'
+        + '</div>';
+    });
+
+    html += '<div class="rf-br-row"><span class="rf-br-room">Total</span>'
+      + '<span class="rf-br-price">' + fmtDollars(total) + '</span></div>';
+
+    return html;
   }
 
   // ── Per-sheet logic ────────────────────────────────────────────────────────
@@ -1151,6 +1172,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
     var footer      = document.getElementById('rf-footer-' + id);
     var nextBtn     = document.getElementById('rf-next-' + id);
     var ctaBtn      = document.querySelector('.phone-frame[data-layout="' + id + '"] .cta-button');
+    var ctaBar      = document.querySelector('.phone-frame[data-layout="' + id + '"] .cta-bar');
     var scrollEl    = document.querySelector('.phone-frame[data-layout="' + id + '"] .phone-scroll');
     var anchorEl    = document.getElementById('rf-anchor-' + id);
     var anchorChips = document.querySelectorAll('#rf-anchor-chips-' + id + ' .rf-chip');
@@ -1168,14 +1190,13 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
       for (var i = 1; i <= TOTAL_STEPS; i++) g(i).hidden = (i !== n);
       lbl.textContent  = STEP_LABELS[n] || '';
       prog.style.width = (n / TOTAL_STEPS * 100) + '%';
-      backBtn.hidden   = (n <= 1);
-      footer.hidden    = (n === TOTAL_STEPS); // no footer on success screen
+      backBtn.hidden   = (n === 1); // hidden on step 1 — back closes via click handler
+      footer.hidden    = (n === TOTAL_STEPS);
       document.getElementById('rf-body-' + id).scrollTop = 0;
       if (window.lucide && window.lucide.createIcons) window.lucide.createIcons();
 
       var btnLabels = { 1: 'See my estimate', 2: 'Next', 3: 'Submit request' };
       nextBtn.textContent = btnLabels[n] || 'Continue';
-
       if (n === 1) updateStep1Btn();
       if (n === 3) updateStep3Btn();
     }
@@ -1185,31 +1206,18 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
     function buildEstimate() {
       var est = calcConstruction(rooms, tier);
       if (!est) return;
-      var tbl = CONSTRUCTION_COSTS[tier];
 
-      // Hero range
+      // Construction cost hero (total only)
       document.getElementById('rf-est-range-' + id).textContent = fmtRange(est.lo, est.hi);
 
-      // Per-room breakdown
-      var html = '';
-      rooms.forEach(function(r) {
-        if (!tbl[r]) return;
-        html += '<div class="rf-br-row">'
-          + '<span class="rf-br-room">' + ROOM_LABELS[r] + '</span>'
-          + '<span class="rf-br-price">' + fmtMoney(tbl[r][0]) + ' – ' + fmtMoney(tbl[r][1]) + '</span>'
-          + '</div>';
-      });
-      if (rooms.length > 1) {
-        html += '<div class="rf-br-row"><span class="rf-br-room">Total</span>'
-          + '<span class="rf-br-price">' + fmtRange(est.lo, est.hi) + '</span></div>';
-      }
-      document.getElementById('rf-breakdown-' + id).innerHTML = html;
-
-      // Budget comparison card
+      // Compact budget comparison chip
       var state = getBudgetState(est.lo, est.hi, budget);
       document.getElementById('rf-cmp-' + id).innerHTML = buildCmpHtml(state);
 
-      // Design fee estimates (8–10% design, 12–15% full-service), round to $500
+      // Premodel service estimate with bundle discounts
+      document.getElementById('rf-pm-breakdown-' + id).innerHTML = buildPmBreakdown(rooms, tier);
+
+      // Design fees (8–10% design-only, 12–15% full-service, round to $500)
       var dLo = roundNearest(est.lo * 0.08, 500);
       var dHi = roundNearest(est.hi * 0.10, 500);
       var fLo = roundNearest(est.lo * 0.12, 500);
@@ -1219,11 +1227,11 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
     }
 
     function updateStep3Btn() {
-      var first = document.getElementById('rfi-first-' + id).value.trim();
-      var last  = document.getElementById('rfi-last-'  + id).value.trim();
-      var email = document.getElementById('rfi-email-' + id).value.trim();
-      var phone = document.getElementById('rfi-phone-' + id).value.trim();
-      var zip   = document.getElementById('rfi-zip-'   + id).value.trim();
+      var first   = document.getElementById('rfi-first-' + id).value.trim();
+      var last    = document.getElementById('rfi-last-'  + id).value.trim();
+      var email   = document.getElementById('rfi-email-' + id).value.trim();
+      var phone   = document.getElementById('rfi-phone-' + id).value.trim();
+      var zip     = document.getElementById('rfi-zip-'   + id).value.trim();
       var emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
       var phoneOk = phone.replace(/\D/g, '').length >= 10;
       var zipOk   = /^\d{5}$/.test(zip);
@@ -1231,7 +1239,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
     }
 
     function openForm() {
-      // rooms persist from anchor chip selection; reset overlay-specific state only
+      // rooms preserved from anchor selection; reset overlay-only state
       tier = null; budget = null;
       tierBtns.forEach(function(b) { b.classList.remove('sel'); });
       budBtns.forEach(function(b)  { b.classList.remove('sel'); });
@@ -1246,16 +1254,21 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 
     function closeForm() { overlay.classList.remove('open'); }
 
-    // ── Event listeners ──────────────────────────────────────────────────────
-
-    // CTA button in sticky bar → scroll to anchor section
+    // ── CTA bar: scroll to bottom, hide when anchor section enters view ──────
     ctaBtn.addEventListener('click', function() {
-      if (anchorEl && scrollEl) {
-        scrollEl.scrollTo({ top: anchorEl.offsetTop - 16, behavior: 'smooth' });
-      }
+      if (scrollEl) scrollEl.scrollTo({ top: scrollEl.scrollHeight, behavior: 'smooth' });
     });
 
-    // Anchor chip multi-select → enable/disable "See my estimate" button
+    if ('IntersectionObserver' in window && ctaBar && anchorEl) {
+      var io = new IntersectionObserver(function(entries) {
+        entries.forEach(function(e) {
+          ctaBar.style.display = e.isIntersecting ? 'none' : '';
+        });
+      }, { root: scrollEl, threshold: 0.15 });
+      io.observe(anchorEl);
+    }
+
+    // ── Anchor chip multi-select ─────────────────────────────────────────────
     anchorChips.forEach(function(chip) {
       chip.addEventListener('click', function() {
         chip.classList.toggle('sel');
@@ -1266,14 +1279,18 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
       });
     });
 
-    // Anchor CTA → open overlay
     if (anchorCta) anchorCta.addEventListener('click', openForm);
 
-    // Close / back
+    // ── Overlay controls ─────────────────────────────────────────────────────
     document.getElementById('rf-close-' + id).addEventListener('click', closeForm);
-    backBtn.addEventListener('click', function() { if (step > 1) showStep(step - 1); });
 
-    // Overlay tier single-select
+    // On step 1, back closes the overlay; on later steps, goes back one step
+    backBtn.addEventListener('click', function() {
+      if (step <= 1) closeForm();
+      else showStep(step - 1);
+    });
+
+    // Tier single-select
     tierBtns.forEach(function(btn) {
       btn.addEventListener('click', function() {
         tierBtns.forEach(function(b) { b.classList.remove('sel'); });
@@ -1300,8 +1317,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
       el.addEventListener('input', updateStep3Btn);
       el.addEventListener('blur', function() {
         var fld = document.getElementById('rff-' + f + '-' + id);
-        var v = el.value.trim();
-        var ok = true;
+        var v = el.value.trim(), ok = true;
         if (f === 'email') ok = !v || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
         else if (f === 'phone') ok = !v || v.replace(/\D/g, '').length >= 10;
         else if (f === 'zip') ok = !v || /^\d{5}$/.test(v);
@@ -1311,16 +1327,11 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
     });
     if (ackBox) ackBox.addEventListener('change', updateStep3Btn);
 
-    // Next button: advance steps, build estimate on step 1→2
+    // Next button
     nextBtn.addEventListener('click', function() {
-      if (step === 1) {
-        buildEstimate();
-        showStep(2);
-      } else if (step === 2) {
-        showStep(3);
-      } else if (step === 3) {
-        showStep(4); // success — footer already hidden
-      }
+      if (step === 1) { buildEstimate(); showStep(2); }
+      else if (step === 2) { showStep(3); }
+      else if (step === 3) { showStep(4); }
     });
   }
 
