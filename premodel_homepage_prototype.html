@@ -339,7 +339,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
       </div>
     </div>
     <div class="version-pill">
-      v11.4
+      v11.5
       <button type="button" class="refresh-btn" onclick="location.reload()" aria-label="Refresh prototype">
         <i data-lucide="refresh-cw"></i>
       </button>
@@ -686,18 +686,10 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
         <div id="rf-cmp-a"></div>
         <!-- Design fees comparison -->
         <div style="border-top:0.5px solid var(--color-border-tertiary);padding-top:16px">
-          <p class="rf-df-eyebrow">vs. full-service design fees</p>
-          <div class="rf-df-table" style="margin-bottom:8px">
-            <div class="rf-df-row">
-              <span class="rf-df-label">Design services only</span>
-              <span class="rf-df-price" id="rf-df-design-a"></span>
-            </div>
-            <div class="rf-df-row">
-              <span class="rf-df-label">Design + construction admin</span>
-              <span class="rf-df-price" id="rf-df-full-a"></span>
-            </div>
-          </div>
-          <p class="rf-df-microcopy">Full-service design fees in the Seattle market, separate from and in addition to construction costs.</p>
+          <p class="rf-df-eyebrow">vs. traditional design fees</p>
+          <p style="font-size:13px;color:var(--color-text-secondary);line-height:1.55;margin:0 0 10px">Design services typically fall between 8–15% of the construction budget.</p>
+          <p style="font-size:22px;font-weight:500;letter-spacing:-0.02em;color:var(--color-text-primary);margin:0 0 6px" id="rf-df-range-a"></p>
+          <p class="rf-df-microcopy">Estimated for your scope · Seattle market · separate from construction costs</p>
         </div>
       </div>
 
@@ -865,18 +857,10 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
         <div id="rf-cmp-b"></div>
         <!-- Design fees comparison -->
         <div style="border-top:0.5px solid var(--color-border-tertiary);padding-top:16px">
-          <p class="rf-df-eyebrow">vs. full-service design fees</p>
-          <div class="rf-df-table" style="margin-bottom:8px">
-            <div class="rf-df-row">
-              <span class="rf-df-label">Design services only</span>
-              <span class="rf-df-price" id="rf-df-design-b"></span>
-            </div>
-            <div class="rf-df-row">
-              <span class="rf-df-label">Design + construction admin</span>
-              <span class="rf-df-price" id="rf-df-full-b"></span>
-            </div>
-          </div>
-          <p class="rf-df-microcopy">Full-service design fees in the Seattle market, separate from and in addition to construction costs.</p>
+          <p class="rf-df-eyebrow">vs. traditional design fees</p>
+          <p style="font-size:13px;color:var(--color-text-secondary);line-height:1.55;margin:0 0 10px">Design services typically fall between 8–15% of the construction budget.</p>
+          <p style="font-size:22px;font-weight:500;letter-spacing:-0.02em;color:var(--color-text-primary);margin:0 0 6px" id="rf-df-range-b"></p>
+          <p class="rf-df-microcopy">Estimated for your scope · Seattle market · separate from construction costs</p>
         </div>
       </div>
 
@@ -1233,13 +1217,10 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
       var state = getBudgetState(est.lo, est.hi, budget);
       document.getElementById('rf-cmp-' + id).innerHTML = buildCmpHtml(state);
 
-      // Design fees (8–10% design-only, 12–15% full-service, round to $500)
+      // Design fees: 8–15% of construction range, rounded to $500
       var dLo = roundNearest(est.lo * 0.08, 500);
-      var dHi = roundNearest(est.hi * 0.10, 500);
-      var fLo = roundNearest(est.lo * 0.12, 500);
-      var fHi = roundNearest(est.hi * 0.15, 500);
-      document.getElementById('rf-df-design-' + id).textContent = fmtRange(dLo, dHi);
-      document.getElementById('rf-df-full-'   + id).textContent = fmtRange(fLo, fHi);
+      var dHi = roundNearest(est.hi * 0.15, 500);
+      document.getElementById('rf-df-range-' + id).textContent = fmtRange(dLo, dHi);
     }
 
     function updateStep3Btn() {
