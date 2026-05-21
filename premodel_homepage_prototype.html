@@ -339,7 +339,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
       </div>
     </div>
     <div class="version-pill">
-      v11.11
+      v11.12
       <button type="button" class="refresh-btn" onclick="location.reload()" aria-label="Refresh prototype">
         <i data-lucide="refresh-cw"></i>
       </button>
@@ -616,6 +616,30 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
         <button class="rf-chip" type="button" data-room="entry_mudroom">Entry / mudroom</button>
         <button class="rf-chip" type="button" data-room="basement_adu">Basement ADU</button>
       </div>
+      <div style="margin-top:20px">
+        <p class="rf-q-label">Type of remodel</p>
+        <div class="rf-tiers" id="rf-anchor-tiers-a">
+          <button class="rf-tier" type="button" data-tier="cosmetic_pull">
+            <span class="rf-tier-name">Style update</span>
+            <span class="rf-tier-desc">Updated finishes, same footprint</span>
+          </button>
+          <button class="rf-tier" type="button" data-tier="gut_reconfigure">
+            <span class="rf-tier-name">Functional fix</span>
+            <span class="rf-tier-desc">Layout reconfiguration or structural changes</span>
+          </button>
+        </div>
+      </div>
+      <div style="margin-top:16px">
+        <p class="rf-q-label">Rough construction budget<span class="rf-q-optional">optional</span></p>
+        <div class="rf-budgets" id="rf-anchor-budgets-a">
+          <button class="rf-budget" type="button" data-budget="under_50k">Under $50,000<span class="rf-budget-dot"></span></button>
+          <button class="rf-budget" type="button" data-budget="50k_100k">$50,000 – $100,000<span class="rf-budget-dot"></span></button>
+          <button class="rf-budget" type="button" data-budget="100k_200k">$100,000 – $200,000<span class="rf-budget-dot"></span></button>
+          <button class="rf-budget" type="button" data-budget="200k_400k">$200,000 – $400,000<span class="rf-budget-dot"></span></button>
+          <button class="rf-budget" type="button" data-budget="400k_plus">$400,000+<span class="rf-budget-dot"></span></button>
+          <button class="rf-budget" type="button" data-budget="not_sure">Not sure yet<span class="rf-budget-dot"></span></button>
+        </div>
+      </div>
       <button class="rf-anchor-cta" type="button" id="rf-anchor-cta-a" disabled>See my estimate →</button>
       <p style="font-size:12px;color:var(--color-text-secondary);line-height:1.55;margin:12px 0 0;text-align:center">A refundable $200 deposit is collected when we schedule your visit — applied in full toward your service if you move forward.</p>
     </div>
@@ -787,6 +811,34 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
         <button class="rf-chip" type="button" data-room="bedroom">Bedroom</button>
         <button class="rf-chip" type="button" data-room="entry_mudroom">Entry / mudroom</button>
         <button class="rf-chip" type="button" data-room="basement_adu">Basement ADU</button>
+      </div>
+      <div style="margin-top:20px">
+        <p class="rf-q-label">Type of remodel</p>
+        <div class="rf-tiers" id="rf-anchor-tiers-b">
+          <button class="rf-tier" type="button" data-tier="cosmetic_update">
+            <span class="rf-tier-name">Cosmetic Update</span>
+            <span class="rf-tier-desc">Budget-driven strategic updates</span>
+          </button>
+          <button class="rf-tier" type="button" data-tier="style_makeover">
+            <span class="rf-tier-name">Style Makeover</span>
+            <span class="rf-tier-desc">All new fixtures and finishes, same footprint</span>
+          </button>
+          <button class="rf-tier" type="button" data-tier="functional_fix">
+            <span class="rf-tier-name">Functional Fix</span>
+            <span class="rf-tier-desc">Layout reconfiguration and/or structural changes</span>
+          </button>
+        </div>
+      </div>
+      <div style="margin-top:16px">
+        <p class="rf-q-label">Rough construction budget<span class="rf-q-optional">optional</span></p>
+        <div class="rf-budgets" id="rf-anchor-budgets-b">
+          <button class="rf-budget" type="button" data-budget="under_50k">Under $50,000<span class="rf-budget-dot"></span></button>
+          <button class="rf-budget" type="button" data-budget="50k_100k">$50,000 – $100,000<span class="rf-budget-dot"></span></button>
+          <button class="rf-budget" type="button" data-budget="100k_200k">$100,000 – $200,000<span class="rf-budget-dot"></span></button>
+          <button class="rf-budget" type="button" data-budget="200k_400k">$200,000 – $400,000<span class="rf-budget-dot"></span></button>
+          <button class="rf-budget" type="button" data-budget="400k_plus">$400,000+<span class="rf-budget-dot"></span></button>
+          <button class="rf-budget" type="button" data-budget="not_sure">Not sure yet<span class="rf-budget-dot"></span></button>
+        </div>
       </div>
       <button class="rf-anchor-cta" type="button" id="rf-anchor-cta-b" disabled>See my estimate →</button>
       <p style="font-size:12px;color:var(--color-text-secondary);line-height:1.55;margin:12px 0 0;text-align:center">A refundable $200 deposit is collected when we schedule your visit — applied in full toward your service if you move forward.</p>
@@ -1127,8 +1179,8 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
     not_sure:    null
   };
 
-  var STEP_LABELS = ['', 'Your project', 'Your estimate', 'Your info', ''];
-  var TOTAL_STEPS = 4;
+  var STEP_LABELS = ['', '', 'Your estimate', 'Your info', ''];
+  var TOTAL_STEPS = 3; // three displayed steps: estimate (s2) → contact (s3) → confirm (s4)
 
   // ── Formatting helpers ─────────────────────────────────────────────────────
   function roundNearest(val, nearest) { return Math.round(val / nearest) * nearest; }
@@ -1248,10 +1300,12 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
     var ctaBar      = document.querySelector('.phone-frame[data-layout="' + id + '"] .cta-bar');
     var scrollEl    = document.querySelector('.phone-frame[data-layout="' + id + '"] .phone-scroll');
     var anchorEl    = document.getElementById('rf-anchor-' + id);
-    var anchorChips = document.querySelectorAll('#rf-anchor-chips-' + id + ' .rf-chip');
-    var anchorCta   = document.getElementById('rf-anchor-cta-' + id);
-    var tierBtns    = document.querySelectorAll('#rf-tiers-' + id + ' .rf-tier');
-    var budBtns     = document.querySelectorAll('#rf-budgets-' + id + ' .rf-budget');
+    var anchorChips    = document.querySelectorAll('#rf-anchor-chips-' + id + ' .rf-chip');
+    var anchorCta      = document.getElementById('rf-anchor-cta-' + id);
+    var anchorTierBtns = document.querySelectorAll('#rf-anchor-tiers-' + id + ' .rf-tier');
+    var anchorBudBtns  = document.querySelectorAll('#rf-anchor-budgets-' + id + ' .rf-budget');
+    var tierBtns    = document.querySelectorAll('#rf-tiers-' + id + ' .rf-tier');   // overlay s1 (dead code)
+    var budBtns     = document.querySelectorAll('#rf-budgets-' + id + ' .rf-budget'); // overlay s1 (dead code)
     var ackBox      = document.getElementById('rf-ack-' + id);
 
     var step = 1, rooms = [], tier = null, budget = null;
@@ -1260,17 +1314,16 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 
     function showStep(n) {
       step = n;
-      for (var i = 1; i <= TOTAL_STEPS; i++) g(i).hidden = (i !== n);
+      for (var i = 2; i <= 4; i++) g(i).hidden = (i !== n); // s1 is dead code; iterate s2–s4
       lbl.textContent  = STEP_LABELS[n] || '';
-      prog.style.width = (n / TOTAL_STEPS * 100) + '%';
-      backBtn.hidden   = (n === 1); // hidden on step 1 — back closes via click handler
-      footer.hidden    = (n === TOTAL_STEPS);
+      prog.style.width = ((n - 1) / TOTAL_STEPS * 100) + '%'; // s2→33%, s3→66%, s4→100%
+      backBtn.hidden   = (n === 2); // estimate is first shown step — back closes overlay
+      footer.hidden    = (n === 4);
       document.getElementById('rf-body-' + id).scrollTop = 0;
       if (window.lucide && window.lucide.createIcons) window.lucide.createIcons();
 
-      var btnLabels = { 1: 'See my estimate', 2: 'Next', 3: 'Submit request' };
+      var btnLabels = { 2: 'Next', 3: 'Submit request' };
       nextBtn.textContent = btnLabels[n] || 'Continue';
-      if (n === 1) updateStep1Btn();
       if (n === 3) updateStep3Btn();
     }
 
@@ -1311,16 +1364,14 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
     }
 
     function openForm() {
-      // rooms preserved from anchor selection; reset overlay-only state
-      tier = null; budget = null;
-      tierBtns.forEach(function(b) { b.classList.remove('sel'); });
-      budBtns.forEach(function(b)  { b.classList.remove('sel'); });
+      // tier and budget already set from anchor — preserve them; only reset contact fields
       ['first', 'last', 'email', 'phone', 'zip'].forEach(function(f) {
         var el = document.getElementById('rfi-' + f + '-' + id);
         if (el) { el.value = ''; document.getElementById('rff-' + f + '-' + id).classList.remove('err'); }
       });
       if (ackBox) ackBox.checked = false;
-      showStep(1);
+      buildEstimate();
+      showStep(2);
       overlay.classList.add('open');
     }
 
@@ -1345,13 +1396,37 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
     }
 
     // ── Anchor chip multi-select ─────────────────────────────────────────────
+    function updateAnchorCta() {
+      anchorCta.disabled = rooms.length === 0 || !tier;
+    }
+
     anchorChips.forEach(function(chip) {
       chip.addEventListener('click', function() {
         chip.classList.toggle('sel');
         rooms = Array.prototype.filter.call(anchorChips, function(c) {
           return c.classList.contains('sel');
         }).map(function(c) { return c.getAttribute('data-room'); });
-        anchorCta.disabled = rooms.length === 0;
+        updateAnchorCta();
+      });
+    });
+
+    // Anchor tier single-select
+    anchorTierBtns.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        anchorTierBtns.forEach(function(b) { b.classList.remove('sel'); });
+        btn.classList.add('sel');
+        tier = btn.getAttribute('data-tier');
+        updateAnchorCta();
+      });
+    });
+
+    // Anchor budget single-select, optional (re-click deselects)
+    anchorBudBtns.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var isSel = btn.classList.contains('sel');
+        anchorBudBtns.forEach(function(b) { b.classList.remove('sel'); });
+        if (!isSel) { btn.classList.add('sel'); budget = btn.getAttribute('data-budget'); }
+        else { budget = null; }
       });
     });
 
@@ -1360,9 +1435,9 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
     // ── Overlay controls ─────────────────────────────────────────────────────
     document.getElementById('rf-close-' + id).addEventListener('click', closeForm);
 
-    // On step 1, back closes the overlay; on later steps, goes back one step
+    // On estimate screen (s2), back closes the overlay; on later steps, goes back one step
     backBtn.addEventListener('click', function() {
-      if (step <= 1) closeForm();
+      if (step <= 2) closeForm();
       else showStep(step - 1);
     });
 
@@ -1403,10 +1478,9 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
     });
     if (ackBox) ackBox.addEventListener('change', updateStep3Btn);
 
-    // Next button
+    // Next button — overlay now starts at s2; s1 is dead code
     nextBtn.addEventListener('click', function() {
-      if (step === 1) { buildEstimate(); showStep(2); }
-      else if (step === 2) { showStep(3); }
+      if (step === 2) { showStep(3); }
       else if (step === 3) { showStep(4); }
     });
   }
