@@ -339,7 +339,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
       </div>
     </div>
     <div class="version-pill">
-      v11.6
+      v11.7
       <button type="button" class="refresh-btn" onclick="location.reload()" aria-label="Refresh prototype">
         <i data-lucide="refresh-cw"></i>
       </button>
@@ -671,25 +671,24 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
         <div class="rf-pm-hero">
           <p class="rf-pm-hero-label">Your Premodel estimate</p>
           <p class="rf-pm-hero-price" id="rf-pm-total-a"></p>
-          <p class="rf-pm-hero-note">Includes your reveal session</p>
+          <p class="rf-pm-hero-note">Starting estimate · confirmed after your intake call</p>
         </div>
         <!-- Per-room breakdown with bundle discounts -->
         <div class="rf-breakdown" id="rf-pm-breakdown-a" style="margin-bottom:6px"></div>
-        <p style="font-size:11px;color:var(--color-text-tertiary);line-height:1.5;margin:0 0 4px">Each additional room is discounted — up to 30% off.</p>
-        <!-- Construction cost context (compact, secondary) -->
-        <div class="rf-const-row">
-          <span class="rf-const-label">Est. construction cost</span>
-          <span class="rf-const-range" id="rf-est-range-a"></span>
+        <p style="font-size:11px;color:var(--color-text-tertiary);line-height:1.5;margin:0 0 16px">Multi-room projects are discounted — up to 30% off on additional rooms.</p>
+        <!-- Construction cost + budget alignment — one unified section -->
+        <div style="border-top:0.5px solid var(--color-border-tertiary);padding-top:16px;margin-bottom:16px">
+          <p style="font-size:13px;color:var(--color-text-secondary);margin:0 0 4px">Estimated construction cost for your scope</p>
+          <p style="font-size:20px;font-weight:500;letter-spacing:-0.02em;color:var(--color-text-primary);margin:0 0 4px" id="rf-est-range-a"></p>
+          <p style="font-size:11px;color:var(--color-text-tertiary);line-height:1.5;margin:0 0 12px">Typical Seattle / Eastside range · older homes and structural changes can push costs higher</p>
+          <div id="rf-cmp-a"></div>
         </div>
-        <p style="font-size:11px;color:var(--color-text-tertiary);line-height:1.5;margin:0 0 10px">Rough Seattle market range · actual costs vary</p>
-        <!-- Budget alignment chip (injected by JS; hidden if no budget selected) -->
-        <div id="rf-cmp-a"></div>
-        <!-- Design fees comparison -->
+        <!-- Design fee education -->
         <div style="border-top:0.5px solid var(--color-border-tertiary);padding-top:16px">
-          <p class="rf-df-eyebrow">vs. traditional design fees</p>
-          <p style="font-size:13px;color:var(--color-text-secondary);line-height:1.55;margin:0 0 10px">Design services typically fall between 8–15% of the construction budget.</p>
-          <p style="font-size:22px;font-weight:500;letter-spacing:-0.02em;color:var(--color-text-primary);margin:0 0 6px" id="rf-df-range-a"></p>
-          <p class="rf-df-microcopy">Estimated for your scope · Seattle market · separate from construction costs</p>
+          <p style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--color-text-tertiary);margin:0 0 6px">Good to know</p>
+          <p style="font-size:13px;color:var(--color-text-secondary);line-height:1.55;margin:0 0 8px">Full-service design fees typically run <strong style="color:var(--color-text-primary);font-weight:500">8–15% of construction costs</strong> — separate from what you pay your contractor. For a project in this range, that's usually:</p>
+          <p style="font-size:22px;font-weight:500;letter-spacing:-0.02em;color:var(--color-text-primary);margin:0 0 4px" id="rf-df-range-a"></p>
+          <p style="font-size:11px;color:var(--color-text-tertiary);line-height:1.5;margin:0">Estimated for your scope · Seattle market · in addition to construction costs</p>
         </div>
       </div>
 
@@ -846,25 +845,24 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
         <div class="rf-pm-hero">
           <p class="rf-pm-hero-label">Your Premodel estimate</p>
           <p class="rf-pm-hero-price" id="rf-pm-total-b"></p>
-          <p class="rf-pm-hero-note">Includes your reveal session</p>
+          <p class="rf-pm-hero-note">Starting estimate · confirmed after your intake call</p>
         </div>
         <!-- Per-room breakdown with bundle discounts -->
         <div class="rf-breakdown" id="rf-pm-breakdown-b" style="margin-bottom:6px"></div>
-        <p style="font-size:11px;color:var(--color-text-tertiary);line-height:1.5;margin:0 0 4px">Each additional room is discounted — up to 30% off.</p>
-        <!-- Construction cost context (compact, secondary) -->
-        <div class="rf-const-row">
-          <span class="rf-const-label">Est. construction cost</span>
-          <span class="rf-const-range" id="rf-est-range-b"></span>
+        <p style="font-size:11px;color:var(--color-text-tertiary);line-height:1.5;margin:0 0 16px">Multi-room projects are discounted — up to 30% off on additional rooms.</p>
+        <!-- Construction cost + budget alignment — one unified section -->
+        <div style="border-top:0.5px solid var(--color-border-tertiary);padding-top:16px;margin-bottom:16px">
+          <p style="font-size:13px;color:var(--color-text-secondary);margin:0 0 4px">Estimated construction cost for your scope</p>
+          <p style="font-size:20px;font-weight:500;letter-spacing:-0.02em;color:var(--color-text-primary);margin:0 0 4px" id="rf-est-range-b"></p>
+          <p style="font-size:11px;color:var(--color-text-tertiary);line-height:1.5;margin:0 0 12px">Typical Seattle / Eastside range · older homes and structural changes can push costs higher</p>
+          <div id="rf-cmp-b"></div>
         </div>
-        <p style="font-size:11px;color:var(--color-text-tertiary);line-height:1.5;margin:0 0 10px">Rough Seattle market range · actual costs vary</p>
-        <!-- Budget alignment chip (injected by JS; hidden if no budget selected) -->
-        <div id="rf-cmp-b"></div>
-        <!-- Design fees comparison -->
+        <!-- Design fee education -->
         <div style="border-top:0.5px solid var(--color-border-tertiary);padding-top:16px">
-          <p class="rf-df-eyebrow">vs. traditional design fees</p>
-          <p style="font-size:13px;color:var(--color-text-secondary);line-height:1.55;margin:0 0 10px">Design services typically fall between 8–15% of the construction budget.</p>
-          <p style="font-size:22px;font-weight:500;letter-spacing:-0.02em;color:var(--color-text-primary);margin:0 0 6px" id="rf-df-range-b"></p>
-          <p class="rf-df-microcopy">Estimated for your scope · Seattle market · separate from construction costs</p>
+          <p style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--color-text-tertiary);margin:0 0 6px">Good to know</p>
+          <p style="font-size:13px;color:var(--color-text-secondary);line-height:1.55;margin:0 0 8px">Full-service design fees typically run <strong style="color:var(--color-text-primary);font-weight:500">8–15% of construction costs</strong> — separate from what you pay your contractor. For a project in this range, that's usually:</p>
+          <p style="font-size:22px;font-weight:500;letter-spacing:-0.02em;color:var(--color-text-primary);margin:0 0 4px" id="rf-df-range-b"></p>
+          <p style="font-size:11px;color:var(--color-text-tertiary);line-height:1.5;margin:0">Estimated for your scope · Seattle market · in addition to construction costs</p>
         </div>
       </div>
 
@@ -1159,27 +1157,44 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 
   // ── HTML builders ──────────────────────────────────────────────────────────
 
-  // Compact one-line budget comparison chip (hidden when budget = not_sure)
+  // Budget alignment chip — four states, all always rendered
   function buildCmpHtml(state) {
+    if (state === 'not_sure') {
+      return '<div style="background:var(--color-background-secondary);border-radius:8px;padding:12px 14px">'
+        + '<p style="font-size:13px;font-weight:500;color:var(--color-text-primary);margin:0 0 4px">Not sure what to budget?</p>'
+        + '<p style="font-size:12px;color:var(--color-text-secondary);line-height:1.55;margin:0">Most homeowners go into contractor conversations without a number in mind — and contractors have a built-in incentive to grow your scope. Premodel helps you set a realistic baseline before you ever sit down with a contractor.</p>'
+        + '</div>';
+    }
     var cfg = {
-      aligned:  { bg:'#eef6ee', border:'rgba(34,120,34,0.14)',  color:'#1e5c1e',
-                  svg:'<circle cx="12" cy="12" r="10"/><polyline points="8 12 11 15 16 9"/>',
-                  text: 'Budget looks aligned with this scope.' },
-      too_low:  { bg:'#faeeda', border:'rgba(133,79,11,0.2)',   color:'#854f0b',
-                  svg:'<path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>',
-                  text: 'Budget may be on the low side for this scope.' },
-      has_room: { bg:'#eaf2fb', border:'rgba(59,110,181,0.2)',  color:'#2a5490',
-                  svg:'<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/>',
-                  text: 'Budget has room beyond this scope.' }
+      aligned: {
+        bg: '#edf7ed', border: 'rgba(56,142,60,0.25)', color: '#1b5e20', stroke: '#2e7d32',
+        svg: '<polyline points="20 6 9 17 4 12"></polyline>',
+        main: 'Your budget looks realistic for this scope.',
+        sub: null
+      },
+      too_low: {
+        bg: '#fff8e1', border: 'rgba(245,167,0,0.3)', color: '#bf360c', stroke: '#e65100',
+        svg: '<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line>',
+        main: 'Your budget may be on the low side for this scope.',
+        sub: 'Scope adjustments or phasing can help — this is exactly what a Reveal is designed to sort out.'
+      },
+      has_room: {
+        bg: '#eaf2fb', border: 'rgba(59,110,181,0.2)', color: '#2a5490', stroke: '#2a5490',
+        svg: '<circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line>',
+        main: 'Your budget has room beyond this scope.',
+        sub: 'That headroom can go toward higher-end finishes, contingency, or expanding the project.'
+      }
     };
     var c = cfg[state];
-    if (!c) return ''; // not_sure → nothing shown
-    return '<div style="display:flex;align-items:center;gap:8px;background:' + c.bg
-      + ';border:0.5px solid ' + c.border + ';border-radius:8px;padding:10px 12px;margin-bottom:16px">'
-      + '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="' + c.color
-      + '" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0">' + c.svg + '</svg>'
-      + '<span style="font-size:13px;font-weight:500;color:' + c.color + ';line-height:1.3">' + c.text + '</span>'
-      + '</div>';
+    if (!c) return '';
+    var subHtml = c.sub ? '<br><span style="font-weight:400">' + c.sub + '</span>' : '';
+    return '<div style="display:flex;align-items:flex-start;gap:8px;background:' + c.bg
+      + ';border:0.5px solid ' + c.border + ';border-radius:8px;padding:10px 12px">'
+      + '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="' + c.stroke
+      + '" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:1px">' + c.svg + '</svg>'
+      + '<span style="font-size:13px;color:' + c.color + ';line-height:1.4">'
+      + '<strong style="font-weight:500">' + c.main + '</strong>' + subHtml
+      + '</span></div>';
   }
 
   // Premodel service estimate with bundle-discount breakdown
