@@ -728,22 +728,22 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
           <div class="rf-ns-step">
             <div class="rf-ns-num">1</div>
             <div>
-              <p class="rf-ns-title">We'll call to schedule your Reveal</p>
-              <p class="rf-ns-desc">We'll confirm your intake call time and collect a refundable $200 deposit over the phone.</p>
+              <p class="rf-ns-title">We'll call to get you scheduled</p>
+              <p class="rf-ns-desc">We'll set up your home visit and collect a refundable $200 deposit over the phone.</p>
             </div>
           </div>
           <div class="rf-ns-step">
             <div class="rf-ns-num">2</div>
             <div>
               <p class="rf-ns-title">We visit and scan your space</p>
-              <p class="rf-ns-desc">One of our team comes to your home to walk the rooms and capture what we need.</p>
+              <p class="rf-ns-desc">One of our team comes to your home to walk the rooms and capture everything we need to build your Reveal.</p>
             </div>
           </div>
           <div class="rf-ns-step">
             <div class="rf-ns-num">3</div>
             <div>
-              <p class="rf-ns-title">Send us your inspiration images</p>
-              <p class="rf-ns-desc">A few images of spaces you love help us understand your style and direction.</p>
+              <p class="rf-ns-title">Share your inspiration images</p>
+              <p class="rf-ns-desc">We'll ask you to share a few images of spaces you love — they help us understand your style and bring your Reveal to life.</p>
             </div>
           </div>
           <div class="rf-ns-step">
@@ -896,22 +896,22 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
           <div class="rf-ns-step">
             <div class="rf-ns-num">1</div>
             <div>
-              <p class="rf-ns-title">We'll call to schedule your Reveal</p>
-              <p class="rf-ns-desc">We'll confirm your intake call time and collect a refundable $200 deposit over the phone.</p>
+              <p class="rf-ns-title">We'll call to get you scheduled</p>
+              <p class="rf-ns-desc">We'll set up your home visit and collect a refundable $200 deposit over the phone.</p>
             </div>
           </div>
           <div class="rf-ns-step">
             <div class="rf-ns-num">2</div>
             <div>
               <p class="rf-ns-title">We visit and scan your space</p>
-              <p class="rf-ns-desc">One of our team comes to your home to walk the rooms and capture what we need.</p>
+              <p class="rf-ns-desc">One of our team comes to your home to walk the rooms and capture everything we need to build your Reveal.</p>
             </div>
           </div>
           <div class="rf-ns-step">
             <div class="rf-ns-num">3</div>
             <div>
-              <p class="rf-ns-title">Send us your inspiration images</p>
-              <p class="rf-ns-desc">A few images of spaces you love help us understand your style and direction.</p>
+              <p class="rf-ns-title">Share your inspiration images</p>
+              <p class="rf-ns-desc">We'll ask you to share a few images of spaces you love — they help us understand your style and bring your Reveal to life.</p>
             </div>
           </div>
           <div class="rf-ns-step">
@@ -1158,7 +1158,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
     if (state === 'not_sure') {
       return '<div style="background:var(--color-background-secondary);border-radius:8px;padding:12px 14px">'
         + '<p style="font-size:13px;font-weight:500;color:var(--color-text-primary);margin:0 0 4px">Not sure what to budget?</p>'
-        + '<p style="font-size:12px;color:var(--color-text-secondary);line-height:1.55;margin:0">Most homeowners go into contractor conversations without a number in mind — and contractors have a built-in incentive to grow your scope. Premodel helps you set a realistic baseline before you ever sit down with a contractor.</p>'
+        + '<p style="font-size:12px;color:var(--color-text-secondary);line-height:1.55;margin:0">That’s okay — most homeowners aren’t sure at this stage. Premodel helps you build a realistic budget baseline before you sit down with a contractor.</p>'
         + '</div>';
     }
     var cfg = {
@@ -1172,7 +1172,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
         bg: '#fff8e1', border: 'rgba(245,167,0,0.3)', color: '#bf360c', stroke: '#e65100',
         svg: '<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line>',
         main: 'Your budget may be on the low side for this scope.',
-        sub: 'Scope adjustments or phasing can help — this is exactly what a Reveal is designed to sort out.'
+        sub: 'Scope adjustments or phasing can help — Premodel can walk you through the options before you commit to anything.'
       },
       tight: {
         bg: '#fff8e1', border: 'rgba(245,167,0,0.3)', color: '#7a4500', stroke: '#e65100',
@@ -1270,8 +1270,9 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
       document.getElementById('rf-body-' + id).scrollTop = 0;
       if (window.lucide && window.lucide.createIcons) window.lucide.createIcons();
 
-      var btnLabels = { 2: 'Next', 3: 'Submit request' };
+      var btnLabels = { 2: 'Request your Reveal', 3: 'Submit request' };
       nextBtn.textContent = btnLabels[n] || 'Continue';
+      if (n === 2) nextBtn.disabled = false; // tier already validated in anchor before overlay opens
       if (n === 3) updateStep3Btn();
     }
 
