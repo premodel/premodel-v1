@@ -176,6 +176,147 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 
 .cta-bar { flex: 0 0 auto; border-top: 0.5px solid var(--color-border-tertiary); padding: 12px 16px; display: flex; gap: 12px; align-items: center; background: var(--color-background-primary); }
 .cta-button { flex: 1; padding: 12px; background: var(--color-text-primary); color: var(--color-background-primary); border-radius: var(--border-radius-md); text-align: center; font-weight: 500; font-size: 14px; border: none; cursor: pointer; font-family: inherit; }
+
+/* ── Reveal Form ──────────────────────────────────── */
+.rf-overlay { position: absolute; inset: 0; z-index: 20; background: var(--color-background-primary); display: flex; flex-direction: column; transform: translateY(102%); transition: transform 0.42s cubic-bezier(0.32,0.72,0,1); }
+.rf-overlay.open { transform: translateY(0); }
+.rf-header { flex-shrink: 0; display: flex; align-items: center; justify-content: space-between; padding: 14px 16px 13px; border-bottom: 0.5px solid var(--color-border-tertiary); gap: 8px; }
+.rf-back { appearance: none; -webkit-appearance: none; background: 0; border: 0; padding: 0; cursor: pointer; color: var(--color-text-secondary); display: flex; align-items: center; gap: 4px; font-size: 13px; font-family: inherit; min-width: 48px; }
+.rf-back svg { width: 16px; height: 16px; stroke-width: 2; flex-shrink: 0; }
+.rf-step-label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-text-tertiary); text-align: center; flex: 1; }
+.rf-close { appearance: none; -webkit-appearance: none; background: var(--color-background-secondary); border: 0; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--color-text-secondary); padding: 0; font-family: inherit; flex-shrink: 0; }
+.rf-close svg { width: 14px; height: 14px; stroke-width: 2.5; }
+.rf-progress { flex-shrink: 0; height: 2px; background: var(--color-border-tertiary); }
+.rf-progress-fill { height: 100%; background: var(--color-text-primary); transition: width 0.4s ease; width: 0%; }
+.rf-body { flex: 1; overflow-y: auto; padding: 24px 20px 16px; scrollbar-width: thin; -webkit-overflow-scrolling: touch; }
+.rf-footer { flex-shrink: 0; padding: 12px 16px; border-top: 0.5px solid var(--color-border-tertiary); background: var(--color-background-primary); }
+.rf-btn { width: 100%; padding: 13px; background: var(--color-text-primary); color: var(--color-background-primary); border-radius: var(--border-radius-md); font-size: 14px; font-weight: 500; font-family: inherit; border: 0; cursor: pointer; transition: opacity 0.2s; }
+.rf-btn:disabled { opacity: 0.32; cursor: default; }
+.rf-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-text-tertiary); margin: 0 0 8px; }
+.rf-title { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; line-height: 1.1; margin: 0 0 8px; color: var(--color-text-primary); }
+.rf-sub { font-size: 14px; color: var(--color-text-secondary); margin: 0 0 22px; line-height: 1.55; }
+.rf-disclosure { background: var(--color-background-secondary); border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-lg); padding: 16px; display: flex; gap: 13px; align-items: flex-start; margin: 0 0 24px; }
+.rf-disclosure-icon { flex-shrink: 0; width: 30px; height: 30px; border-radius: 50%; background: var(--color-background-primary); border: 0.5px solid var(--color-border-secondary); display: flex; align-items: center; justify-content: center; color: var(--color-text-secondary); }
+.rf-disclosure-icon svg { width: 14px; height: 14px; stroke-width: 1.75; }
+.rf-disclosure p { font-size: 13px; color: var(--color-text-secondary); margin: 0; line-height: 1.6; }
+.rf-disclosure strong { color: var(--color-text-primary); font-weight: 500; }
+.rf-q { margin-bottom: 24px; }
+.rf-q-label { font-size: 13px; font-weight: 600; color: var(--color-text-primary); margin: 0 0 12px; line-height: 1.3; }
+.rf-q-optional { font-weight: 400; color: var(--color-text-tertiary); font-size: 12px; margin-left: 4px; }
+.rf-chips { display: flex; flex-wrap: wrap; gap: 7px; }
+.rf-chip { appearance: none; -webkit-appearance: none; background: var(--color-background-secondary); border: 0.5px solid var(--color-border-tertiary); border-radius: 999px; padding: 8px 14px; font-size: 13px; font-family: inherit; color: var(--color-text-primary); cursor: pointer; line-height: 1; transition: background 0.15s, border-color 0.15s, color 0.15s; }
+.rf-chip.sel { background: var(--color-text-primary); color: var(--color-background-primary); border-color: var(--color-text-primary); }
+.rf-tiers { display: flex; flex-direction: column; gap: 8px; }
+.rf-tier { appearance: none; -webkit-appearance: none; background: var(--color-background-secondary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 13px 14px; text-align: left; cursor: pointer; font-family: inherit; transition: background 0.15s, border-color 0.15s; width: 100%; }
+.rf-tier.sel { background: var(--color-text-primary); border-color: var(--color-text-primary); }
+.rf-tier-name { font-size: 14px; font-weight: 500; color: var(--color-text-primary); display: block; margin: 0 0 2px; }
+.rf-tier.sel .rf-tier-name { color: var(--color-background-primary); }
+.rf-tier-desc { font-size: 12px; color: var(--color-text-secondary); display: block; margin: 0; }
+.rf-tier.sel .rf-tier-desc { color: rgba(240,238,229,0.6); }
+.rf-budgets { display: flex; flex-direction: column; border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); overflow: hidden; }
+.rf-budget { appearance: none; -webkit-appearance: none; background: var(--color-background-secondary); border: 0; border-bottom: 0.5px solid var(--color-border-tertiary); padding: 12px 14px; text-align: left; cursor: pointer; font-family: inherit; font-size: 14px; color: var(--color-text-primary); display: flex; align-items: center; justify-content: space-between; transition: background 0.12s; }
+.rf-budget:last-child { border-bottom: 0; }
+.rf-budget.sel { background: var(--color-text-primary); color: var(--color-background-primary); }
+.rf-budget-dot { width: 16px; height: 16px; border-radius: 50%; border: 1.5px solid var(--color-border-secondary); flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+.rf-budget.sel .rf-budget-dot { border-color: rgba(240,238,229,0.4); }
+.rf-budget.sel .rf-budget-dot::after { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--color-background-primary); display: block; }
+.rf-est-preview { background: var(--color-background-secondary); border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-lg); padding: 16px 18px; margin-top: 8px; opacity: 0; transform: translateY(8px); transition: opacity 0.3s, transform 0.3s; pointer-events: none; }
+.rf-est-preview.vis { opacity: 1; transform: translateY(0); pointer-events: auto; }
+.rf-est-prev-label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-text-tertiary); margin: 0 0 4px; }
+.rf-est-prev-range { font-size: 24px; font-weight: 500; letter-spacing: -0.02em; color: var(--color-text-primary); margin: 0 0 3px; }
+.rf-est-prev-note { font-size: 12px; color: var(--color-text-secondary); margin: 0; }
+.rf-est-hero { text-align: center; padding: 8px 0 28px; border-bottom: 0.5px solid var(--color-border-tertiary); margin-bottom: 20px; }
+.rf-est-hero-label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-text-tertiary); margin: 0 0 6px; }
+.rf-est-hero-range { font-size: 36px; font-weight: 500; letter-spacing: -0.03em; line-height: 1; color: var(--color-text-primary); margin: 0; }
+.rf-est-hero-caveat { font-size: 12px; color: var(--color-text-tertiary); font-family: var(--font-serif); font-style: italic; margin: 8px 0 0; }
+/* ── Premodel service price hero ────────────────────────────────────────────── */
+.rf-pm-hero { text-align: center; padding: 8px 0 20px; border-bottom: 0.5px solid var(--color-border-tertiary); margin-bottom: 16px; }
+.rf-pm-hero-label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-text-tertiary); margin: 0 0 6px; }
+.rf-pm-hero-price { font-size: 40px; font-weight: 500; letter-spacing: -0.03em; line-height: 1; color: var(--color-text-primary); margin: 0; }
+.rf-pm-hero-note { font-size: 12px; color: var(--color-text-tertiary); font-family: var(--font-serif); font-style: italic; margin: 8px 0 0; }
+/* ── Compact construction cost context row ──────────────────────────────────── */
+.rf-const-row { display: flex; align-items: baseline; justify-content: space-between; padding: 10px 14px; background: var(--color-background-secondary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); margin: 16px 0 8px; }
+.rf-const-label { font-size: 13px; color: var(--color-text-secondary); }
+.rf-const-range { font-size: 13px; color: var(--color-text-primary); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.rf-breakdown { border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); overflow: hidden; }
+.rf-br-row { display: flex; align-items: baseline; justify-content: space-between; padding: 10px 14px; border-bottom: 0.5px solid var(--color-border-tertiary); gap: 8px; }
+.rf-br-row:last-child { border-bottom: 0; background: var(--color-background-secondary); }
+.rf-br-room { font-size: 13px; color: var(--color-text-primary); flex: 1; }
+.rf-br-badge { font-size: 10px; font-weight: 600; color: var(--color-text-tertiary); background: var(--color-background-secondary); border-radius: 4px; padding: 2px 5px; margin-left: 6px; letter-spacing: 0.04em; }
+.rf-br-row:last-child .rf-br-badge { background: var(--color-background-primary); }
+.rf-br-price { font-size: 13px; color: var(--color-text-primary); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.rf-br-row:last-child .rf-br-room, .rf-br-row:last-child .rf-br-price { font-weight: 600; }
+.rf-process { display: flex; flex-direction: column; }
+.rf-proc-step { display: grid; grid-template-columns: 30px 1fr; gap: 12px; padding-bottom: 24px; position: relative; }
+.rf-proc-step:last-child { padding-bottom: 0; }
+.rf-proc-step::after { content: ''; position: absolute; left: 14px; top: 30px; bottom: 0; width: 1px; background: var(--color-border-tertiary); }
+.rf-proc-step:last-child::after { display: none; }
+.rf-proc-num { width: 30px; height: 30px; border-radius: 50%; background: var(--color-background-secondary); border: 0.5px solid var(--color-border-secondary); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; color: var(--color-text-primary); flex-shrink: 0; position: relative; z-index: 1; }
+.rf-proc-title { font-size: 14px; font-weight: 600; color: var(--color-text-primary); margin: 0 0 3px; padding-top: 5px; }
+.rf-proc-desc { font-size: 13px; color: var(--color-text-secondary); margin: 0; line-height: 1.5; }
+.rf-proc-meta { font-size: 11px; color: var(--color-text-tertiary); margin: 3px 0 0; }
+.rf-fields { display: flex; flex-direction: column; gap: 14px; }
+.rf-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.rf-field { display: flex; flex-direction: column; gap: 5px; }
+.rf-label { font-size: 11px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--color-text-secondary); }
+.rf-input { appearance: none; -webkit-appearance: none; background: var(--color-background-secondary); border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-md); padding: 12px 13px; font-size: 16px; font-family: inherit; color: var(--color-text-primary); outline: none; width: 100%; box-sizing: border-box; }
+.rf-input:focus { border-color: var(--color-text-primary); background: var(--color-background-primary); }
+.rf-input::placeholder { color: var(--color-text-tertiary); }
+.rf-field.err .rf-input { border-color: #c0392b; }
+.rf-field.err .rf-err-msg { display: block; }
+.rf-err-msg { font-size: 12px; color: #c0392b; margin: 0; display: none; }
+.rf-ack { display: flex; gap: 12px; align-items: flex-start; margin-top: 20px; padding: 15px; background: var(--color-background-secondary); border-radius: var(--border-radius-md); border: 0.5px solid var(--color-border-tertiary); cursor: pointer; }
+.rf-ack input[type=checkbox] { flex-shrink: 0; width: 18px; height: 18px; accent-color: var(--color-text-primary); margin-top: 2px; cursor: pointer; }
+.rf-ack-text { font-size: 13px; color: var(--color-text-secondary); line-height: 1.55; margin: 0; }
+.rf-ack-text strong { color: var(--color-text-primary); font-weight: 500; }
+.rf-placeholder { border: 0.5px dashed var(--color-border-secondary); border-radius: var(--border-radius-lg); padding: 40px 20px; text-align: center; background: var(--color-background-secondary); }
+.rf-placeholder-tag { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-text-tertiary); margin: 0 0 6px; }
+.rf-placeholder-note { font-size: 13px; color: var(--color-text-secondary); margin: 0; line-height: 1.55; }
+.rf-placeholder code { font-size: 11px; color: var(--color-text-tertiary); background: var(--color-background-primary); padding: 1px 5px; border-radius: 3px; }
+.rf-payment-hero { text-align: center; margin-bottom: 20px; }
+.rf-payment-label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-text-tertiary); margin: 0 0 4px; }
+.rf-payment-amount { font-size: 36px; font-weight: 500; letter-spacing: -0.03em; color: var(--color-text-primary); margin: 0; line-height: 1; }
+.rf-payment-note { font-size: 12px; color: var(--color-text-tertiary); margin: 6px 0 0; font-family: var(--font-serif); font-style: italic; }
+.rf-confirm { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 32px 0 0; gap: 12px; }
+.rf-confirm-icon { width: 56px; height: 56px; border-radius: 50%; background: var(--color-background-secondary); display: flex; align-items: center; justify-content: center; color: var(--color-text-primary); }
+.rf-confirm-icon svg { width: 26px; height: 26px; stroke-width: 1.75; }
+.rf-confirm-title { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; margin: 0; color: var(--color-text-primary); }
+.rf-confirm-copy { font-size: 14px; color: var(--color-text-secondary); margin: 0; line-height: 1.6; max-width: 260px; }
+
+/* ── Anchor section on main page ───────────────────────────────────────────── */
+.rf-anchor { padding: 32px 20px 28px; border-top: 0.5px solid var(--color-border-tertiary); }
+.rf-anchor-cta { width: 100%; padding: 13px; background: var(--color-text-primary); color: var(--color-background-primary); border-radius: var(--border-radius-md); font-size: 14px; font-weight: 500; font-family: inherit; border: 0; cursor: pointer; margin-top: 20px; transition: opacity 0.2s; }
+.rf-anchor-cta:disabled { opacity: 0.32; cursor: default; }
+.rf-tier-desc-box { }
+.rf-tier-desc-inner { background: var(--color-background-secondary); border-radius: 8px; padding: 10px 13px; font-size: 13px; color: var(--color-text-secondary); line-height: 1.55; }
+.rf-budget-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
+.rf-budget-chip { appearance: none; -webkit-appearance: none; background: var(--color-background-secondary); border: 0.5px solid var(--color-border-tertiary); border-radius: 8px; padding: 10px 12px; font-size: 12px; font-family: inherit; color: var(--color-text-primary); cursor: pointer; text-align: left; line-height: 1.3; transition: background 0.15s, border-color 0.15s, color 0.15s; }
+.rf-budget-chip.sel { background: var(--color-text-primary); color: var(--color-background-primary); border-color: var(--color-text-primary); }
+
+/* ── Design fees section ────────────────────────────────────────────────────── */
+.rf-df-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-text-tertiary); margin: 0 0 8px; }
+.rf-df-sub { font-size: 13px; color: var(--color-text-secondary); line-height: 1.55; margin: 0 0 14px; }
+.rf-df-table { border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); overflow: hidden; margin-bottom: 12px; }
+.rf-df-row { display: flex; justify-content: space-between; align-items: baseline; padding: 10px 14px; background: var(--color-background-secondary); border-bottom: 0.5px solid var(--color-border-tertiary); }
+.rf-df-row:last-child { border-bottom: 0; }
+.rf-df-label { font-size: 13px; color: var(--color-text-secondary); }
+.rf-df-price { font-size: 13px; color: var(--color-text-primary); font-variant-numeric: tabular-nums; white-space: nowrap; padding-left: 12px; }
+.rf-df-microcopy { font-size: 11px; color: var(--color-text-tertiary); line-height: 1.6; margin: 0 0 16px; }
+.rf-pm-callout { background: #fdf7ef; border: 0.5px solid rgba(133,79,11,0.14); border-radius: var(--border-radius-lg); padding: 16px; }
+
+/* ── Success screen ─────────────────────────────────────────────────────────── */
+.rf-success { display: flex; flex-direction: column; padding: 8px 0 0; }
+.rf-success-icon { width: 52px; height: 52px; border-radius: 50%; background: var(--color-background-secondary); display: flex; align-items: center; justify-content: center; color: var(--color-text-primary); margin-bottom: 16px; flex-shrink: 0; }
+.rf-success-icon svg { width: 24px; height: 24px; stroke-width: 1.75; }
+.rf-success-title { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; margin: 0 0 8px; color: var(--color-text-primary); }
+.rf-success-sub { font-size: 14px; color: var(--color-text-secondary); margin: 0 0 28px; line-height: 1.55; }
+.rf-ns-step { display: grid; grid-template-columns: 30px 1fr; gap: 12px; padding-bottom: 24px; position: relative; }
+.rf-ns-step:last-child { padding-bottom: 0; }
+.rf-ns-step::after { content: ''; position: absolute; left: 14px; top: 30px; bottom: 0; width: 1px; background: var(--color-border-tertiary); }
+.rf-ns-step:last-child::after { display: none; }
+.rf-ns-num { width: 30px; height: 30px; border-radius: 50%; background: var(--color-text-primary); color: var(--color-background-primary); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; flex-shrink: 0; position: relative; z-index: 1; }
+.rf-ns-title { font-size: 14px; font-weight: 600; color: var(--color-text-primary); margin: 0 0 3px; padding-top: 5px; }
+.rf-ns-desc { font-size: 13px; color: var(--color-text-secondary); margin: 0; line-height: 1.5; }
 </style>
 </head>
 <body>
@@ -203,7 +344,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
       </div>
     </div>
     <div class="version-pill">
-      v10.8
+      v11.22
       <button type="button" class="refresh-btn" onclick="location.reload()" aria-label="Refresh prototype">
         <i data-lucide="refresh-cw"></i>
       </button>
@@ -464,10 +605,162 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
       <p class="pricing-microcopy">Actual pricing varies based on scope, room count,<br>and optional deliverables.</p>
     </div>
 
+    <!-- Anchor section: room selection + deposit disclosure -->
+    <div class="rf-anchor" id="rf-anchor-a" style="padding:24px 20px 20px">
+      <p class="rf-eyebrow">Get your estimate</p>
+      <h2 class="rf-title">Book your Reveal</h2>
+      <p style="font-size:15px;font-weight:500;letter-spacing:-0.01em;color:var(--color-text-primary);margin:0 0 14px">Which rooms are you planning to remodel?</p>
+      <div class="rf-chips" id="rf-anchor-chips-a">
+        <button class="rf-chip" type="button" data-room="kitchen">Kitchen</button>
+        <button class="rf-chip" type="button" data-room="primary_bath">Primary bath</button>
+        <button class="rf-chip" type="button" data-room="secondary_bath">Secondary bath</button>
+        <button class="rf-chip" type="button" data-room="living">Living room</button>
+        <button class="rf-chip" type="button" data-room="dining">Dining room</button>
+        <button class="rf-chip" type="button" data-room="office">Home office</button>
+        <button class="rf-chip" type="button" data-room="bedroom">Bedroom</button>
+        <button class="rf-chip" type="button" data-room="entry_mudroom">Entry / mudroom</button>
+        <button class="rf-chip" type="button" data-room="basement_adu">ADU</button>
+      </div>
+      <div style="margin-top:20px">
+        <p class="rf-q-label">Type of remodel</p>
+        <div class="rf-chips" id="rf-anchor-tiers-a">
+          <button class="rf-chip" type="button" data-tier="refresh"
+            data-desc="Budget-friendly updates that refresh the look without major construction.">
+            Refresh
+          </button>
+          <button class="rf-chip" type="button" data-tier="replace"
+            data-desc="Everything replaced, nothing moved. New style, same layout.">
+            Replace
+          </button>
+          <button class="rf-chip" type="button" data-tier="reconfigure"
+            data-desc="A layout redesigned around how you actually want to live.">
+            Reconfigure
+          </button>
+        </div>
+        <div class="rf-tier-desc-box" id="rf-tier-desc-a" style="display:none;margin-top:10px">
+          <div class="rf-tier-desc-inner" id="rf-tier-desc-text-a"></div>
+        </div>
+      </div>
+      <div style="margin-top:16px">
+        <p class="rf-q-label">Rough construction budget<span class="rf-q-optional">optional</span></p>
+        <div class="rf-budget-grid" id="rf-anchor-budgets-a">
+          <button class="rf-budget-chip" type="button" data-budget="under_50k">Under $50k</button>
+          <button class="rf-budget-chip" type="button" data-budget="50k_100k">$50k – $100k</button>
+          <button class="rf-budget-chip" type="button" data-budget="100k_200k">$100k – $200k</button>
+          <button class="rf-budget-chip" type="button" data-budget="200k_400k">$200k – $400k</button>
+          <button class="rf-budget-chip" type="button" data-budget="400k_plus">$400k+</button>
+          <button class="rf-budget-chip" type="button" data-budget="not_sure">Not sure yet</button>
+        </div>
+      </div>
+      <button class="rf-anchor-cta" type="button" id="rf-anchor-cta-a" disabled>See my estimate →</button>
+      <p style="font-size:12px;color:var(--color-text-secondary);line-height:1.55;margin:12px 0 0;text-align:center">A refundable $200 deposit is collected when we schedule your visit — applied in full toward your service if you move forward.</p>
+    </div>
+
   </div>
 
   <div class="cta-bar">
-    <button class="cta-button" type="button">Get a free Reveal</button>
+    <button class="cta-button" type="button">Book Your Complimentary Reveal</button>
+  </div>
+
+  <div class="rf-overlay" id="rf-a">
+    <div class="rf-header">
+      <button class="rf-back" id="rf-back-a" hidden><i data-lucide="arrow-left"></i>Back</button>
+      <span class="rf-step-label" id="rf-label-a"></span>
+      <button class="rf-close" id="rf-close-a" aria-label="Close"><i data-lucide="x"></i></button>
+    </div>
+    <div class="rf-progress"><div class="rf-progress-fill" id="rf-prog-a"></div></div>
+
+    <div class="rf-body" id="rf-body-a">
+
+      <!-- Step 2: Estimate -->
+      <div id="rf-s2-a" hidden>
+        <!-- Premodel service hero — dominant price -->
+        <div class="rf-pm-hero">
+          <p class="rf-pm-hero-label">Your Premodel estimate</p>
+          <p class="rf-pm-hero-price" id="rf-pm-total-a"></p>
+          <p class="rf-pm-hero-note">Starting estimate · confirmed after your intake call</p>
+        </div>
+        <!-- Per-room breakdown with bundle discounts -->
+        <div class="rf-breakdown" id="rf-pm-breakdown-a" style="margin-bottom:6px"></div>
+        <p style="font-size:11px;color:var(--color-text-tertiary);line-height:1.5;margin:0 0 16px">Multi-room projects are discounted — up to 30% off on additional rooms.</p>
+        <!-- Construction cost + budget alignment — one unified section -->
+        <div style="border-top:0.5px solid var(--color-border-tertiary);padding-top:16px;margin-bottom:16px">
+          <p style="font-size:13px;color:var(--color-text-secondary);margin:0 0 4px">Estimated construction cost for your scope</p>
+          <p style="font-size:20px;font-weight:500;letter-spacing:-0.02em;color:var(--color-text-primary);margin:0 0 4px" id="rf-est-range-a"></p>
+          <p style="font-size:11px;color:var(--color-text-tertiary);line-height:1.5;margin:0 0 12px">Typical Seattle / Eastside range · older homes and structural changes can push costs higher</p>
+          <div id="rf-cmp-a"></div>
+        </div>
+        <!-- Design fee education -->
+        <div style="border-top:0.5px solid var(--color-border-tertiary);padding-top:16px">
+          <p style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--color-text-tertiary);margin:0 0 6px">Good to know</p>
+          <p style="font-size:13px;color:var(--color-text-secondary);line-height:1.55;margin:0 0 8px">Design fees typically run <strong style="color:var(--color-text-primary);font-weight:500">5–10% of construction costs</strong> — separate from what you pay your contractor. For a project in this range, that's usually:</p>
+          <p style="font-size:22px;font-weight:500;letter-spacing:-0.02em;color:var(--color-text-primary);margin:0 0 4px" id="rf-df-range-a"></p>
+          <p style="font-size:11px;color:var(--color-text-tertiary);line-height:1.5;margin:0">Estimated for your scope · Seattle market · in addition to construction costs</p>
+        </div>
+      </div>
+
+      <!-- Step 3: Contact info + acknowledgment -->
+      <div id="rf-s3-a" hidden>
+        <p class="rf-eyebrow">Almost there</p>
+        <h2 class="rf-title">How should we reach you?</h2>
+        <p class="rf-sub" style="margin-bottom:20px">We'll call you as soon as possible during business hours (Mon–Fri, 9–5) to answer questions and get you scheduled.</p>
+        <div class="rf-fields">
+          <div class="rf-row">
+            <div class="rf-field" id="rff-first-a"><label class="rf-label" for="rfi-first-a">First name</label><input class="rf-input" id="rfi-first-a" type="text" placeholder="First" autocomplete="given-name" /><p class="rf-err-msg">Required</p></div>
+            <div class="rf-field" id="rff-last-a"><label class="rf-label" for="rfi-last-a">Last name</label><input class="rf-input" id="rfi-last-a" type="text" placeholder="Last" autocomplete="family-name" /><p class="rf-err-msg">Required</p></div>
+          </div>
+          <div class="rf-field" id="rff-email-a"><label class="rf-label" for="rfi-email-a">Email address</label><input class="rf-input" id="rfi-email-a" type="email" placeholder="you@example.com" autocomplete="email" /><p class="rf-err-msg">Enter a valid email</p></div>
+          <div class="rf-field" id="rff-phone-a"><label class="rf-label" for="rfi-phone-a">Phone number</label><input class="rf-input" id="rfi-phone-a" type="tel" placeholder="(206) 555-0100" autocomplete="tel" /><p class="rf-err-msg">Enter a valid phone number</p></div>
+          <div class="rf-field" id="rff-zip-a"><label class="rf-label" for="rfi-zip-a">Zip code</label><input class="rf-input" id="rfi-zip-a" type="text" inputmode="numeric" maxlength="5" placeholder="98101" autocomplete="postal-code" /><p class="rf-err-msg">Enter your 5-digit zip</p></div>
+        </div>
+        <label class="rf-ack">
+          <input type="checkbox" id="rf-ack-a" />
+          <p class="rf-ack-text">I understand that scheduling a home visit requires a <strong>refundable $200 deposit</strong>, which is applied toward my Premodel service if I move forward.</p>
+        </label>
+      </div>
+
+      <!-- Step 4: Success screen -->
+      <div id="rf-s4-a" hidden>
+        <div class="rf-success">
+          <div class="rf-success-icon"><i data-lucide="check"></i></div>
+          <h2 class="rf-success-title">Request received!</h2>
+          <p class="rf-success-sub">We'll be in touch soon. Here's what to expect next.</p>
+          <div class="rf-ns-step">
+            <div class="rf-ns-num">1</div>
+            <div>
+              <p class="rf-ns-title">We'll call to get you scheduled</p>
+              <p class="rf-ns-desc">We'll set up your home visit and collect a refundable $200 deposit over the phone.</p>
+            </div>
+          </div>
+          <div class="rf-ns-step">
+            <div class="rf-ns-num">2</div>
+            <div>
+              <p class="rf-ns-title">We visit and scan your space</p>
+              <p class="rf-ns-desc">One of our team comes to your home to walk the rooms and capture everything we need to build your Reveal.</p>
+            </div>
+          </div>
+          <div class="rf-ns-step">
+            <div class="rf-ns-num">3</div>
+            <div>
+              <p class="rf-ns-title">Share your inspiration images</p>
+              <p class="rf-ns-desc">We'll ask you to share a few images of spaces you love — they help us understand your style and bring your Reveal to life.</p>
+            </div>
+          </div>
+          <div class="rf-ns-step">
+            <div class="rf-ns-num">4</div>
+            <div>
+              <p class="rf-ns-title">Your Reveal</p>
+              <p class="rf-ns-desc">We deliver images showing what your space could become — yours to keep, whether or not you move forward.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /rf-body -->
+
+    <div class="rf-footer" id="rf-footer-a">
+      <button class="rf-btn" type="button" id="rf-next-a">Continue</button>
+    </div>
   </div>
 </div>
 
@@ -484,10 +777,158 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
       <p class="layout-b-hint">Hero variation scaffold — ready for new structure.</p>
     </div>
 
+    <!-- Anchor section: room selection + deposit disclosure -->
+    <div class="rf-anchor" id="rf-anchor-b" style="padding:24px 20px 20px">
+      <p class="rf-eyebrow">Get your estimate</p>
+      <h2 class="rf-title">Book your Reveal</h2>
+      <p style="font-size:15px;font-weight:500;letter-spacing:-0.01em;color:var(--color-text-primary);margin:0 0 14px">Which rooms are you planning to remodel?</p>
+      <div class="rf-chips" id="rf-anchor-chips-b">
+        <button class="rf-chip" type="button" data-room="kitchen">Kitchen</button>
+        <button class="rf-chip" type="button" data-room="primary_bath">Primary bath</button>
+        <button class="rf-chip" type="button" data-room="secondary_bath">Secondary bath</button>
+        <button class="rf-chip" type="button" data-room="living">Living room</button>
+        <button class="rf-chip" type="button" data-room="dining">Dining room</button>
+        <button class="rf-chip" type="button" data-room="office">Home office</button>
+        <button class="rf-chip" type="button" data-room="bedroom">Bedroom</button>
+        <button class="rf-chip" type="button" data-room="entry_mudroom">Entry / mudroom</button>
+        <button class="rf-chip" type="button" data-room="basement_adu">ADU</button>
+      </div>
+      <div style="margin-top:20px">
+        <p class="rf-q-label">Type of remodel</p>
+        <div class="rf-chips" id="rf-anchor-tiers-b">
+          <button class="rf-chip" type="button" data-tier="refresh_replace"
+            data-desc="No walls moved, no layout changes. New finishes, fixtures, and materials — same footprint.">
+            Style update
+          </button>
+          <button class="rf-chip" type="button" data-tier="reconfigure"
+            data-desc="Walls moved, utilities relocated, or layout reconfigured. Structural changes involved.">
+            Functional fix
+          </button>
+        </div>
+        <div class="rf-tier-desc-box" id="rf-tier-desc-b" style="display:none;margin-top:10px">
+          <div class="rf-tier-desc-inner" id="rf-tier-desc-text-b"></div>
+        </div>
+      </div>
+      <div style="margin-top:16px">
+        <p class="rf-q-label">Rough construction budget<span class="rf-q-optional">optional</span></p>
+        <div class="rf-budget-grid" id="rf-anchor-budgets-b">
+          <button class="rf-budget-chip" type="button" data-budget="under_50k">Under $50k</button>
+          <button class="rf-budget-chip" type="button" data-budget="50k_100k">$50k – $100k</button>
+          <button class="rf-budget-chip" type="button" data-budget="100k_200k">$100k – $200k</button>
+          <button class="rf-budget-chip" type="button" data-budget="200k_400k">$200k – $400k</button>
+          <button class="rf-budget-chip" type="button" data-budget="400k_plus">$400k+</button>
+          <button class="rf-budget-chip" type="button" data-budget="not_sure">Not sure yet</button>
+        </div>
+      </div>
+      <button class="rf-anchor-cta" type="button" id="rf-anchor-cta-b" disabled>See my estimate →</button>
+      <p style="font-size:12px;color:var(--color-text-secondary);line-height:1.55;margin:12px 0 0;text-align:center">A refundable $200 deposit is collected when we schedule your visit — applied in full toward your service if you move forward.</p>
+    </div>
+
   </div>
 
   <div class="cta-bar">
-    <button class="cta-button" type="button">Get a free Reveal</button>
+    <button class="cta-button" type="button">Book Your Complimentary Reveal</button>
+  </div>
+
+  <div class="rf-overlay" id="rf-b">
+    <div class="rf-header">
+      <button class="rf-back" id="rf-back-b" hidden><i data-lucide="arrow-left"></i>Back</button>
+      <span class="rf-step-label" id="rf-label-b"></span>
+      <button class="rf-close" id="rf-close-b" aria-label="Close"><i data-lucide="x"></i></button>
+    </div>
+    <div class="rf-progress"><div class="rf-progress-fill" id="rf-prog-b"></div></div>
+
+    <div class="rf-body" id="rf-body-b">
+
+      <!-- Step 2: Estimate -->
+      <div id="rf-s2-b" hidden>
+        <!-- Premodel service hero — dominant price -->
+        <div class="rf-pm-hero">
+          <p class="rf-pm-hero-label">Your Premodel estimate</p>
+          <p class="rf-pm-hero-price" id="rf-pm-total-b"></p>
+          <p class="rf-pm-hero-note">Starting estimate · confirmed after your intake call</p>
+        </div>
+        <!-- Per-room breakdown with bundle discounts -->
+        <div class="rf-breakdown" id="rf-pm-breakdown-b" style="margin-bottom:6px"></div>
+        <p style="font-size:11px;color:var(--color-text-tertiary);line-height:1.5;margin:0 0 16px">Multi-room projects are discounted — up to 30% off on additional rooms.</p>
+        <!-- Construction cost + budget alignment — one unified section -->
+        <div style="border-top:0.5px solid var(--color-border-tertiary);padding-top:16px;margin-bottom:16px">
+          <p style="font-size:13px;color:var(--color-text-secondary);margin:0 0 4px">Estimated construction cost for your scope</p>
+          <p style="font-size:20px;font-weight:500;letter-spacing:-0.02em;color:var(--color-text-primary);margin:0 0 4px" id="rf-est-range-b"></p>
+          <p style="font-size:11px;color:var(--color-text-tertiary);line-height:1.5;margin:0 0 12px">Typical Seattle / Eastside range · older homes and structural changes can push costs higher</p>
+          <div id="rf-cmp-b"></div>
+        </div>
+        <!-- Design fee education -->
+        <div style="border-top:0.5px solid var(--color-border-tertiary);padding-top:16px">
+          <p style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--color-text-tertiary);margin:0 0 6px">Good to know</p>
+          <p style="font-size:13px;color:var(--color-text-secondary);line-height:1.55;margin:0 0 8px">Design fees typically run <strong style="color:var(--color-text-primary);font-weight:500">5–10% of construction costs</strong> — separate from what you pay your contractor. For a project in this range, that's usually:</p>
+          <p style="font-size:22px;font-weight:500;letter-spacing:-0.02em;color:var(--color-text-primary);margin:0 0 4px" id="rf-df-range-b"></p>
+          <p style="font-size:11px;color:var(--color-text-tertiary);line-height:1.5;margin:0">Estimated for your scope · Seattle market · in addition to construction costs</p>
+        </div>
+      </div>
+
+      <!-- Step 3: Contact info + acknowledgment -->
+      <div id="rf-s3-b" hidden>
+        <p class="rf-eyebrow">Almost there</p>
+        <h2 class="rf-title">How should we reach you?</h2>
+        <p class="rf-sub" style="margin-bottom:20px">We'll call you as soon as possible during business hours (Mon–Fri, 9–5) to answer questions and get you scheduled.</p>
+        <div class="rf-fields">
+          <div class="rf-row">
+            <div class="rf-field" id="rff-first-b"><label class="rf-label" for="rfi-first-b">First name</label><input class="rf-input" id="rfi-first-b" type="text" placeholder="First" autocomplete="given-name" /><p class="rf-err-msg">Required</p></div>
+            <div class="rf-field" id="rff-last-b"><label class="rf-label" for="rfi-last-b">Last name</label><input class="rf-input" id="rfi-last-b" type="text" placeholder="Last" autocomplete="family-name" /><p class="rf-err-msg">Required</p></div>
+          </div>
+          <div class="rf-field" id="rff-email-b"><label class="rf-label" for="rfi-email-b">Email address</label><input class="rf-input" id="rfi-email-b" type="email" placeholder="you@example.com" autocomplete="email" /><p class="rf-err-msg">Enter a valid email</p></div>
+          <div class="rf-field" id="rff-phone-b"><label class="rf-label" for="rfi-phone-b">Phone number</label><input class="rf-input" id="rfi-phone-b" type="tel" placeholder="(206) 555-0100" autocomplete="tel" /><p class="rf-err-msg">Enter a valid phone number</p></div>
+          <div class="rf-field" id="rff-zip-b"><label class="rf-label" for="rfi-zip-b">Zip code</label><input class="rf-input" id="rfi-zip-b" type="text" inputmode="numeric" maxlength="5" placeholder="98101" autocomplete="postal-code" /><p class="rf-err-msg">Enter your 5-digit zip</p></div>
+        </div>
+        <label class="rf-ack">
+          <input type="checkbox" id="rf-ack-b" />
+          <p class="rf-ack-text">I understand that scheduling a home visit requires a <strong>refundable $200 deposit</strong>, which is applied toward my Premodel service if I move forward.</p>
+        </label>
+      </div>
+
+      <!-- Step 4: Success screen -->
+      <div id="rf-s4-b" hidden>
+        <div class="rf-success">
+          <div class="rf-success-icon"><i data-lucide="check"></i></div>
+          <h2 class="rf-success-title">Request received!</h2>
+          <p class="rf-success-sub">We'll be in touch soon. Here's what to expect next.</p>
+          <div class="rf-ns-step">
+            <div class="rf-ns-num">1</div>
+            <div>
+              <p class="rf-ns-title">We'll call to get you scheduled</p>
+              <p class="rf-ns-desc">We'll set up your home visit and collect a refundable $200 deposit over the phone.</p>
+            </div>
+          </div>
+          <div class="rf-ns-step">
+            <div class="rf-ns-num">2</div>
+            <div>
+              <p class="rf-ns-title">We visit and scan your space</p>
+              <p class="rf-ns-desc">One of our team comes to your home to walk the rooms and capture everything we need to build your Reveal.</p>
+            </div>
+          </div>
+          <div class="rf-ns-step">
+            <div class="rf-ns-num">3</div>
+            <div>
+              <p class="rf-ns-title">Share your inspiration images</p>
+              <p class="rf-ns-desc">We'll ask you to share a few images of spaces you love — they help us understand your style and bring your Reveal to life.</p>
+            </div>
+          </div>
+          <div class="rf-ns-step">
+            <div class="rf-ns-num">4</div>
+            <div>
+              <p class="rf-ns-title">Your Reveal</p>
+              <p class="rf-ns-desc">We deliver images showing what your space could become — yours to keep, whether or not you move forward.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /rf-body -->
+
+    <div class="rf-footer" id="rf-footer-b">
+      <button class="rf-btn" type="button" id="rf-next-b">Continue</button>
+    </div>
   </div>
 </div>
 
@@ -570,6 +1011,432 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
   sizeSelect.addEventListener('change', applySize);
   applySize();
 
+})();
+
+// ── Reveal Form ───────────────────────────────────────
+(function() {
+
+  // ── Room labels ────────────────────────────────────────────────────────────
+  var ROOM_LABELS = {
+    kitchen: 'Kitchen', primary_bath: 'Primary / master bath',
+    secondary_bath: 'Secondary bath', living: 'Living room',
+    dining: 'Dining room', office: 'Home office',
+    bedroom: 'Bedroom', entry_mudroom: 'Entry / mudroom', basement_adu: 'Basement ADU'
+  };
+
+  // ── Construction cost tables (summed, no discounts, round to $1k) ──────────
+  // Layout A: 2-type (combined cosmetic+pull, gut/reconfigure)
+  var CONSTRUCTION_COSTS = {
+    refresh_replace: {
+      kitchen:        [12000,  90000],
+      primary_bath:   [8000,   95000],
+      secondary_bath: [6000,   50000],
+      living:         [6000,   50000],
+      dining:         [4000,   28000],
+      office:         [3000,   30000],
+      bedroom:        [3000,   25000],
+      entry_mudroom:  [3000,   25000],
+      basement_adu:   [90000, 350000]
+    },
+    reconfigure: {
+      kitchen:        [90000,  175000],
+      primary_bath:   [95000,  160000],
+      secondary_bath: [50000,   80000],
+      living:         [50000,  100000],
+      dining:         [30000,   65000],
+      office:         [28000,   60000],
+      bedroom:        [22000,   50000],
+      entry_mudroom:  [20000,   45000],
+      basement_adu:  [150000,  350000]
+    }
+  };
+
+  // Layout B: 3-type (cosmetic update, style makeover, functional fix)
+  var CONSTRUCTION_COSTS_3 = {
+    refresh: {
+      kitchen:        [12000,  30000],
+      primary_bath:   [8000,   18000],
+      secondary_bath: [6000,   14000],
+      living:         [6000,   16000],
+      dining:         [4000,   10000],
+      office:         [3000,    9000],
+      bedroom:        [3000,    9000],
+      entry_mudroom:  [3000,    8000],
+      basement_adu:   [15000,  40000]
+    },
+    replace: {
+      kitchen:        [45000,  90000],
+      primary_bath:   [50000,  95000],
+      secondary_bath: [22000,  50000],
+      living:         [20000,  50000],
+      dining:         [12000,  28000],
+      office:         [12000,  30000],
+      bedroom:        [10000,  25000],
+      entry_mudroom:  [10000,  25000],
+      basement_adu:   [90000, 175000]
+    },
+    reconfigure: {
+      kitchen:        [90000,  175000],
+      primary_bath:   [95000,  160000],
+      secondary_bath: [50000,   80000],
+      living:         [50000,  100000],
+      dining:         [30000,   65000],
+      office:         [28000,   60000],
+      bedroom:        [22000,   50000],
+      entry_mudroom:  [20000,   45000],
+      basement_adu:  [150000,  350000]
+    }
+  };
+
+  // ── Premodel service prices (per room, bundle discounts by sort order) ──────
+  // RC tier = Style update / cosmetic; RCP tier = Functional fix
+  var PM_PRICES_RC = {
+    kitchen: 1850, primary_bath: 1400, secondary_bath: 912,
+    living: 912, dining: 912, office: 912,
+    bedroom: 650, entry_mudroom: 912, basement_adu: 1850
+  };
+  var PM_PRICES_RCP = {
+    kitchen: 2775, primary_bath: 2100, secondary_bath: 1275,
+    living: 1275, dining: 1275, office: 1275,
+    bedroom: 900, entry_mudroom: 1275, basement_adu: 2775
+  };
+  var PM_BASE  = {
+    refresh_replace: 1500, gut_reconfigure: 2500,  // Layout B (2-tier)
+    refresh: 1500, replace: 1500, reconfigure: 2500  // Layout A (3-tier)
+  };
+  // RC pricing: cosmetic tiers; RCP pricing: functional fix
+  var PM_RCP_TIERS = { gut_reconfigure: true, reconfigure: true };
+  var PM_DISC  = [0, 0.20, 0.25, 0.30]; // anchor, 2nd, 3rd, 4th+
+
+  var BUDGET_RANGES = {
+    under_50k:   { lo: 0,      hi: 50000   },
+    '50k_100k':  { lo: 50000,  hi: 100000  },
+    '100k_200k': { lo: 100000, hi: 200000  },
+    '200k_400k': { lo: 200000, hi: 400000  },
+    '400k_plus': { lo: 400000, hi: 9999999 },
+    not_sure:    null
+  };
+
+  var STEP_LABELS = ['', '', 'Your estimate', 'Your info', ''];
+  var TOTAL_STEPS = 3; // three displayed steps: estimate (s2) → contact (s3) → confirm (s4)
+
+  // ── Formatting helpers ─────────────────────────────────────────────────────
+  function roundNearest(val, nearest) { return Math.round(val / nearest) * nearest; }
+
+  function fmtMoney(n) {
+    if (n >= 1000000) { var m = n / 1000000; return '$' + (m % 1 === 0 ? m : m.toFixed(1)) + 'm'; }
+    if (n >= 100000)  { return '$' + Math.round(n / 1000) + 'k'; }
+    return '$' + n.toLocaleString('en-US');
+  }
+  function fmtRange(lo, hi) { return fmtMoney(lo) + ' – ' + fmtMoney(hi); }
+  function fmtDollars(n) { return '$' + n.toLocaleString('en-US'); }
+
+  // ── Calculators ────────────────────────────────────────────────────────────
+  function calcConstruction(rooms, tier) {
+    if (!rooms.length || !tier) return null;
+    var tbl = CONSTRUCTION_COSTS[tier] || CONSTRUCTION_COSTS_3[tier];
+    if (!tbl) return null;
+    var lo = 0, hi = 0;
+    rooms.forEach(function(r) { if (tbl[r]) { lo += tbl[r][0]; hi += tbl[r][1]; } });
+    return { lo: roundNearest(lo, 1000), hi: roundNearest(hi, 1000) };
+  }
+
+  function getBudgetState(lo, hi, budget) {
+    if (!budget || budget === 'not_sure' || !BUDGET_RANGES[budget]) return 'not_sure';
+    var b = BUDGET_RANGES[budget];
+    if (lo > b.hi) return 'too_low';
+    if (b.lo > 0 && hi < b.lo * 0.8) return 'has_room';
+    var bottomQuarter = lo + (hi - lo) * 0.25;
+    if (b.hi <= bottomQuarter) return 'tight';
+    return 'aligned';
+  }
+
+  // ── HTML builders ──────────────────────────────────────────────────────────
+
+  // Budget alignment chip — four states, all always rendered
+  function buildCmpHtml(state) {
+    if (state === 'not_sure') {
+      return '<div style="background:var(--color-background-secondary);border-radius:8px;padding:12px 14px">'
+        + '<p style="font-size:13px;font-weight:500;color:var(--color-text-primary);margin:0 0 4px">Not sure what to budget?</p>'
+        + '<p style="font-size:12px;color:var(--color-text-secondary);line-height:1.55;margin:0">That’s okay — most homeowners aren’t sure at this stage. Premodel helps you build a realistic budget baseline before you sit down with a contractor.</p>'
+        + '</div>';
+    }
+    var cfg = {
+      aligned: {
+        bg: '#edf7ed', border: 'rgba(56,142,60,0.25)', color: '#1b5e20', stroke: '#2e7d32',
+        svg: '<polyline points="20 6 9 17 4 12"></polyline>',
+        main: 'Your budget looks realistic for this scope.',
+        sub: null
+      },
+      too_low: {
+        bg: '#fff8e1', border: 'rgba(245,167,0,0.3)', color: '#bf360c', stroke: '#e65100',
+        svg: '<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line>',
+        main: 'Your budget may be on the low side for this scope.',
+        sub: 'Scope adjustments or phasing can help — Premodel can walk you through the options before you commit to anything.'
+      },
+      tight: {
+        bg: '#fff8e1', border: 'rgba(245,167,0,0.3)', color: '#7a4500', stroke: '#e65100',
+        svg: '<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line>',
+        main: 'Your budget could work at the lower end of this scope.',
+        sub: 'Expect to make some tradeoffs on materials and finishes. Premodel can help you figure out where to prioritize.'
+      },
+      has_room: {
+        bg: '#eaf2fb', border: 'rgba(59,110,181,0.2)', color: '#2a5490', stroke: '#2a5490',
+        svg: '<circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line>',
+        main: 'Your budget has room beyond this scope.',
+        sub: 'That headroom can go toward higher-end finishes, contingency, or expanding the project.'
+      }
+    };
+    var c = cfg[state];
+    if (!c) return '';
+    var subHtml = c.sub ? '<br><span style="font-weight:400">' + c.sub + '</span>' : '';
+    return '<div style="display:flex;align-items:flex-start;gap:8px;background:' + c.bg
+      + ';border:0.5px solid ' + c.border + ';border-radius:8px;padding:10px 12px">'
+      + '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="' + c.stroke
+      + '" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:1px">' + c.svg + '</svg>'
+      + '<span style="font-size:13px;color:' + c.color + ';line-height:1.4">'
+      + '<strong style="font-weight:500">' + c.main + '</strong>' + subHtml
+      + '</span></div>';
+  }
+
+  // Premodel service estimate with bundle-discount breakdown
+  // Returns { html, total } so callers can display the total as a hero price
+  function buildPmBreakdown(rooms, tier) {
+    var prices    = PM_RCP_TIERS[tier] ? PM_PRICES_RCP : PM_PRICES_RC;
+    var base      = PM_BASE[tier] || 1500;
+    var baseLabel = 'Premodel base fee';
+
+    // Sort rooms by price high-to-low (anchor room gets no discount)
+    var sorted = rooms.slice().sort(function(a, b) {
+      return (prices[b] || 0) - (prices[a] || 0);
+    });
+
+    var total = base;
+    var html  = '<div class="rf-br-row">'
+      + '<span class="rf-br-room">' + baseLabel + '</span>'
+      + '<span class="rf-br-price">' + fmtDollars(base) + '</span>'
+      + '</div>';
+
+    sorted.forEach(function(r, i) {
+      var d     = i < PM_DISC.length ? PM_DISC[i] : 0.30;
+      var price = Math.round((prices[r] || 0) * (1 - d));
+      total += price;
+      var badge = d > 0 ? '<span class="rf-br-badge">–' + (d * 100) + '%</span>' : '';
+      html += '<div class="rf-br-row">'
+        + '<span class="rf-br-room">' + ROOM_LABELS[r] + badge + '</span>'
+        + '<span class="rf-br-price">' + fmtDollars(price) + '</span>'
+        + '</div>';
+    });
+
+    html += '<div class="rf-br-row"><span class="rf-br-room">Total</span>'
+      + '<span class="rf-br-price">' + fmtDollars(total) + '</span></div>';
+
+    return { html: html, total: total };
+  }
+
+  // ── Per-sheet logic ────────────────────────────────────────────────────────
+  function initRevealSheet(id) {
+    var overlay     = document.getElementById('rf-' + id);
+    var backBtn     = document.getElementById('rf-back-' + id);
+    var lbl         = document.getElementById('rf-label-' + id);
+    var prog        = document.getElementById('rf-prog-' + id);
+    var footer      = document.getElementById('rf-footer-' + id);
+    var nextBtn     = document.getElementById('rf-next-' + id);
+    var ctaBtn      = document.querySelector('.phone-frame[data-layout="' + id + '"] .cta-button');
+    var ctaBar      = document.querySelector('.phone-frame[data-layout="' + id + '"] .cta-bar');
+    var scrollEl    = document.querySelector('.phone-frame[data-layout="' + id + '"] .phone-scroll');
+    var anchorEl    = document.getElementById('rf-anchor-' + id);
+    var anchorChips    = document.querySelectorAll('#rf-anchor-chips-' + id + ' .rf-chip');
+    var anchorCta      = document.getElementById('rf-anchor-cta-' + id);
+    var anchorTierBtns = document.querySelectorAll('#rf-anchor-tiers-' + id + ' .rf-chip');
+    var anchorBudBtns  = document.querySelectorAll('#rf-anchor-budgets-' + id + ' .rf-budget-chip');
+    var tierDescBox    = document.getElementById('rf-tier-desc-' + id);
+    var tierDescText   = document.getElementById('rf-tier-desc-text-' + id);
+    var tierBtns    = document.querySelectorAll('#rf-tiers-' + id + ' .rf-tier');   // overlay s1 (dead code)
+    var budBtns     = document.querySelectorAll('#rf-budgets-' + id + ' .rf-budget'); // overlay s1 (dead code)
+    var ackBox      = document.getElementById('rf-ack-' + id);
+
+    var step = 1, rooms = [], tier = null, budget = null;
+
+    function g(s) { return document.getElementById('rf-s' + s + '-' + id); }
+
+    function showStep(n) {
+      step = n;
+      for (var i = 2; i <= 4; i++) g(i).hidden = (i !== n); // s1 is dead code; iterate s2–s4
+      lbl.textContent  = STEP_LABELS[n] || '';
+      prog.style.width = ((n - 1) / TOTAL_STEPS * 100) + '%'; // s2→33%, s3→66%, s4→100%
+      backBtn.hidden   = (n === 2); // estimate is first shown step — back closes overlay
+      footer.hidden    = (n === 4);
+      document.getElementById('rf-body-' + id).scrollTop = 0;
+      if (window.lucide && window.lucide.createIcons) window.lucide.createIcons();
+
+      var btnLabels = { 2: 'Request your Reveal', 3: 'Submit request' };
+      nextBtn.textContent = btnLabels[n] || 'Continue';
+      if (n === 2) nextBtn.disabled = false; // tier already validated in anchor before overlay opens
+      if (n === 3) updateStep3Btn();
+    }
+
+    function updateStep1Btn() { nextBtn.disabled = !tier; }
+
+    function buildEstimate() {
+      var est = calcConstruction(rooms, tier);
+      if (!est) return;
+
+      // Premodel service hero — dominant price
+      var pm = buildPmBreakdown(rooms, tier);
+      document.getElementById('rf-pm-total-'    + id).textContent = fmtDollars(pm.total);
+      document.getElementById('rf-pm-breakdown-' + id).innerHTML  = pm.html;
+
+      // Construction cost context (compact row)
+      document.getElementById('rf-est-range-' + id).textContent = fmtRange(est.lo, est.hi);
+
+      // Budget alignment chip
+      var state = getBudgetState(est.lo, est.hi, budget);
+      document.getElementById('rf-cmp-' + id).innerHTML = buildCmpHtml(state);
+
+      // Design fees: 8–15% of construction range, rounded to $500
+      var dLo = roundNearest(est.lo * 0.05, 500);
+      var dHi = roundNearest(est.hi * 0.10, 500);
+      document.getElementById('rf-df-range-' + id).textContent = fmtRange(dLo, dHi);
+    }
+
+    function updateStep3Btn() {
+      var first   = document.getElementById('rfi-first-' + id).value.trim();
+      var last    = document.getElementById('rfi-last-'  + id).value.trim();
+      var email   = document.getElementById('rfi-email-' + id).value.trim();
+      var phone   = document.getElementById('rfi-phone-' + id).value.trim();
+      var zip     = document.getElementById('rfi-zip-'   + id).value.trim();
+      var emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      var phoneOk = phone.replace(/\D/g, '').length >= 10;
+      var zipOk   = /^\d{5}$/.test(zip);
+      nextBtn.disabled = !(first && last && emailOk && phoneOk && zipOk && ackBox.checked);
+    }
+
+    function openForm() {
+      // tier and budget already set from anchor — preserve them; only reset contact fields
+      ['first', 'last', 'email', 'phone', 'zip'].forEach(function(f) {
+        var el = document.getElementById('rfi-' + f + '-' + id);
+        if (el) { el.value = ''; document.getElementById('rff-' + f + '-' + id).classList.remove('err'); }
+      });
+      if (ackBox) ackBox.checked = false;
+      buildEstimate();
+      showStep(2);
+      overlay.classList.add('open');
+    }
+
+    function closeForm() { overlay.classList.remove('open'); }
+
+    // ── CTA bar: scroll to anchor on click; IO owns show/hide in both directions ──
+    ctaBtn.addEventListener('click', function() {
+      requestAnimationFrame(function() {
+        if (anchorEl) anchorEl.scrollIntoView({ behavior: 'smooth', block: 'end' });
+      });
+    });
+
+    // Hide bar when anchor is visible (scroll or click); restore when scrolled away
+    if ('IntersectionObserver' in window && ctaBar && anchorEl) {
+      var io = new IntersectionObserver(function(entries) {
+        entries.forEach(function(e) {
+          ctaBar.style.display = e.isIntersecting ? 'none' : '';
+        });
+      }, { root: scrollEl, threshold: 0.05 });
+      io.observe(anchorEl);
+    }
+
+    // ── Anchor chip multi-select ─────────────────────────────────────────────
+    function updateAnchorCta() {
+      anchorCta.disabled = rooms.length === 0 || !tier;
+    }
+
+    anchorChips.forEach(function(chip) {
+      chip.addEventListener('click', function() {
+        chip.classList.toggle('sel');
+        rooms = Array.prototype.filter.call(anchorChips, function(c) {
+          return c.classList.contains('sel');
+        }).map(function(c) { return c.getAttribute('data-room'); });
+        updateAnchorCta();
+      });
+    });
+
+    // Anchor tier chip single-select + contextual description
+    anchorTierBtns.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        anchorTierBtns.forEach(function(b) { b.classList.remove('sel'); });
+        btn.classList.add('sel');
+        tier = btn.getAttribute('data-tier');
+        if (tierDescText) tierDescText.textContent = btn.getAttribute('data-desc');
+        if (tierDescBox)  tierDescBox.style.display = 'block';
+        updateAnchorCta();
+      });
+    });
+
+    // Anchor budget chip single-select, optional (re-click deselects)
+    anchorBudBtns.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var isSel = btn.classList.contains('sel');
+        anchorBudBtns.forEach(function(b) { b.classList.remove('sel'); });
+        if (!isSel) { btn.classList.add('sel'); budget = btn.getAttribute('data-budget'); }
+        else { budget = null; }
+      });
+    });
+
+    if (anchorCta) anchorCta.addEventListener('click', openForm);
+
+    // ── Overlay controls ─────────────────────────────────────────────────────
+    document.getElementById('rf-close-' + id).addEventListener('click', closeForm);
+
+    // On estimate screen (s2), back closes the overlay; on later steps, goes back one step
+    backBtn.addEventListener('click', function() {
+      if (step <= 2) closeForm();
+      else showStep(step - 1);
+    });
+
+    // Tier single-select
+    tierBtns.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        tierBtns.forEach(function(b) { b.classList.remove('sel'); });
+        btn.classList.add('sel');
+        tier = btn.getAttribute('data-tier');
+        if (step === 1) updateStep1Btn();
+      });
+    });
+
+    // Budget single-select, optional (re-click deselects)
+    budBtns.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var isSel = btn.classList.contains('sel');
+        budBtns.forEach(function(b) { b.classList.remove('sel'); });
+        if (!isSel) { btn.classList.add('sel'); budget = btn.getAttribute('data-budget'); }
+        else { budget = null; }
+      });
+    });
+
+    // Step 3 live validation
+    ['first', 'last', 'email', 'phone', 'zip'].forEach(function(f) {
+      var el = document.getElementById('rfi-' + f + '-' + id);
+      if (!el) return;
+      el.addEventListener('input', updateStep3Btn);
+      el.addEventListener('blur', function() {
+        var fld = document.getElementById('rff-' + f + '-' + id);
+        var v = el.value.trim(), ok = true;
+        if (f === 'email') ok = !v || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+        else if (f === 'phone') ok = !v || v.replace(/\D/g, '').length >= 10;
+        else if (f === 'zip') ok = !v || /^\d{5}$/.test(v);
+        else ok = !!v;
+        fld.classList.toggle('err', !ok);
+      });
+    });
+    if (ackBox) ackBox.addEventListener('change', updateStep3Btn);
+
+    // Next button — overlay now starts at s2; s1 is dead code
+    nextBtn.addEventListener('click', function() {
+      if (step === 2) { showStep(3); }
+      else if (step === 3) { showStep(4); }
+    });
+  }
+
+  initRevealSheet('a');
+  initRevealSheet('b');
 })();
 </script>
 
