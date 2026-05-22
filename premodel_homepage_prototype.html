@@ -287,6 +287,11 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .rf-anchor { padding: 32px 20px 28px; border-top: 0.5px solid var(--color-border-tertiary); }
 .rf-anchor-cta { width: 100%; padding: 13px; background: var(--color-text-primary); color: var(--color-background-primary); border-radius: var(--border-radius-md); font-size: 14px; font-weight: 500; font-family: inherit; border: 0; cursor: pointer; margin-top: 20px; transition: opacity 0.2s; }
 .rf-anchor-cta:disabled { opacity: 0.32; cursor: default; }
+.rf-tier-desc-box { }
+.rf-tier-desc-inner { background: var(--color-background-secondary); border-radius: 8px; padding: 10px 13px; font-size: 13px; color: var(--color-text-secondary); line-height: 1.55; }
+.rf-budget-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
+.rf-budget-chip { appearance: none; -webkit-appearance: none; background: var(--color-background-secondary); border: 0.5px solid var(--color-border-tertiary); border-radius: 8px; padding: 10px 12px; font-size: 12px; font-family: inherit; color: var(--color-text-primary); cursor: pointer; text-align: left; line-height: 1.3; transition: background 0.15s, border-color 0.15s, color 0.15s; }
+.rf-budget-chip.sel { background: var(--color-text-primary); color: var(--color-background-primary); border-color: var(--color-text-primary); }
 
 /* ── Design fees section ────────────────────────────────────────────────────── */
 .rf-df-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-text-tertiary); margin: 0 0 8px; }
@@ -339,7 +344,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
       </div>
     </div>
     <div class="version-pill">
-      v11.15
+      v11.16
       <button type="button" class="refresh-btn" onclick="location.reload()" aria-label="Refresh prototype">
         <i data-lucide="refresh-cw"></i>
       </button>
@@ -618,26 +623,29 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
       </div>
       <div style="margin-top:20px">
         <p class="rf-q-label">Type of remodel</p>
-        <div class="rf-tiers" id="rf-anchor-tiers-a">
-          <button class="rf-tier" type="button" data-tier="cosmetic_pull">
-            <span class="rf-tier-name">Style update</span>
-            <span class="rf-tier-desc">Updated finishes, same footprint</span>
+        <div class="rf-chips" id="rf-anchor-tiers-a">
+          <button class="rf-chip" type="button" data-tier="cosmetic_pull"
+            data-desc="No walls moved, no layout changes. New finishes, fixtures, and materials — same footprint.">
+            Style update
           </button>
-          <button class="rf-tier" type="button" data-tier="gut_reconfigure">
-            <span class="rf-tier-name">Functional fix</span>
-            <span class="rf-tier-desc">Layout reconfiguration or structural changes</span>
+          <button class="rf-chip" type="button" data-tier="gut_reconfigure"
+            data-desc="Walls moved, utilities relocated, or layout reconfigured. Structural changes involved.">
+            Functional fix
           </button>
+        </div>
+        <div class="rf-tier-desc-box" id="rf-tier-desc-a" style="display:none;margin-top:10px">
+          <div class="rf-tier-desc-inner" id="rf-tier-desc-text-a"></div>
         </div>
       </div>
       <div style="margin-top:16px">
         <p class="rf-q-label">Rough construction budget<span class="rf-q-optional">optional</span></p>
-        <div class="rf-budgets" id="rf-anchor-budgets-a">
-          <button class="rf-budget" type="button" data-budget="under_50k">Under $50,000<span class="rf-budget-dot"></span></button>
-          <button class="rf-budget" type="button" data-budget="50k_100k">$50,000 – $100,000<span class="rf-budget-dot"></span></button>
-          <button class="rf-budget" type="button" data-budget="100k_200k">$100,000 – $200,000<span class="rf-budget-dot"></span></button>
-          <button class="rf-budget" type="button" data-budget="200k_400k">$200,000 – $400,000<span class="rf-budget-dot"></span></button>
-          <button class="rf-budget" type="button" data-budget="400k_plus">$400,000+<span class="rf-budget-dot"></span></button>
-          <button class="rf-budget" type="button" data-budget="not_sure">Not sure yet<span class="rf-budget-dot"></span></button>
+        <div class="rf-budget-grid" id="rf-anchor-budgets-a">
+          <button class="rf-budget-chip" type="button" data-budget="under_50k">Under $50k</button>
+          <button class="rf-budget-chip" type="button" data-budget="50k_100k">$50k – $100k</button>
+          <button class="rf-budget-chip" type="button" data-budget="100k_200k">$100k – $200k</button>
+          <button class="rf-budget-chip" type="button" data-budget="200k_400k">$200k – $400k</button>
+          <button class="rf-budget-chip" type="button" data-budget="400k_plus">$400k+</button>
+          <button class="rf-budget-chip" type="button" data-budget="not_sure">Not sure yet</button>
         </div>
       </div>
       <button class="rf-anchor-cta" type="button" id="rf-anchor-cta-a" disabled>See my estimate →</button>
@@ -783,30 +791,33 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
       </div>
       <div style="margin-top:20px">
         <p class="rf-q-label">Type of remodel</p>
-        <div class="rf-tiers" id="rf-anchor-tiers-b">
-          <button class="rf-tier" type="button" data-tier="cosmetic_update">
-            <span class="rf-tier-name">Cosmetic Update</span>
-            <span class="rf-tier-desc">Budget-driven strategic updates</span>
+        <div class="rf-chips" id="rf-anchor-tiers-b">
+          <button class="rf-chip" type="button" data-tier="cosmetic_update"
+            data-desc="Strategic updates on a budget — new paint, hardware, lighting. No surface replacements.">
+            Cosmetic update
           </button>
-          <button class="rf-tier" type="button" data-tier="style_makeover">
-            <span class="rf-tier-name">Style Makeover</span>
-            <span class="rf-tier-desc">All new fixtures and finishes, same footprint</span>
+          <button class="rf-chip" type="button" data-tier="style_makeover"
+            data-desc="All new surfaces and fixtures throughout — same footprint, completely new look.">
+            Style makeover
           </button>
-          <button class="rf-tier" type="button" data-tier="functional_fix">
-            <span class="rf-tier-name">Functional Fix</span>
-            <span class="rf-tier-desc">Layout reconfiguration and/or structural changes</span>
+          <button class="rf-chip" type="button" data-tier="functional_fix"
+            data-desc="Walls moved, utilities relocated, or layout reconfigured. Structural changes involved.">
+            Functional fix
           </button>
+        </div>
+        <div class="rf-tier-desc-box" id="rf-tier-desc-b" style="display:none;margin-top:10px">
+          <div class="rf-tier-desc-inner" id="rf-tier-desc-text-b"></div>
         </div>
       </div>
       <div style="margin-top:16px">
         <p class="rf-q-label">Rough construction budget<span class="rf-q-optional">optional</span></p>
-        <div class="rf-budgets" id="rf-anchor-budgets-b">
-          <button class="rf-budget" type="button" data-budget="under_50k">Under $50,000<span class="rf-budget-dot"></span></button>
-          <button class="rf-budget" type="button" data-budget="50k_100k">$50,000 – $100,000<span class="rf-budget-dot"></span></button>
-          <button class="rf-budget" type="button" data-budget="100k_200k">$100,000 – $200,000<span class="rf-budget-dot"></span></button>
-          <button class="rf-budget" type="button" data-budget="200k_400k">$200,000 – $400,000<span class="rf-budget-dot"></span></button>
-          <button class="rf-budget" type="button" data-budget="400k_plus">$400,000+<span class="rf-budget-dot"></span></button>
-          <button class="rf-budget" type="button" data-budget="not_sure">Not sure yet<span class="rf-budget-dot"></span></button>
+        <div class="rf-budget-grid" id="rf-anchor-budgets-b">
+          <button class="rf-budget-chip" type="button" data-budget="under_50k">Under $50k</button>
+          <button class="rf-budget-chip" type="button" data-budget="50k_100k">$50k – $100k</button>
+          <button class="rf-budget-chip" type="button" data-budget="100k_200k">$100k – $200k</button>
+          <button class="rf-budget-chip" type="button" data-budget="200k_400k">$200k – $400k</button>
+          <button class="rf-budget-chip" type="button" data-budget="400k_plus">$400k+</button>
+          <button class="rf-budget-chip" type="button" data-budget="not_sure">Not sure yet</button>
         </div>
       </div>
       <button class="rf-anchor-cta" type="button" id="rf-anchor-cta-b" disabled>See my estimate →</button>
@@ -1236,8 +1247,10 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
     var anchorEl    = document.getElementById('rf-anchor-' + id);
     var anchorChips    = document.querySelectorAll('#rf-anchor-chips-' + id + ' .rf-chip');
     var anchorCta      = document.getElementById('rf-anchor-cta-' + id);
-    var anchorTierBtns = document.querySelectorAll('#rf-anchor-tiers-' + id + ' .rf-tier');
-    var anchorBudBtns  = document.querySelectorAll('#rf-anchor-budgets-' + id + ' .rf-budget');
+    var anchorTierBtns = document.querySelectorAll('#rf-anchor-tiers-' + id + ' .rf-chip');
+    var anchorBudBtns  = document.querySelectorAll('#rf-anchor-budgets-' + id + ' .rf-budget-chip');
+    var tierDescBox    = document.getElementById('rf-tier-desc-' + id);
+    var tierDescText   = document.getElementById('rf-tier-desc-text-' + id);
     var tierBtns    = document.querySelectorAll('#rf-tiers-' + id + ' .rf-tier');   // overlay s1 (dead code)
     var budBtns     = document.querySelectorAll('#rf-budgets-' + id + ' .rf-budget'); // overlay s1 (dead code)
     var ackBox      = document.getElementById('rf-ack-' + id);
@@ -1343,17 +1356,19 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
       });
     });
 
-    // Anchor tier single-select
+    // Anchor tier chip single-select + contextual description
     anchorTierBtns.forEach(function(btn) {
       btn.addEventListener('click', function() {
         anchorTierBtns.forEach(function(b) { b.classList.remove('sel'); });
         btn.classList.add('sel');
         tier = btn.getAttribute('data-tier');
+        if (tierDescText) tierDescText.textContent = btn.getAttribute('data-desc');
+        if (tierDescBox)  tierDescBox.style.display = 'block';
         updateAnchorCta();
       });
     });
 
-    // Anchor budget single-select, optional (re-click deselects)
+    // Anchor budget chip single-select, optional (re-click deselects)
     anchorBudBtns.forEach(function(btn) {
       btn.addEventListener('click', function() {
         var isSel = btn.classList.contains('sel');
