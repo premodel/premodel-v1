@@ -344,7 +344,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
       </div>
     </div>
     <div class="version-pill">
-      v11.21
+      v11.22
       <button type="button" class="refresh-btn" onclick="location.reload()" aria-label="Refresh prototype">
         <i data-lucide="refresh-cw"></i>
       </button>
@@ -1146,6 +1146,8 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
     var b = BUDGET_RANGES[budget];
     if (lo > b.hi) return 'too_low';
     if (b.lo > 0 && hi < b.lo * 0.8) return 'has_room';
+    var bottomQuarter = lo + (hi - lo) * 0.25;
+    if (b.hi <= bottomQuarter) return 'tight';
     return 'aligned';
   }
 
@@ -1171,6 +1173,12 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
         svg: '<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line>',
         main: 'Your budget may be on the low side for this scope.',
         sub: 'Scope adjustments or phasing can help — this is exactly what a Reveal is designed to sort out.'
+      },
+      tight: {
+        bg: '#fff8e1', border: 'rgba(245,167,0,0.3)', color: '#7a4500', stroke: '#e65100',
+        svg: '<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line>',
+        main: 'Your budget could work at the lower end of this scope.',
+        sub: 'Expect to make some tradeoffs on materials and finishes. Premodel can help you figure out where to prioritize.'
       },
       has_room: {
         bg: '#eaf2fb', border: 'rgba(59,110,181,0.2)', color: '#2a5490', stroke: '#2a5490',
