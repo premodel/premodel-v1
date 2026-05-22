@@ -344,7 +344,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
       </div>
     </div>
     <div class="version-pill">
-      v11.20
+      v11.21
       <button type="button" class="refresh-btn" onclick="location.reload()" aria-label="Refresh prototype">
         <i data-lucide="refresh-cw"></i>
       </button>
@@ -693,7 +693,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
         <!-- Design fee education -->
         <div style="border-top:0.5px solid var(--color-border-tertiary);padding-top:16px">
           <p style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--color-text-tertiary);margin:0 0 6px">Good to know</p>
-          <p style="font-size:13px;color:var(--color-text-secondary);line-height:1.55;margin:0 0 8px">Full-service design fees typically run <strong style="color:var(--color-text-primary);font-weight:500">8–15% of construction costs</strong> — separate from what you pay your contractor. For a project in this range, that's usually:</p>
+          <p style="font-size:13px;color:var(--color-text-secondary);line-height:1.55;margin:0 0 8px">Design fees typically run <strong style="color:var(--color-text-primary);font-weight:500">5–10% of construction costs</strong> — separate from what you pay your contractor. For a project in this range, that's usually:</p>
           <p style="font-size:22px;font-weight:500;letter-spacing:-0.02em;color:var(--color-text-primary);margin:0 0 4px" id="rf-df-range-a"></p>
           <p style="font-size:11px;color:var(--color-text-tertiary);line-height:1.5;margin:0">Estimated for your scope · Seattle market · in addition to construction costs</p>
         </div>
@@ -861,7 +861,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
         <!-- Design fee education -->
         <div style="border-top:0.5px solid var(--color-border-tertiary);padding-top:16px">
           <p style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--color-text-tertiary);margin:0 0 6px">Good to know</p>
-          <p style="font-size:13px;color:var(--color-text-secondary);line-height:1.55;margin:0 0 8px">Full-service design fees typically run <strong style="color:var(--color-text-primary);font-weight:500">8–15% of construction costs</strong> — separate from what you pay your contractor. For a project in this range, that's usually:</p>
+          <p style="font-size:13px;color:var(--color-text-secondary);line-height:1.55;margin:0 0 8px">Design fees typically run <strong style="color:var(--color-text-primary);font-weight:500">5–10% of construction costs</strong> — separate from what you pay your contractor. For a project in this range, that's usually:</p>
           <p style="font-size:22px;font-weight:500;letter-spacing:-0.02em;color:var(--color-text-primary);margin:0 0 4px" id="rf-df-range-b"></p>
           <p style="font-size:11px;color:var(--color-text-tertiary);line-height:1.5;margin:0">Estimated for your scope · Seattle market · in addition to construction costs</p>
         </div>
@@ -1286,8 +1286,8 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
       document.getElementById('rf-cmp-' + id).innerHTML = buildCmpHtml(state);
 
       // Design fees: 8–15% of construction range, rounded to $500
-      var dLo = roundNearest(est.lo * 0.08, 500);
-      var dHi = roundNearest(est.hi * 0.15, 500);
+      var dLo = roundNearest(est.lo * 0.05, 500);
+      var dHi = roundNearest(est.hi * 0.10, 500);
       document.getElementById('rf-df-range-' + id).textContent = fmtRange(dLo, dHi);
     }
 
