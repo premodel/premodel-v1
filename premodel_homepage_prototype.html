@@ -344,7 +344,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
       </div>
     </div>
     <div class="version-pill">
-      v11.18
+      v11.19
       <button type="button" class="refresh-btn" onclick="location.reload()" aria-label="Refresh prototype">
         <i data-lucide="refresh-cw"></i>
       </button>
@@ -624,15 +624,15 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
       <div style="margin-top:20px">
         <p class="rf-q-label">Type of remodel</p>
         <div class="rf-chips" id="rf-anchor-tiers-a">
-          <button class="rf-chip" type="button" data-tier="cosmetic_update"
+          <button class="rf-chip" type="button" data-tier="refresh"
             data-desc="Budget-friendly updates that refresh the look without major construction.">
             Refresh
           </button>
-          <button class="rf-chip" type="button" data-tier="style_makeover"
+          <button class="rf-chip" type="button" data-tier="replace"
             data-desc="Everything replaced, nothing moved. New style, same layout.">
             Replace
           </button>
-          <button class="rf-chip" type="button" data-tier="functional_fix"
+          <button class="rf-chip" type="button" data-tier="reconfigure"
             data-desc="A layout redesigned around how you actually want to live.">
             Reconfigure
           </button>
@@ -796,11 +796,11 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
       <div style="margin-top:20px">
         <p class="rf-q-label">Type of remodel</p>
         <div class="rf-chips" id="rf-anchor-tiers-b">
-          <button class="rf-chip" type="button" data-tier="cosmetic_pull"
+          <button class="rf-chip" type="button" data-tier="refresh_replace"
             data-desc="No walls moved, no layout changes. New finishes, fixtures, and materials — same footprint.">
             Style update
           </button>
-          <button class="rf-chip" type="button" data-tier="gut_reconfigure"
+          <button class="rf-chip" type="button" data-tier="reconfigure"
             data-desc="Walls moved, utilities relocated, or layout reconfigured. Structural changes involved.">
             Functional fix
           </button>
@@ -1027,7 +1027,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
   // ── Construction cost tables (summed, no discounts, round to $1k) ──────────
   // Layout A: 2-type (combined cosmetic+pull, gut/reconfigure)
   var CONSTRUCTION_COSTS = {
-    cosmetic_pull: {
+    refresh_replace: {
       kitchen:        [12000,  90000],
       primary_bath:   [8000,   95000],
       secondary_bath: [6000,   50000],
@@ -1038,7 +1038,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
       entry_mudroom:  [3000,   25000],
       basement_adu:   [90000, 350000]
     },
-    gut_reconfigure: {
+    reconfigure: {
       kitchen:        [90000,  175000],
       primary_bath:   [95000,  160000],
       secondary_bath: [50000,   80000],
@@ -1053,7 +1053,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 
   // Layout B: 3-type (cosmetic update, style makeover, functional fix)
   var CONSTRUCTION_COSTS_3 = {
-    cosmetic_update: {
+    refresh: {
       kitchen:        [12000,  30000],
       primary_bath:   [8000,   18000],
       secondary_bath: [6000,   14000],
@@ -1064,7 +1064,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
       entry_mudroom:  [3000,    8000],
       basement_adu:   [15000,  40000]
     },
-    style_makeover: {
+    replace: {
       kitchen:        [45000,  90000],
       primary_bath:   [50000,  95000],
       secondary_bath: [22000,  50000],
@@ -1075,7 +1075,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
       entry_mudroom:  [10000,  25000],
       basement_adu:   [90000, 175000]
     },
-    functional_fix: {
+    reconfigure: {
       kitchen:        [90000,  175000],
       primary_bath:   [95000,  160000],
       secondary_bath: [50000,   80000],
@@ -1101,18 +1101,18 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
     bedroom: 900, entry_mudroom: 1275, basement_adu: 2775
   };
   var PM_BASE  = {
-    cosmetic_pull:   1500, gut_reconfigure: 2500,  // Layout A
-    cosmetic_update: 1500, style_makeover:  1500, functional_fix: 2500  // Layout B
+    refresh_replace: 1500, gut_reconfigure: 2500,  // Layout B (2-tier)
+    refresh: 1500, replace: 1500, reconfigure: 2500  // Layout A (3-tier)
   };
   var PM_SESSION_LABEL = {
-    cosmetic_pull:   'Style update session',
+    refresh_replace: 'Style update session',
     gut_reconfigure: 'Functional fix session',
-    cosmetic_update: 'Cosmetic update session',
-    style_makeover:  'Style makeover session',
-    functional_fix:  'Functional fix session'
+    refresh:         'Refresh session',
+    replace:         'Replace session',
+    reconfigure:     'Reconfigure session'
   };
   // RC pricing: cosmetic tiers; RCP pricing: functional fix
-  var PM_RCP_TIERS = { gut_reconfigure: true, functional_fix: true };
+  var PM_RCP_TIERS = { gut_reconfigure: true, reconfigure: true };
   var PM_DISC  = [0, 0.20, 0.25, 0.30]; // anchor, 2nd, 3rd, 4th+
 
   var BUDGET_RANGES = {
