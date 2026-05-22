@@ -344,7 +344,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
       </div>
     </div>
     <div class="version-pill">
-      v11.19
+      v11.20
       <button type="button" class="refresh-btn" onclick="location.reload()" aria-label="Refresh prototype">
         <i data-lucide="refresh-cw"></i>
       </button>
@@ -1104,13 +1104,6 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
     refresh_replace: 1500, gut_reconfigure: 2500,  // Layout B (2-tier)
     refresh: 1500, replace: 1500, reconfigure: 2500  // Layout A (3-tier)
   };
-  var PM_SESSION_LABEL = {
-    refresh_replace: 'Style update session',
-    gut_reconfigure: 'Functional fix session',
-    refresh:         'Refresh session',
-    replace:         'Replace session',
-    reconfigure:     'Reconfigure session'
-  };
   // RC pricing: cosmetic tiers; RCP pricing: functional fix
   var PM_RCP_TIERS = { gut_reconfigure: true, reconfigure: true };
   var PM_DISC  = [0, 0.20, 0.25, 0.30]; // anchor, 2nd, 3rd, 4th+
@@ -1203,7 +1196,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
   function buildPmBreakdown(rooms, tier) {
     var prices    = PM_RCP_TIERS[tier] ? PM_PRICES_RCP : PM_PRICES_RC;
     var base      = PM_BASE[tier] || 1500;
-    var baseLabel = PM_SESSION_LABEL[tier] || 'Reveal session';
+    var baseLabel = 'Premodel base fee';
 
     // Sort rooms by price high-to-low (anchor room gets no discount)
     var sorted = rooms.slice().sort(function(a, b) {
