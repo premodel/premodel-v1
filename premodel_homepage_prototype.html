@@ -344,7 +344,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
       </div>
     </div>
     <div class="version-pill">
-      v11.16
+      v11.17
       <button type="button" class="refresh-btn" onclick="location.reload()" aria-label="Refresh prototype">
         <i data-lucide="refresh-cw"></i>
       </button>
@@ -624,11 +624,15 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
       <div style="margin-top:20px">
         <p class="rf-q-label">Type of remodel</p>
         <div class="rf-chips" id="rf-anchor-tiers-a">
-          <button class="rf-chip" type="button" data-tier="cosmetic_pull"
-            data-desc="No walls moved, no layout changes. New finishes, fixtures, and materials — same footprint.">
-            Style update
+          <button class="rf-chip" type="button" data-tier="cosmetic_update"
+            data-desc="Strategic updates on a budget — new paint, hardware, lighting. No surface replacements.">
+            Cosmetic update
           </button>
-          <button class="rf-chip" type="button" data-tier="gut_reconfigure"
+          <button class="rf-chip" type="button" data-tier="style_makeover"
+            data-desc="All new surfaces and fixtures throughout — same footprint, completely new look.">
+            Style makeover
+          </button>
+          <button class="rf-chip" type="button" data-tier="functional_fix"
             data-desc="Walls moved, utilities relocated, or layout reconfigured. Structural changes involved.">
             Functional fix
           </button>
@@ -792,15 +796,11 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
       <div style="margin-top:20px">
         <p class="rf-q-label">Type of remodel</p>
         <div class="rf-chips" id="rf-anchor-tiers-b">
-          <button class="rf-chip" type="button" data-tier="cosmetic_update"
-            data-desc="Strategic updates on a budget — new paint, hardware, lighting. No surface replacements.">
-            Cosmetic update
+          <button class="rf-chip" type="button" data-tier="cosmetic_pull"
+            data-desc="No walls moved, no layout changes. New finishes, fixtures, and materials — same footprint.">
+            Style update
           </button>
-          <button class="rf-chip" type="button" data-tier="style_makeover"
-            data-desc="All new surfaces and fixtures throughout — same footprint, completely new look.">
-            Style makeover
-          </button>
-          <button class="rf-chip" type="button" data-tier="functional_fix"
+          <button class="rf-chip" type="button" data-tier="gut_reconfigure"
             data-desc="Walls moved, utilities relocated, or layout reconfigured. Structural changes involved.">
             Functional fix
           </button>
