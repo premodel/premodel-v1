@@ -399,7 +399,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .faq-closing { font-family: var(--font-serif); font-style: italic; font-size: 13.5px; color: var(--color-text-secondary); text-align: center; margin: 22px auto 0; max-width: 280px; line-height: 1.55; }
 
 /* ── Footer ─────────────────────────────────────────────────────────── */
-.footer { background: var(--color-surface-secondary); border-top: 1px solid var(--color-border-secondary); padding: 36px 20px 28px; color: var(--color-text-secondary); }
+.footer { background: var(--color-surface-secondary); border-top: 1px solid var(--color-border-secondary); padding: 36px 20px 28px; color: var(--color-text-secondary); container-type: inline-size; }
 .footer-top { text-align: center; margin: 0 0 22px; }
 .footer-wordmark { font-size: 18px; font-weight: 500; letter-spacing: -0.005em; color: var(--color-text-primary); margin: 0 0 4px; }
 .footer-tagline { font-family: var(--font-serif); font-style: italic; font-size: 13.5px; color: var(--color-text-secondary); margin: 0 0 16px; line-height: 1.4; }
@@ -424,7 +424,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .footer-legal { display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; font-size: 11px; color: var(--color-text-tertiary); line-height: 1.5; }
 .footer-legal .footer-trigger { font-size: 12px; color: var(--color-text-secondary); }
 .footer-copyright { margin: 0; }
-@media (min-width: 600px) {
+@container (min-width: 540px) {
   .footer { padding: 44px 32px 32px; }
   .footer-middle { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
   .footer-legal { flex-direction: row; justify-content: center; gap: 14px; }
@@ -448,8 +448,12 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .info-modal-placeholder { font-family: var(--font-serif); font-style: italic; font-size: 12.5px; color: var(--color-text-tertiary); margin: 0; line-height: 1.55; padding: 12px 14px; background: var(--color-background-tertiary); border-radius: var(--border-radius-md); border: 0.5px dashed var(--color-border-tertiary); }
 .info-modal-placeholder + .info-modal-placeholder { margin-top: 8px; }
 
-/* ── Responsive overrides: full-bleed prototype on phone/tablet ─────── */
-@media (max-width: 1024px) {
+/* ── Responsive overrides: full-bleed prototype on touch devices only ─
+   Targets real phones/tablets via pointer capabilities, not viewport
+   width — so chrome stays visible in desktop browsers (incl. preview
+   panels) regardless of window size, but disappears on actual touch
+   devices where the prototype IS the live site. */
+@media (hover: none) and (pointer: coarse) {
   body { padding: 0; gap: 0; }
   .prototype-wrapper { gap: 0; }
   .prototype-toolbar { display: none; }
@@ -482,7 +486,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
       </div>
     </div>
     <div class="version-pill">
-      v11.34
+      v11.35
       <button type="button" class="refresh-btn" onclick="location.reload()" aria-label="Refresh prototype">
         <i data-lucide="refresh-cw"></i>
       </button>
