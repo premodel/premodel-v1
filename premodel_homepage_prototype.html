@@ -392,6 +392,14 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .faq-item[open] .faq-caret { transform: rotate(180deg); }
 .faq-answer { padding: 0 4px 18px; font-size: 14px; color: var(--color-text-secondary); line-height: 1.6; margin: 0; }
 .faq-closing { font-family: var(--font-serif); font-style: italic; font-size: 13.5px; color: var(--color-text-secondary); text-align: center; margin: 22px auto 0; max-width: 280px; line-height: 1.55; }
+
+/* ── Responsive overrides: full-bleed prototype on phone/tablet ─────── */
+@media (max-width: 1024px) {
+  body { padding: 0; gap: 0; }
+  .prototype-wrapper { gap: 0; }
+  .prototype-toolbar { display: none; }
+  .phone-frame { width: 100vw; max-width: none; height: 100vh; height: 100dvh; border: none; border-radius: 0; }
+}
 </style>
 </head>
 <body>
@@ -419,7 +427,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
       </div>
     </div>
     <div class="version-pill">
-      v11.31
+      v11.32
       <button type="button" class="refresh-btn" onclick="location.reload()" aria-label="Refresh prototype">
         <i data-lucide="refresh-cw"></i>
       </button>
