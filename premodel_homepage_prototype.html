@@ -84,7 +84,8 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .carousel { display: flex; overflow-x: scroll; scroll-snap-type: x mandatory; scrollbar-width: none; margin: 16px 0 0; touch-action: pan-x; }
 .carousel::-webkit-scrollbar { display: none; }
 .slide { flex: 0 0 100%; scroll-snap-align: center; padding: 0 16px; }
-.slide .img { width: 100%; aspect-ratio: 3/2; background: var(--color-background-secondary); border-radius: var(--border-radius-md); display: flex; align-items: center; justify-content: center; color: var(--color-text-tertiary); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; }
+.slide .img { width: 100%; aspect-ratio: 3/2; background: #3a3935; border-radius: var(--border-radius-md); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; color: rgba(255,255,255,0.42); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; position: relative; }
+.slide .img::before { content: ''; width: 38px; height: 38px; background-color: rgba(255,255,255,0.36); -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'/%3E%3Ccircle cx='9' cy='9' r='2'/%3E%3Cpath d='m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21'/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'/%3E%3Ccircle cx='9' cy='9' r='2'/%3E%3Cpath d='m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21'/%3E%3C/svg%3E") center / contain no-repeat; }
 .dots { display: flex; justify-content: center; gap: 5px; padding: 14px 0 0; align-items: center; }
 .dot { width: 4px; height: 4px; border-radius: 50%; background: var(--color-border-secondary); border: 0; padding: 0; margin: 0; appearance: none; -webkit-appearance: none; cursor: pointer; flex: 0 0 4px; display: inline-block; }
 .dot.active { background: var(--color-text-primary); }
@@ -104,7 +105,8 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .plan-gallery { grid-row: 1; grid-column: 1; z-index: 1; display: flex; gap: 8px; overflow-x: scroll; scroll-snap-type: x mandatory; scroll-padding-left: 180px; scrollbar-width: none; padding-left: 180px; padding-right: 16px; touch-action: pan-x; background: transparent; }
 .plan-gallery::-webkit-scrollbar { display: none; }
 .tile { flex: 0 0 180px; scroll-snap-align: start; background: var(--color-background-secondary); border-radius: var(--border-radius-lg); overflow: hidden; display: flex; flex-direction: column; }
-.tile-image { width: 100%; aspect-ratio: 4/3; background: var(--color-background-secondary); display: flex; align-items: center; justify-content: center; color: var(--color-text-tertiary); font-size: 10px; letter-spacing: 0.05em; text-transform: uppercase; }
+.tile-image { width: 100%; aspect-ratio: 4/3; background: #3a3935; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; color: rgba(255,255,255,0.40); font-size: 9px; letter-spacing: 0.05em; text-transform: uppercase; position: relative; }
+.tile-image::before { content: ''; width: 26px; height: 26px; background-color: rgba(255,255,255,0.36); -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'/%3E%3Ccircle cx='9' cy='9' r='2'/%3E%3Cpath d='m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21'/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'/%3E%3Ccircle cx='9' cy='9' r='2'/%3E%3Cpath d='m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21'/%3E%3C/svg%3E") center / contain no-repeat; }
 .tile-body { padding: 10px 12px 12px; }
 .tile-title { font-size: 13px; font-weight: 500; margin: 0 0 2px; }
 .tile-tagline { font-size: 11px; color: var(--color-text-secondary); margin: 0 0 6px; font-weight: 500; }
@@ -317,6 +319,63 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .rf-ns-num { width: 30px; height: 30px; border-radius: 50%; background: var(--color-text-primary); color: var(--color-background-primary); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; flex-shrink: 0; position: relative; z-index: 1; }
 .rf-ns-title { font-size: 14px; font-weight: 600; color: var(--color-text-primary); margin: 0 0 3px; padding-top: 5px; }
 .rf-ns-desc { font-size: 13px; color: var(--color-text-secondary); margin: 0; line-height: 1.5; }
+
+/* ── Why Premodel ──────────────────────────────────────────────────────────── */
+.why-section { padding: 30px 0 36px; }
+.why-header { padding: 0 20px; text-align: center; margin: 0 0 22px; }
+
+/* Lead rail: text pinned left (non-boxed), founder cards scroll horizontally — mirrors .plan-block pattern */
+.why-lead-rail { display: grid; grid-template-columns: 1fr; grid-template-rows: auto; margin: 0 0 36px; }
+.why-lead-text { grid-row: 1; grid-column: 1; align-self: start; justify-self: start; width: 70%; padding: 0 12px 0 20px; box-sizing: border-box; z-index: 0; pointer-events: none; }
+.why-lead-headline { font-size: 21px; font-weight: 500; letter-spacing: -0.015em; line-height: 1.18; color: var(--color-text-primary); margin: 0 0 16px; text-wrap: balance; }
+.why-proof { display: flex; flex-direction: column; gap: 4px; }
+.why-proof-row { display: grid; grid-template-columns: 64px 1fr; gap: 12px; align-items: center; padding: 8px 0; }
+.why-proof-num { font-size: 22px; font-weight: 600; letter-spacing: -0.02em; color: var(--color-text-primary); font-variant-numeric: tabular-nums; line-height: 1; margin: 0; }
+.why-proof-desc { font-size: 11.5px; color: var(--color-text-secondary); line-height: 1.4; margin: 0; }
+
+.why-founders { grid-row: 1; grid-column: 1; z-index: 1; display: flex; gap: 10px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-left: 70%; scrollbar-width: none; padding: 0 20px 4px 70%; touch-action: pan-x; -webkit-overflow-scrolling: touch; background: transparent; }
+.why-founders::-webkit-scrollbar { display: none; }
+.why-card.founder { flex: 0 0 290px; scroll-snap-align: start; background: var(--color-background-primary); border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-lg); box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 2px 14px rgba(0,0,0,0.07); padding: 18px 16px 16px; display: flex; flex-direction: column; }
+.why-founder-head { display: grid; grid-template-columns: 48px 1fr auto; gap: 12px; align-items: center; margin: 0 0 12px; }
+.why-founder-portrait { width: 48px; height: 48px; border-radius: 50%; background: var(--color-background-secondary); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; color: var(--color-text-secondary); letter-spacing: 0.04em; overflow: hidden; flex-shrink: 0; }
+.why-founder-meta { min-width: 0; }
+.why-founder-name { font-size: 15px; font-weight: 600; letter-spacing: -0.01em; color: var(--color-text-primary); margin: 0 0 2px; line-height: 1.2; }
+.why-founder-role { font-size: 11px; font-weight: 500; color: var(--color-text-secondary); letter-spacing: 0.005em; margin: 0; line-height: 1.3; }
+.why-founder-linkedin { color: var(--color-text-secondary); display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 6px; text-decoration: none; transition: background 0.15s, color 0.15s; flex-shrink: 0; }
+.why-founder-linkedin:hover { background: var(--color-background-secondary); color: var(--color-text-primary); }
+.why-founder-linkedin svg { width: 14px; height: 14px; stroke-width: 1.75; }
+.why-founder-quote { font-family: var(--font-serif); font-style: italic; font-size: 13px; line-height: 1.55; color: var(--color-text-secondary); margin: 0; }
+
+/* Gallery: full-bleed IG-style square carousel; tap opens case-study modal */
+.why-gallery-headline { font-size: 21px; font-weight: 500; color: var(--color-text-primary); margin: 0 20px 14px; letter-spacing: -0.015em; line-height: 1.2; text-align: center; text-wrap: balance; }
+.why-ig-carousel { display: flex; overflow-x: scroll; scroll-snap-type: x mandatory; scrollbar-width: none; touch-action: pan-x; -webkit-overflow-scrolling: touch; }
+.why-ig-carousel::-webkit-scrollbar { display: none; }
+.why-ig-slide { flex: 0 0 100%; scroll-snap-align: center; position: relative; cursor: pointer; }
+.why-ig-slide::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 38%; background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0) 100%); pointer-events: none; }
+.why-ig-img { width: 100%; aspect-ratio: 1/1; background: #3a3935; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; color: rgba(255,255,255,0.36); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; position: relative; }
+.why-ig-img::before { content: ''; width: 44px; height: 44px; background-color: rgba(255,255,255,0.34); -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'/%3E%3Ccircle cx='9' cy='9' r='2'/%3E%3Cpath d='m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21'/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'/%3E%3Ccircle cx='9' cy='9' r='2'/%3E%3Cpath d='m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21'/%3E%3C/svg%3E") center / contain no-repeat; }
+.why-ig-overlay { position: absolute; left: 16px; right: 132px; bottom: 14px; color: #fff; pointer-events: none; text-shadow: 0 1px 10px rgba(0,0,0,0.45); z-index: 2; }
+.why-ig-name { font-size: 16px; font-weight: 600; margin: 0 0 2px; letter-spacing: -0.01em; }
+.why-ig-meta { font-size: 12px; font-weight: 500; margin: 0; opacity: 0.95; letter-spacing: 0.01em; }
+.why-ig-cta { position: absolute; bottom: 12px; right: 12px; background: #ffffff; color: #1a1a18; border-radius: 999px; padding: 7px 12px 7px 14px; font-size: 11.5px; font-weight: 600; letter-spacing: -0.005em; display: inline-flex; align-items: center; gap: 5px; pointer-events: none; z-index: 2; box-shadow: 0 2px 10px rgba(0,0,0,0.28); }
+.why-ig-cta svg { width: 13px; height: 13px; stroke-width: 2; color: #1a1a18; }
+.why-ig-link { position: absolute; top: 12px; right: 12px; width: 32px; height: 32px; border-radius: 8px; background: rgba(0,0,0,0.32); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); display: flex; align-items: center; justify-content: center; color: #fff; text-decoration: none; transition: background 0.15s; z-index: 2; }
+.why-ig-link:hover { background: rgba(0,0,0,0.5); }
+.why-ig-link svg { width: 16px; height: 16px; stroke-width: 1.75; }
+.why-ig-dots { display: flex; justify-content: center; gap: 5px; padding: 14px 0 0; align-items: center; }
+.why-ig-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--color-border-secondary); border: 0; padding: 0; margin: 0; appearance: none; -webkit-appearance: none; cursor: pointer; flex: 0 0 4px; }
+.why-ig-dot.active { background: var(--color-text-primary); }
+
+/* Case-study modal (sheet-style, contained inside the phone frame) */
+.case-modal { position: absolute; inset: 0; background: rgba(0,0,0,0.55); display: none; align-items: flex-end; justify-content: center; z-index: 50; }
+.case-modal.open { display: flex; }
+.case-modal-card { width: 100%; background: var(--color-background-primary); border-radius: 20px 20px 0 0; padding: 22px 22px 30px; max-height: 82%; overflow-y: auto; position: relative; box-shadow: 0 -8px 24px rgba(0,0,0,0.12); }
+.case-modal-close { position: absolute; top: 14px; right: 14px; width: 32px; height: 32px; border-radius: 50%; background: var(--color-background-secondary); border: 0; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--color-text-secondary); }
+.case-modal-close svg { width: 15px; height: 15px; stroke-width: 2; }
+.case-modal-eyebrow { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-text-tertiary); margin: 2px 0 6px; font-weight: 600; }
+.case-modal-name { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; color: var(--color-text-primary); margin: 0 0 4px; }
+.case-modal-meta { font-size: 13px; color: var(--color-text-secondary); margin: 0 0 18px; }
+.case-modal-placeholder { font-family: var(--font-serif); font-style: italic; font-size: 13.5px; color: var(--color-text-tertiary); margin: 8px 0 0; line-height: 1.6; padding: 16px; background: var(--color-background-tertiary); border-radius: var(--border-radius-md); }
 </style>
 </head>
 <body>
@@ -344,7 +403,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
       </div>
     </div>
     <div class="version-pill">
-      v11.22
+      v11.30
       <button type="button" class="refresh-btn" onclick="location.reload()" aria-label="Refresh prototype">
         <i data-lucide="refresh-cw"></i>
       </button>
@@ -605,6 +664,112 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
       <p class="pricing-microcopy">Actual pricing varies based on scope, room count,<br>and optional deliverables.</p>
     </div>
 
+    <!-- ── Why Premodel ──────────────────────────────────────────────── -->
+    <section class="why-section">
+      <div class="why-header">
+        <p class="section-eyebrow">Why Premodel</p>
+        <h2 class="section-headline">A new kind of remodel pro.</h2>
+      </div>
+
+      <div class="why-lead-rail">
+        <div class="why-lead-text">
+          <h3 class="why-lead-headline">Pre-remodel advisors who plan in pictures.</h3>
+          <div class="why-proof">
+            <div class="why-proof-row">
+              <p class="why-proof-num">0+</p>
+              <p class="why-proof-desc">Years each in design, tech and project planning</p>
+            </div>
+            <div class="why-proof-row">
+              <p class="why-proof-num">0×</p>
+              <p class="why-proof-desc">Lived through remodels of our own</p>
+            </div>
+            <div class="why-proof-row">
+              <p class="why-proof-num">&gt;0.0K</p>
+              <p class="why-proof-desc">Pictures used to plan homeowners' remodels</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="why-founders">
+          <article class="why-card founder">
+            <div class="why-founder-head">
+              <div class="why-founder-portrait">AW</div>
+              <div class="why-founder-meta">
+                <p class="why-founder-name">Ashley Wells</p>
+                <p class="why-founder-role">Co-founder · Pre-remodel advisor</p>
+              </div>
+              <a class="why-founder-linkedin" href="#" target="_blank" rel="noopener" aria-label="Ashley Wells on LinkedIn">
+                <i data-lucide="linkedin"></i>
+              </a>
+            </div>
+            <p class="why-founder-quote">"I walk your space with you, ask the questions you haven't thought to ask, and help you decide what's worth doing — before anyone swings a hammer."</p>
+          </article>
+
+          <article class="why-card founder">
+            <div class="why-founder-head">
+              <div class="why-founder-portrait">PS</div>
+              <div class="why-founder-meta">
+                <p class="why-founder-name">Paige Sandler</p>
+                <p class="why-founder-role">Co-founder · Pre-remodel advisor</p>
+              </div>
+              <a class="why-founder-linkedin" href="#" target="_blank" rel="noopener" aria-label="Paige Sandler on LinkedIn">
+                <i data-lucide="linkedin"></i>
+              </a>
+            </div>
+            <p class="why-founder-quote">"Every remodel I've lived through taught me what to ask early. I bring those questions to your home, so you don't learn them the painful way."</p>
+          </article>
+        </div>
+      </div>
+
+      <div class="why-gallery">
+        <h3 class="why-gallery-headline">Pictures help homeowners decide.</h3>
+        <div class="why-ig-carousel" id="why-ig-carousel">
+          <div class="why-ig-slide" data-name="Anna G." data-meta="Master bath · Edmonds" data-ig="https://instagram.com/premodel">
+            <div class="why-ig-img">Project image 1</div>
+            <div class="why-ig-overlay">
+              <p class="why-ig-name">Master bath</p>
+              <p class="why-ig-meta">Edmonds</p>
+            </div>
+            <a class="why-ig-link" href="https://instagram.com/premodel" target="_blank" rel="noopener" aria-label="View on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg></a>
+            <div class="why-ig-cta">See the project <i data-lucide="arrow-right"></i></div>
+          </div>
+          <div class="why-ig-slide" data-name="Sasha A." data-meta="Full home renovation · Seattle" data-ig="https://instagram.com/premodel">
+            <div class="why-ig-img">Project image 2</div>
+            <div class="why-ig-overlay">
+              <p class="why-ig-name">Full home renovation</p>
+              <p class="why-ig-meta">Seattle</p>
+            </div>
+            <a class="why-ig-link" href="https://instagram.com/premodel" target="_blank" rel="noopener" aria-label="View on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg></a>
+            <div class="why-ig-cta">See the project <i data-lucide="arrow-right"></i></div>
+          </div>
+          <div class="why-ig-slide" data-name="Kainaz B." data-meta="Multi-room, new build · Seattle" data-ig="https://instagram.com/premodel">
+            <div class="why-ig-img">Project image 3</div>
+            <div class="why-ig-overlay">
+              <p class="why-ig-name">Multi-room remodel</p>
+              <p class="why-ig-meta">Seattle</p>
+            </div>
+            <a class="why-ig-link" href="https://instagram.com/premodel" target="_blank" rel="noopener" aria-label="View on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg></a>
+            <div class="why-ig-cta">See the project <i data-lucide="arrow-right"></i></div>
+          </div>
+          <div class="why-ig-slide" data-name="Jenna R." data-meta="Powder bath · Kirkland" data-ig="https://instagram.com/premodel">
+            <div class="why-ig-img">Project image 4</div>
+            <div class="why-ig-overlay">
+              <p class="why-ig-name">Powder bath</p>
+              <p class="why-ig-meta">Kirkland</p>
+            </div>
+            <a class="why-ig-link" href="https://instagram.com/premodel" target="_blank" rel="noopener" aria-label="View on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg></a>
+            <div class="why-ig-cta">See the project <i data-lucide="arrow-right"></i></div>
+          </div>
+        </div>
+        <div class="why-ig-dots" id="why-ig-dots">
+          <button class="why-ig-dot active" data-i="0" aria-label="Slide 1"></button>
+          <button class="why-ig-dot" data-i="1" aria-label="Slide 2"></button>
+          <button class="why-ig-dot" data-i="2" aria-label="Slide 3"></button>
+          <button class="why-ig-dot" data-i="3" aria-label="Slide 4"></button>
+        </div>
+      </div>
+    </section>
+
     <!-- Anchor section: room selection + deposit disclosure -->
     <div class="rf-anchor" id="rf-anchor-a" style="padding:24px 20px 20px">
       <p class="rf-eyebrow">Get your estimate</p>
@@ -760,6 +925,19 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 
     <div class="rf-footer" id="rf-footer-a">
       <button class="rf-btn" type="button" id="rf-next-a">Continue</button>
+    </div>
+  </div>
+
+  <!-- Case-study modal (sheet-style; mounted inside phone frame for absolute containment) -->
+  <div class="case-modal" id="case-modal" role="dialog" aria-modal="true" aria-labelledby="case-modal-name" aria-hidden="true">
+    <div class="case-modal-card">
+      <button type="button" class="case-modal-close" id="case-modal-close" aria-label="Close case study">
+        <i data-lucide="x"></i>
+      </button>
+      <p class="case-modal-eyebrow">Case study</p>
+      <h3 class="case-modal-name" id="case-modal-name">—</h3>
+      <p class="case-modal-meta" id="case-modal-meta">—</p>
+      <p class="case-modal-placeholder">Case study coming soon — multiple project images, key materials, and a 2–3 paragraph story will live here.</p>
     </div>
   </div>
 </div>
@@ -968,6 +1146,109 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
       carousel.scrollTo({ left: i * carousel.clientWidth, behavior: 'smooth' });
     });
   });
+
+  // Why Premodel — IG-style case study carousel + modal
+  var igCarousel = document.getElementById('why-ig-carousel');
+  if (igCarousel) {
+    var igDots = document.querySelectorAll('#why-ig-dots .why-ig-dot');
+    function updateIgDots() {
+      var i = Math.round(igCarousel.scrollLeft / igCarousel.clientWidth);
+      igDots.forEach(function(d, j) { d.classList.toggle('active', j === i); });
+    }
+    igCarousel.addEventListener('scroll', updateIgDots, { passive: true });
+    igDots.forEach(function(d, i) {
+      d.addEventListener('click', function() {
+        igCarousel.scrollTo({ left: i * igCarousel.clientWidth, behavior: 'smooth' });
+      });
+    });
+  }
+
+  var caseModal = document.getElementById('case-modal');
+  var caseModalName = document.getElementById('case-modal-name');
+  var caseModalMeta = document.getElementById('case-modal-meta');
+  var caseModalClose = document.getElementById('case-modal-close');
+  function openCaseModal(slide) {
+    if (!caseModal) return;
+    caseModalName.textContent = slide.dataset.name || '';
+    caseModalMeta.textContent = slide.dataset.meta || '';
+    caseModal.classList.add('open');
+    caseModal.setAttribute('aria-hidden', 'false');
+  }
+  function closeCaseModal() {
+    if (!caseModal) return;
+    caseModal.classList.remove('open');
+    caseModal.setAttribute('aria-hidden', 'true');
+  }
+  document.querySelectorAll('.why-ig-slide').forEach(function(slide) {
+    slide.addEventListener('click', function(e) {
+      if (e.target.closest('.why-ig-link')) return;
+      openCaseModal(slide);
+    });
+  });
+  if (caseModalClose) caseModalClose.addEventListener('click', closeCaseModal);
+  if (caseModal) caseModal.addEventListener('click', function(e) { if (e.target === caseModal) closeCaseModal(); });
+
+  // Why Premodel — proof numbers count up sequentially the first time they scroll into view
+  (function initProofAnimation() {
+    var proofEl = document.querySelector('.why-proof');
+    if (!proofEl || !('IntersectionObserver' in window)) return;
+    var nums = proofEl.querySelectorAll('.why-proof-num');
+    if (nums.length < 3) return;
+    var triggered = false;
+
+    function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
+
+    function tickInt(el, end, prefix, suffix, duration) {
+      return new Promise(function(resolve) {
+        var start = performance.now();
+        var last = -1;
+        el.textContent = prefix + '0' + suffix;
+        function frame(now) {
+          var t = Math.min((now - start) / duration, 1);
+          var v = Math.floor(easeOut(t) * end);
+          if (t === 1) v = end;
+          if (v !== last) { el.textContent = prefix + v + suffix; last = v; }
+          if (t < 1) { requestAnimationFrame(frame); }
+          else { resolve(); }
+        }
+        requestAnimationFrame(frame);
+      });
+    }
+
+    function tickDecimal(el, end, prefix, suffix, duration) {
+      return new Promise(function(resolve) {
+        var start = performance.now();
+        var last = -1;
+        el.textContent = prefix + (0).toFixed(1) + suffix;
+        function frame(now) {
+          var t = Math.min((now - start) / duration, 1);
+          var v = Math.round(easeOut(t) * end * 10) / 10;
+          if (t === 1) v = end;
+          if (v !== last) { el.textContent = prefix + v.toFixed(1) + suffix; last = v; }
+          if (t < 1) { requestAnimationFrame(frame); }
+          else { resolve(); }
+        }
+        requestAnimationFrame(frame);
+      });
+    }
+
+    function run() {
+      tickInt(nums[0], 20, '', '+', 1200)
+        .then(function() { return tickInt(nums[1], 12, '', '×', 1100); })
+        .then(function() { return tickDecimal(nums[2], 1.2, '>', 'K', 1100); });
+    }
+
+    var io = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting && !triggered) {
+          triggered = true;
+          run();
+          io.disconnect();
+        }
+      });
+    }, { root: scrollEl, threshold: 0.4 });
+    io.observe(proofEl);
+  })();
 
   var toggleButtons = document.querySelectorAll('.toggle-btn');
   var phoneFrames = document.querySelectorAll('.phone-frame');
