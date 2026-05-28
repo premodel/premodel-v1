@@ -457,7 +457,112 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
   body { padding: 0; gap: 0; }
   .prototype-wrapper { gap: 0; }
   .prototype-toolbar { display: none; }
+  .palette-picker { display: none; }
   .phone-frame { width: 100vw; max-width: none; height: 100vh; height: 100dvh; border: none; border-radius: 0; }
+}
+
+/* ── Palette picker (reviewer chrome) ────────────────────────────────
+   Self-contained colors so the picker UI never re-skins with the
+   palette swap. Uses scoped --pp-* vars so OS dark mode still adapts
+   when no palette is active. */
+.palette-picker {
+  --pp-text: #6b6a64;
+  --pp-text-strong: #1a1a18;
+  --pp-border-off: #a8a7a1;
+  width: var(--frame-width);
+  max-width: 100%;
+  margin-top: 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  font-family: var(--font-sans);
+}
+@media (prefers-color-scheme: dark) {
+  .palette-picker {
+    --pp-text: #a8a7a1;
+    --pp-text-strong: #f0eee5;
+    --pp-border-off: #6b6a64;
+  }
+}
+.palette-picker-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+.palette-picker-label,
+.palette-picker-compare {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--pp-text);
+  font-family: inherit;
+}
+.palette-picker-compare {
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+.palette-picker-compare:hover {
+  color: var(--pp-text-strong);
+  text-decoration: underline;
+}
+.palette-picker-compare:focus-visible {
+  outline: 2px solid var(--pp-text-strong);
+  outline-offset: 2px;
+}
+.palette-picker-swatches {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.palette-picker .swatch-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.palette-picker .swatch {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  background: var(--swatch-color, transparent);
+  font-family: inherit;
+  color: var(--pp-text);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s ease;
+  line-height: 1;
+}
+.palette-picker .swatch:hover {
+  transform: scale(1.08);
+}
+.palette-picker .swatch.active {
+  outline: 2px solid var(--pp-text-strong);
+  outline-offset: 2px;
+}
+.palette-picker .swatch:focus-visible {
+  outline: 2px solid var(--pp-text-strong);
+  outline-offset: 2px;
+}
+.palette-picker .swatch-off {
+  background: transparent;
+  border: 1px dotted var(--pp-border-off);
+  font-size: 14px;
+}
+.palette-picker .swatch-caption {
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  color: var(--pp-text);
+}
+.palette-picker .swatch-wrap.active .swatch-caption {
+  color: var(--pp-text-strong);
 }
 </style>
 </head>
@@ -1763,6 +1868,41 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
   </div>
 </div>
 
+  <div class="palette-picker" role="radiogroup" aria-label="Color palette">
+    <div class="palette-picker-head">
+      <span class="palette-picker-label">Palette</span>
+      <a href="premodel_palette_v2.html" target="_blank" rel="noopener" class="palette-picker-compare">Compare all →</a>
+    </div>
+    <div class="palette-picker-swatches">
+      <div class="swatch-wrap active" data-palette-wrap="off">
+        <button type="button" class="swatch swatch-off active" data-palette="off" role="radio" aria-checked="true" aria-label="Off — restore default" tabindex="0">
+          <span aria-hidden="true">×</span>
+        </button>
+        <span class="swatch-caption">Off</span>
+      </div>
+      <div class="swatch-wrap" data-palette-wrap="oxblood">
+        <button type="button" class="swatch" data-palette="oxblood" role="radio" aria-checked="false" aria-label="Oxblood" tabindex="-1" style="--swatch-color: #5e2c2e;"></button>
+        <span class="swatch-caption">Oxblood</span>
+      </div>
+      <div class="swatch-wrap" data-palette-wrap="sage">
+        <button type="button" class="swatch" data-palette="sage" role="radio" aria-checked="false" aria-label="Sage" tabindex="-1" style="--swatch-color: #7d8a72;"></button>
+        <span class="swatch-caption">Sage</span>
+      </div>
+      <div class="swatch-wrap" data-palette-wrap="cyanotype">
+        <button type="button" class="swatch" data-palette="cyanotype" role="radio" aria-checked="false" aria-label="Cyanotype" tabindex="-1" style="--swatch-color: #2a5680;"></button>
+        <span class="swatch-caption">Cyanotype</span>
+      </div>
+      <div class="swatch-wrap" data-palette-wrap="aubergine">
+        <button type="button" class="swatch" data-palette="aubergine" role="radio" aria-checked="false" aria-label="Aubergine" tabindex="-1" style="--swatch-color: #4a2942;"></button>
+        <span class="swatch-caption">Aubergine</span>
+      </div>
+      <div class="swatch-wrap" data-palette-wrap="saffron">
+        <button type="button" class="swatch" data-palette="saffron" role="radio" aria-checked="false" aria-label="Saffron" tabindex="-1" style="--swatch-color: #c89028;"></button>
+        <span class="swatch-caption">Saffron</span>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
@@ -2600,6 +2740,83 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
   document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape' && openModal) close();
   });
+
+  // ── Palette picker ────────────────────────────────────────────────
+  // Editorial warm-neutrals shared by every accent; each accent then
+  // overrides --color-brand-navy with its own value. Inline styles on
+  // :root win over the static :root block AND the dark-mode @media,
+  // so palettes look right regardless of OS theme. Off = clear all
+  // overrides → prototype reverts to its declared defaults.
+  var PALETTES = {
+    _base: {
+      '--color-background-primary':   '#f7f4eb',
+      '--color-background-secondary': '#fbf8ef',
+      '--color-background-tertiary':  '#fbf8ef',
+      '--color-surface-secondary':    '#ece4d1',
+      '--color-text-primary':         '#2a2826',
+      '--color-text-secondary':       '#6a625a',
+      '--color-text-tertiary':        '#998f80'
+    },
+    oxblood:   { '--color-brand-navy': '#5e2c2e' },
+    sage:      { '--color-brand-navy': '#7d8a72' },
+    cyanotype: { '--color-brand-navy': '#2a5680' },
+    aubergine: { '--color-brand-navy': '#4a2942' },
+    saffron:   { '--color-brand-navy': '#c89028' }
+  };
+  var ALL_OVERRIDE_KEYS = Object.keys(PALETTES._base).concat(['--color-brand-navy']);
+
+  var picker = document.querySelector('.palette-picker');
+  if (picker) {
+    var swatches = Array.prototype.slice.call(picker.querySelectorAll('.swatch'));
+
+    function applyPalette(key) {
+      var root = document.documentElement;
+      ALL_OVERRIDE_KEYS.forEach(function(v) { root.style.removeProperty(v); });
+      if (key === 'off') return;
+      var tokens = {};
+      Object.keys(PALETTES._base).forEach(function(k) { tokens[k] = PALETTES._base[k]; });
+      var accent = PALETTES[key];
+      if (accent) Object.keys(accent).forEach(function(k) { tokens[k] = accent[k]; });
+      Object.keys(tokens).forEach(function(k) { root.style.setProperty(k, tokens[k]); });
+    }
+
+    function setActive(key) {
+      swatches.forEach(function(btn) {
+        var isActive = btn.getAttribute('data-palette') === key;
+        btn.classList.toggle('active', isActive);
+        btn.setAttribute('aria-checked', isActive ? 'true' : 'false');
+        btn.setAttribute('tabindex', isActive ? '0' : '-1');
+        var wrap = btn.closest('.swatch-wrap');
+        if (wrap) wrap.classList.toggle('active', isActive);
+      });
+    }
+
+    function select(key) {
+      applyPalette(key);
+      setActive(key);
+    }
+
+    swatches.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        select(btn.getAttribute('data-palette'));
+      });
+    });
+
+    picker.addEventListener('keydown', function(e) {
+      var idx = swatches.indexOf(document.activeElement);
+      if (idx === -1) return;
+      var next = null;
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') next = (idx + 1) % swatches.length;
+      else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') next = (idx - 1 + swatches.length) % swatches.length;
+      else if (e.key === 'Home') next = 0;
+      else if (e.key === 'End') next = swatches.length - 1;
+      if (next === null) return;
+      e.preventDefault();
+      var target = swatches[next];
+      target.focus();
+      select(target.getAttribute('data-palette'));
+    });
+  }
 })();
 </script>
 
