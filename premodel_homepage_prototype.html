@@ -1411,6 +1411,19 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
       <button class="rf-btn" type="button" id="rf-next-b">Continue</button>
     </div>
   </div>
+
+  <!-- Case-study modal for Layout B -->
+  <div class="case-modal" id="case-modal-b" role="dialog" aria-modal="true" aria-labelledby="case-modal-b-name" aria-hidden="true">
+    <div class="case-modal-card">
+      <button type="button" class="case-modal-close" id="case-modal-b-close" aria-label="Close case study">
+        <i data-lucide="x"></i>
+      </button>
+      <p class="case-modal-eyebrow">Case study</p>
+      <h3 class="case-modal-name" id="case-modal-b-name">—</h3>
+      <p class="case-modal-meta" id="case-modal-b-meta">—</p>
+      <p class="case-modal-placeholder">Case study coming soon — multiple project images, key materials, and a 2–3 paragraph story will live here.</p>
+    </div>
+  </div>
 </div>
 
 </div>
@@ -1482,6 +1495,22 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
     });
   }
 
+  // Why Premodel — IG-style carousel + dots (Layout B)
+  var igCarouselB = document.getElementById('why-ig-carousel-b');
+  if (igCarouselB) {
+    var igDotsB = document.querySelectorAll('#why-ig-dots-b .why-ig-dot');
+    function updateIgDotsB() {
+      var i = Math.round(igCarouselB.scrollLeft / igCarouselB.clientWidth);
+      igDotsB.forEach(function(d, j) { d.classList.toggle('active', j === i); });
+    }
+    igCarouselB.addEventListener('scroll', updateIgDotsB, { passive: true });
+    igDotsB.forEach(function(d, i) {
+      d.addEventListener('click', function() {
+        igCarouselB.scrollTo({ left: i * igCarouselB.clientWidth, behavior: 'smooth' });
+      });
+    });
+  }
+
   var caseModal = document.getElementById('case-modal');
   var caseModalName = document.getElementById('case-modal-name');
   var caseModalMeta = document.getElementById('case-modal-meta');
@@ -1498,7 +1527,8 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
     caseModal.classList.remove('open');
     caseModal.setAttribute('aria-hidden', 'true');
   }
-  document.querySelectorAll('.why-ig-slide').forEach(function(slide) {
+  // Layout A slides → #case-modal
+  document.querySelectorAll('#why-ig-carousel .why-ig-slide').forEach(function(slide) {
     slide.addEventListener('click', function(e) {
       if (e.target.closest('.why-ig-link')) return;
       openCaseModal(slide);
@@ -1506,6 +1536,32 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
   });
   if (caseModalClose) caseModalClose.addEventListener('click', closeCaseModal);
   if (caseModal) caseModal.addEventListener('click', function(e) { if (e.target === caseModal) closeCaseModal(); });
+
+  // Layout B slides → #case-modal-b
+  var caseModalB = document.getElementById('case-modal-b');
+  var caseModalBName = document.getElementById('case-modal-b-name');
+  var caseModalBMeta = document.getElementById('case-modal-b-meta');
+  var caseModalBClose = document.getElementById('case-modal-b-close');
+  function openCaseModalB(slide) {
+    if (!caseModalB) return;
+    caseModalBName.textContent = slide.dataset.name || '';
+    caseModalBMeta.textContent = slide.dataset.meta || '';
+    caseModalB.classList.add('open');
+    caseModalB.setAttribute('aria-hidden', 'false');
+  }
+  function closeCaseModalB() {
+    if (!caseModalB) return;
+    caseModalB.classList.remove('open');
+    caseModalB.setAttribute('aria-hidden', 'true');
+  }
+  document.querySelectorAll('#why-ig-carousel-b .why-ig-slide').forEach(function(slide) {
+    slide.addEventListener('click', function(e) {
+      if (e.target.closest('.why-ig-link')) return;
+      openCaseModalB(slide);
+    });
+  });
+  if (caseModalBClose) caseModalBClose.addEventListener('click', closeCaseModalB);
+  if (caseModalB) caseModalB.addEventListener('click', function(e) { if (e.target === caseModalB) closeCaseModalB(); });
 
   // Why Premodel — proof numbers count up sequentially the first time they scroll into view
   (function initProofAnimation() {
