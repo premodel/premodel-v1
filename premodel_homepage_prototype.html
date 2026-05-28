@@ -81,7 +81,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .reveal-hero .h1-small { font-size: 17px; color: var(--color-text-secondary); margin: 0; line-height: 1.4; }
 .reveal-hero .h1-large { font-size: 30px; font-weight: 500; margin: 6px 0 0; letter-spacing: -0.015em; line-height: 1.05; }
 
-.carousel { display: flex; overflow-x: scroll; scroll-snap-type: x mandatory; scrollbar-width: none; margin: 16px 0 0; touch-action: pan-x; }
+.carousel { display: flex; overflow-x: scroll; scroll-snap-type: x mandatory; scrollbar-width: none; margin: 16px 0 0; touch-action: pan-x pan-y; }
 .carousel::-webkit-scrollbar { display: none; }
 .slide { flex: 0 0 100%; scroll-snap-align: center; padding: 0 16px; }
 .slide .img { width: 100%; aspect-ratio: 3/2; background: #3a3935; border-radius: var(--border-radius-md); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; color: rgba(255,255,255,0.42); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; position: relative; }
@@ -102,7 +102,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .plan-headline .h { font-size: 30px; font-weight: 500; margin: 0; line-height: 1.05; letter-spacing: -0.015em; display: block; }
 .plan-headline .h:first-child { margin-top: -3px; }
 
-.plan-gallery { grid-row: 1; grid-column: 1; z-index: 1; display: flex; gap: 8px; overflow-x: scroll; scroll-snap-type: x mandatory; scroll-padding-left: 180px; scrollbar-width: none; padding-left: 180px; padding-right: 16px; touch-action: pan-x; background: transparent; }
+.plan-gallery { grid-row: 1; grid-column: 1; z-index: 1; display: flex; gap: 8px; overflow-x: scroll; scroll-snap-type: x mandatory; scroll-padding-left: 180px; scrollbar-width: none; padding-left: 180px; padding-right: 16px; touch-action: pan-x pan-y; background: transparent; }
 .plan-gallery::-webkit-scrollbar { display: none; }
 .tile { flex: 0 0 180px; scroll-snap-align: start; background: var(--color-background-secondary); border-radius: var(--border-radius-lg); overflow: hidden; display: flex; flex-direction: column; }
 .tile-image { width: 100%; aspect-ratio: 4/3; background: #3a3935; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; color: rgba(255,255,255,0.40); font-size: 9px; letter-spacing: 0.05em; text-transform: uppercase; position: relative; }
@@ -333,7 +333,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .why-proof-num { font-size: 22px; font-weight: 600; letter-spacing: -0.02em; color: var(--color-text-primary); font-variant-numeric: tabular-nums; line-height: 1; margin: 0; }
 .why-proof-desc { font-size: 11.5px; color: var(--color-text-secondary); line-height: 1.4; margin: 0; }
 
-.why-founders { grid-row: 1; grid-column: 1; z-index: 1; display: flex; gap: 10px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-left: 70%; scrollbar-width: none; padding: 0 20px 4px 70%; touch-action: pan-x; -webkit-overflow-scrolling: touch; background: transparent; }
+.why-founders { grid-row: 1; grid-column: 1; z-index: 1; display: flex; gap: 10px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-left: 70%; scrollbar-width: none; padding: 0 20px 4px 70%; touch-action: pan-x pan-y; -webkit-overflow-scrolling: touch; background: transparent; }
 .why-founders::-webkit-scrollbar { display: none; }
 .why-card.founder { flex: 0 0 290px; scroll-snap-align: start; background: var(--color-background-primary); border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-lg); box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 2px 14px rgba(0,0,0,0.07); padding: 18px 16px 16px; display: flex; flex-direction: column; }
 .why-founder-head { display: grid; grid-template-columns: 48px 1fr auto; gap: 12px; align-items: center; margin: 0 0 12px; }
@@ -348,7 +348,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 
 /* Gallery: full-bleed IG-style square carousel; tap opens case-study modal */
 .why-gallery-headline { font-size: 21px; font-weight: 500; color: var(--color-text-primary); margin: 0 20px 14px; letter-spacing: -0.015em; line-height: 1.2; text-align: center; text-wrap: balance; }
-.why-ig-carousel { display: flex; overflow-x: scroll; scroll-snap-type: x mandatory; scrollbar-width: none; touch-action: pan-x; -webkit-overflow-scrolling: touch; }
+.why-ig-carousel { display: flex; overflow-x: scroll; scroll-snap-type: x mandatory; scrollbar-width: none; touch-action: pan-x pan-y; -webkit-overflow-scrolling: touch; }
 .why-ig-carousel::-webkit-scrollbar { display: none; }
 .why-ig-slide { flex: 0 0 100%; scroll-snap-align: center; position: relative; cursor: pointer; }
 .why-ig-slide::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 38%; background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0) 100%); pointer-events: none; }
@@ -376,6 +376,30 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .case-modal-name { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; color: var(--color-text-primary); margin: 0 0 4px; }
 .case-modal-meta { font-size: 13px; color: var(--color-text-secondary); margin: 0 0 18px; }
 .case-modal-placeholder { font-family: var(--font-serif); font-style: italic; font-size: 13.5px; color: var(--color-text-tertiary); margin: 8px 0 0; line-height: 1.6; padding: 16px; background: var(--color-background-tertiary); border-radius: var(--border-radius-md); }
+
+/* ── FAQ section ───────────────────────────────────────────────────── */
+.faq-section { padding: 30px 20px 32px; }
+.faq-header { text-align: center; margin: 0 0 20px; }
+.faq-list { display: flex; flex-direction: column; border-top: 0.5px solid var(--color-border-tertiary); }
+.faq-item { border-bottom: 0.5px solid var(--color-border-tertiary); }
+.faq-summary { list-style: none; cursor: pointer; display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; padding: 16px 4px; min-height: 44px; font-size: 15px; font-weight: 500; color: var(--color-text-primary); line-height: 1.4; -webkit-tap-highlight-color: transparent; }
+.faq-summary::-webkit-details-marker { display: none; }
+.faq-summary::marker { content: ''; }
+.faq-summary:focus-visible { outline: 2px solid var(--color-text-primary); outline-offset: 2px; border-radius: 4px; }
+.faq-question { flex: 1; min-width: 0; }
+.faq-caret { flex: 0 0 20px; width: 20px; height: 20px; display: inline-flex; align-items: center; justify-content: center; color: var(--color-text-secondary); transition: transform 0.18s ease; margin-top: 2px; }
+.faq-caret svg { width: 16px; height: 16px; stroke-width: 2; }
+.faq-item[open] .faq-caret { transform: rotate(180deg); }
+.faq-answer { padding: 0 4px 18px; font-size: 14px; color: var(--color-text-secondary); line-height: 1.6; margin: 0; }
+.faq-closing { font-family: var(--font-serif); font-style: italic; font-size: 13.5px; color: var(--color-text-secondary); text-align: center; margin: 22px auto 0; max-width: 280px; line-height: 1.55; }
+
+/* ── Responsive overrides: full-bleed prototype on phone/tablet ─────── */
+@media (max-width: 1024px) {
+  body { padding: 0; gap: 0; }
+  .prototype-wrapper { gap: 0; }
+  .prototype-toolbar { display: none; }
+  .phone-frame { width: 100vw; max-width: none; height: 100vh; height: 100dvh; border: none; border-radius: 0; }
+}
 </style>
 </head>
 <body>
@@ -403,7 +427,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
       </div>
     </div>
     <div class="version-pill">
-      v11.30
+      v11.33
       <button type="button" class="refresh-btn" onclick="location.reload()" aria-label="Refresh prototype">
         <i data-lucide="refresh-cw"></i>
       </button>
@@ -768,6 +792,59 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
           <button class="why-ig-dot" data-i="3" aria-label="Slide 4"></button>
         </div>
       </div>
+    </section>
+
+    <!-- ── FAQ ──────────────────────────────────────────────────────── -->
+    <section class="faq-section">
+      <div class="faq-header">
+        <p class="section-eyebrow">FAQs</p>
+        <h2 class="section-headline">It really is that simple.</h2>
+      </div>
+      <div class="faq-list">
+        <details class="faq-item">
+          <summary class="faq-summary">
+            <span class="faq-question">What should I expect from a Reveal?</span>
+            <span class="faq-caret" aria-hidden="true"><i data-lucide="chevron-down"></i></span>
+          </summary>
+          <p class="faq-answer">Three photorealistic renders of your room reimagined three different ways, based on what we hear from you at your home visit. They're a starting point: enough to know which direction excites you. A Plan is where we refine the details into a finished design.</p>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-summary">
+            <span class="faq-question">Where do you work?</span>
+            <span class="faq-caret" aria-hidden="true"><i data-lucide="chevron-down"></i></span>
+          </summary>
+          <p class="faq-answer">We serve homeowners in the greater Seattle area today (King and Snohomish counties), and we're expanding region by region. Worth asking even if you're just outside.</p>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-summary">
+            <span class="faq-question">Do I have to use your contractors?</span>
+            <span class="faq-caret" aria-hidden="true"><i data-lucide="chevron-down"></i></span>
+          </summary>
+          <p class="faq-answer">No. Your Reveal and your Plan are yours to keep, and to take to whichever builder you choose. The three-bid intro is the optional last step of a Plan, never a requirement.</p>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-summary">
+            <span class="faq-question">How long does this take?</span>
+            <span class="faq-caret" aria-hidden="true"><i data-lucide="chevron-down"></i></span>
+          </summary>
+          <p class="faq-answer">You get your Reveals 2 to 3 days after your home visit. New deliverables follow within 2 to 4 days of your feedback. We'll propose a full timeline alongside your Reveal, so you know what to expect before deciding whether to keep going.</p>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-summary">
+            <span class="faq-question">Can I see more Reveal directions?</span>
+            <span class="faq-caret" aria-hidden="true"><i data-lucide="chevron-down"></i></span>
+          </summary>
+          <p class="faq-answer">Yes. Beyond your three, we can create additional Reveals for a modest fee.</p>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-summary">
+            <span class="faq-question">How is this different from a designer, architect, or design-build firm?</span>
+            <span class="faq-caret" aria-hidden="true"><i data-lucide="chevron-down"></i></span>
+          </summary>
+          <p class="faq-answer">We're your first hire, and a lower-cost, lower-effort way to figure out what you want before you commit to anyone else. We help you decide what your project actually needs, then assemble the team (designer, architect, builder) as part of your Plan.</p>
+        </details>
+      </div>
+      <p class="faq-closing">Still have a question we didn't answer? Ask it in the form below. We read every one.</p>
     </section>
 
     <!-- Anchor section: room selection + deposit disclosure -->
@@ -1256,6 +1333,57 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
           <button class="why-ig-dot" data-i="3" aria-label="Slide 4"></button>
         </div>
       </div>
+    <!-- ── FAQ ──────────────────────────────────────────────────────── -->
+    <section class="faq-section">
+      <div class="faq-header">
+        <p class="section-eyebrow">FAQs</p>
+        <h2 class="section-headline">It really is that simple.</h2>
+      </div>
+      <div class="faq-list">
+        <details class="faq-item">
+          <summary class="faq-summary">
+            <span class="faq-question">What should I expect from a Reveal?</span>
+            <span class="faq-caret" aria-hidden="true"><i data-lucide="chevron-down"></i></span>
+          </summary>
+          <p class="faq-answer">Three photorealistic renders of your room reimagined three different ways, based on what we hear from you at your home visit. They're a starting point: enough to know which direction excites you. A Plan is where we refine the details into a finished design.</p>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-summary">
+            <span class="faq-question">Where do you work?</span>
+            <span class="faq-caret" aria-hidden="true"><i data-lucide="chevron-down"></i></span>
+          </summary>
+          <p class="faq-answer">We serve homeowners in the greater Seattle area today (King and Snohomish counties), and we're expanding region by region. Worth asking even if you're just outside.</p>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-summary">
+            <span class="faq-question">Do I have to use your contractors?</span>
+            <span class="faq-caret" aria-hidden="true"><i data-lucide="chevron-down"></i></span>
+          </summary>
+          <p class="faq-answer">No. Your Reveal and your Plan are yours to keep, and to take to whichever builder you choose. The three-bid intro is the optional last step of a Plan, never a requirement.</p>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-summary">
+            <span class="faq-question">How long does this take?</span>
+            <span class="faq-caret" aria-hidden="true"><i data-lucide="chevron-down"></i></span>
+          </summary>
+          <p class="faq-answer">You get your Reveals 2 to 3 days after your home visit. New deliverables follow within 2 to 4 days of your feedback. We'll propose a full timeline alongside your Reveal, so you know what to expect before deciding whether to keep going.</p>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-summary">
+            <span class="faq-question">Can I see more Reveal directions?</span>
+            <span class="faq-caret" aria-hidden="true"><i data-lucide="chevron-down"></i></span>
+          </summary>
+          <p class="faq-answer">Yes. Beyond your three, we can create additional Reveals for a modest fee.</p>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-summary">
+            <span class="faq-question">How is this different from a designer, architect, or design-build firm?</span>
+            <span class="faq-caret" aria-hidden="true"><i data-lucide="chevron-down"></i></span>
+          </summary>
+          <p class="faq-answer">We're your first hire, and a lower-cost, lower-effort way to figure out what you want before you commit to anyone else. We help you decide what your project actually needs, then assemble the team (designer, architect, builder) as part of your Plan.</p>
+        </details>
+      </div>
+      <p class="faq-closing">Still have a question we didn't answer? Ask it in the form below. We read every one.</p>
     </section>
 
     <!-- Anchor section: room selection + deposit disclosure -->
