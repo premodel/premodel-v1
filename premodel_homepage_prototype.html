@@ -4,6 +4,9 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 <title>Premodel — homepage prototype</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
 <style>
 :root {
   --color-background-primary: #ffffff;
@@ -457,7 +460,273 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
   body { padding: 0; gap: 0; }
   .prototype-wrapper { gap: 0; }
   .prototype-toolbar { display: none; }
+  .palette-picker { display: none; }
   .phone-frame { width: 100vw; max-width: none; height: 100vh; height: 100dvh; border: none; border-radius: 0; }
+}
+
+/* ── Palette picker (reviewer chrome) ────────────────────────────────
+   Self-contained colors so the picker UI never re-skins with the
+   palette swap. Uses scoped --pp-* vars so OS dark mode still adapts
+   when no palette is active. */
+.palette-picker {
+  --pp-text: #6b6a64;
+  --pp-text-strong: #1a1a18;
+  --pp-border-off: #a8a7a1;
+  width: var(--frame-width);
+  max-width: 100%;
+  margin-top: 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  font-family: var(--font-sans);
+}
+@media (prefers-color-scheme: dark) {
+  .palette-picker {
+    --pp-text: #a8a7a1;
+    --pp-text-strong: #f0eee5;
+    --pp-border-off: #6b6a64;
+  }
+}
+.palette-picker-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+.palette-picker-label,
+.palette-picker-compare {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--pp-text);
+  font-family: inherit;
+}
+.palette-picker-compare {
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+.palette-picker-compare:hover {
+  color: var(--pp-text-strong);
+  text-decoration: underline;
+}
+.palette-picker-compare:focus-visible {
+  outline: 2px solid var(--pp-text-strong);
+  outline-offset: 2px;
+}
+.palette-picker-swatches {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  width: 100%;
+  gap: 0;
+}
+.palette-picker .swatch-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.palette-picker .swatch {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  background: var(--swatch-color, transparent);
+  font-family: inherit;
+  color: var(--pp-text);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s ease;
+  line-height: 1;
+}
+.palette-picker .swatch:hover {
+  transform: scale(1.08);
+}
+.palette-picker .swatch.active {
+  outline: 2px solid var(--pp-text-strong);
+  outline-offset: 2px;
+}
+.palette-picker .swatch:focus-visible {
+  outline: 2px solid var(--pp-text-strong);
+  outline-offset: 2px;
+}
+.palette-picker .swatch-off {
+  background: transparent;
+  border: 1px dotted var(--pp-border-off);
+  font-size: 14px;
+}
+.palette-picker .swatch-caption {
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  color: var(--pp-text);
+}
+.palette-picker .swatch-wrap.active .swatch-caption {
+  color: var(--pp-text-strong);
+}
+
+/* ── Full palette style guide (applied when body.palette-active) ─────
+   Implements the editorial-neutrals system from premodel_palette_v2:
+   Roboto body, Source Serif 4 headlines, warm-tone borders, pill CTAs
+   in accent color, accent-soft eyebrow pills, accent links. Each
+   palette also picks up a subtle creative variant via data-palette. */
+
+body.palette-active {
+  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Reviewer chrome (toolbar + picker) must NOT re-skin with the palette.
+   Force a system font stack and hardcoded neutral tones on both, so the
+   chrome reads as harness UI regardless of the active palette. */
+body.palette-active .prototype-toolbar,
+body.palette-active .prototype-toolbar *,
+body.palette-active .palette-picker,
+body.palette-active .palette-picker * {
+  font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Helvetica, Arial, sans-serif !important;
+}
+body.palette-active .prototype-toolbar .layout-label,
+body.palette-active .prototype-toolbar .size-label {
+  color: #6b6a64;
+}
+body.palette-active .prototype-toolbar .size-select,
+body.palette-active .prototype-toolbar .layout-toggle,
+body.palette-active .prototype-toolbar .version-pill {
+  background: #f6f5f0;
+  border-color: rgba(0, 0, 0, 0.10);
+  color: #1a1a18;
+}
+body.palette-active .prototype-toolbar .toggle-btn {
+  color: #6b6a64;
+}
+body.palette-active .prototype-toolbar .toggle-btn.active {
+  background: #ffffff;
+  color: #1a1a18;
+}
+body.palette-active .prototype-toolbar .refresh-btn {
+  background: #ffffff;
+  color: #6b6a64;
+}
+body.palette-active .prototype-toolbar .version-pill {
+  color: #6b6a64;
+}
+
+body.palette-active .section-headline,
+body.palette-active .reveal-hero .h1-large,
+body.palette-active .plan-headline .h,
+body.palette-active .why-headline,
+body.palette-active .faq-headline,
+body.palette-active .case-modal-card h2,
+body.palette-active .info-modal-card h2 {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+/* CTAs become accent-colored pills with hover */
+body.palette-active .cta-button,
+body.palette-active .rf-btn,
+body.palette-active .rf-anchor-cta {
+  background: var(--color-brand-navy);
+  color: #ffffff;
+  border-radius: 999px;
+  transition: background 0.2s ease;
+}
+body.palette-active .cta-button:hover:not(:disabled),
+body.palette-active .rf-btn:hover:not(:disabled),
+body.palette-active .rf-anchor-cta:hover:not(:disabled) {
+  background: var(--color-brand-hover, var(--color-brand-navy));
+}
+
+/* Section eyebrow picks up a soft accent tint */
+body.palette-active .section-eyebrow {
+  background: var(--color-brand-soft, var(--color-surface-secondary));
+  color: var(--color-brand-hover, var(--color-text-primary));
+}
+
+/* Selected states in the refine flow take the accent */
+body.palette-active .rf-chip.sel,
+body.palette-active .rf-budget-chip.sel {
+  background: var(--color-brand-navy);
+  border-color: var(--color-brand-navy);
+  color: #ffffff;
+}
+body.palette-active .rf-tier.sel,
+body.palette-active .rf-budget.sel {
+  background: var(--color-brand-navy);
+  border-color: var(--color-brand-navy);
+}
+body.palette-active .rf-tier.sel .rf-tier-name,
+body.palette-active .rf-budget.sel {
+  color: #ffffff;
+}
+
+/* Inline accent text (the "Premodel." wordmark already inherits via
+   .brand-navy → --color-brand-navy; nothing to add). */
+
+/* Anchor links pick up the accent inside the phone scroll */
+body.palette-active .phone-scroll a {
+  color: var(--color-brand-navy);
+  text-decoration-color: var(--color-brand-soft, currentColor);
+}
+
+/* Italic serif callouts (taglines, refund notes) shift to the editorial
+   serif so they read as part of the palette family */
+body.palette-active .layout-b-hint,
+body.palette-active .reveal-sub .italic,
+body.palette-active .plan-sub .italic,
+body.palette-active .quote-content p,
+body.palette-active .why-founder-quote,
+body.palette-active .faq-closing,
+body.palette-active .footer-tagline {
+  font-family: 'Source Serif 4', "Iowan Old Style", Georgia, serif;
+}
+
+/* ── Per-palette creative variants ─────────────────────────────────── */
+
+/* Sage — calmer, considered: dotted underline on links */
+body[data-palette="sage"] .phone-scroll a {
+  text-decoration: underline dotted 1.5px;
+  text-underline-offset: 3px;
+}
+
+/* Cyanotype — architect's blueprint: monospace + wide tracking eyebrows */
+body[data-palette="cyanotype"] .section-eyebrow,
+body[data-palette="cyanotype"] .phase-label {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  letter-spacing: 0.16em;
+  font-weight: 500;
+}
+
+/* Aubergine — confident, kitchen-coded: heavier serif headings */
+body[data-palette="aubergine"] .section-headline,
+body[data-palette="aubergine"] .reveal-hero .h1-large,
+body[data-palette="aubergine"] .plan-headline .h,
+body[data-palette="aubergine"] .why-headline,
+body[data-palette="aubergine"] .faq-headline {
+  font-weight: 600;
+}
+
+/* Saffron — library-vintage: serif body, slightly looser leading */
+body[data-palette="saffron"] .phone-scroll {
+  font-family: 'Source Serif 4', "Iowan Old Style", Georgia, serif;
+  line-height: 1.55;
+  letter-spacing: 0.005em;
+}
+body[data-palette="saffron"] .cta-button,
+body[data-palette="saffron"] .rf-btn,
+body[data-palette="saffron"] .rf-anchor-cta,
+body[data-palette="saffron"] .section-eyebrow,
+body[data-palette="saffron"] .phase-label,
+body[data-palette="saffron"] .toggle-btn {
+  /* keep utility/UI affordances in sans so they don't feel like body copy */
+  font-family: 'Roboto', -apple-system, sans-serif;
+  letter-spacing: normal;
 }
 </style>
 </head>
@@ -1763,6 +2032,41 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
   </div>
 </div>
 
+  <div class="palette-picker" role="radiogroup" aria-label="Color palette">
+    <div class="palette-picker-head">
+      <span class="palette-picker-label">Palette</span>
+      <a href="premodel_palette_v2.html" target="_blank" rel="noopener" class="palette-picker-compare">Compare all →</a>
+    </div>
+    <div class="palette-picker-swatches">
+      <div class="swatch-wrap active" data-palette-wrap="off">
+        <button type="button" class="swatch swatch-off active" data-palette="off" role="radio" aria-checked="true" aria-label="Off — restore default" tabindex="0">
+          <span aria-hidden="true">×</span>
+        </button>
+        <span class="swatch-caption">Off</span>
+      </div>
+      <div class="swatch-wrap" data-palette-wrap="oxblood">
+        <button type="button" class="swatch" data-palette="oxblood" role="radio" aria-checked="false" aria-label="Oxblood" tabindex="-1" style="--swatch-color: #5e2c2e;"></button>
+        <span class="swatch-caption">Oxblood</span>
+      </div>
+      <div class="swatch-wrap" data-palette-wrap="sage">
+        <button type="button" class="swatch" data-palette="sage" role="radio" aria-checked="false" aria-label="Sage" tabindex="-1" style="--swatch-color: #7d8a72;"></button>
+        <span class="swatch-caption">Sage</span>
+      </div>
+      <div class="swatch-wrap" data-palette-wrap="cyanotype">
+        <button type="button" class="swatch" data-palette="cyanotype" role="radio" aria-checked="false" aria-label="Cyanotype" tabindex="-1" style="--swatch-color: #2a5680;"></button>
+        <span class="swatch-caption">Cyanotype</span>
+      </div>
+      <div class="swatch-wrap" data-palette-wrap="aubergine">
+        <button type="button" class="swatch" data-palette="aubergine" role="radio" aria-checked="false" aria-label="Aubergine" tabindex="-1" style="--swatch-color: #4a2942;"></button>
+        <span class="swatch-caption">Aubergine</span>
+      </div>
+      <div class="swatch-wrap" data-palette-wrap="saffron">
+        <button type="button" class="swatch" data-palette="saffron" role="radio" aria-checked="false" aria-label="Saffron" tabindex="-1" style="--swatch-color: #c89028;"></button>
+        <span class="swatch-caption">Saffron</span>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
@@ -2600,6 +2904,131 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
   document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape' && openModal) close();
   });
+
+  // ── Palette picker ────────────────────────────────────────────────
+  // Full editorial style guide from premodel_palette_v2.html. _base is
+  // shared by every accent — surfaces, text, warm-tone borders, radii,
+  // fonts. Each accent then provides its own --color-brand-* quartet
+  // (primary / hover / soft / on-dark). Inline styles on :root win
+  // over both the static :root block AND the dark-mode @media, so the
+  // palette renders consistently regardless of OS theme. Off = clear
+  // all overrides + remove body class → prototype reverts exactly to
+  // its declared defaults (fonts, colors, radii, everything).
+  var PALETTES = {
+    _base: {
+      // Surfaces
+      '--color-background-primary':   '#f7f4eb',
+      '--color-background-secondary': '#fbf8ef',
+      '--color-background-tertiary':  '#fbf8ef',
+      '--color-surface-secondary':    '#ece4d1',
+      // Text
+      '--color-text-primary':         '#2a2826',
+      '--color-text-secondary':       '#6a625a',
+      '--color-text-tertiary':        '#998f80',
+      // Warm-tone borders (replace rgba defaults)
+      '--color-border-primary':       '#b8ae9c',
+      '--color-border-secondary':     '#d8cfc0',
+      '--color-border-tertiary':      '#e4dccb',
+      // Radii — bump card/tile to palette-guide values
+      '--border-radius-lg':           '14px',
+      '--border-radius-xl':           '18px',
+      // Fonts
+      '--font-sans':                  "'Roboto', -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Helvetica, Arial, sans-serif",
+      '--font-serif':                 "'Source Serif 4', 'Iowan Old Style', 'Palatino', Georgia, 'Times New Roman', serif"
+    },
+    oxblood: {
+      '--color-brand-navy':    '#5e2c2e',
+      '--color-brand-hover':   '#3f1c1d',
+      '--color-brand-soft':    '#ecd0d0',
+      '--color-brand-on-dark': '#a4666a'
+    },
+    sage: {
+      '--color-brand-navy':    '#7d8a72',
+      '--color-brand-hover':   '#566052',
+      '--color-brand-soft':    '#e4ecd6',
+      '--color-brand-on-dark': '#a8b59c'
+    },
+    cyanotype: {
+      '--color-brand-navy':    '#2a5680',
+      '--color-brand-hover':   '#16365a',
+      '--color-brand-soft':    '#c8d8e8',
+      '--color-brand-on-dark': '#6993bd'
+    },
+    aubergine: {
+      '--color-brand-navy':    '#4a2942',
+      '--color-brand-hover':   '#2e1828',
+      '--color-brand-soft':    '#d8c8d2',
+      '--color-brand-on-dark': '#8e6a86'
+    },
+    saffron: {
+      '--color-brand-navy':    '#c89028',
+      '--color-brand-hover':   '#966819',
+      '--color-brand-soft':    '#f4e0b8',
+      '--color-brand-on-dark': '#d8a84a'
+    }
+  };
+  var ACCENT_KEYS = ['--color-brand-navy', '--color-brand-hover', '--color-brand-soft', '--color-brand-on-dark'];
+  var ALL_OVERRIDE_KEYS = Object.keys(PALETTES._base).concat(ACCENT_KEYS);
+
+  var picker = document.querySelector('.palette-picker');
+  if (picker) {
+    var swatches = Array.prototype.slice.call(picker.querySelectorAll('.swatch'));
+
+    function applyPalette(key) {
+      var root = document.documentElement;
+      var body = document.body;
+      ALL_OVERRIDE_KEYS.forEach(function(v) { root.style.removeProperty(v); });
+      if (key === 'off') {
+        body.classList.remove('palette-active');
+        body.removeAttribute('data-palette');
+        return;
+      }
+      var tokens = {};
+      Object.keys(PALETTES._base).forEach(function(k) { tokens[k] = PALETTES._base[k]; });
+      var accent = PALETTES[key];
+      if (accent) Object.keys(accent).forEach(function(k) { tokens[k] = accent[k]; });
+      Object.keys(tokens).forEach(function(k) { root.style.setProperty(k, tokens[k]); });
+      body.classList.add('palette-active');
+      body.setAttribute('data-palette', key);
+    }
+
+    function setActive(key) {
+      swatches.forEach(function(btn) {
+        var isActive = btn.getAttribute('data-palette') === key;
+        btn.classList.toggle('active', isActive);
+        btn.setAttribute('aria-checked', isActive ? 'true' : 'false');
+        btn.setAttribute('tabindex', isActive ? '0' : '-1');
+        var wrap = btn.closest('.swatch-wrap');
+        if (wrap) wrap.classList.toggle('active', isActive);
+      });
+    }
+
+    function select(key) {
+      applyPalette(key);
+      setActive(key);
+    }
+
+    swatches.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        select(btn.getAttribute('data-palette'));
+      });
+    });
+
+    picker.addEventListener('keydown', function(e) {
+      var idx = swatches.indexOf(document.activeElement);
+      if (idx === -1) return;
+      var next = null;
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') next = (idx + 1) % swatches.length;
+      else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') next = (idx - 1 + swatches.length) % swatches.length;
+      else if (e.key === 'Home') next = 0;
+      else if (e.key === 'End') next = swatches.length - 1;
+      if (next === null) return;
+      e.preventDefault();
+      var target = swatches[next];
+      target.focus();
+      select(target.getAttribute('data-palette'));
+    });
+  }
 })();
 </script>
 

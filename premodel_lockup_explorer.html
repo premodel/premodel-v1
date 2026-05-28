@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Premodel — Lockup explorer · Signature (tagline accent)</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600&family=Source+Serif+4:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-page:    #f7f4eb;
+    --bg-surface: #fbf8ef;
+    --bg-pill:    #ece4d1;
+    --bg-dark:    #1a1816;
+    --text-primary:   #2a2826;
+    --text-secondary: #6a625a;
+    --text-tertiary:  #998f80;
+    --border-divider: #e4dccb;
+    --border-subtle:  #d8cfc0;
+    --border-strong:  #b8ae9c;
+    --radius-pill: 999px;
+    --radius-card: 14px;
+    --radius-tile: 18px;
+    --accent: #5e2c2e;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg-page);
+    color: var(--text-primary);
+    font-family: 'Roboto', system-ui, sans-serif;
+    font-weight: 400;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1 { font-family: 'Source Serif 4', Georgia, serif; font-weight: 500; letter-spacing: -0.01em; line-height: 1.1; margin: 0; font-size: 44px; }
+  h2 { font-family: 'Source Serif 4', Georgia, serif; font-weight: 500; line-height: 1.15; margin: 0 0 8px; font-size: 28px; }
+  h3 { font-family: 'Roboto', sans-serif; font-weight: 600; font-size: 14px; letter-spacing: 0.10em; text-transform: uppercase; margin: 0; color: var(--text-tertiary); }
+
+  .container { max-width: 1200px; margin: 0 auto; padding: 56px 32px 96px; }
+
+  .toggle-bar {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(247, 244, 235, 0.94);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border-divider);
+  }
+  .toggle-bar-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 14px 32px;
+    display: flex;
+    gap: 28px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .toggle-group { display: flex; gap: 10px; align-items: center; }
+  .toggle-label {
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+    font-weight: 600;
+  }
+  .accent-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 14px 7px 8px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-pill);
+    font: inherit;
+    font-size: 13px;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: border-color 120ms ease, background 120ms ease;
+  }
+  .accent-btn:hover { border-color: var(--border-strong); }
+  .accent-btn .dot {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 1px solid rgba(0,0,0,0.08);
+    flex: 0 0 auto;
+  }
+  .accent-btn.active {
+    background: var(--bg-pill);
+    border-color: var(--text-primary);
+    font-weight: 600;
+  }
+  .toggle-hex {
+    margin-left: auto;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 12px;
+    color: var(--text-tertiary);
+  }
+
+  .doc-head { padding: 12px 0 32px; }
+  .doc-head .eyebrow { color: var(--text-tertiary); font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; }
+  .doc-head h1 { margin-top: 12px; }
+  .doc-head p { color: var(--text-secondary); max-width: 760px; margin-top: 16px; font-size: 16px; }
+
+  .compare-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    margin-top: 24px;
+  }
+  .stage {
+    border-radius: var(--radius-tile);
+    padding: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 260px;
+    overflow: hidden;
+  }
+  .stage-paper { background: var(--bg-surface); border: 1px solid var(--border-divider); }
+  .stage-dark  { background: var(--bg-dark); padding: 0; }
+  .stage img { max-width: 100%; max-height: 220px; height: auto; display: block; }
+  .stage-caption {
+    font-size: 11px;
+    color: var(--text-tertiary);
+    letter-spacing: 0.06em;
+    margin-top: 10px;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  .approach {
+    background: linear-gradient(180deg, var(--bg-surface) 0%, transparent 100%);
+    border: 1px solid var(--border-divider);
+    border-radius: var(--radius-tile);
+    padding: 32px;
+    margin-top: 28px;
+  }
+  .approach-head {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    margin-bottom: 16px;
+  }
+  .approach-title h2 { font-size: 24px; margin-bottom: 4px; }
+  .approach-title .sub { color: var(--text-secondary); font-size: 14px; max-width: 720px; }
+
+  .tradeoffs { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 18px; }
+  .tradeoffs > div {
+    background: var(--bg-page);
+    border: 1px solid var(--border-divider);
+    border-radius: 10px;
+    padding: 14px 16px;
+  }
+  .tradeoffs .label {
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--text-tertiary);
+    margin-bottom: 6px;
+  }
+  .tradeoffs ul { margin: 0; padding-left: 16px; font-size: 13px; color: var(--text-secondary); }
+  .tradeoffs li { margin-bottom: 4px; }
+  .tradeoffs li:last-child { margin-bottom: 0; }
+
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-top: 16px;
+  }
+  @media (max-width: 920px) { .gallery { grid-template-columns: repeat(2, 1fr); } }
+  .gallery-cell {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-divider);
+    border-radius: 12px;
+    padding: 14px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 120ms ease;
+  }
+  .gallery-cell:hover { border-color: var(--border-strong); }
+  .gallery-cell.active { border-color: var(--text-primary); border-width: 2px; padding: 13px; }
+  .gallery-cell img { max-width: 100%; max-height: 90px; display: block; margin: 0 auto 8px; }
+  .gallery-cell .name { font-size: 12px; font-weight: 600; }
+  .gallery-cell .hex { font-family: ui-monospace, monospace; font-size: 10px; color: var(--text-tertiary); margin-top: 2px; }
+
+  footer {
+    margin-top: 56px;
+    padding-top: 28px;
+    border-top: 1px solid var(--border-divider);
+    color: var(--text-tertiary);
+    font-size: 13px;
+  }
+</style>
+</head>
+<body>
+
+  <div class="toggle-bar">
+    <div class="toggle-bar-inner">
+      <div class="toggle-group">
+        <span class="toggle-label">Accent</span>
+        <div id="accentButtons" style="display:flex; gap:6px; flex-wrap:wrap;">
+          <button class="accent-btn active" data-accent="oxblood"><span class="dot" style="background:#5e2c2e"></span>Oxblood</button>
+          <button class="accent-btn" data-accent="sage"><span class="dot" style="background:#7d8a72"></span>Sage</button>
+          <button class="accent-btn" data-accent="cyanotype"><span class="dot" style="background:#2a5680"></span>Cyanotype</button>
+          <button class="accent-btn" data-accent="aubergine"><span class="dot" style="background:#4a2942"></span>Aubergine</button>
+          <button class="accent-btn" data-accent="saffron"><span class="dot" style="background:#c89028"></span>Saffron</button>
+        </div>
+      </div>
+      <span class="toggle-hex" id="toggleHex">#5e2c2e</span>
+    </div>
+  </div>
+
+  <div class="container">
+
+    <header class="doc-head">
+      <div class="eyebrow">Premodel · Lockup explorer</div>
+      <h1>Signature lockup · tagline carries the accent.</h1>
+      <p>The mark stays fully neutral. The "Premodel" wordmark stays deep ink. Only "Before You Remodel" — the tagline that <i>is</i> the positioning statement — takes the brand color. Five accents: two warm-family options (oxblood, saffron), two cool options (cyanotype, sage), and one purple wildcard (aubergine). The terracotta/rust pair was eliminated for sitting too close to Claude's coral. Toggle accents above; every lockup is a real PIL recolor of your source file.</p>
+    </header>
+
+    <div class="approach">
+      <div class="approach-head">
+        <div class="approach-title">
+          <h2>The signature lockup</h2>
+          <div class="sub">Tagline in accent, everything else neutral. Logo never needs to change if accent evolves. Color lives where it amplifies the value prop: "Before You Remodel" is the message, the accent makes the message land.</div>
+        </div>
+      </div>
+
+      <div class="compare-grid">
+        <div>
+          <div class="stage stage-paper">
+            <img id="sigPaper" src="lockup-explorations/lockup_tagline_oxblood_on-paper.png" alt="Signature lockup on paper">
+          </div>
+          <div class="stage-caption">On paper · primary placement</div>
+        </div>
+        <div>
+          <div class="stage stage-dark">
+            <img id="sigDark" src="lockup-explorations/lockup_tagline_oxblood_on-dark-card.png" alt="Signature lockup on dark">
+          </div>
+          <div class="stage-caption">On dark · cream card</div>
+        </div>
+      </div>
+
+      <div class="tradeoffs">
+        <div>
+          <div class="label">Why this</div>
+          <ul>
+            <li>Mark stays untouched and consistent forever</li>
+            <li>Wordmark keeps the gravitas of deep ink</li>
+            <li>Accent amplifies the value prop — color lives where the meaning is</li>
+            <li>If the accent ever evolves, only one element needs updating</li>
+          </ul>
+        </div>
+        <div>
+          <div class="label">Trade-offs</div>
+          <ul>
+            <li>Brand color is more recessed than wordmark-accent or layer-accent</li>
+            <li>At tagline scale, contrast against light bg matters — verify each accent on real surfaces</li>
+            <li>If the tagline ever gets dropped, the brand color disappears with it</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3 style="margin-top: 28px; margin-bottom: 10px;">All five accents</h3>
+      <div class="gallery" id="gallery" style="grid-template-columns: repeat(5, 1fr);">
+        <div class="gallery-cell active" data-accent="oxblood">
+          <img src="lockup-explorations/lockup_tagline_oxblood_on-paper.png" alt="">
+          <div class="name">Oxblood</div>
+          <div class="hex">#5e2c2e</div>
+        </div>
+        <div class="gallery-cell" data-accent="sage">
+          <img src="lockup-explorations/lockup_tagline_sage_on-paper.png" alt="">
+          <div class="name">Sage</div>
+          <div class="hex">#7d8a72</div>
+        </div>
+        <div class="gallery-cell" data-accent="cyanotype">
+          <img src="lockup-explorations/lockup_tagline_cyanotype_on-paper.png" alt="">
+          <div class="name">Cyanotype</div>
+          <div class="hex">#2a5680</div>
+        </div>
+        <div class="gallery-cell" data-accent="aubergine">
+          <img src="lockup-explorations/lockup_tagline_aubergine_on-paper.png" alt="">
+          <div class="name">Aubergine</div>
+          <div class="hex">#4a2942</div>
+        </div>
+        <div class="gallery-cell" data-accent="saffron">
+          <img src="lockup-explorations/lockup_tagline_saffron_on-paper.png" alt="">
+          <div class="name">Saffron</div>
+          <div class="hex">#c89028</div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      Premodel · Signature lockup explorer · 4 variants generated by deterministic PIL recolor of <code>premodel-logo-full.png</code> · Source PNGs in <code>lockup-explorations/</code>.
+    </footer>
+
+  </div>
+
+<script>
+  const HEX = {
+    oxblood:   '#5e2c2e',
+    sage:      '#7d8a72',
+    cyanotype: '#2a5680',
+    aubergine: '#4a2942',
+    saffron:   '#c89028',
+  };
+
+  const root = document.documentElement;
+  const btns = document.querySelectorAll('#accentButtons .accent-btn');
+  const sigPaper = document.getElementById('sigPaper');
+  const sigDark  = document.getElementById('sigDark');
+  const toggleHex = document.getElementById('toggleHex');
+  const gallery = document.querySelectorAll('#gallery .gallery-cell');
+
+  function apply(key) {
+    if (!HEX[key]) return;
+    root.style.setProperty('--accent', HEX[key]);
+    toggleHex.textContent = HEX[key];
+
+    sigPaper.src = `lockup-explorations/lockup_tagline_${key}_on-paper.png`;
+    sigDark.src  = `lockup-explorations/lockup_tagline_${key}_on-dark-card.png`;
+
+    btns.forEach(b => b.classList.toggle('active', b.dataset.accent === key));
+    gallery.forEach(c => c.classList.toggle('active', c.dataset.accent === key));
+  }
+
+  btns.forEach(b => b.addEventListener('click', () => apply(b.dataset.accent)));
+  gallery.forEach(c => c.addEventListener('click', () => apply(c.dataset.accent)));
+</script>
+</body>
+</html>

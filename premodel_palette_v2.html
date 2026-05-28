@@ -1,0 +1,685 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Premodel — Editorial Neutrals palette v2</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* ── SURFACES ──────────────────────────────────────────── */
+    --bg-page:              #f7f4eb;
+    --bg-surface:           #fbf8ef;
+    --bg-surface-elevated:  #ffffff;
+    --bg-pill:              #ece4d1;
+    --bg-dark:              #1a1816;
+    --bg-dark-card:         #f7f4eb;
+
+    /* ── TEXT ──────────────────────────────────────────────── */
+    --text-primary:    #2a2826;
+    --text-secondary:  #6a625a;
+    --text-tertiary:   #998f80;
+    --text-on-dark:    #f3ede1;
+    --text-on-dark-2:  #a89a82;
+
+    /* ── BORDERS / DIVIDERS ────────────────────────────────── */
+    --border-divider:  #e4dccb;
+    --border-subtle:   #d8cfc0;
+    --border-strong:   #b8ae9c;
+
+    /* ── ICONS ─────────────────────────────────────────────── */
+    --icon-primary:    #2a2826;
+    --icon-muted:      #998f80;
+
+    /* ── ACCENT — driven by toggle. Default: oxblood ── */
+    --accent:          #5e2c2e;
+    --accent-hover:    #3f1c1d;
+    --accent-soft:     #ecd0d0;
+    --accent-on-dark:  #a4666a;
+
+    --radius-pill:  999px;
+    --radius-card: 14px;
+    --radius-tile: 18px;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg-page);
+    color: var(--text-primary);
+    font-family: 'Roboto', system-ui, sans-serif;
+    font-weight: 400;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3 { font-family: 'Source Serif 4', Georgia, serif; font-weight: 500; letter-spacing: -0.01em; line-height: 1.1; margin: 0; }
+  h1 { font-size: 56px; }
+  h2 { font-size: 36px; }
+  h3 { font-size: 22px; }
+
+  .container { max-width: 1100px; margin: 0 auto; padding: 64px 32px; }
+
+  /* ── Accent toggle bar (sticky at top) ───────────────── */
+  .toggle-bar {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(247, 244, 235, 0.94);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border-divider);
+  }
+  .toggle-bar-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 14px 32px;
+    display: flex;
+    gap: 18px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .toggle-label {
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+    font-weight: 600;
+  }
+  .accent-buttons { display: flex; gap: 6px; flex-wrap: wrap; }
+  .accent-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 14px 7px 8px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-pill);
+    font: inherit;
+    font-size: 13px;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: border-color 120ms ease, background 120ms ease;
+  }
+  .accent-btn:hover { border-color: var(--border-strong); }
+  .accent-btn .dot {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 1px solid rgba(0,0,0,0.08);
+    flex: 0 0 auto;
+  }
+  .accent-btn.active {
+    background: var(--bg-pill);
+    border-color: var(--text-primary);
+    font-weight: 600;
+  }
+  .toggle-hex {
+    margin-left: auto;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 12px;
+    color: var(--text-tertiary);
+  }
+
+  /* ── Doc header ─────────────────────────────────────── */
+  .doc-head { padding-top: 32px; padding-bottom: 8px; }
+  .doc-head .eyebrow { color: var(--text-tertiary); font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; }
+  .doc-head h1 { margin-top: 12px; }
+  .doc-head p  { color: var(--text-secondary); max-width: 680px; margin-top: 16px; font-size: 17px; }
+
+  .changelog {
+    margin-top: 20px;
+    padding: 16px 20px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-divider);
+    border-radius: var(--radius-card);
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+  .changelog b { color: var(--text-primary); font-weight: 600; }
+
+  /* ── Section frames ─────────────────────────────────── */
+  .section { padding: 56px 0; border-top: 1px solid var(--border-divider); }
+  .section-label { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-tertiary); font-weight: 600; margin-bottom: 28px; }
+
+  /* ── Palette swatch grid ───────────────────────────── */
+  .swatches { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+  .swatch { background: var(--bg-surface); border: 1px solid var(--border-divider); border-radius: var(--radius-card); padding: 18px; display: flex; gap: 16px; align-items: flex-start; }
+  .swatch .chip { width: 64px; height: 64px; border-radius: 10px; flex: 0 0 auto; border: 1px solid var(--border-subtle); }
+  .swatch .meta { flex: 1; min-width: 0; }
+  .swatch .role { font-weight: 600; font-size: 14px; color: var(--text-primary); margin: 0 0 4px; }
+  .swatch .var  { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11px; color: var(--text-tertiary); }
+  .swatch .hex  { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; color: var(--text-secondary); }
+  .swatch .desc { font-size: 13px; color: var(--text-secondary); margin-top: 6px; }
+
+  /* Accent swatches recolor live via CSS vars */
+  .swatch.live-accent .chip { transition: background 200ms ease; }
+
+  /* ── Pill / eyebrow ─────────────────────────────────── */
+  .pill { display: inline-block; background: var(--bg-pill); color: var(--text-primary); font-size: 11px; font-weight: 600; letter-spacing: 0.12em; padding: 6px 14px; border-radius: var(--radius-pill); text-transform: uppercase; }
+  .pill-accent { background: var(--accent-soft); color: var(--accent-hover); transition: background 200ms ease, color 200ms ease; }
+
+  /* ── Mockup: applied hero ───────────────────────────── */
+  .mockup { background: var(--bg-surface); border: 1px solid var(--border-divider); border-radius: var(--radius-tile); padding: 56px 48px; }
+  .mockup .pill { margin-bottom: 24px; }
+  .mockup h1 { margin: 0 0 16px; }
+  .mockup .lede { font-size: 19px; color: var(--text-secondary); max-width: 580px; margin: 0 0 32px; }
+  .mockup .cta-row { display: flex; gap: 12px; align-items: center; }
+  .accent-word { color: var(--accent); transition: color 200ms ease; }
+  .btn-primary { background: var(--accent); color: #fff; border: 0; border-radius: var(--radius-pill); padding: 14px 26px; font-size: 15px; font-weight: 500; cursor: pointer; font-family: inherit; transition: background 200ms ease; }
+  .btn-primary:hover { background: var(--accent-hover); }
+  .btn-ghost { background: transparent; color: var(--text-primary); border: 1px solid var(--border-strong); border-radius: var(--radius-pill); padding: 14px 26px; font-size: 15px; font-weight: 500; cursor: pointer; font-family: inherit; }
+  .mockup .meta { color: var(--text-tertiary); font-size: 13px; margin-top: 28px; }
+  .text-link { color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent-soft); transition: color 200ms ease, border-color 200ms ease; }
+
+  /* ── Mockup: tile row ───────────────────────────────── */
+  .tile-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 24px; }
+  .tile { background: var(--bg-surface); border: 1px solid var(--border-divider); border-radius: var(--radius-tile); padding: 22px; }
+  .tile .icon { width: 36px; height: 36px; border-radius: 10px; background: var(--bg-pill); display: flex; align-items: center; justify-content: center; margin-bottom: 18px; color: var(--icon-primary); }
+  .tile h3 { font-family: 'Roboto', sans-serif; font-size: 18px; font-weight: 600; margin: 0 0 6px; color: var(--text-primary); }
+  .tile p { color: var(--text-secondary); font-size: 14px; margin: 0; }
+  .tile .accent-icon { background: var(--accent-soft); color: var(--accent); transition: background 200ms ease, color 200ms ease; }
+
+  /* ── Mockup: quote ──────────────────────────────────── */
+  .quote { background: var(--bg-surface); border: 1px solid var(--border-divider); border-radius: var(--radius-tile); padding: 32px 36px; margin-top: 24px; }
+  .quote .mark { font-family: 'Source Serif 4', serif; color: var(--accent); font-size: 48px; line-height: 0.6; margin-bottom: 8px; transition: color 200ms ease; }
+  .quote .body { font-size: 19px; color: var(--text-primary); line-height: 1.5; }
+  .quote .attrib { color: var(--text-tertiary); font-size: 13px; margin-top: 16px; }
+
+  /* ── Lockup placement on light + dark surface ───────── */
+  .lockup-stage { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 24px; }
+  .lockup-light { background: var(--bg-surface); border: 1px solid var(--border-divider); border-radius: var(--radius-tile); padding: 32px; display: flex; align-items: center; justify-content: center; min-height: 220px; }
+  .lockup-dark  { background: var(--bg-dark);    border-radius: var(--radius-tile); padding: 32px; display: flex; align-items: center; justify-content: center; min-height: 220px; }
+  .lockup-png   { max-width: 100%; height: auto; display: block; }
+  .stage-caption { font-size: 12px; color: var(--text-tertiary); margin-top: 10px; letter-spacing: 0.04em; }
+
+  /* ── Dark-surface text demo ─────────────────────────── */
+  .on-dark-demo { background: var(--bg-dark); color: var(--text-on-dark); border-radius: var(--radius-tile); padding: 36px; }
+  .on-dark-demo h2 { color: var(--text-on-dark); margin-bottom: 8px; }
+  .on-dark-demo p  { color: var(--text-on-dark-2); margin: 0; max-width: 620px; }
+  .on-dark-demo .pill { background: rgba(247,244,235,0.10); color: var(--text-on-dark); }
+  .on-dark-demo .btn-primary { background: var(--accent-on-dark); color: #1a1816; transition: background 200ms ease; }
+
+  /* ── Accent alternates compare ──────────────────────── */
+  .accents { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 18px; }
+  @media (max-width: 920px) { .accents { grid-template-columns: repeat(2, 1fr); } }
+  .accent-card { background: var(--bg-surface); border: 1px solid var(--border-divider); border-radius: var(--radius-card); padding: 22px; cursor: pointer; transition: border-color 120ms ease, transform 120ms ease; }
+  .accent-card:hover { border-color: var(--border-strong); }
+  .accent-card.active { border-color: var(--text-primary); border-width: 2px; padding: 21px; }
+  .accent-card .swatch-line { display: flex; gap: 10px; margin-bottom: 14px; }
+  .accent-card .swatch-line .c { width: 36px; height: 36px; border-radius: 8px; border: 1px solid var(--border-subtle); }
+  .accent-card h3 { font-family: 'Roboto', sans-serif; font-size: 15px; font-weight: 600; margin: 0 0 4px; }
+  .accent-card .hex { font-family: ui-monospace, monospace; font-size: 11px; color: var(--text-tertiary); }
+  .accent-card p { font-size: 13px; color: var(--text-secondary); margin: 8px 0 0; }
+  .active-tag {
+    display: inline-block;
+    margin-top: 8px;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--accent);
+    transition: color 200ms ease;
+  }
+</style>
+</head>
+<body>
+
+  <!-- ───────────────────────────────────────────────── -->
+  <!-- ACCENT TOGGLE BAR                                    -->
+  <!-- ───────────────────────────────────────────────── -->
+  <div class="toggle-bar">
+    <div class="toggle-bar-inner">
+      <span class="toggle-label">Accent</span>
+      <div class="accent-buttons" id="accentButtons">
+        <button class="accent-btn active" data-accent="oxblood"><span class="dot" style="background:#5e2c2e"></span>Oxblood</button>
+        <button class="accent-btn" data-accent="sage"><span class="dot" style="background:#7d8a72"></span>Sage</button>
+        <button class="accent-btn" data-accent="cyanotype"><span class="dot" style="background:#2a5680"></span>Cyanotype</button>
+        <button class="accent-btn" data-accent="aubergine"><span class="dot" style="background:#4a2942"></span>Aubergine</button>
+        <button class="accent-btn" data-accent="saffron"><span class="dot" style="background:#c89028"></span>Saffron</button>
+      </div>
+      <span class="toggle-hex" id="toggleHex">#5e2c2e</span>
+    </div>
+  </div>
+
+  <div class="container">
+
+    <header class="doc-head">
+      <div class="eyebrow">Premodel · Brand palette v2</div>
+      <h1>Editorial neutrals, applied.</h1>
+      <p>The full color system for the new homepage. Every color in service of letting Reveal photography lead — restrained background, ink headlines, taupe supporting copy, one warm accent doing the work of the old navy. Hex values + CSS variable names included so this maps cleanly onto the prototype's existing token structure.</p>
+      <div class="changelog">
+        <b>What changed.</b> &nbsp; Five accent candidates spanning the color wheel. Warm-family Claude-adjacent options (sienna, terracotta, rust) all retired. &nbsp; · &nbsp; <b>Oxblood</b> (deep wine, default) and <b>sage</b> (PNW cool) carried forward. &nbsp; · &nbsp; <b>Cyanotype</b> added — the architect's blueprint blue, with a direct conceptual tie to Premodel's value prop. &nbsp; · &nbsp; <b>Aubergine</b> and <b>saffron</b> added as creative options outside the standard editorial-warm-neutral palette. &nbsp; · &nbsp; Signature lockup approach: only the tagline carries the accent; mark and wordmark stay neutral. Toggle accent above — the page and tagline re-skin in sync.
+      </div>
+    </header>
+
+    <!-- ───────────────────────────────────────────────── -->
+    <!-- 1. THE PALETTE                                       -->
+    <!-- ───────────────────────────────────────────────── -->
+    <section class="section">
+      <div class="section-label">01 · The palette</div>
+
+      <h2 style="margin-bottom:24px;">Surfaces</h2>
+      <div class="swatches">
+        <div class="swatch">
+          <div class="chip" style="background:#f7f4eb"></div>
+          <div class="meta">
+            <div class="role">Page background</div>
+            <div class="var">--bg-page</div>
+            <div class="hex">#f7f4eb</div>
+            <div class="desc">Warm paper. The body bg of the entire site — instead of #fff. Lets the cream layers of the mark blend into negative space and signals "editorial" before a single word is read.</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="chip" style="background:#fbf8ef"></div>
+          <div class="meta">
+            <div class="role">Card / section surface</div>
+            <div class="var">--bg-surface</div>
+            <div class="hex">#fbf8ef</div>
+            <div class="desc">Slightly lighter than page. For tiles, quote cards, How-to-Premodel steps. Establishes mild layering without resorting to drop shadows.</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="chip" style="background:#ece4d1"></div>
+          <div class="meta">
+            <div class="role">Pill / eyebrow background</div>
+            <div class="var">--bg-pill</div>
+            <div class="hex">#ece4d1</div>
+            <div class="desc">A half-step darker than page. Eyebrow tags ("Why Premodel," "Get your estimate"), small icon chips, key callouts.</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="chip" style="background:#1a1816"></div>
+          <div class="meta">
+            <div class="role">Dark surface</div>
+            <div class="var">--bg-dark</div>
+            <div class="hex">#1a1816</div>
+            <div class="desc">Footer, dark hero overlays. Warm-toned near-black, never pure #000. When the logo lives here, it sits on a cream rounded card (see below).</div>
+          </div>
+        </div>
+      </div>
+
+      <h2 style="margin: 48px 0 24px;">Text</h2>
+      <div class="swatches">
+        <div class="swatch">
+          <div class="chip" style="background:#2a2826"></div>
+          <div class="meta">
+            <div class="role">Primary text</div>
+            <div class="var">--text-primary</div>
+            <div class="hex">#2a2826</div>
+            <div class="desc">Headlines, body copy. Warm-toned near-black to match the mark's deep-ink bottom layer — avoid pure #000 (cold, too SaaS).</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="chip" style="background:#6a625a"></div>
+          <div class="meta">
+            <div class="role">Secondary text</div>
+            <div class="var">--text-secondary</div>
+            <div class="hex">#6a625a</div>
+            <div class="desc">Supporting copy under headlines, lede paragraphs, tile descriptions. Warm taupe — same family as the mark's middle layer.</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="chip" style="background:#998f80"></div>
+          <div class="meta">
+            <div class="role">Tertiary text</div>
+            <div class="var">--text-tertiary</div>
+            <div class="hex">#998f80</div>
+            <div class="desc">Eyebrow labels (when not on pill bg), captions, fine print, "Required" hints, metadata.</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="chip" style="background:#f3ede1; border-color:#444;"></div>
+          <div class="meta">
+            <div class="role">Text on dark</div>
+            <div class="var">--text-on-dark</div>
+            <div class="hex">#f3ede1</div>
+            <div class="desc">When text sits on the dark surface (footer headlines, dark-hero overlay copy). Warm bone — same family as the mark's top translucent layer.</div>
+          </div>
+        </div>
+      </div>
+
+      <h2 style="margin: 48px 0 24px;">Borders, dividers, icons</h2>
+      <div class="swatches">
+        <div class="swatch">
+          <div class="chip" style="background:#e4dccb"></div>
+          <div class="meta">
+            <div class="role">Hairline divider</div>
+            <div class="var">--border-divider</div>
+            <div class="hex">#e4dccb</div>
+            <div class="desc">Section breaks, table rows, between How-to-Premodel steps. Should be visible but quiet.</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="chip" style="background:#d8cfc0"></div>
+          <div class="meta">
+            <div class="role">Subtle border</div>
+            <div class="var">--border-subtle</div>
+            <div class="hex">#d8cfc0</div>
+            <div class="desc">Card outlines, input field borders, ghost buttons. The "second tier" of structure.</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="chip" style="background:#b8ae9c"></div>
+          <div class="meta">
+            <div class="role">Strong border</div>
+            <div class="var">--border-strong</div>
+            <div class="hex">#b8ae9c</div>
+            <div class="desc">Selected states, focused inputs, emphasized borders.</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="chip" style="background:#2a2826"></div>
+          <div class="meta">
+            <div class="role">Icons (primary)</div>
+            <div class="var">--icon-primary</div>
+            <div class="hex">#2a2826</div>
+            <div class="desc">Inline icons paired with text: arrows, checks, step numbers. Reads as part of the type.</div>
+          </div>
+        </div>
+      </div>
+
+      <h2 style="margin: 48px 0 24px;">Accent <span id="paletteAccentName" style="font-weight:400; color:var(--text-tertiary); font-family: 'Roboto'; font-size: 22px;">(currently: oxblood)</span></h2>
+      <div class="swatches">
+        <div class="swatch live-accent">
+          <div class="chip" id="chipAccent" style="background:#5e2c2e"></div>
+          <div class="meta">
+            <div class="role">Accent — primary</div>
+            <div class="var">--accent</div>
+            <div class="hex" id="hexAccent">#5e2c2e</div>
+            <div class="desc">The single brand accent. Lives in: CTAs, links, the tagline "Before You Remodel," key statistic numbers, quote marks. Replaces the navy.</div>
+          </div>
+        </div>
+        <div class="swatch live-accent">
+          <div class="chip" id="chipHover" style="background:#3f1c1d"></div>
+          <div class="meta">
+            <div class="role">Accent — hover/active</div>
+            <div class="var">--accent-hover</div>
+            <div class="hex" id="hexHover">#3f1c1d</div>
+            <div class="desc">Darker shade for hover and pressed states on accent surfaces.</div>
+          </div>
+        </div>
+        <div class="swatch live-accent">
+          <div class="chip" id="chipSoft" style="background:#ecd0d0"></div>
+          <div class="meta">
+            <div class="role">Accent — soft tint</div>
+            <div class="var">--accent-soft</div>
+            <div class="hex" id="hexSoft">#ecd0d0</div>
+            <div class="desc">Pale tint for accent-pill backgrounds, highlight blocks, callouts where the full accent would be too loud.</div>
+          </div>
+        </div>
+        <div class="swatch live-accent">
+          <div class="chip" id="chipOnDark" style="background:#a4666a"></div>
+          <div class="meta">
+            <div class="role">Accent — on dark</div>
+            <div class="var">--accent-on-dark</div>
+            <div class="hex" id="hexOnDark">#a4666a</div>
+            <div class="desc">Lightened shade for use on the dark surface. Same brand color, calibrated for contrast.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ───────────────────────────────────────────────── -->
+    <!-- 2. APPLIED: HERO MOCKUP                              -->
+    <!-- ───────────────────────────────────────────────── -->
+    <section class="section">
+      <div class="section-label">02 · Applied · Hero section</div>
+      <div class="mockup">
+        <span class="pill">Pre-remodel advisors</span>
+        <h1>Don't guess. <span class="accent-word">Premodel.</span></h1>
+        <p class="lede">Two seasoned advisors walk your home, listen, and turn what they hear into photorealistic Reveals — so you can sit with the decision before you spend a dollar on construction.</p>
+        <div class="cta-row">
+          <button class="btn-primary">Book your Reveal</button>
+          <button class="btn-ghost">See how it works</button>
+        </div>
+        <div class="meta">A refundable $200 deposit secures your home visit. <a href="#" class="text-link">See refund policy</a>.</div>
+      </div>
+    </section>
+
+
+    <!-- ───────────────────────────────────────────────── -->
+    <!-- 3. APPLIED: TILES + QUOTE                            -->
+    <!-- ───────────────────────────────────────────────── -->
+    <section class="section">
+      <div class="section-label">03 · Applied · Tiles &amp; testimonial</div>
+
+      <span class="pill pill-accent">How it works</span>
+      <h2 style="margin:18px 0 6px;">Three ways to see your space</h2>
+      <p style="color:var(--text-secondary); max-width:620px; margin:0;">Before you hire anyone, before you commit to a budget, before construction.</p>
+
+      <div class="tile-row">
+        <div class="tile">
+          <div class="icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+          </div>
+          <h3>Reveal</h3>
+          <p>Photorealistic renders of your actual space, not someone else's Pinterest board.</p>
+        </div>
+        <div class="tile">
+          <div class="icon accent-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9"/><path d="M3 4v5h5"/></svg>
+          </div>
+          <h3>Refine</h3>
+          <p>We sit with you live until your favorite Reveal becomes the one you can't wait to live in.</p>
+        </div>
+        <div class="tile">
+          <div class="icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h20"/><path d="M12 2v20"/><circle cx="12" cy="12" r="4"/></svg>
+          </div>
+          <h3>Walk</h3>
+          <p>Stand inside it in VR before construction begins. Catch the change orders that would've cost you thousands.</p>
+        </div>
+      </div>
+
+      <div class="quote">
+        <div class="mark">"</div>
+        <div class="body">We got a preview before committing to a big construction budget. It's crazy that it's the opposite for most remodels: commit first, see it months later.</div>
+        <div class="attrib">— Sasha A., Seattle · Full home renovation</div>
+      </div>
+    </section>
+
+
+    <!-- ───────────────────────────────────────────────── -->
+    <!-- 4. LOCKUP — light & dark surface (REAL PNGs)         -->
+    <!-- ───────────────────────────────────────────────── -->
+    <section class="section">
+      <div class="section-label">04 · Lockup placement</div>
+      <p style="color:var(--text-secondary); max-width:680px;">Signature lockup applied — the mark stays fully neutral, "Premodel" stays deep ink, and only the tagline "Before You Remodel" carries the accent. Toggle the accent above and the tagline color updates in sync. Logo geometry stays one mark; on dark it lives inside a cream rounded card.</p>
+
+      <div class="lockup-stage">
+        <div>
+          <div class="lockup-light">
+            <img id="lockupPaper" src="lockup-explorations/lockup_tagline_oxblood_on-paper.png" alt="Premodel lockup on paper" class="lockup-png" style="max-height: 160px;">
+          </div>
+          <div class="stage-caption">On --bg-page · primary placement</div>
+        </div>
+
+        <div>
+          <div class="lockup-dark" style="padding: 0; overflow: hidden;">
+            <img id="lockupDark" src="lockup-explorations/lockup_tagline_oxblood_on-dark-card.png" alt="Premodel lockup inside cream card on dark surface" class="lockup-png" style="max-height: 220px;">
+          </div>
+          <div class="stage-caption">On --bg-dark · logo lives inside a cream card. Same mark, no recolor.</div>
+        </div>
+      </div>
+
+      <div class="on-dark-demo" style="margin-top:24px;">
+        <span class="pill" style="background:rgba(247,244,235,0.10); color:var(--text-on-dark);">Footer</span>
+        <h2 style="margin-top:14px;">Planning buys confidence.</h2>
+        <p>Two pre-remodel advisors. Seattle &amp; Eastside. A new way to start a renovation — picture first, hammer later.</p>
+        <button class="btn-primary" style="margin-top:18px;">Book your Reveal</button>
+      </div>
+    </section>
+
+
+    <!-- ───────────────────────────────────────────────── -->
+    <!-- 5. ACCENT FAMILY — clickable cards re-skin the page  -->
+    <!-- ───────────────────────────────────────────────── -->
+    <section class="section">
+      <div class="section-label">05 · Accent family · click a card to apply</div>
+      <p style="color:var(--text-secondary); max-width:720px;">Five candidates spanning the color wheel — three of them deliberately outside the editorial-warm-neutrals lane that's gotten crowded. Oxblood is the default; the others give you real range to react to. Every card is clickable; the entire page (palette swatches, mockup, lockup tagline) re-skins live.</p>
+
+      <div class="accents" id="accentCards" style="grid-template-columns: repeat(5, 1fr);">
+        <div class="accent-card active" data-accent="oxblood">
+          <div class="swatch-line">
+            <div class="c" style="background:#5e2c2e"></div>
+            <div class="c" style="background:#3f1c1d"></div>
+            <div class="c" style="background:#ecd0d0"></div>
+          </div>
+          <h3>Oxblood</h3>
+          <div class="hex">#5e2c2e · #3f1c1d · #ecd0d0</div>
+          <p>Default. Deep wine — architectural, heritage, serious. Most distinctive of the warm options. Works at tagline scale where the deep saturation reads as deliberate.</p>
+          <span class="active-tag" data-active-tag>· Default · active</span>
+        </div>
+        <div class="accent-card" data-accent="sage">
+          <div class="swatch-line">
+            <div class="c" style="background:#7d8a72"></div>
+            <div class="c" style="background:#566052"></div>
+            <div class="c" style="background:#e4ecd6"></div>
+          </div>
+          <h3>Sage</h3>
+          <div class="hex">#7d8a72 · #566052 · #e4ecd6</div>
+          <p>Cool PNW-coded. Quiet counterweight to the warm mark. Reads as "considered, calm, regional." Risk: sage has been peaking for ~3 years; trend-cycle dependent.</p>
+          <span class="active-tag" data-active-tag style="display:none;">· active</span>
+        </div>
+        <div class="accent-card" data-accent="cyanotype">
+          <div class="swatch-line">
+            <div class="c" style="background:#2a5680"></div>
+            <div class="c" style="background:#16365a"></div>
+            <div class="c" style="background:#c8d8e8"></div>
+          </div>
+          <h3>Cyanotype <span style="color:var(--accent); font-weight:500;">· concept play</span></h3>
+          <div class="hex">#2a5680 · #16365a · #c8d8e8</div>
+          <p>The architect's blueprint blue. Direct conceptual tie: Premodel literally shows you the blueprint of your home before you build it. Could own this the way Tiffany owns robin's egg.</p>
+          <span class="active-tag" data-active-tag style="display:none;">· active</span>
+        </div>
+        <div class="accent-card" data-accent="aubergine">
+          <div class="swatch-line">
+            <div class="c" style="background:#4a2942"></div>
+            <div class="c" style="background:#2e1828"></div>
+            <div class="c" style="background:#d8c8d2"></div>
+          </div>
+          <h3>Aubergine</h3>
+          <div class="hex">#4a2942 · #2e1828 · #d8c8d2</div>
+          <p>Deep plum. Sophisticated and unexpected — and quietly kitchen-coded (eggplant cabinetry is having a real moment in high-end interiors). Confident, individual, not following.</p>
+          <span class="active-tag" data-active-tag style="display:none;">· active</span>
+        </div>
+        <div class="accent-card" data-accent="saffron">
+          <div class="swatch-line">
+            <div class="c" style="background:#c89028"></div>
+            <div class="c" style="background:#966819"></div>
+            <div class="c" style="background:#f4e0b8"></div>
+          </div>
+          <h3>Saffron</h3>
+          <div class="hex">#c89028 · #966819 · #f4e0b8</div>
+          <p>Warm but yellow-leaning — completely different family than Claude's red-orange coral. Optimistic, generous, library-coded. Risk: pushed too far it reads "heritage brand."</p>
+          <span class="active-tag" data-active-tag style="display:none;">· active</span>
+        </div>
+      </div>
+    </section>
+
+    <footer style="padding: 48px 0; color: var(--text-tertiary); font-size: 13px; border-top: 1px solid var(--border-divider); margin-top: 24px;">
+      Premodel · Editorial neutrals palette v2 · Live accent toggle · Real lockup PNGs · CSS variables ready to drop into the prototype.
+    </footer>
+
+  </div>
+
+<script>
+  // ── Accent palette definitions ──────────────────────
+  const ACCENTS = {
+    oxblood: {
+      name: 'oxblood',
+      primary: '#5e2c2e',
+      hover:   '#3f1c1d',
+      soft:    '#ecd0d0',
+      onDark:  '#a4666a',   // lifted for dark-bg contrast
+    },
+    sage: {
+      name: 'sage',
+      primary: '#7d8a72',
+      hover:   '#566052',
+      soft:    '#e4ecd6',
+      onDark:  '#a8b59c',
+    },
+    cyanotype: {
+      name: 'cyanotype blue',
+      primary: '#2a5680',
+      hover:   '#16365a',
+      soft:    '#c8d8e8',
+      onDark:  '#6993bd',
+    },
+    aubergine: {
+      name: 'aubergine',
+      primary: '#4a2942',
+      hover:   '#2e1828',
+      soft:    '#d8c8d2',
+      onDark:  '#8e6a86',
+    },
+    saffron: {
+      name: 'saffron',
+      primary: '#c89028',
+      hover:   '#966819',
+      soft:    '#f4e0b8',
+      onDark:  '#d8a84a',
+    },
+  };
+
+  const root = document.documentElement;
+  const buttons = document.querySelectorAll('#accentButtons .accent-btn');
+  const cards = document.querySelectorAll('#accentCards .accent-card');
+  const toggleHex = document.getElementById('toggleHex');
+  const paletteName = document.getElementById('paletteAccentName');
+  const lockupPaper = document.getElementById('lockupPaper');
+  const lockupDark  = document.getElementById('lockupDark');
+  const chipMap = {
+    accent:  { chip: document.getElementById('chipAccent'),  hex: document.getElementById('hexAccent')  },
+    hover:   { chip: document.getElementById('chipHover'),   hex: document.getElementById('hexHover')   },
+    soft:    { chip: document.getElementById('chipSoft'),    hex: document.getElementById('hexSoft')    },
+    onDark:  { chip: document.getElementById('chipOnDark'),  hex: document.getElementById('hexOnDark')  },
+  };
+
+  function applyAccent(key) {
+    const a = ACCENTS[key];
+    if (!a) return;
+    root.style.setProperty('--accent',          a.primary);
+    root.style.setProperty('--accent-hover',    a.hover);
+    root.style.setProperty('--accent-soft',     a.soft);
+    root.style.setProperty('--accent-on-dark',  a.onDark);
+
+    toggleHex.textContent = a.primary;
+    paletteName.textContent = '(currently: ' + a.name + ')';
+
+    chipMap.accent.chip.style.background = a.primary;
+    chipMap.accent.hex.textContent = a.primary;
+    chipMap.hover.chip.style.background = a.hover;
+    chipMap.hover.hex.textContent = a.hover;
+    chipMap.soft.chip.style.background = a.soft;
+    chipMap.soft.hex.textContent = a.soft;
+    chipMap.onDark.chip.style.background = a.onDark;
+    chipMap.onDark.hex.textContent = a.onDark;
+
+    // Swap the lockup PNGs in sync with accent
+    if (lockupPaper) lockupPaper.src = `lockup-explorations/lockup_tagline_${key}_on-paper.png`;
+    if (lockupDark)  lockupDark.src  = `lockup-explorations/lockup_tagline_${key}_on-dark-card.png`;
+
+    buttons.forEach(b => b.classList.toggle('active', b.dataset.accent === key));
+    cards.forEach(c => {
+      const isActive = c.dataset.accent === key;
+      c.classList.toggle('active', isActive);
+      const tag = c.querySelector('[data-active-tag]');
+      if (tag) {
+        if (isActive) {
+          tag.style.display = '';
+          tag.textContent = key === 'oxblood' ? '· Default · active' : '· active';
+        } else {
+          tag.style.display = 'none';
+        }
+      }
+    });
+  }
+
+  buttons.forEach(b => b.addEventListener('click', () => applyAccent(b.dataset.accent)));
+  cards.forEach(c => c.addEventListener('click', () => applyAccent(c.dataset.accent)));
+</script>
+</body>
+</html>
