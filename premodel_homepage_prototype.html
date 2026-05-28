@@ -388,8 +388,8 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
     <div class="layout-control">
       <span class="layout-label">Layout</span>
       <div class="layout-toggle" role="tablist" aria-label="Layout selector">
-        <button type="button" class="toggle-btn active" data-layout="a" role="tab" aria-selected="true" aria-label="Layout A">A</button>
-        <button type="button" class="toggle-btn" data-layout="b" role="tab" aria-selected="false" aria-label="Layout B">B</button>
+        <button type="button" class="toggle-btn" data-layout="a" role="tab" aria-selected="false" aria-label="Layout A">A</button>
+        <button type="button" class="toggle-btn active" data-layout="b" role="tab" aria-selected="true" aria-label="Layout B">B</button>
       </div>
     </div>
     <div class="size-control">
@@ -410,7 +410,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
     </div>
   </div>
 
-<div class="phone-frame" data-layout="a">
+<div class="phone-frame" data-layout="a" hidden>
   <div class="phone-scroll" id="scroll">
 
     <div class="header">
@@ -942,18 +942,321 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
   </div>
 </div>
 
-<div class="phone-frame" data-layout="b" hidden>
-  <div class="phone-scroll">
+<div class="phone-frame" data-layout="b">
+  <div class="phone-scroll" id="scroll-b">
 
     <div class="header">
       <p class="logo-name">Premodel<span class="locale-bug">Seattle</span></p>
       <a href="#" class="header-link" onclick="return false;">For builders →</a>
     </div>
 
-    <div class="layout-b-placeholder">
-      <p class="layout-b-label">Layout B</p>
-      <p class="layout-b-hint">Hero variation scaffold — ready for new structure.</p>
+    <div class="reveal-hero">
+      <p class="h1-small" id="b-cycling-headline">Before the guesswork.</p>
+      <p class="h1-large">Start with a Reveal</p>
     </div>
+
+    <div class="carousel" id="carousel-b">
+      <div class="slide"><div class="img">Reveal image 1</div></div>
+      <div class="slide"><div class="img">Reveal image 2</div></div>
+      <div class="slide"><div class="img">Reveal image 3</div></div>
+      <div class="slide"><div class="img">Reveal image 4</div></div>
+      <div class="slide"><div class="img">Reveal image 5</div></div>
+    </div>
+    <div class="dots" id="dots-b">
+      <button class="dot active" data-i="0" aria-label="Slide 1"></button>
+      <button class="dot" data-i="1" aria-label="Slide 2"></button>
+      <button class="dot" data-i="2" aria-label="Slide 3"></button>
+      <button class="dot" data-i="3" aria-label="Slide 4"></button>
+      <button class="dot" data-i="4" aria-label="Slide 5"></button>
+    </div>
+
+    <div class="reveal-sub">
+      <p>3 ways to see your space, <span class="italic">before you hire anyone</span></p>
+    </div>
+
+    <div class="plan-block">
+      <div class="plan-headline">
+        <span class="h">Turn your</span>
+        <span class="h">Reveal</span>
+        <span class="h">into a</span>
+        <span class="h">Plan</span>
+      </div>
+      <div class="plan-sub">
+        <p>Everything you need to be construction-ready.</p>
+      </div>
+      <div class="plan-gallery" id="plan-gallery-b">
+        <div class="tile">
+          <div class="tile-image">Tile image</div>
+          <div class="tile-body">
+            <p class="tile-title">See it</p>
+            <p class="tile-copy">Your space, designed until it feels inevitable.</p>
+          </div>
+        </div>
+        <div class="tile">
+          <div class="tile-image">Tile image</div>
+          <div class="tile-body">
+            <p class="tile-title">Feel it</p>
+            <p class="tile-copy">Walk inside it before you build it. Catch what floorplans miss.</p>
+          </div>
+        </div>
+        <div class="tile">
+          <div class="tile-image">Tile image</div>
+          <div class="tile-body">
+            <p class="tile-title">Shop it</p>
+            <p class="tile-copy">Every material at every budget. Trade discounts available.</p>
+          </div>
+        </div>
+        <div class="tile">
+          <div class="tile-image">Tile image</div>
+          <div class="tile-body">
+            <p class="tile-title">Bid it</p>
+            <p class="tile-copy">Three trusted contractors. They come to you. You choose.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="howto-section">
+      <div class="howto-header">
+        <p class="section-eyebrow">How it works</p>
+        <h2 class="section-headline"><span class="strike">Paralysis</span> Clarity</h2>
+      </div>
+
+      <div class="step phase-step" data-step="r0">
+        <div class="num">1</div>
+        <div>
+          <p class="heading">Reveal</p>
+        </div>
+      </div>
+
+      <div class="step" data-step="r1">
+        <div class="num"><i data-lucide="send"></i></div>
+        <div>
+          <p class="heading">Submit a Reveal request</p>
+          <p class="desc">Takes a minute. You don't need to have it all figured out. That's why we're here.</p>
+        </div>
+      </div>
+
+      <div class="step" data-step="r2">
+        <div class="num"><i data-lucide="door-open"></i></div>
+        <div>
+          <p class="heading">Show us your home</p>
+          <p class="desc">Most homeowners struggle to put their ideas into words. We walk your space with you, ask questions, discuss your inspiration images, and turn what we hear into your Reveal.</p>
+        </div>
+      </div>
+
+      <div class="step" data-step="r3">
+        <div class="num"><i data-lucide="layout-grid"></i></div>
+        <div>
+          <p class="heading">See your space 3 ways</p>
+          <p class="desc">Inspiration images show you someone else's home. Our Reveals show yours, through the eyes of a pro.</p>
+        </div>
+      </div>
+
+      <div class="separator">Yours to keep, even if you don't hire us.</div>
+
+      <div class="step phase-step" data-step="p0">
+        <div class="num">2</div>
+        <div>
+          <p class="heading">Plan</p>
+        </div>
+      </div>
+
+      <div class="step" data-step="p1">
+        <div class="num"><i data-lucide="target"></i></div>
+        <div>
+          <p class="heading">Refine your favorite Reveal</p>
+          <p class="desc">Or pull elements from all three. Review updated images that explore your preferred design direction.</p>
+        </div>
+      </div>
+
+      <div class="step optional" data-step="p2">
+        <div class="num"><i data-lucide="user-plus"></i></div>
+        <div>
+          <p class="heading">Engage an architect or designer<span class="opt">optional</span></p>
+          <p class="desc">Some projects need structural changes, permits, or help with material decisions. We vet and hire specialists, with their cost included in your Plan price.</p>
+        </div>
+      </div>
+
+      <div class="step optional" data-step="p3">
+        <div class="num"><i data-lucide="scan-eye"></i></div>
+        <div>
+          <p class="heading">Walk it in VR<span class="opt">optional</span></p>
+          <p class="desc">Reveals show you the look. VR shows you the feel. If the shape of your space is changing, walk it in VR to find the "oh no" before they cost you.</p>
+        </div>
+      </div>
+
+      <div class="step" data-step="p4">
+        <div class="num"><i data-lucide="video"></i></div>
+        <div>
+          <p class="heading">Finalize your design, live</p>
+          <p class="desc">We meet over video and edit your design together. Take a moment to sit with it, then approve or request another round of revisions.</p>
+        </div>
+      </div>
+
+      <div class="step" data-step="p5">
+        <div class="num"><i data-lucide="shopping-bag"></i></div>
+        <div>
+          <p class="heading">Shop with our list</p>
+          <p class="desc">Every fixture and material in your design comes with quality alternatives at different price points. Our trade discounts often cover what you paid for the Plan.</p>
+        </div>
+      </div>
+
+      <div class="step optional" data-step="p6">
+        <div class="num"><i data-lucide="hammer"></i></div>
+        <div>
+          <p class="heading">Get up to 3 builder bids<span class="opt">optional</span></p>
+          <p class="desc">Skip the contractor search. Our trusted local network comes to you: they visit, they bid, you pick.</p>
+        </div>
+      </div>
+
+      <div class="separator">Your contractor takes it from here.</div>
+
+      <div class="step phase-step" data-step="b0">
+        <div class="num">3</div>
+        <div>
+          <p class="heading">Build</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="who-section">
+      <p class="section-eyebrow">For homeowners</p>
+      <h2 class="section-headline">Don't guess. <span class="brand-navy">Premodel.</span></h2>
+
+      <div class="quotes">
+        <blockquote class="quote">
+          <div class="quote-avatar">AG</div>
+          <div class="quote-content">
+            <p>"Without Premodel, I honestly wouldn't have started this project because <strong>I didn't have time to agonize</strong> <strong>over possibilities</strong> I can't picture."</p>
+            <cite>—<strong>Anna G.</strong>, Edmonds · Master bath, pull-and-replace</cite>
+          </div>
+        </blockquote>
+        <blockquote class="quote">
+          <div class="quote-avatar">SA</div>
+          <div class="quote-content">
+            <p>"We got a <strong>preview</strong> <strong>before committing to a big construction budget.</strong> It's crazy that it's the opposite for most remodels: commit first, see it months later."</p>
+            <cite>—<strong>Sasha A.</strong>, Seattle · Full home renovation</cite>
+          </div>
+        </blockquote>
+        <blockquote class="quote">
+          <div class="quote-avatar">KB</div>
+          <div class="quote-content">
+            <p>"I had floor plans, Pinterest boards, and tons of tile samples, but <strong>putting it all together was a puzzle.</strong> Premodel eliminated the guesswork."</p>
+            <cite>—<strong>Kainaz B.</strong>, Seattle · Multi-room, new build</cite>
+          </div>
+        </blockquote>
+      </div>
+
+      <h3 class="pricing-headline">Planning buys confidence.</h3>
+      <p class="pricing-subhead">Plans start at $1,000 — typically less than 5% of your remodel budget.</p>
+    </div>
+
+    <!-- ── Why Premodel ──────────────────────────────────────────────── -->
+    <section class="why-section">
+      <div class="why-header">
+        <p class="section-eyebrow">Why Premodel</p>
+        <h2 class="section-headline">A new kind of remodel pro.</h2>
+      </div>
+
+      <div class="why-lead-rail">
+        <div class="why-lead-text">
+          <h3 class="why-lead-headline">We show you your space before you commit to anything.</h3>
+          <div class="why-proof">
+            <div class="why-proof-row">
+              <p class="why-proof-num">0+</p>
+              <p class="why-proof-desc">Years each in design, tech and project planning</p>
+            </div>
+            <div class="why-proof-row">
+              <p class="why-proof-num">0×</p>
+              <p class="why-proof-desc">Lived through remodels of our own</p>
+            </div>
+            <div class="why-proof-row">
+              <p class="why-proof-num">&gt;0.0K</p>
+              <p class="why-proof-desc">Pictures used to plan homeowners' remodels</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="why-founders">
+          <article class="why-card founder">
+            <div class="why-founder-head">
+              <div class="why-founder-portrait">AW</div>
+              <div class="why-founder-meta">
+                <p class="why-founder-name">Ashley Wells</p>
+                <p class="why-founder-role">Co-founder · Pre-remodel advisor</p>
+              </div>
+              <a class="why-founder-linkedin" href="#" target="_blank" rel="noopener" aria-label="Ashley Wells on LinkedIn">
+                <i data-lucide="linkedin"></i>
+              </a>
+            </div>
+            <p class="why-founder-quote">"I walk your space with you, ask the questions you haven't thought to ask, and help you decide what's worth doing — before anyone swings a hammer."</p>
+          </article>
+
+          <article class="why-card founder">
+            <div class="why-founder-head">
+              <div class="why-founder-portrait">PS</div>
+              <div class="why-founder-meta">
+                <p class="why-founder-name">Paige Sandler</p>
+                <p class="why-founder-role">Co-founder · Pre-remodel advisor</p>
+              </div>
+              <a class="why-founder-linkedin" href="#" target="_blank" rel="noopener" aria-label="Paige Sandler on LinkedIn">
+                <i data-lucide="linkedin"></i>
+              </a>
+            </div>
+            <p class="why-founder-quote">"Every remodel I've lived through taught me what to ask early. I bring those questions to your home, so you don't learn them the painful way."</p>
+          </article>
+        </div>
+      </div>
+
+      <div class="why-gallery">
+        <h3 class="why-gallery-headline">This is what confidence looks like.</h3>
+        <div class="why-ig-carousel" id="why-ig-carousel-b" data-layout="b">
+          <div class="why-ig-slide" data-name="Anna G." data-meta="Master bath · Edmonds" data-ig="https://instagram.com/premodel">
+            <div class="why-ig-img">Project image 1</div>
+            <div class="why-ig-overlay">
+              <p class="why-ig-name">Master bath</p>
+              <p class="why-ig-meta">Edmonds</p>
+            </div>
+            <a class="why-ig-link" href="https://instagram.com/premodel" target="_blank" rel="noopener" aria-label="View on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg></a>
+            <div class="why-ig-cta">See the project <i data-lucide="arrow-right"></i></div>
+          </div>
+          <div class="why-ig-slide" data-name="Sasha A." data-meta="Full home renovation · Seattle" data-ig="https://instagram.com/premodel">
+            <div class="why-ig-img">Project image 2</div>
+            <div class="why-ig-overlay">
+              <p class="why-ig-name">Full home renovation</p>
+              <p class="why-ig-meta">Seattle</p>
+            </div>
+            <a class="why-ig-link" href="https://instagram.com/premodel" target="_blank" rel="noopener" aria-label="View on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg></a>
+            <div class="why-ig-cta">See the project <i data-lucide="arrow-right"></i></div>
+          </div>
+          <div class="why-ig-slide" data-name="Kainaz B." data-meta="Multi-room, new build · Seattle" data-ig="https://instagram.com/premodel">
+            <div class="why-ig-img">Project image 3</div>
+            <div class="why-ig-overlay">
+              <p class="why-ig-name">Multi-room remodel</p>
+              <p class="why-ig-meta">Seattle</p>
+            </div>
+            <a class="why-ig-link" href="https://instagram.com/premodel" target="_blank" rel="noopener" aria-label="View on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg></a>
+            <div class="why-ig-cta">See the project <i data-lucide="arrow-right"></i></div>
+          </div>
+          <div class="why-ig-slide" data-name="Jenna R." data-meta="Powder bath · Kirkland" data-ig="https://instagram.com/premodel">
+            <div class="why-ig-img">Project image 4</div>
+            <div class="why-ig-overlay">
+              <p class="why-ig-name">Powder bath</p>
+              <p class="why-ig-meta">Kirkland</p>
+            </div>
+            <a class="why-ig-link" href="https://instagram.com/premodel" target="_blank" rel="noopener" aria-label="View on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg></a>
+            <div class="why-ig-cta">See the project <i data-lucide="arrow-right"></i></div>
+          </div>
+        </div>
+        <div class="why-ig-dots" id="why-ig-dots-b">
+          <button class="why-ig-dot active" data-i="0" aria-label="Slide 1"></button>
+          <button class="why-ig-dot" data-i="1" aria-label="Slide 2"></button>
+          <button class="why-ig-dot" data-i="2" aria-label="Slide 3"></button>
+          <button class="why-ig-dot" data-i="3" aria-label="Slide 4"></button>
+        </div>
+      </div>
+    </section>
 
     <!-- Anchor section: room selection + deposit disclosure -->
     <div class="rf-anchor" id="rf-anchor-b" style="padding:24px 20px 20px">
@@ -1005,7 +1308,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
   </div>
 
   <div class="cta-bar">
-    <button class="cta-button" type="button">Book Your Complimentary Reveal</button>
+    <button class="cta-button" type="button">Get your complimentary Reveal</button>
   </div>
 
   <div class="rf-overlay" id="rf-b">
@@ -1262,6 +1565,11 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
       });
       phoneFrames.forEach(function(frame) {
         frame.hidden = frame.getAttribute('data-layout') !== layout;
+        // Restore the cta-bar on the newly visible frame so the IO can take over
+        if (!frame.hidden) {
+          var bar = frame.querySelector('.cta-bar');
+          if (bar) bar.style.display = '';
+        }
       });
     });
   });
@@ -1281,6 +1589,57 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
   }
   scrollEl.addEventListener('scroll', updateQuoteSpread, { passive: true });
   updateQuoteSpread();
+
+  var scrollElB = document.getElementById('scroll-b');
+
+  var stepsB = scrollElB ? scrollElB.querySelectorAll('.step') : [];
+  function updateStepsB() {
+    if (!scrollElB) return;
+    var r = scrollElB.getBoundingClientRect();
+    var center = r.top + r.height * 0.45;
+    var best = null, bestDist = Infinity;
+    stepsB.forEach(function(s) {
+      var sr = s.getBoundingClientRect();
+      var sc = sr.top + sr.height / 2;
+      var d = Math.abs(sc - center);
+      if (d < bestDist) { bestDist = d; best = s; }
+    });
+    stepsB.forEach(function(s) { s.classList.toggle('active', s === best); });
+  }
+  if (scrollElB) scrollElB.addEventListener('scroll', updateStepsB, { passive: true });
+  updateStepsB();
+
+  var cyclingEl = document.getElementById('b-cycling-headline');
+  if (cyclingEl) {
+    var cyclingPhrases = ['Before the guesswork.', 'Before the commitment.', 'Before the construction.'];
+    var cyclingIdx = 0;
+    cyclingEl.style.transition = 'opacity 0.4s ease';
+    setInterval(function() {
+      cyclingIdx = (cyclingIdx + 1) % cyclingPhrases.length;
+      cyclingEl.style.opacity = '0';
+      setTimeout(function() {
+        cyclingEl.textContent = cyclingPhrases[cyclingIdx];
+        cyclingEl.style.opacity = '1';
+      }, 400);
+    }, 2500);
+  }
+
+  var quotesEls = document.querySelectorAll('.quotes');
+  var quotesElB = quotesEls.length > 1 ? quotesEls[1] : null;
+  function updateQuoteSpreadB() {
+    if (!quotesElB || !scrollElB) return;
+    var rect = quotesElB.getBoundingClientRect();
+    var scrollRect = scrollElB.getBoundingClientRect();
+    var sectionTop = rect.top - scrollRect.top;
+    var viewportHeight = scrollRect.height;
+    var triggerStart = viewportHeight;
+    var triggerEnd = viewportHeight * 0.3;
+    var progress = (triggerStart - sectionTop) / (triggerStart - triggerEnd);
+    progress = Math.max(0, Math.min(1, progress));
+    quotesElB.style.setProperty('--spread', progress);
+  }
+  if (scrollElB) scrollElB.addEventListener('scroll', updateQuoteSpreadB, { passive: true });
+  updateQuoteSpreadB();
 
   var sizeSelect = document.getElementById('size-select');
   var wrapper = document.querySelector('.prototype-wrapper');
@@ -1614,14 +1973,18 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
       });
     });
 
-    // Hide bar when anchor is visible (scroll or click); restore when scrolled away
+    // Hide bar when anchor is visible; restore when scrolled away.
+    var frame = document.querySelector('.phone-frame[data-layout="' + id + '"]');
     if ('IntersectionObserver' in window && ctaBar && anchorEl) {
-      var io = new IntersectionObserver(function(entries) {
-        entries.forEach(function(e) {
-          ctaBar.style.display = e.isIntersecting ? 'none' : '';
-        });
-      }, { root: scrollEl, threshold: 0.05 });
-      io.observe(anchorEl);
+      requestAnimationFrame(function() {
+        var io = new IntersectionObserver(function(entries) {
+          entries.forEach(function(e) {
+            if (frame && frame.hidden) { ctaBar.style.display = ''; return; }
+            ctaBar.style.display = e.isIntersecting ? 'none' : '';
+          });
+        }, { root: scrollEl, threshold: 0.05 });
+        io.observe(anchorEl);
+      });
     }
 
     // ── Anchor chip multi-select ─────────────────────────────────────────────
@@ -1718,6 +2081,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 
   initRevealSheet('a');
   initRevealSheet('b');
+
 })();
 </script>
 
