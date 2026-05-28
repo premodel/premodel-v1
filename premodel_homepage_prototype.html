@@ -1154,18 +1154,319 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 </div>
 
 <div class="phone-frame" data-layout="b" hidden>
-  <div class="phone-scroll">
+  <div class="phone-scroll" id="scroll-b">
 
     <div class="header">
       <p class="logo-name">Premodel<span class="locale-bug">Seattle</span></p>
       <button type="button" class="header-link" data-modal-open="builders">For builders →</button>
     </div>
 
-    <div class="layout-b-placeholder">
-      <p class="layout-b-label">Layout B</p>
-      <p class="layout-b-hint">Hero variation scaffold — ready for new structure.</p>
+    <div class="reveal-hero">
+      <p class="h1-small" id="b-cycling-headline">Before the guesswork.</p>
+      <p class="h1-large">Start with a Reveal</p>
     </div>
 
+    <div class="carousel" id="carousel-b">
+      <div class="slide"><div class="img">Reveal image 1</div></div>
+      <div class="slide"><div class="img">Reveal image 2</div></div>
+      <div class="slide"><div class="img">Reveal image 3</div></div>
+      <div class="slide"><div class="img">Reveal image 4</div></div>
+      <div class="slide"><div class="img">Reveal image 5</div></div>
+    </div>
+    <div class="dots" id="dots-b">
+      <button class="dot active" data-i="0" aria-label="Slide 1"></button>
+      <button class="dot" data-i="1" aria-label="Slide 2"></button>
+      <button class="dot" data-i="2" aria-label="Slide 3"></button>
+      <button class="dot" data-i="3" aria-label="Slide 4"></button>
+      <button class="dot" data-i="4" aria-label="Slide 5"></button>
+    </div>
+
+    <div class="reveal-sub">
+      <p>3 ways to see your remodel, <span class="italic">before you hire anyone</span></p>
+    </div>
+
+    <div class="plan-block">
+      <div class="plan-headline">
+        <span class="h">Turn Your</span>
+        <span class="h">Reveal</span>
+        <span class="h">into a</span>
+        <span class="h">Plan</span>
+      </div>
+      <div class="plan-sub">
+        <p>Everything you need to get construction-ready.</p>
+      </div>
+      <div class="plan-gallery" id="plan-gallery-b">
+        <div class="tile">
+          <div class="tile-image">Tile image</div>
+          <div class="tile-body">
+            <p class="tile-title">See it</p>
+            <p class="tile-copy">Your space, designed until it feels inevitable.</p>
+          </div>
+        </div>
+        <div class="tile">
+          <div class="tile-image">Tile image</div>
+          <div class="tile-body">
+            <p class="tile-title">Feel it</p>
+            <p class="tile-copy">Walk inside it before you build it. Catch what floorplans miss.</p>
+          </div>
+        </div>
+        <div class="tile">
+          <div class="tile-image">Tile image</div>
+          <div class="tile-body">
+            <p class="tile-title">Shop it</p>
+            <p class="tile-copy">Curated materials at every budget. Trade pricing available.</p>
+          </div>
+        </div>
+        <div class="tile">
+          <div class="tile-image">Tile image</div>
+          <div class="tile-body">
+            <p class="tile-title">Bid it</p>
+            <p class="tile-copy">Three trusted contractors. They come to you. You choose.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="howto-section">
+      <div class="howto-header">
+        <p class="section-eyebrow">How it works</p>
+        <h2 class="section-headline">Don't Guess. <span class="brand-navy">Premodel.</span></h2>
+      </div>
+
+      <div class="step phase-step" data-step="r0">
+        <div class="num">1</div>
+        <div>
+          <p class="heading">Reveal</p>
+        </div>
+      </div>
+
+      <div class="step" data-step="r1">
+        <div class="num"><i data-lucide="send"></i></div>
+        <div>
+          <p class="heading">Submit a Reveal request</p>
+          <p class="desc">Takes a minute. You don't need to have it all figured out. That's why we're here.</p>
+        </div>
+      </div>
+
+      <div class="step" data-step="r2">
+        <div class="num"><i data-lucide="door-open"></i></div>
+        <div>
+          <p class="heading">Show us your home</p>
+          <p class="desc">Most homeowners struggle to put their ideas into words. We walk your space with you, ask questions, discuss your inspiration images, and turn what we hear into your Reveal.</p>
+        </div>
+      </div>
+
+      <div class="step" data-step="r3">
+        <div class="num"><i data-lucide="layout-grid"></i></div>
+        <div>
+          <p class="heading">See your remodel 3 ways</p>
+          <p class="desc">Inspiration images show you someone else's home. Our Reveals show yours.</p>
+        </div>
+      </div>
+
+      <div class="separator">Yours to keep, even if you don't hire us.</div>
+
+      <div class="step phase-step" data-step="p0">
+        <div class="num">2</div>
+        <div>
+          <p class="heading">Plan</p>
+        </div>
+      </div>
+
+      <div class="step" data-step="p1">
+        <div class="num"><i data-lucide="target"></i></div>
+        <div>
+          <p class="heading">Refine your favorite Reveal</p>
+          <p class="desc">Or pull elements from all three. Review updated images that explore your preferred design direction.</p>
+        </div>
+      </div>
+
+      <div class="step optional" data-step="p2">
+        <div class="num"><i data-lucide="user-plus"></i></div>
+        <div>
+          <p class="heading">Engage an architect or designer<span class="opt">optional</span></p>
+          <p class="desc">Some projects need structural changes, permits, or help with material decisions. We vet and hire specialists, with their cost included in your Plan price.</p>
+        </div>
+      </div>
+
+      <div class="step optional" data-step="p3">
+        <div class="num"><i data-lucide="scan-eye"></i></div>
+        <div>
+          <p class="heading">Walk it in VR<span class="opt">optional</span></p>
+          <p class="desc">Reveals show you the look. VR gives you the feel. If the shape of your space is changing, walk it in VR to find the "oh nos" before they cost you.</p>
+        </div>
+      </div>
+
+      <div class="step" data-step="p4">
+        <div class="num"><i data-lucide="video"></i></div>
+        <div>
+          <p class="heading">Finalize your design, live</p>
+          <p class="desc">We meet over video and edit your design together. Take a moment to sit with it, then approve or request another round of revisions.</p>
+        </div>
+      </div>
+
+      <div class="step" data-step="p5">
+        <div class="num"><i data-lucide="shopping-bag"></i></div>
+        <div>
+          <p class="heading">Shop with our list</p>
+          <p class="desc">Every fixture and material in your design comes with quality alternatives at different price points. Our trade discounts often cover what you paid for the Plan.</p>
+        </div>
+      </div>
+
+      <div class="step optional" data-step="p6">
+        <div class="num"><i data-lucide="hammer"></i></div>
+        <div>
+          <p class="heading">Get up to 3 builder bids<span class="opt">optional</span></p>
+          <p class="desc">Skip the contractor search. Our trusted local network comes to you: they visit, they bid, you pick.</p>
+        </div>
+      </div>
+
+      <div class="separator">Your contractor takes it from here.</div>
+
+      <div class="step phase-step" data-step="b0">
+        <div class="num">3</div>
+        <div>
+          <p class="heading">Build</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="who-section">
+      <p class="section-eyebrow">For homeowners</p>
+      <h2 class="section-headline">Planning Buys Confidence</h2>
+
+      <div class="quotes">
+        <blockquote class="quote">
+          <div class="quote-avatar">AG</div>
+          <div class="quote-content">
+            <p>"Without Premodel, I honestly wouldn't have started this project because <strong>I didn't have time to agonize</strong> <strong>over possibilities</strong> I can't picture."</p>
+            <cite>—<strong>Anna G.</strong>, Edmonds · Master bath, pull-and-replace</cite>
+          </div>
+        </blockquote>
+        <blockquote class="quote">
+          <div class="quote-avatar">SA</div>
+          <div class="quote-content">
+            <p>"We got a <strong>preview</strong> <strong>before committing to a big construction budget.</strong> It's crazy that it's the opposite for most remodels: commit first, see it months later."</p>
+            <cite>—<strong>Sasha A.</strong>, Seattle · Full home renovation</cite>
+          </div>
+        </blockquote>
+        <blockquote class="quote">
+          <div class="quote-avatar">KB</div>
+          <div class="quote-content">
+            <p>"I had floor plans, Pinterest boards, and tons of tile samples, but <strong>putting it all together was a puzzle.</strong> Premodel eliminated the guesswork."</p>
+            <cite>—<strong>Kainaz B.</strong>, Seattle · Multi-room, new build</cite>
+          </div>
+        </blockquote>
+      </div>
+
+      <h3 class="pricing-headline">Less Than 5% of Your Remodel Budget.</h3>
+      <p class="pricing-subhead">Plans start at $1,000.</p>
+    </div>
+
+    <!-- ── Why Premodel ──────────────────────────────────────────────── -->
+    <section class="why-section">
+      <div class="why-header">
+        <p class="section-eyebrow">Why Premodel</p>
+        <h2 class="section-headline">A New Kind of Remodel Pro.</h2>
+      </div>
+
+      <div class="why-lead-rail">
+        <div class="why-lead-text">
+          <h3 class="why-lead-headline">We Show You Your New Space Before You Commit to Anything.</h3>
+          <div class="why-proof">
+            <div class="why-proof-row">
+              <p class="why-proof-num">0+</p>
+              <p class="why-proof-desc">Years each in design, tech and project planning</p>
+            </div>
+            <div class="why-proof-row">
+              <p class="why-proof-num">0×</p>
+              <p class="why-proof-desc">Lived through remodels of our own</p>
+            </div>
+            <div class="why-proof-row">
+              <p class="why-proof-num">&gt;0.0K</p>
+              <p class="why-proof-desc">Pictures used to plan homeowners' remodels</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="why-founders">
+          <article class="why-card founder">
+            <div class="why-founder-head">
+              <div class="why-founder-portrait">AW</div>
+              <div class="why-founder-meta">
+                <p class="why-founder-name">Ashley Wells</p>
+                <p class="why-founder-role">Co-founder · Pre-remodel advisor</p>
+              </div>
+              <a class="why-founder-linkedin" href="#" target="_blank" rel="noopener" aria-label="Ashley Wells on LinkedIn">
+                <i data-lucide="linkedin"></i>
+              </a>
+            </div>
+            <p class="why-founder-quote">"I walk your space with you, ask the questions you haven't thought to ask, and help you decide what's worth doing — before anyone swings a hammer."</p>
+          </article>
+
+          <article class="why-card founder">
+            <div class="why-founder-head">
+              <div class="why-founder-portrait">PS</div>
+              <div class="why-founder-meta">
+                <p class="why-founder-name">Paige West Shaw</p>
+                <p class="why-founder-role">Co-founder · Pre-remodel advisor</p>
+              </div>
+              <a class="why-founder-linkedin" href="#" target="_blank" rel="noopener" aria-label="Paige West Shaw on LinkedIn">
+                <i data-lucide="linkedin"></i>
+              </a>
+            </div>
+            <p class="why-founder-quote">"Every remodel I've lived through taught me what to ask early. I bring those questions to your home, so you don't learn them the painful way."</p>
+          </article>
+        </div>
+      </div>
+
+      <div class="why-gallery">
+        <h3 class="why-gallery-headline">This Is What Confidence Looks Like.</h3>
+        <div class="why-ig-carousel" id="why-ig-carousel-b" data-layout="b">
+          <div class="why-ig-slide" data-name="Anna G." data-meta="Master bath · Edmonds" data-ig="https://instagram.com/premodel">
+            <div class="why-ig-img">Project image 1</div>
+            <div class="why-ig-overlay">
+              <p class="why-ig-name">Master bath</p>
+              <p class="why-ig-meta">Edmonds</p>
+            </div>
+            <a class="why-ig-link" href="https://instagram.com/premodel" target="_blank" rel="noopener" aria-label="View on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg></a>
+            <div class="why-ig-cta">See the project <i data-lucide="arrow-right"></i></div>
+          </div>
+          <div class="why-ig-slide" data-name="Sasha A." data-meta="Full home renovation · Seattle" data-ig="https://instagram.com/premodel">
+            <div class="why-ig-img">Project image 2</div>
+            <div class="why-ig-overlay">
+              <p class="why-ig-name">Full home renovation</p>
+              <p class="why-ig-meta">Seattle</p>
+            </div>
+            <a class="why-ig-link" href="https://instagram.com/premodel" target="_blank" rel="noopener" aria-label="View on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg></a>
+            <div class="why-ig-cta">See the project <i data-lucide="arrow-right"></i></div>
+          </div>
+          <div class="why-ig-slide" data-name="Kainaz B." data-meta="Multi-room, new build · Seattle" data-ig="https://instagram.com/premodel">
+            <div class="why-ig-img">Project image 3</div>
+            <div class="why-ig-overlay">
+              <p class="why-ig-name">Multi-room remodel</p>
+              <p class="why-ig-meta">Seattle</p>
+            </div>
+            <a class="why-ig-link" href="https://instagram.com/premodel" target="_blank" rel="noopener" aria-label="View on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg></a>
+            <div class="why-ig-cta">See the project <i data-lucide="arrow-right"></i></div>
+          </div>
+          <div class="why-ig-slide" data-name="Jenna R." data-meta="Powder bath · Kirkland" data-ig="https://instagram.com/premodel">
+            <div class="why-ig-img">Project image 4</div>
+            <div class="why-ig-overlay">
+              <p class="why-ig-name">Powder bath</p>
+              <p class="why-ig-meta">Kirkland</p>
+            </div>
+            <a class="why-ig-link" href="https://instagram.com/premodel" target="_blank" rel="noopener" aria-label="View on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg></a>
+            <div class="why-ig-cta">See the project <i data-lucide="arrow-right"></i></div>
+          </div>
+        </div>
+        <div class="why-ig-dots" id="why-ig-dots-b">
+          <button class="why-ig-dot active" data-i="0" aria-label="Slide 1"></button>
+          <button class="why-ig-dot" data-i="1" aria-label="Slide 2"></button>
+          <button class="why-ig-dot" data-i="2" aria-label="Slide 3"></button>
+          <button class="why-ig-dot" data-i="3" aria-label="Slide 4"></button>
+        </div>
+      </div>
     <!-- ── FAQ ──────────────────────────────────────────────────────── -->
     <section class="faq-section">
       <div class="faq-header">
@@ -1222,7 +1523,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
     <!-- Anchor section: room selection + deposit disclosure -->
     <div class="rf-anchor" id="rf-anchor-b" style="padding:24px 20px 20px">
       <p class="rf-eyebrow">Get your estimate</p>
-      <h2 class="rf-title">Book your Reveal</h2>
+      <h2 class="rf-title">Book Your Reveal</h2>
       <p style="font-size:15px;font-weight:500;letter-spacing:-0.01em;color:var(--color-text-primary);margin:0 0 14px">Which rooms are you planning to remodel?</p>
       <div class="rf-chips" id="rf-anchor-chips-b">
         <button class="rf-chip" type="button" data-room="kitchen">Kitchen</button>
@@ -1309,7 +1610,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
   </div>
 
   <div class="cta-bar">
-    <button class="cta-button" type="button">Book Your Complimentary Reveal</button>
+    <button class="cta-button" type="button">Get your complimentary Reveal</button>
   </div>
 
   <div class="rf-overlay" id="rf-b">
@@ -1352,7 +1653,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
       <!-- Step 3: Contact info + acknowledgment -->
       <div id="rf-s3-b" hidden>
         <p class="rf-eyebrow">Almost there</p>
-        <h2 class="rf-title">How should we reach you?</h2>
+        <h2 class="rf-title">How Should We Reach You?</h2>
         <p class="rf-sub" style="margin-bottom:20px">We'll call you as soon as possible during business hours (Mon–Fri, 9–5) to answer questions and get you scheduled.</p>
         <div class="rf-fields">
           <div class="rf-row">
@@ -1373,7 +1674,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
       <div id="rf-s4-b" hidden>
         <div class="rf-success">
           <div class="rf-success-icon"><i data-lucide="check"></i></div>
-          <h2 class="rf-success-title">Request received!</h2>
+          <h2 class="rf-success-title">Request Received!</h2>
           <p class="rf-success-sub">We'll be in touch soon. Here's what to expect next.</p>
           <div class="rf-ns-step">
             <div class="rf-ns-num">1</div>
@@ -1447,6 +1748,19 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
       </div>
     </div>
   </div>
+
+  <!-- Case-study modal for Layout B -->
+  <div class="case-modal" id="case-modal-b" role="dialog" aria-modal="true" aria-labelledby="case-modal-b-name" aria-hidden="true">
+    <div class="case-modal-card">
+      <button type="button" class="case-modal-close" id="case-modal-b-close" aria-label="Close case study">
+        <i data-lucide="x"></i>
+      </button>
+      <p class="case-modal-eyebrow">Case study</p>
+      <h3 class="case-modal-name" id="case-modal-b-name">—</h3>
+      <p class="case-modal-meta" id="case-modal-b-meta">—</p>
+      <p class="case-modal-placeholder">Case study coming soon — multiple project images, key materials, and a 2–3 paragraph story will live here.</p>
+    </div>
+  </div>
 </div>
 
 </div>
@@ -1486,6 +1800,22 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
     });
   });
 
+  // Hero carousel — Layout B
+  var carouselB = document.getElementById('carousel-b');
+  var dotsB = document.querySelectorAll('#dots-b .dot');
+  if (carouselB) {
+    function updateDotsB() {
+      var i = Math.round(carouselB.scrollLeft / carouselB.clientWidth);
+      dotsB.forEach(function(d, j) { d.classList.toggle('active', j === i); });
+    }
+    carouselB.addEventListener('scroll', updateDotsB, { passive: true });
+    dotsB.forEach(function(d, i) {
+      d.addEventListener('click', function() {
+        carouselB.scrollTo({ left: i * carouselB.clientWidth, behavior: 'smooth' });
+      });
+    });
+  }
+
   // Why Premodel — IG-style case study carousel + modal
   var igCarousel = document.getElementById('why-ig-carousel');
   if (igCarousel) {
@@ -1498,6 +1828,22 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
     igDots.forEach(function(d, i) {
       d.addEventListener('click', function() {
         igCarousel.scrollTo({ left: i * igCarousel.clientWidth, behavior: 'smooth' });
+      });
+    });
+  }
+
+  // Why Premodel — IG-style carousel + dots (Layout B)
+  var igCarouselB = document.getElementById('why-ig-carousel-b');
+  if (igCarouselB) {
+    var igDotsB = document.querySelectorAll('#why-ig-dots-b .why-ig-dot');
+    function updateIgDotsB() {
+      var i = Math.round(igCarouselB.scrollLeft / igCarouselB.clientWidth);
+      igDotsB.forEach(function(d, j) { d.classList.toggle('active', j === i); });
+    }
+    igCarouselB.addEventListener('scroll', updateIgDotsB, { passive: true });
+    igDotsB.forEach(function(d, i) {
+      d.addEventListener('click', function() {
+        igCarouselB.scrollTo({ left: i * igCarouselB.clientWidth, behavior: 'smooth' });
       });
     });
   }
@@ -1518,7 +1864,8 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
     caseModal.classList.remove('open');
     caseModal.setAttribute('aria-hidden', 'true');
   }
-  document.querySelectorAll('.why-ig-slide').forEach(function(slide) {
+  // Layout A slides → #case-modal
+  document.querySelectorAll('#why-ig-carousel .why-ig-slide').forEach(function(slide) {
     slide.addEventListener('click', function(e) {
       if (e.target.closest('.why-ig-link')) return;
       openCaseModal(slide);
@@ -1526,6 +1873,32 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
   });
   if (caseModalClose) caseModalClose.addEventListener('click', closeCaseModal);
   if (caseModal) caseModal.addEventListener('click', function(e) { if (e.target === caseModal) closeCaseModal(); });
+
+  // Layout B slides → #case-modal-b
+  var caseModalB = document.getElementById('case-modal-b');
+  var caseModalBName = document.getElementById('case-modal-b-name');
+  var caseModalBMeta = document.getElementById('case-modal-b-meta');
+  var caseModalBClose = document.getElementById('case-modal-b-close');
+  function openCaseModalB(slide) {
+    if (!caseModalB) return;
+    caseModalBName.textContent = slide.dataset.name || '';
+    caseModalBMeta.textContent = slide.dataset.meta || '';
+    caseModalB.classList.add('open');
+    caseModalB.setAttribute('aria-hidden', 'false');
+  }
+  function closeCaseModalB() {
+    if (!caseModalB) return;
+    caseModalB.classList.remove('open');
+    caseModalB.setAttribute('aria-hidden', 'true');
+  }
+  document.querySelectorAll('#why-ig-carousel-b .why-ig-slide').forEach(function(slide) {
+    slide.addEventListener('click', function(e) {
+      if (e.target.closest('.why-ig-link')) return;
+      openCaseModalB(slide);
+    });
+  });
+  if (caseModalBClose) caseModalBClose.addEventListener('click', closeCaseModalB);
+  if (caseModalB) caseModalB.addEventListener('click', function(e) { if (e.target === caseModalB) closeCaseModalB(); });
 
   // Why Premodel — proof numbers count up sequentially the first time they scroll into view
   (function initProofAnimation() {
@@ -1601,6 +1974,11 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
       });
       phoneFrames.forEach(function(frame) {
         frame.hidden = frame.getAttribute('data-layout') !== layout;
+        // Restore the cta-bar on the newly visible frame so the IO can take over
+        if (!frame.hidden) {
+          var bar = frame.querySelector('.cta-bar');
+          if (bar) bar.style.display = '';
+        }
       });
     });
   });
@@ -1620,6 +1998,120 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
   }
   scrollEl.addEventListener('scroll', updateQuoteSpread, { passive: true });
   updateQuoteSpread();
+
+  var scrollElB = document.getElementById('scroll-b');
+
+  var stepsB = scrollElB ? scrollElB.querySelectorAll('.step') : [];
+  function updateStepsB() {
+    if (!scrollElB) return;
+    var r = scrollElB.getBoundingClientRect();
+    var center = r.top + r.height * 0.45;
+    var best = null, bestDist = Infinity;
+    stepsB.forEach(function(s) {
+      var sr = s.getBoundingClientRect();
+      var sc = sr.top + sr.height / 2;
+      var d = Math.abs(sc - center);
+      if (d < bestDist) { bestDist = d; best = s; }
+    });
+    stepsB.forEach(function(s) { s.classList.toggle('active', s === best); });
+  }
+  if (scrollElB) scrollElB.addEventListener('scroll', updateStepsB, { passive: true });
+  updateStepsB();
+
+  var cyclingEl = document.getElementById('b-cycling-headline');
+  if (cyclingEl) {
+    var cyclingPhrases = ['Before the guesswork.', 'Before the commitment.', 'Before the construction.'];
+    var cyclingIdx = 0;
+    cyclingEl.style.transition = 'opacity 0.4s ease';
+    setInterval(function() {
+      cyclingIdx = (cyclingIdx + 1) % cyclingPhrases.length;
+      cyclingEl.style.opacity = '0';
+      setTimeout(function() {
+        cyclingEl.textContent = cyclingPhrases[cyclingIdx];
+        cyclingEl.style.opacity = '1';
+      }, 400);
+    }, 2500);
+  }
+
+  var quotesEls = document.querySelectorAll('.quotes');
+  var quotesElB = quotesEls.length > 1 ? quotesEls[1] : null;
+  function updateQuoteSpreadB() {
+    if (!quotesElB || !scrollElB) return;
+    var rect = quotesElB.getBoundingClientRect();
+    var scrollRect = scrollElB.getBoundingClientRect();
+    var sectionTop = rect.top - scrollRect.top;
+    var viewportHeight = scrollRect.height;
+    var triggerStart = viewportHeight;
+    var triggerEnd = viewportHeight * 0.3;
+    var progress = (triggerStart - sectionTop) / (triggerStart - triggerEnd);
+    progress = Math.max(0, Math.min(1, progress));
+    quotesElB.style.setProperty('--spread', progress);
+  }
+  if (scrollElB) scrollElB.addEventListener('scroll', updateQuoteSpreadB, { passive: true });
+  updateQuoteSpreadB();
+
+  // Why Premodel — proof numbers count up (Layout B)
+  (function initProofAnimationB() {
+    var proofEls = document.querySelectorAll('.why-proof');
+    var proofElB = proofEls.length > 1 ? proofEls[1] : null;
+    if (!proofElB || !scrollElB || !('IntersectionObserver' in window)) return;
+    var nums = proofElB.querySelectorAll('.why-proof-num');
+    if (nums.length < 3) return;
+    var triggered = false;
+
+    function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
+
+    function tickInt(el, end, prefix, suffix, duration) {
+      return new Promise(function(resolve) {
+        var start = performance.now();
+        var last = -1;
+        el.textContent = prefix + '0' + suffix;
+        function frame(now) {
+          var t = Math.min((now - start) / duration, 1);
+          var v = Math.floor(easeOut(t) * end);
+          if (t === 1) v = end;
+          if (v !== last) { el.textContent = prefix + v + suffix; last = v; }
+          if (t < 1) { requestAnimationFrame(frame); }
+          else { resolve(); }
+        }
+        requestAnimationFrame(frame);
+      });
+    }
+
+    function tickDecimal(el, end, prefix, suffix, duration) {
+      return new Promise(function(resolve) {
+        var start = performance.now();
+        var last = -1;
+        el.textContent = prefix + (0).toFixed(1) + suffix;
+        function frame(now) {
+          var t = Math.min((now - start) / duration, 1);
+          var v = Math.round(easeOut(t) * end * 10) / 10;
+          if (t === 1) v = end;
+          if (v !== last) { el.textContent = prefix + v.toFixed(1) + suffix; last = v; }
+          if (t < 1) { requestAnimationFrame(frame); }
+          else { resolve(); }
+        }
+        requestAnimationFrame(frame);
+      });
+    }
+
+    function run() {
+      tickInt(nums[0], 20, '', '+', 1200)
+        .then(function() { return tickInt(nums[1], 12, '', '×', 1100); })
+        .then(function() { return tickDecimal(nums[2], 1.2, '>', 'K', 1100); });
+    }
+
+    var io = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting && !triggered) {
+          triggered = true;
+          run();
+          io.disconnect();
+        }
+      });
+    }, { root: scrollElB, threshold: 0.4 });
+    io.observe(proofElB);
+  })();
 
   var sizeSelect = document.getElementById('size-select');
   var wrapper = document.querySelector('.prototype-wrapper');
@@ -1953,14 +2445,18 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
       });
     });
 
-    // Hide bar when anchor is visible (scroll or click); restore when scrolled away
+    // Hide bar when anchor is visible; restore when scrolled away.
+    var frame = document.querySelector('.phone-frame[data-layout="' + id + '"]');
     if ('IntersectionObserver' in window && ctaBar && anchorEl) {
-      var io = new IntersectionObserver(function(entries) {
-        entries.forEach(function(e) {
-          ctaBar.style.display = e.isIntersecting ? 'none' : '';
-        });
-      }, { root: scrollEl, threshold: 0.05 });
-      io.observe(anchorEl);
+      requestAnimationFrame(function() {
+        var io = new IntersectionObserver(function(entries) {
+          entries.forEach(function(e) {
+            if (frame && frame.hidden) { ctaBar.style.display = ''; return; }
+            ctaBar.style.display = e.isIntersecting ? 'none' : '';
+          });
+        }, { root: scrollEl, threshold: 0.05 });
+        io.observe(anchorEl);
+      });
     }
 
     // ── Anchor chip multi-select ─────────────────────────────────────────────
@@ -2057,6 +2553,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 
   initRevealSheet('a');
   initRevealSheet('b');
+
 })();
 
 // ── Info modals (Privacy, For builders) ────────────────
