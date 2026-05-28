@@ -515,9 +515,10 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
   outline-offset: 2px;
 }
 .palette-picker-swatches {
-  display: flex;
-  gap: 14px;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  width: 100%;
+  gap: 0;
 }
 .palette-picker .swatch-wrap {
   display: flex;
