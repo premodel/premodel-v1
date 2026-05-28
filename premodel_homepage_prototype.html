@@ -1450,6 +1450,22 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
     });
   });
 
+  // Hero carousel — Layout B
+  var carouselB = document.getElementById('carousel-b');
+  var dotsB = document.querySelectorAll('#dots-b .dot');
+  if (carouselB) {
+    function updateDotsB() {
+      var i = Math.round(carouselB.scrollLeft / carouselB.clientWidth);
+      dotsB.forEach(function(d, j) { d.classList.toggle('active', j === i); });
+    }
+    carouselB.addEventListener('scroll', updateDotsB, { passive: true });
+    dotsB.forEach(function(d, i) {
+      d.addEventListener('click', function() {
+        carouselB.scrollTo({ left: i * carouselB.clientWidth, behavior: 'smooth' });
+      });
+    });
+  }
+
   // Why Premodel — IG-style case study carousel + modal
   var igCarousel = document.getElementById('why-ig-carousel');
   if (igCarousel) {
