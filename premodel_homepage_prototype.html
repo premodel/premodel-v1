@@ -10,6 +10,7 @@
   --color-background-secondary: #f6f5f0;
   --color-background-tertiary: #faf9f4;
   --color-background-warning: #faeeda;
+  --color-surface-secondary: #f3f1eb;
   --color-text-primary: #1a1a18;
   --color-text-secondary: #6b6a64;
   --color-text-tertiary: #a8a7a1;
@@ -30,6 +31,7 @@
     --color-background-secondary: #24241f;
     --color-background-tertiary: #14140e;
     --color-background-warning: #3d2e0a;
+    --color-surface-secondary: #262621;
     --color-text-primary: #f0eee5;
     --color-text-secondary: #a8a7a1;
     --color-text-tertiary: #6b6a64;
@@ -75,6 +77,9 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .header { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; border-bottom: 0.5px solid var(--color-border-tertiary); }
 .header .logo-name { font-size: 16px; font-weight: 500; margin: 0; letter-spacing: -0.005em; }
 .header .header-link { font-size: 13px; color: var(--color-text-secondary); text-decoration: none; font-weight: 400; }
+.header button.header-link { appearance: none; -webkit-appearance: none; background: transparent; border: 0; padding: 0; font-family: inherit; line-height: inherit; cursor: pointer; transition: color 0.15s ease; }
+.header button.header-link:hover { color: var(--color-text-primary); }
+.header button.header-link:focus-visible { outline: 2px solid var(--color-text-primary); outline-offset: 2px; border-radius: 2px; }
 .locale-bug { display: inline-block; background: var(--color-background-warning); color: var(--color-text-warning); font-size: 9px; font-weight: 600; letter-spacing: 0.08em; padding: 2px 6px; border-radius: 4px; margin-left: 7px; vertical-align: 2px; text-transform: uppercase; }
 
 .reveal-hero { padding: 28px 20px 0; text-align: center; }
@@ -393,8 +398,62 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .faq-answer { padding: 0 4px 18px; font-size: 14px; color: var(--color-text-secondary); line-height: 1.6; margin: 0; }
 .faq-closing { font-family: var(--font-serif); font-style: italic; font-size: 13.5px; color: var(--color-text-secondary); text-align: center; margin: 22px auto 0; max-width: 280px; line-height: 1.55; }
 
-/* ── Responsive overrides: full-bleed prototype on phone/tablet ─────── */
-@media (max-width: 1024px) {
+/* ── Footer ─────────────────────────────────────────────────────────── */
+.footer { background: var(--color-surface-secondary); border-top: 1px solid var(--color-border-secondary); padding: 36px 20px 28px; color: var(--color-text-secondary); container-type: inline-size; }
+.footer-top { text-align: center; margin: 0 0 22px; }
+.footer-wordmark { font-size: 18px; font-weight: 500; letter-spacing: -0.005em; color: var(--color-text-primary); margin: 0 0 4px; }
+.footer-tagline { font-family: var(--font-serif); font-style: italic; font-size: 13.5px; color: var(--color-text-secondary); margin: 0 0 16px; line-height: 1.4; }
+.footer-divider { border: 0; border-top: 0.5px solid var(--color-border-tertiary); margin: 20px 0; }
+.footer-middle { display: flex; flex-direction: column; gap: 20px; }
+.footer-col { display: flex; flex-direction: column; gap: 4px; }
+.footer-heading { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-text-primary); margin: 0 0 6px; }
+.footer-line { font-size: 13px; line-height: 1.55; color: var(--color-text-secondary); margin: 0; }
+.footer-line .footer-link { color: var(--color-text-primary); font-weight: 500; }
+.footer-link { color: var(--color-text-secondary); text-decoration: none; transition: color 0.15s ease; }
+.footer-link:hover { color: var(--color-text-primary); }
+.footer-link:focus-visible { outline: 2px solid var(--color-text-primary); outline-offset: 2px; border-radius: 2px; }
+.footer-trigger { appearance: none; -webkit-appearance: none; background: transparent; border: 0; padding: 0; font-family: inherit; font-size: inherit; line-height: inherit; color: var(--color-text-secondary); cursor: pointer; transition: color 0.15s ease; }
+.footer-trigger:hover { color: var(--color-text-primary); }
+.footer-trigger:focus-visible { outline: 2px solid var(--color-text-primary); outline-offset: 2px; border-radius: 2px; }
+.footer-trigger.footer-trigger-arrow { color: var(--color-text-primary); font-weight: 500; }
+.footer-social { display: flex; gap: 6px; justify-content: center; margin: 0; }
+.footer-social-link { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 8px; color: var(--color-text-primary); text-decoration: none; transition: background 0.15s ease, color 0.15s ease; }
+.footer-social-link:hover { background: var(--color-background-secondary); }
+.footer-social-link:focus-visible { outline: 2px solid var(--color-text-primary); outline-offset: 2px; }
+.footer-social-link svg { width: 22px; height: 22px; stroke-width: 1.6; }
+.footer-legal { display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; font-size: 11px; color: var(--color-text-tertiary); line-height: 1.5; }
+.footer-legal .footer-trigger { font-size: 12px; color: var(--color-text-secondary); }
+.footer-copyright { margin: 0; }
+@container (min-width: 540px) {
+  .footer { padding: 44px 32px 32px; }
+  .footer-middle { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+  .footer-legal { flex-direction: row; justify-content: center; gap: 14px; }
+}
+
+/* ── Info modal (Privacy, For builders) ─────────────────────────────── */
+.info-modal { position: absolute; inset: 0; background: rgba(0,0,0,0.55); display: none; align-items: flex-end; justify-content: center; z-index: 60; }
+.info-modal.open { display: flex; }
+.info-modal-card { width: 100%; background: var(--color-background-primary); border-radius: 20px 20px 0 0; padding: 24px 22px 30px; max-height: 86%; overflow-y: auto; position: relative; box-shadow: 0 -8px 24px rgba(0,0,0,0.12); }
+.info-modal-close { position: absolute; top: 14px; right: 14px; width: 32px; height: 32px; border-radius: 50%; background: var(--color-background-secondary); border: 0; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--color-text-secondary); padding: 0; font-family: inherit; }
+.info-modal-close:focus-visible { outline: 2px solid var(--color-text-primary); outline-offset: 2px; }
+.info-modal-close svg { width: 15px; height: 15px; stroke-width: 2; }
+.info-modal-eyebrow { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-text-tertiary); margin: 2px 0 6px; font-weight: 600; }
+.info-modal-title { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; color: var(--color-text-primary); margin: 0 0 16px; line-height: 1.15; }
+.info-modal-body { font-size: 13px; line-height: 1.6; color: var(--color-text-secondary); }
+.info-modal-body h4 { font-size: 12px; font-weight: 600; color: var(--color-text-primary); margin: 18px 0 6px; letter-spacing: 0.04em; text-transform: uppercase; }
+.info-modal-body h4:first-child { margin-top: 0; }
+.info-modal-body p { margin: 0 0 10px; }
+.info-modal-body p:last-child { margin-bottom: 0; }
+.info-modal-body a { color: var(--color-text-primary); }
+.info-modal-placeholder { font-family: var(--font-serif); font-style: italic; font-size: 12.5px; color: var(--color-text-tertiary); margin: 0; line-height: 1.55; padding: 12px 14px; background: var(--color-background-tertiary); border-radius: var(--border-radius-md); border: 0.5px dashed var(--color-border-tertiary); }
+.info-modal-placeholder + .info-modal-placeholder { margin-top: 8px; }
+
+/* ── Responsive overrides: full-bleed prototype on touch devices only ─
+   Targets real phones/tablets via pointer capabilities, not viewport
+   width — so chrome stays visible in desktop browsers (incl. preview
+   panels) regardless of window size, but disappears on actual touch
+   devices where the prototype IS the live site. */
+@media (hover: none) and (pointer: coarse) {
   body { padding: 0; gap: 0; }
   .prototype-wrapper { gap: 0; }
   .prototype-toolbar { display: none; }
@@ -427,7 +486,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
       </div>
     </div>
     <div class="version-pill">
-      v11.33
+      v11.35
       <button type="button" class="refresh-btn" onclick="location.reload()" aria-label="Refresh prototype">
         <i data-lucide="refresh-cw"></i>
       </button>
@@ -439,7 +498,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 
     <div class="header">
       <p class="logo-name">Premodel<span class="locale-bug">Seattle</span></p>
-      <a href="#" class="header-link" onclick="return false;">For builders →</a>
+      <button type="button" class="header-link" data-modal-open="builders">For builders →</button>
     </div>
 
     <div class="reveal-hero">
@@ -898,6 +957,46 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
       <p style="font-size:12px;color:var(--color-text-secondary);line-height:1.55;margin:12px 0 0;text-align:center">A refundable $200 deposit is collected when we schedule your visit — applied in full toward your service if you move forward.</p>
     </div>
 
+    <!-- ── Footer ─────────────────────────────────────────────────────── -->
+    <footer class="footer" role="contentinfo">
+      <div class="footer-top">
+        <p class="footer-wordmark">Premodel</p>
+        <p class="footer-tagline">Before You Remodel</p>
+        <div class="footer-social">
+          <a class="footer-social-link" href="https://instagram.com/premodel" target="_blank" rel="noopener" aria-label="Premodel on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg></a>
+          <a class="footer-social-link" href="#" target="_blank" rel="noopener" aria-label="Premodel on Facebook" data-todo="confirm Facebook page URL"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+          <a class="footer-social-link" href="#" target="_blank" rel="noopener" aria-label="Premodel on LinkedIn" data-todo="confirm LinkedIn company page URL"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+          <a class="footer-social-link" href="#" target="_blank" rel="noopener" aria-label="Premodel on YouTube" data-todo="confirm YouTube channel URL"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/></svg></a>
+        </div>
+      </div>
+
+      <hr class="footer-divider" />
+
+      <div class="footer-middle">
+        <div class="footer-col">
+          <h3 class="footer-heading">Talk to us</h3>
+          <p class="footer-line"><a class="footer-link" href="sms:+12062034009">Text · (206) 203-4009</a></p>
+          <p class="footer-line"><a class="footer-link" href="mailto:hello@premodel.design">hello@premodel.design</a></p>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-heading">For builders &amp; partners</h3>
+          <p class="footer-line"><button type="button" class="footer-trigger footer-trigger-arrow" data-modal-open="builders">For builders →</button></p>
+          <p class="footer-line"><a class="footer-link" href="mailto:partnerships@premodel.design">partnerships@premodel.design</a></p>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-heading">Where we work</h3>
+          <p class="footer-line">Greater Seattle ·<br />King &amp; Snohomish counties</p>
+        </div>
+      </div>
+
+      <hr class="footer-divider" />
+
+      <div class="footer-legal">
+        <button type="button" class="footer-trigger" data-modal-open="privacy">Privacy</button>
+        <p class="footer-copyright">© 2026 West &amp; Wells LLC dba Premodel</p>
+      </div>
+    </footer>
+
   </div>
 
   <div class="cta-bar">
@@ -1017,6 +1116,41 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
       <p class="case-modal-placeholder">Case study coming soon — multiple project images, key materials, and a 2–3 paragraph story will live here.</p>
     </div>
   </div>
+
+  <!-- Privacy modal -->
+  <div class="info-modal" data-modal-name="privacy" role="dialog" aria-modal="true" aria-labelledby="info-modal-privacy-title-a" aria-hidden="true">
+    <div class="info-modal-card">
+      <button type="button" class="info-modal-close" aria-label="Close" data-modal-close><i data-lucide="x"></i></button>
+      <p class="info-modal-eyebrow">Legal</p>
+      <h3 class="info-modal-title" id="info-modal-privacy-title-a">Privacy Policy</h3>
+      <div class="info-modal-body">
+        <p class="info-modal-placeholder">Placeholder — paste the production privacy-policy copy here verbatim before launch. Required for SMS compliance (Twilio). Section headings below are scaffolding.</p>
+        <h4>Information we collect</h4>
+        <p class="info-modal-placeholder">TODO: name, email, phone number, zip, and project details submitted via this site; technical data like IP and browser; cookies/analytics.</p>
+        <h4>How we use it</h4>
+        <p class="info-modal-placeholder">TODO: scheduling, project communications, service delivery; no sale of personal information; processors named.</p>
+        <h4>SMS terms</h4>
+        <p class="info-modal-placeholder">TODO: Twilio-compliant SMS opt-in language, message frequency, message and data rates, STOP / HELP keywords, opt-out instructions.</p>
+        <h4>Your rights &amp; choices</h4>
+        <p class="info-modal-placeholder">TODO: access, deletion, opt-out rights and how to exercise them.</p>
+        <h4>Contact</h4>
+        <p class="info-modal-placeholder">TODO: hello@premodel.design + mailing address for privacy inquiries.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- For builders modal -->
+  <div class="info-modal" data-modal-name="builders" role="dialog" aria-modal="true" aria-labelledby="info-modal-builders-title-a" aria-hidden="true">
+    <div class="info-modal-card">
+      <button type="button" class="info-modal-close" aria-label="Close" data-modal-close><i data-lucide="x"></i></button>
+      <p class="info-modal-eyebrow">For builders &amp; partners</p>
+      <h3 class="info-modal-title" id="info-modal-builders-title-a">Let's work together</h3>
+      <div class="info-modal-body">
+        <p class="info-modal-placeholder">Placeholder — final pitch to builders / designers / partners goes here. Who we want to hear from, what working with Premodel looks like for trade partners, and how leads flow.</p>
+        <p>In the meantime, reach out at <a href="mailto:partnerships@premodel.design">partnerships@premodel.design</a> and we'll get back to you.</p>
+      </div>
+    </div>
+  </div>
 </div>
 
 <div class="phone-frame" data-layout="b" hidden>
@@ -1024,7 +1158,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 
     <div class="header">
       <p class="logo-name">Premodel<span class="locale-bug">Seattle</span></p>
-      <a href="#" class="header-link" onclick="return false;">For builders →</a>
+      <button type="button" class="header-link" data-modal-open="builders">For builders →</button>
     </div>
 
     <div class="reveal-hero">
@@ -1433,6 +1567,46 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
       <p style="font-size:12px;color:var(--color-text-secondary);line-height:1.55;margin:12px 0 0;text-align:center">A refundable $200 deposit is collected when we schedule your visit — applied in full toward your service if you move forward.</p>
     </div>
 
+    <!-- ── Footer ─────────────────────────────────────────────────────── -->
+    <footer class="footer" role="contentinfo">
+      <div class="footer-top">
+        <p class="footer-wordmark">Premodel</p>
+        <p class="footer-tagline">Before You Remodel</p>
+        <div class="footer-social">
+          <a class="footer-social-link" href="https://instagram.com/premodel" target="_blank" rel="noopener" aria-label="Premodel on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg></a>
+          <a class="footer-social-link" href="#" target="_blank" rel="noopener" aria-label="Premodel on Facebook" data-todo="confirm Facebook page URL"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+          <a class="footer-social-link" href="#" target="_blank" rel="noopener" aria-label="Premodel on LinkedIn" data-todo="confirm LinkedIn company page URL"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+          <a class="footer-social-link" href="#" target="_blank" rel="noopener" aria-label="Premodel on YouTube" data-todo="confirm YouTube channel URL"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/></svg></a>
+        </div>
+      </div>
+
+      <hr class="footer-divider" />
+
+      <div class="footer-middle">
+        <div class="footer-col">
+          <h3 class="footer-heading">Talk to us</h3>
+          <p class="footer-line"><a class="footer-link" href="sms:+12062034009">Text · (206) 203-4009</a></p>
+          <p class="footer-line"><a class="footer-link" href="mailto:hello@premodel.design">hello@premodel.design</a></p>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-heading">For builders &amp; partners</h3>
+          <p class="footer-line"><button type="button" class="footer-trigger footer-trigger-arrow" data-modal-open="builders">For builders →</button></p>
+          <p class="footer-line"><a class="footer-link" href="mailto:partnerships@premodel.design">partnerships@premodel.design</a></p>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-heading">Where we work</h3>
+          <p class="footer-line">Greater Seattle ·<br />King &amp; Snohomish counties</p>
+        </div>
+      </div>
+
+      <hr class="footer-divider" />
+
+      <div class="footer-legal">
+        <button type="button" class="footer-trigger" data-modal-open="privacy">Privacy</button>
+        <p class="footer-copyright">© 2026 West &amp; Wells LLC dba Premodel</p>
+      </div>
+    </footer>
+
   </div>
 
   <div class="cta-bar">
@@ -1537,6 +1711,41 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 
     <div class="rf-footer" id="rf-footer-b">
       <button class="rf-btn" type="button" id="rf-next-b">Continue</button>
+    </div>
+  </div>
+
+  <!-- Privacy modal -->
+  <div class="info-modal" data-modal-name="privacy" role="dialog" aria-modal="true" aria-labelledby="info-modal-privacy-title-b" aria-hidden="true">
+    <div class="info-modal-card">
+      <button type="button" class="info-modal-close" aria-label="Close" data-modal-close><i data-lucide="x"></i></button>
+      <p class="info-modal-eyebrow">Legal</p>
+      <h3 class="info-modal-title" id="info-modal-privacy-title-b">Privacy Policy</h3>
+      <div class="info-modal-body">
+        <p class="info-modal-placeholder">Placeholder — paste the production privacy-policy copy here verbatim before launch. Required for SMS compliance (Twilio). Section headings below are scaffolding.</p>
+        <h4>Information we collect</h4>
+        <p class="info-modal-placeholder">TODO: name, email, phone number, zip, and project details submitted via this site; technical data like IP and browser; cookies/analytics.</p>
+        <h4>How we use it</h4>
+        <p class="info-modal-placeholder">TODO: scheduling, project communications, service delivery; no sale of personal information; processors named.</p>
+        <h4>SMS terms</h4>
+        <p class="info-modal-placeholder">TODO: Twilio-compliant SMS opt-in language, message frequency, message and data rates, STOP / HELP keywords, opt-out instructions.</p>
+        <h4>Your rights &amp; choices</h4>
+        <p class="info-modal-placeholder">TODO: access, deletion, opt-out rights and how to exercise them.</p>
+        <h4>Contact</h4>
+        <p class="info-modal-placeholder">TODO: hello@premodel.design + mailing address for privacy inquiries.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- For builders modal -->
+  <div class="info-modal" data-modal-name="builders" role="dialog" aria-modal="true" aria-labelledby="info-modal-builders-title-b" aria-hidden="true">
+    <div class="info-modal-card">
+      <button type="button" class="info-modal-close" aria-label="Close" data-modal-close><i data-lucide="x"></i></button>
+      <p class="info-modal-eyebrow">For builders &amp; partners</p>
+      <h3 class="info-modal-title" id="info-modal-builders-title-b">Let's work together</h3>
+      <div class="info-modal-body">
+        <p class="info-modal-placeholder">Placeholder — final pitch to builders / designers / partners goes here. Who we want to hear from, what working with Premodel looks like for trade partners, and how leads flow.</p>
+        <p>In the meantime, reach out at <a href="mailto:partnerships@premodel.design">partnerships@premodel.design</a> and we'll get back to you.</p>
+      </div>
     </div>
   </div>
 
@@ -2345,6 +2554,52 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
   initRevealSheet('a');
   initRevealSheet('b');
 
+})();
+
+// ── Info modals (Privacy, For builders) ────────────────
+(function initInfoModals() {
+  var openModal = null;
+  var lastTrigger = null;
+
+  function open(modal, trigger) {
+    if (!modal) return;
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden', 'false');
+    openModal = modal;
+    lastTrigger = trigger || null;
+    var closeBtn = modal.querySelector('[data-modal-close]');
+    if (closeBtn) setTimeout(function() { closeBtn.focus(); }, 0);
+  }
+
+  function close() {
+    if (!openModal) return;
+    openModal.classList.remove('open');
+    openModal.setAttribute('aria-hidden', 'true');
+    var t = lastTrigger;
+    openModal = null;
+    lastTrigger = null;
+    if (t && typeof t.focus === 'function') t.focus();
+  }
+
+  document.querySelectorAll('[data-modal-open]').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var name  = btn.getAttribute('data-modal-open');
+      var frame = btn.closest('.phone-frame');
+      if (!frame) return;
+      var modal = frame.querySelector('.info-modal[data-modal-name="' + name + '"]');
+      open(modal, btn);
+    });
+  });
+
+  document.querySelectorAll('.info-modal').forEach(function(modal) {
+    modal.addEventListener('click', function(e) { if (e.target === modal) close(); });
+    var closeBtn = modal.querySelector('[data-modal-close]');
+    if (closeBtn) closeBtn.addEventListener('click', close);
+  });
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && openModal) close();
+  });
 })();
 </script>
 
