@@ -971,7 +971,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
     </div>
 
     <div class="reveal-sub">
-      <p>3 ways to see your space, <span class="italic">before you hire anyone</span></p>
+      <p>3 ways to see your remodel, <span class="italic">before you hire anyone</span></p>
     </div>
 
     <div class="plan-block">
@@ -982,7 +982,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
         <span class="h">Plan</span>
       </div>
       <div class="plan-sub">
-        <p>Everything you need to be construction-ready.</p>
+        <p>Everything you need to get construction-ready.</p>
       </div>
       <div class="plan-gallery" id="plan-gallery-b">
         <div class="tile">
@@ -1003,7 +1003,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
           <div class="tile-image">Tile image</div>
           <div class="tile-body">
             <p class="tile-title">Shop it</p>
-            <p class="tile-copy">Every material at every budget. Trade discounts available.</p>
+            <p class="tile-copy">Curated materials at every budget. Trade pricing available.</p>
           </div>
         </div>
         <div class="tile">
@@ -1049,7 +1049,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
         <div class="num"><i data-lucide="layout-grid"></i></div>
         <div>
           <p class="heading">See your space 3 ways</p>
-          <p class="desc">Inspiration images show you someone else's home. Our Reveals show yours, through the eyes of a pro.</p>
+          <p class="desc">Inspiration images show you someone else's home. Our Reveals show yours.</p>
         </div>
       </div>
 
@@ -1082,7 +1082,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
         <div class="num"><i data-lucide="scan-eye"></i></div>
         <div>
           <p class="heading">Walk it in VR<span class="opt">optional</span></p>
-          <p class="desc">Reveals show you the look. VR shows you the feel. If the shape of your space is changing, walk it in VR to find the "oh no" before they cost you.</p>
+          <p class="desc">Reveals show you the look. VR gives you the feel. If the shape of your space is changing, walk it in VR to find the "oh nos" before they cost you.</p>
         </div>
       </div>
 
@@ -1640,6 +1640,69 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
   }
   if (scrollElB) scrollElB.addEventListener('scroll', updateQuoteSpreadB, { passive: true });
   updateQuoteSpreadB();
+
+  // Why Premodel — proof numbers count up (Layout B)
+  (function initProofAnimationB() {
+    var proofEls = document.querySelectorAll('.why-proof');
+    var proofElB = proofEls.length > 1 ? proofEls[1] : null;
+    if (!proofElB || !scrollElB || !('IntersectionObserver' in window)) return;
+    var nums = proofElB.querySelectorAll('.why-proof-num');
+    if (nums.length < 3) return;
+    var triggered = false;
+
+    function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
+
+    function tickInt(el, end, prefix, suffix, duration) {
+      return new Promise(function(resolve) {
+        var start = performance.now();
+        var last = -1;
+        el.textContent = prefix + '0' + suffix;
+        function frame(now) {
+          var t = Math.min((now - start) / duration, 1);
+          var v = Math.floor(easeOut(t) * end);
+          if (t === 1) v = end;
+          if (v !== last) { el.textContent = prefix + v + suffix; last = v; }
+          if (t < 1) { requestAnimationFrame(frame); }
+          else { resolve(); }
+        }
+        requestAnimationFrame(frame);
+      });
+    }
+
+    function tickDecimal(el, end, prefix, suffix, duration) {
+      return new Promise(function(resolve) {
+        var start = performance.now();
+        var last = -1;
+        el.textContent = prefix + (0).toFixed(1) + suffix;
+        function frame(now) {
+          var t = Math.min((now - start) / duration, 1);
+          var v = Math.round(easeOut(t) * end * 10) / 10;
+          if (t === 1) v = end;
+          if (v !== last) { el.textContent = prefix + v.toFixed(1) + suffix; last = v; }
+          if (t < 1) { requestAnimationFrame(frame); }
+          else { resolve(); }
+        }
+        requestAnimationFrame(frame);
+      });
+    }
+
+    function run() {
+      tickInt(nums[0], 20, '', '+', 1200)
+        .then(function() { return tickInt(nums[1], 12, '', '×', 1100); })
+        .then(function() { return tickDecimal(nums[2], 1.2, '>', 'K', 1100); });
+    }
+
+    var io = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting && !triggered) {
+          triggered = true;
+          run();
+          io.disconnect();
+        }
+      });
+    }, { root: scrollElB, threshold: 0.4 });
+    io.observe(proofElB);
+  })();
 
   var sizeSelect = document.getElementById('size-select');
   var wrapper = document.querySelector('.prototype-wrapper');
