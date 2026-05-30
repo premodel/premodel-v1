@@ -173,7 +173,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .quote-content cite { display: block; font-size: 11px; color: var(--color-text-secondary); font-style: normal; line-height: 1.4; }
 .quote-content cite strong { color: var(--color-text-primary); font-weight: 600; }
 
-.pricing-headline { font-size: 22px; font-weight: 500; color: var(--color-text-primary); margin: 0 0 4px; letter-spacing: -0.01em; line-height: 1.15; }
+.pricing-headline { font-size: 22px; font-weight: 500; color: var(--color-text-primary); margin: 32px 0 4px; letter-spacing: -0.01em; line-height: 1.15; }
 .pricing-subhead { font-size: 13px; color: var(--color-text-secondary); margin: 0 0 14px; line-height: 1.5; }
 
 .pricing-table { width: 90%; margin: 0 auto; border-collapse: collapse; table-layout: fixed; }
@@ -354,25 +354,25 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .why-founder-linkedin svg { width: 14px; height: 14px; stroke-width: 1.75; }
 .why-founder-quote { font-family: var(--font-serif); font-style: italic; font-size: 13px; line-height: 1.55; color: var(--color-text-secondary); margin: 0; }
 
-/* Gallery: full-bleed IG-style square carousel; tap opens case-study modal */
-.why-gallery-headline { font-size: 21px; font-weight: 500; color: var(--color-text-primary); margin: 0 20px 14px; letter-spacing: -0.015em; line-height: 1.2; text-align: center; text-wrap: balance; }
-.why-ig-carousel { display: flex; overflow-x: scroll; scroll-snap-type: x mandatory; scrollbar-width: none; touch-action: pan-x pan-y; -webkit-overflow-scrolling: touch; }
-.why-ig-carousel::-webkit-scrollbar { display: none; }
-.why-ig-slide { flex: 0 0 100%; scroll-snap-align: center; position: relative; cursor: pointer; }
-.why-ig-slide::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 38%; background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0) 100%); pointer-events: none; }
-.why-ig-img { width: 100%; aspect-ratio: 1/1; background: #3a3935; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; color: rgba(255,255,255,0.36); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; position: relative; }
-.why-ig-img::before { content: ''; width: 44px; height: 44px; background-color: rgba(255,255,255,0.34); -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'/%3E%3Ccircle cx='9' cy='9' r='2'/%3E%3Cpath d='m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21'/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'/%3E%3Ccircle cx='9' cy='9' r='2'/%3E%3Cpath d='m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21'/%3E%3C/svg%3E") center / contain no-repeat; }
-.why-ig-overlay { position: absolute; left: 16px; right: 132px; bottom: 14px; color: #fff; pointer-events: none; text-shadow: 0 1px 10px rgba(0,0,0,0.45); z-index: 2; }
-.why-ig-name { font-size: 16px; font-weight: 600; margin: 0 0 2px; letter-spacing: -0.01em; }
-.why-ig-meta { font-size: 12px; font-weight: 500; margin: 0; opacity: 0.95; letter-spacing: 0.01em; }
-.why-ig-cta { position: absolute; bottom: 12px; right: 12px; background: #ffffff; color: #1a1a18; border-radius: 999px; padding: 7px 12px 7px 14px; font-size: 11.5px; font-weight: 600; letter-spacing: -0.005em; display: inline-flex; align-items: center; gap: 5px; pointer-events: none; z-index: 2; box-shadow: 0 2px 10px rgba(0,0,0,0.28); }
-.why-ig-cta svg { width: 13px; height: 13px; stroke-width: 2; color: #1a1a18; }
-.why-ig-link { position: absolute; top: 12px; right: 12px; width: 32px; height: 32px; border-radius: 8px; background: rgba(0,0,0,0.32); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); display: flex; align-items: center; justify-content: center; color: #fff; text-decoration: none; transition: background 0.15s; z-index: 2; }
-.why-ig-link:hover { background: rgba(0,0,0,0.5); }
-.why-ig-link svg { width: 16px; height: 16px; stroke-width: 1.75; }
-.why-ig-dots { display: flex; justify-content: center; gap: 5px; padding: 14px 0 0; align-items: center; }
-.why-ig-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--color-border-secondary); border: 0; padding: 0; margin: 0; appearance: none; -webkit-appearance: none; cursor: pointer; flex: 0 0 4px; }
-.why-ig-dot.active { background: var(--color-text-primary); }
+/* Gallery: full-bleed square carousel; tap opens case-study modal */
+.project-gallery-headline { font-size: 21px; font-weight: 500; color: var(--color-text-primary); margin: 0 20px 14px; letter-spacing: -0.015em; line-height: 1.2; text-align: center; text-wrap: balance; }
+.project-carousel { display: flex; overflow-x: scroll; scroll-snap-type: x mandatory; scrollbar-width: none; touch-action: pan-x pan-y; -webkit-overflow-scrolling: touch; margin-left: -20px; margin-right: -20px; }
+.project-carousel::-webkit-scrollbar { display: none; }
+.project-slide { flex: 0 0 100%; scroll-snap-align: center; position: relative; cursor: pointer; }
+.project-slide::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 38%; background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0) 100%); pointer-events: none; }
+.project-slide-img { width: 100%; aspect-ratio: 1/1; background: #3a3935; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; color: rgba(255,255,255,0.36); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; position: relative; }
+.project-slide-img::before { content: ''; width: 44px; height: 44px; background-color: rgba(255,255,255,0.34); -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'/%3E%3Ccircle cx='9' cy='9' r='2'/%3E%3Cpath d='m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21'/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'/%3E%3Ccircle cx='9' cy='9' r='2'/%3E%3Cpath d='m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21'/%3E%3C/svg%3E") center / contain no-repeat; }
+.project-slide-overlay { position: absolute; left: 16px; right: 132px; bottom: 14px; color: #fff; pointer-events: none; text-shadow: 0 1px 10px rgba(0,0,0,0.45); z-index: 2; text-align: left; }
+.project-slide-name { font-size: 16px; font-weight: 600; margin: 0 0 2px; letter-spacing: -0.01em; }
+.project-slide-meta { font-size: 12px; font-weight: 500; margin: 0; opacity: 0.95; letter-spacing: 0.01em; }
+.project-slide-cta { position: absolute; bottom: 12px; right: 12px; background: #ffffff; color: #1a1a18; border-radius: 999px; padding: 7px 12px 7px 14px; font-size: 11.5px; font-weight: 600; letter-spacing: -0.005em; display: inline-flex; align-items: center; gap: 5px; pointer-events: none; z-index: 2; box-shadow: 0 2px 10px rgba(0,0,0,0.28); }
+.project-slide-cta svg { width: 13px; height: 13px; stroke-width: 2; color: #1a1a18; }
+.project-slide-link { position: absolute; top: 12px; right: 12px; width: 32px; height: 32px; border-radius: 8px; background: rgba(0,0,0,0.32); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); display: flex; align-items: center; justify-content: center; color: #fff; text-decoration: none; transition: background 0.15s; z-index: 2; }
+.project-slide-link:hover { background: rgba(0,0,0,0.5); }
+.project-slide-link svg { width: 16px; height: 16px; stroke-width: 1.75; }
+.project-dots { display: flex; justify-content: center; gap: 5px; padding: 14px 0 0; align-items: center; }
+.project-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--color-border-secondary); border: 0; padding: 0; margin: 0; appearance: none; -webkit-appearance: none; cursor: pointer; flex: 0 0 4px; }
+.project-dot.active { background: var(--color-text-primary); }
 
 /* Case-study modal (sheet-style, contained inside the phone frame) */
 .case-modal { position: absolute; inset: 0; background: rgba(0,0,0,0.55); display: none; align-items: flex-end; justify-content: center; z-index: 50; }
@@ -974,6 +974,54 @@ body[data-palette="saffron"] .toggle-btn {
         </blockquote>
       </div>
 
+      <div class="project-gallery">
+        <h3 class="project-gallery-headline">What Confidence Looks Like.</h3>
+        <div class="project-carousel" id="project-carousel">
+          <div class="project-slide" data-name="Anna G." data-meta="Master bath · Edmonds" data-ig="https://instagram.com/premodel">
+            <div class="project-slide-img">Project image 1</div>
+            <div class="project-slide-overlay">
+              <p class="project-slide-name">Master bath</p>
+              <p class="project-slide-meta">Edmonds</p>
+            </div>
+            <a class="project-slide-link" href="https://instagram.com/premodel" target="_blank" rel="noopener" aria-label="View on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg></a>
+            <div class="project-slide-cta">See the project <i data-lucide="arrow-right"></i></div>
+          </div>
+          <div class="project-slide" data-name="Sasha A." data-meta="Full home renovation · Seattle" data-ig="https://instagram.com/premodel">
+            <div class="project-slide-img">Project image 2</div>
+            <div class="project-slide-overlay">
+              <p class="project-slide-name">Full home renovation</p>
+              <p class="project-slide-meta">Seattle</p>
+            </div>
+            <a class="project-slide-link" href="https://instagram.com/premodel" target="_blank" rel="noopener" aria-label="View on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg></a>
+            <div class="project-slide-cta">See the project <i data-lucide="arrow-right"></i></div>
+          </div>
+          <div class="project-slide" data-name="Kainaz B." data-meta="Multi-room, new build · Seattle" data-ig="https://instagram.com/premodel">
+            <div class="project-slide-img">Project image 3</div>
+            <div class="project-slide-overlay">
+              <p class="project-slide-name">Multi-room remodel</p>
+              <p class="project-slide-meta">Seattle</p>
+            </div>
+            <a class="project-slide-link" href="https://instagram.com/premodel" target="_blank" rel="noopener" aria-label="View on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg></a>
+            <div class="project-slide-cta">See the project <i data-lucide="arrow-right"></i></div>
+          </div>
+          <div class="project-slide" data-name="Jenna R." data-meta="Powder bath · Kirkland" data-ig="https://instagram.com/premodel">
+            <div class="project-slide-img">Project image 4</div>
+            <div class="project-slide-overlay">
+              <p class="project-slide-name">Powder bath</p>
+              <p class="project-slide-meta">Kirkland</p>
+            </div>
+            <a class="project-slide-link" href="https://instagram.com/premodel" target="_blank" rel="noopener" aria-label="View on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg></a>
+            <div class="project-slide-cta">See the project <i data-lucide="arrow-right"></i></div>
+          </div>
+        </div>
+        <div class="project-dots" id="project-dots">
+          <button class="project-dot active" data-i="0" aria-label="Slide 1"></button>
+          <button class="project-dot" data-i="1" aria-label="Slide 2"></button>
+          <button class="project-dot" data-i="2" aria-label="Slide 3"></button>
+          <button class="project-dot" data-i="3" aria-label="Slide 4"></button>
+        </div>
+      </div>
+
       <h3 class="pricing-headline">Planning buys confidence.</h3>
       <p class="pricing-subhead">For less than 5% of your remodel budget</p>
 
@@ -1074,53 +1122,6 @@ body[data-palette="saffron"] .toggle-btn {
         </div>
       </div>
 
-      <div class="why-gallery">
-        <h3 class="why-gallery-headline">Pictures help homeowners decide.</h3>
-        <div class="why-ig-carousel" id="why-ig-carousel">
-          <div class="why-ig-slide" data-name="Anna G." data-meta="Master bath · Edmonds" data-ig="https://instagram.com/premodel">
-            <div class="why-ig-img">Project image 1</div>
-            <div class="why-ig-overlay">
-              <p class="why-ig-name">Master bath</p>
-              <p class="why-ig-meta">Edmonds</p>
-            </div>
-            <a class="why-ig-link" href="https://instagram.com/premodel" target="_blank" rel="noopener" aria-label="View on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg></a>
-            <div class="why-ig-cta">See the project <i data-lucide="arrow-right"></i></div>
-          </div>
-          <div class="why-ig-slide" data-name="Sasha A." data-meta="Full home renovation · Seattle" data-ig="https://instagram.com/premodel">
-            <div class="why-ig-img">Project image 2</div>
-            <div class="why-ig-overlay">
-              <p class="why-ig-name">Full home renovation</p>
-              <p class="why-ig-meta">Seattle</p>
-            </div>
-            <a class="why-ig-link" href="https://instagram.com/premodel" target="_blank" rel="noopener" aria-label="View on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg></a>
-            <div class="why-ig-cta">See the project <i data-lucide="arrow-right"></i></div>
-          </div>
-          <div class="why-ig-slide" data-name="Kainaz B." data-meta="Multi-room, new build · Seattle" data-ig="https://instagram.com/premodel">
-            <div class="why-ig-img">Project image 3</div>
-            <div class="why-ig-overlay">
-              <p class="why-ig-name">Multi-room remodel</p>
-              <p class="why-ig-meta">Seattle</p>
-            </div>
-            <a class="why-ig-link" href="https://instagram.com/premodel" target="_blank" rel="noopener" aria-label="View on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg></a>
-            <div class="why-ig-cta">See the project <i data-lucide="arrow-right"></i></div>
-          </div>
-          <div class="why-ig-slide" data-name="Jenna R." data-meta="Powder bath · Kirkland" data-ig="https://instagram.com/premodel">
-            <div class="why-ig-img">Project image 4</div>
-            <div class="why-ig-overlay">
-              <p class="why-ig-name">Powder bath</p>
-              <p class="why-ig-meta">Kirkland</p>
-            </div>
-            <a class="why-ig-link" href="https://instagram.com/premodel" target="_blank" rel="noopener" aria-label="View on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg></a>
-            <div class="why-ig-cta">See the project <i data-lucide="arrow-right"></i></div>
-          </div>
-        </div>
-        <div class="why-ig-dots" id="why-ig-dots">
-          <button class="why-ig-dot active" data-i="0" aria-label="Slide 1"></button>
-          <button class="why-ig-dot" data-i="1" aria-label="Slide 2"></button>
-          <button class="why-ig-dot" data-i="2" aria-label="Slide 3"></button>
-          <button class="why-ig-dot" data-i="3" aria-label="Slide 4"></button>
-        </div>
-      </div>
     </section>
 
     <!-- ── FAQ ──────────────────────────────────────────────────────── -->
@@ -1690,51 +1691,51 @@ body[data-palette="saffron"] .toggle-btn {
         </div>
       </div>
 
-      <div class="why-gallery">
-        <h3 class="why-gallery-headline">This Is What Confidence Looks Like.</h3>
-        <div class="why-ig-carousel" id="why-ig-carousel-b" data-layout="b">
-          <div class="why-ig-slide" data-name="Anna G." data-meta="Master bath · Edmonds" data-ig="https://instagram.com/premodel">
-            <div class="why-ig-img">Project image 1</div>
-            <div class="why-ig-overlay">
-              <p class="why-ig-name">Master bath</p>
-              <p class="why-ig-meta">Edmonds</p>
+      <div class="project-gallery">
+        <h3 class="project-gallery-headline">This Is What Confidence Looks Like.</h3>
+        <div class="project-carousel" id="project-carousel-b" data-layout="b">
+          <div class="project-slide" data-name="Anna G." data-meta="Master bath · Edmonds" data-ig="https://instagram.com/premodel">
+            <div class="project-slide-img">Project image 1</div>
+            <div class="project-slide-overlay">
+              <p class="project-slide-name">Master bath</p>
+              <p class="project-slide-meta">Edmonds</p>
             </div>
-            <a class="why-ig-link" href="https://instagram.com/premodel" target="_blank" rel="noopener" aria-label="View on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg></a>
-            <div class="why-ig-cta">See the project <i data-lucide="arrow-right"></i></div>
+            <a class="project-slide-link" href="https://instagram.com/premodel" target="_blank" rel="noopener" aria-label="View on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg></a>
+            <div class="project-slide-cta">See the project <i data-lucide="arrow-right"></i></div>
           </div>
-          <div class="why-ig-slide" data-name="Sasha A." data-meta="Full home renovation · Seattle" data-ig="https://instagram.com/premodel">
-            <div class="why-ig-img">Project image 2</div>
-            <div class="why-ig-overlay">
-              <p class="why-ig-name">Full home renovation</p>
-              <p class="why-ig-meta">Seattle</p>
+          <div class="project-slide" data-name="Sasha A." data-meta="Full home renovation · Seattle" data-ig="https://instagram.com/premodel">
+            <div class="project-slide-img">Project image 2</div>
+            <div class="project-slide-overlay">
+              <p class="project-slide-name">Full home renovation</p>
+              <p class="project-slide-meta">Seattle</p>
             </div>
-            <a class="why-ig-link" href="https://instagram.com/premodel" target="_blank" rel="noopener" aria-label="View on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg></a>
-            <div class="why-ig-cta">See the project <i data-lucide="arrow-right"></i></div>
+            <a class="project-slide-link" href="https://instagram.com/premodel" target="_blank" rel="noopener" aria-label="View on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg></a>
+            <div class="project-slide-cta">See the project <i data-lucide="arrow-right"></i></div>
           </div>
-          <div class="why-ig-slide" data-name="Kainaz B." data-meta="Multi-room, new build · Seattle" data-ig="https://instagram.com/premodel">
-            <div class="why-ig-img">Project image 3</div>
-            <div class="why-ig-overlay">
-              <p class="why-ig-name">Multi-room remodel</p>
-              <p class="why-ig-meta">Seattle</p>
+          <div class="project-slide" data-name="Kainaz B." data-meta="Multi-room, new build · Seattle" data-ig="https://instagram.com/premodel">
+            <div class="project-slide-img">Project image 3</div>
+            <div class="project-slide-overlay">
+              <p class="project-slide-name">Multi-room remodel</p>
+              <p class="project-slide-meta">Seattle</p>
             </div>
-            <a class="why-ig-link" href="https://instagram.com/premodel" target="_blank" rel="noopener" aria-label="View on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg></a>
-            <div class="why-ig-cta">See the project <i data-lucide="arrow-right"></i></div>
+            <a class="project-slide-link" href="https://instagram.com/premodel" target="_blank" rel="noopener" aria-label="View on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg></a>
+            <div class="project-slide-cta">See the project <i data-lucide="arrow-right"></i></div>
           </div>
-          <div class="why-ig-slide" data-name="Jenna R." data-meta="Powder bath · Kirkland" data-ig="https://instagram.com/premodel">
-            <div class="why-ig-img">Project image 4</div>
-            <div class="why-ig-overlay">
-              <p class="why-ig-name">Powder bath</p>
-              <p class="why-ig-meta">Kirkland</p>
+          <div class="project-slide" data-name="Jenna R." data-meta="Powder bath · Kirkland" data-ig="https://instagram.com/premodel">
+            <div class="project-slide-img">Project image 4</div>
+            <div class="project-slide-overlay">
+              <p class="project-slide-name">Powder bath</p>
+              <p class="project-slide-meta">Kirkland</p>
             </div>
-            <a class="why-ig-link" href="https://instagram.com/premodel" target="_blank" rel="noopener" aria-label="View on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg></a>
-            <div class="why-ig-cta">See the project <i data-lucide="arrow-right"></i></div>
+            <a class="project-slide-link" href="https://instagram.com/premodel" target="_blank" rel="noopener" aria-label="View on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg></a>
+            <div class="project-slide-cta">See the project <i data-lucide="arrow-right"></i></div>
           </div>
         </div>
-        <div class="why-ig-dots" id="why-ig-dots-b">
-          <button class="why-ig-dot active" data-i="0" aria-label="Slide 1"></button>
-          <button class="why-ig-dot" data-i="1" aria-label="Slide 2"></button>
-          <button class="why-ig-dot" data-i="2" aria-label="Slide 3"></button>
-          <button class="why-ig-dot" data-i="3" aria-label="Slide 4"></button>
+        <div class="project-dots" id="project-dots-b">
+          <button class="project-dot active" data-i="0" aria-label="Slide 1"></button>
+          <button class="project-dot" data-i="1" aria-label="Slide 2"></button>
+          <button class="project-dot" data-i="2" aria-label="Slide 3"></button>
+          <button class="project-dot" data-i="3" aria-label="Slide 4"></button>
         </div>
       </div>
     <!-- ── FAQ ──────────────────────────────────────────────────────── -->
@@ -2121,10 +2122,10 @@ body[data-palette="saffron"] .toggle-btn {
     });
   }
 
-  // Why Premodel — IG-style case study carousel + modal
-  var igCarousel = document.getElementById('why-ig-carousel');
+  // Project gallery carousel + dots (Layout A)
+  var igCarousel = document.getElementById('project-carousel');
   if (igCarousel) {
-    var igDots = document.querySelectorAll('#why-ig-dots .why-ig-dot');
+    var igDots = document.querySelectorAll('#project-dots .project-dot');
     function updateIgDots() {
       var i = Math.round(igCarousel.scrollLeft / igCarousel.clientWidth);
       igDots.forEach(function(d, j) { d.classList.toggle('active', j === i); });
@@ -2137,10 +2138,10 @@ body[data-palette="saffron"] .toggle-btn {
     });
   }
 
-  // Why Premodel — IG-style carousel + dots (Layout B)
-  var igCarouselB = document.getElementById('why-ig-carousel-b');
+  // Project gallery carousel + dots (Layout B)
+  var igCarouselB = document.getElementById('project-carousel-b');
   if (igCarouselB) {
-    var igDotsB = document.querySelectorAll('#why-ig-dots-b .why-ig-dot');
+    var igDotsB = document.querySelectorAll('#project-dots-b .project-dot');
     function updateIgDotsB() {
       var i = Math.round(igCarouselB.scrollLeft / igCarouselB.clientWidth);
       igDotsB.forEach(function(d, j) { d.classList.toggle('active', j === i); });
@@ -2170,9 +2171,9 @@ body[data-palette="saffron"] .toggle-btn {
     caseModal.setAttribute('aria-hidden', 'true');
   }
   // Layout A slides → #case-modal
-  document.querySelectorAll('#why-ig-carousel .why-ig-slide').forEach(function(slide) {
+  document.querySelectorAll('#project-carousel .project-slide').forEach(function(slide) {
     slide.addEventListener('click', function(e) {
-      if (e.target.closest('.why-ig-link')) return;
+      if (e.target.closest('.project-slide-link')) return;
       openCaseModal(slide);
     });
   });
@@ -2196,9 +2197,9 @@ body[data-palette="saffron"] .toggle-btn {
     caseModalB.classList.remove('open');
     caseModalB.setAttribute('aria-hidden', 'true');
   }
-  document.querySelectorAll('#why-ig-carousel-b .why-ig-slide').forEach(function(slide) {
+  document.querySelectorAll('#project-carousel-b .project-slide').forEach(function(slide) {
     slide.addEventListener('click', function(e) {
-      if (e.target.closest('.why-ig-link')) return;
+      if (e.target.closest('.project-slide-link')) return;
       openCaseModalB(slide);
     });
   });
