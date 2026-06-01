@@ -436,6 +436,39 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .cc-photo-card--front { background: var(--image-bg); display: flex; align-items: center; justify-content: center; }
 .cc-photo-card--front::before { content: ''; width: 38px; height: 38px; background-color: rgba(255,255,255,0.36); -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'/%3E%3Ccircle cx='9' cy='9' r='2'/%3E%3Cpath d='m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21'/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'/%3E%3Ccircle cx='9' cy='9' r='2'/%3E%3Cpath d='m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21'/%3E%3C/svg%3E") center / contain no-repeat; }
 
+/* ── Scrollytelling chart (Layout A): chart + caption pin while .cc-track scrolls; JS scrubs 7 beats ── */
+.why-chart--scrolly { position: relative; }
+.cc-sticky { position: sticky; top: 16px; z-index: 1; }
+.cc-track { height: 0; }                 /* JS sets the scroll runway in px from the frame height */
+
+/* Lines stay hidden until JS has measured their length and set the dash offsets (avoids a flash) */
+.why-chart--scrolly:not(.cc-ready) .cc-gline,
+.why-chart--scrolly:not(.cc-ready) .cc-bline { visibility: hidden; }
+/* Elements that fade in on specific beats start hidden */
+.why-chart--scrolly .cc-fill,
+.why-chart--scrolly .cc-wedge,
+.why-chart--scrolly .cc-risk,
+.why-chart--scrolly .cc-photo { opacity: 0; }
+
+/* Beat pins (placed along the lines by JS; opacity/scale driven per frame, so no transition) */
+.cc-pin { position: absolute; width: 30px; height: 30px; margin: -15px 0 0 -15px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; background: var(--gray-line); box-shadow: 0 1px 5px rgba(0,0,0,0.2); opacity: 0; transform: scale(0.6); will-change: opacity, transform; }
+.cc-pin--accent { background: var(--color-brand-navy); }
+.cc-pin--img { width: 34px; height: 34px; margin: -17px 0 0 -17px; }
+.cc-pin svg { width: 16px; height: 16px; stroke-width: 2; }
+.cc-pin--img svg { width: 18px; height: 18px; }
+
+/* Persistent thesis line + rotating beat captions (fixed in place while the chart animates) */
+.cc-thesis { font-family: var(--font-serif); font-style: italic; font-size: 15px; color: var(--color-text-primary); text-align: center; margin: 14px 20px 8px; line-height: 1.4; }
+.cc-caption { position: relative; min-height: 92px; margin: 0 20px; }
+.cc-beat { position: absolute; left: 0; right: 0; top: 0; margin: 0; font-size: 15px; line-height: 1.5; text-align: center; color: var(--color-text-secondary); opacity: 0; transition: opacity 0.35s ease; pointer-events: none; }
+.cc-beat.active { opacity: 1; pointer-events: auto; }
+.cc-beat strong { color: var(--color-text-primary); font-weight: 600; }
+.cc-hl { background: color-mix(in srgb, var(--color-brand-navy) 20%, transparent); color: var(--color-text-primary); font-weight: 600; padding: 0.05em 0.3em; border-radius: 4px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .cc-track { display: none; }
+}
+
 /* Lead rail: text pinned left (non-boxed), founder cards scroll horizontally — mirrors .plan-block pattern */
 .why-lead-rail { display: grid; grid-template-columns: 1fr; grid-template-rows: auto; margin: 0 0 36px; }
 .why-lead-text { grid-row: 1; grid-column: 1; align-self: start; justify-self: start; width: 70%; padding: 0 12px 0 20px; box-sizing: border-box; z-index: 0; pointer-events: none; }
@@ -1136,67 +1169,78 @@ body[data-palette="saffron"] .toggle-btn {
         <h2 class="section-headline">A new way to remodel.</h2>
       </div>
 
-      <div class="why-chart">
-        <!-- Hybrid chart: SVG holds only the drawn geometry (fills, hatch, axis, curves, connectors)
-             so it can animate (e.g. stroke-dashoffset draw-on). All text, the key, the points, and
-             the photo are HTML in .cc-overlay, positioned in % over the SVG's 405x300 viewBox. -->
-        <div class="cc-stage">
-          <svg class="cc-svg" viewBox="0 0 405 300" role="img" aria-label="A line chart showing the chance of costly surprises rising over time from imagining a space through hiring, planning, and building. A light gray line, the typical remodel, curves upward and accelerates toward build. A blue line, Premodel, shares the early path, then forks after hiring and rises only gently. A light blue band sits under the Premodel line, and the widening hatched area between the two lines is labeled Avoidable Risk.">
-            <defs>
-              <pattern id="hatch" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)">
-                <line x1="0" y1="0" x2="0" y2="6" stroke="var(--hatch)" stroke-width="1.1"/>
-              </pattern>
-            </defs>
-            <!-- Fill under the Premodel line -->
-            <path class="cc-fill" d="M0 268.9C47 268.9 102.6 267.8 149.6 261.3C271 251.5 344.5 210.5 405 194V268.9H0Z" fill="var(--fill-soft)"/>
-            <!-- Hatched Avoidable Risk wedge -->
-            <path class="cc-wedge" d="M149.6 261.3C188 254.7 224.3 240.5 254.2 216.5C328 161.5 349.5 35.5 405 24V193C241 263 213.7 252.5 149.6 261.3Z" fill="url(#hatch)"/>
-            <!-- X axis (full width) -->
-            <line class="axis" x1="0" y1="268.9" x2="405" y2="268.9"/>
-            <!-- Y axis up arrow (centered on the y-axis label's x=23, sits above the rotated text) -->
-            <path class="uparrow" d="M23 44 V34 M19.1 37.9 L23 33 L26.9 37.9"/>
-            <!-- Connectors -->
-            <line class="leader" x1="98.5" y1="231.5" x2="98.5" y2="262.3"/>
-            <line class="leader" x1="255" y1="65" x2="255" y2="207"/>
-            <!-- Lines (span the full viewBox width, x:0 -> 405).
-                 Gray (typical) runs underneath along the shared early path, then forks up.
-                 Blue (Premodel) is drawn on top: shared early segment, then the gentle branch. -->
-            <path class="gline cc-gline" d="M0 269.4C47 268.9 96.1 268.9 128.2 265.6C141 264 149.6 261.3 149.6 261.3C188 254.7 224.3 240.5 254.2 216.5C305.5 177.2 339.7 98.6 358.9 55C374 25 391 18 405 16"/>
-            <path class="bline cc-bline-1" d="M0 269.4C47 268.9 96.1 268.9 128.2 265.6C141 264 149.6 261.3 149.6 261.3"/>
-            <path class="bline cc-bline-2" d="M149.6 261.3C212.5 257.5 264 247.9 325.5 219.5C372 198 405 193.5 405 193.5"/>
-          </svg>
+      <div class="why-chart why-chart--scrolly" id="cc-scrolly">
+        <!-- Scrollytelling cost-of-change chart. .cc-sticky (chart + caption) pins while the
+             .cc-track below provides scroll runway; JS scrubs a 0..1 progress into 7 beats,
+             drawing the gray "typical" line, then the accent Premodel line, then the gap.
+             SVG holds only drawable geometry; all text/pins are HTML in .cc-overlay, positioned
+             in % over the SVG's 405x300 viewBox. -->
+        <div class="cc-sticky">
+          <div class="cc-stage">
+            <svg class="cc-svg" viewBox="0 0 405 300" role="img" aria-label="A line chart of the chance of costly surprises over a remodel, from imagining a space through hiring, planning, and building. A gray line, the typical remodel, rises and accelerates toward build. An accent line, Premodel, shares the early path then rises only gently, with an image pin placed early. The widening gap between the two lines is labeled Avoidable regret.">
+              <defs>
+                <pattern id="hatch" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)">
+                  <line x1="0" y1="0" x2="0" y2="6" stroke="var(--hatch)" stroke-width="1.1"/>
+                </pattern>
+              </defs>
+              <!-- Fill under the Premodel line (revealed in the final beat) -->
+              <path class="cc-fill" d="M0 268.9C47 268.9 102.6 267.8 149.6 261.3C271 251.5 344.5 210.5 405 194V268.9H0Z" fill="var(--fill-soft)"/>
+              <!-- Hatched Avoidable-regret wedge (revealed in the final beat) -->
+              <path class="cc-wedge" d="M149.6 261.3C188 254.7 224.3 240.5 254.2 216.5C328 161.5 349.5 35.5 405 24V193C241 263 213.7 252.5 149.6 261.3Z" fill="url(#hatch)"/>
+              <!-- X axis (full width) -->
+              <line class="axis" x1="0" y1="268.9" x2="405" y2="268.9"/>
+              <!-- Y axis up arrow -->
+              <path class="uparrow" d="M23 44 V34 M19.1 37.9 L23 33 L26.9 37.9"/>
+              <!-- Gray (typical) line: drawn progressively across beats 1-4 -->
+              <path class="gline cc-gline" d="M0 269.4C47 268.9 96.1 268.9 128.2 265.6C141 264 149.6 261.3 149.6 261.3C188 254.7 224.3 240.5 254.2 216.5C305.5 177.2 339.7 98.6 358.9 55C374 25 391 18 405 16"/>
+              <!-- Accent (Premodel) line, one continuous path: beat 6 draws the early branch, beat 7 the rest -->
+              <path class="bline cc-bline" d="M0 269.4C47 268.9 96.1 268.9 128.2 265.6C141 264 149.6 261.3 149.6 261.3C212.5 257.5 264 247.9 325.5 219.5C372 198 405 193.5 405 193.5"/>
+            </svg>
 
-          <div class="cc-overlay">
-            <!-- Y axis label -->
-            <span class="cc-ylabel">Chance of costly surprises</span>
+            <div class="cc-overlay">
+              <!-- Y axis label -->
+              <span class="cc-ylabel">Chance of costly surprises</span>
 
-            <!-- Premodel image stack -->
-            <div class="cc-photo" aria-hidden="true">
-              <span class="cc-photo-card cc-photo-card--back"></span>
-              <span class="cc-photo-card cc-photo-card--mid"></span>
-              <span class="cc-photo-card cc-photo-card--front"></span>
+              <!-- Premodel image pin (revealed in beat 6) -->
+              <div class="cc-photo" aria-hidden="true">
+                <span class="cc-photo-card cc-photo-card--back"></span>
+                <span class="cc-photo-card cc-photo-card--mid"></span>
+                <span class="cc-photo-card cc-photo-card--front"></span>
+              </div>
+
+              <!-- Avoidable-regret label (revealed in beat 7) -->
+              <span class="cc-risk">Avoidable regret</span>
+
+              <!-- Animated beat pins (positioned along the lines by JS) -->
+              <span class="cc-pin cc-pin--gray" data-pin="g1"><i data-lucide="circle-help"></i></span>
+              <span class="cc-pin cc-pin--gray" data-pin="g2"><i data-lucide="eye-off"></i></span>
+              <span class="cc-pin cc-pin--gray" data-pin="g3"><i data-lucide="circle-dollar-sign"></i></span>
+              <span class="cc-pin cc-pin--gray" data-pin="g4"><i data-lucide="frown"></i></span>
+              <span class="cc-pin cc-pin--accent cc-pin--img" data-pin="img"><i data-lucide="sparkles"></i></span>
+              <span class="cc-pin cc-pin--accent" data-pin="end"><i data-lucide="smile"></i></span>
+
+              <!-- X axis labels -->
+              <span class="cc-xlabel" style="left:10.86%">Imagine</span>
+              <span class="cc-xlabel" style="left:37.04%">Hire</span>
+              <span class="cc-xlabel" style="left:62.72%">Plan</span>
+              <span class="cc-xlabel" style="left:88.89%">Build</span>
             </div>
+          </div>
 
-            <!-- Typical callout (points down to gray dot) -->
-            <span class="cc-callout">Maybe floor plans, mood boards, samples, or 3D?</span>
+          <p class="cc-thesis">We plan in pictures so you decide with confidence.</p>
 
-            <!-- Avoidable Risk label -->
-            <span class="cc-risk">Avoidable Risk</span>
-
-            <!-- Points on the timeline -->
-            <span class="cc-dot cc-dot--typ"></span>
-            <span class="cc-dot cc-dot--pm"></span>
-
-            <!-- X axis labels -->
-            <span class="cc-xlabel" style="left:10.86%">Imagine</span>
-            <span class="cc-xlabel" style="left:37.04%">Hire</span>
-            <span class="cc-xlabel" style="left:62.72%">Plan</span>
-            <span class="cc-xlabel" style="left:88.89%">Build</span>
+          <div class="cc-caption">
+            <p class="cc-beat" data-beat="1">Once you hire, <strong>changing your mind</strong> gets expensive fast.</p>
+            <p class="cc-beat" data-beat="2">Floor plans, mood boards, and samples still <strong>leave a lot to your imagination</strong>.</p>
+            <p class="cc-beat" data-beat="3">That's why <mark class="cc-hl">10–15% of your budget</mark> often goes toward changes mid-construction.</p>
+            <p class="cc-beat" data-beat="4">No wonder <mark class="cc-hl">74%</mark> of homeowners reported <strong>post-remodel regrets</strong> in 2024.</p>
+            <p class="cc-beat" data-beat="5">Premodel puts <strong>pictures first</strong>, with <mark class="cc-hl">1,200+</mark> delivered before building.</p>
+            <p class="cc-beat" data-beat="7">Get the <strong>full picture earlier</strong>. Decide with confidence. <strong>Regret less later</strong>.</p>
           </div>
         </div>
-      </div>
 
-      <p class="why-chart-caption">We plan in pictures so you decide with confidence.</p>
+        <div class="cc-track" aria-hidden="true"></div>
+      </div>
 
       <h3 class="why-guides-subhead">Meet your guides.</h3>
 
@@ -2660,6 +2704,125 @@ body[data-palette="saffron"] .toggle-btn {
       });
     }, { root: scrollElB, threshold: 0.4 });
     io.observe(proofElB);
+  })();
+
+  // Why Premodel — scrollytelling cost-of-change chart (Layout A)
+  (function initChartScrolly() {
+    var scrolly = document.getElementById('cc-scrolly');
+    if (!scrolly || !scrollEl) return;
+    var track = scrolly.querySelector('.cc-track');
+    var gline = scrolly.querySelector('.cc-gline');
+    var bline = scrolly.querySelector('.cc-bline');
+    var fill = scrolly.querySelector('.cc-fill');
+    var wedge = scrolly.querySelector('.cc-wedge');
+    var risk = scrolly.querySelector('.cc-risk');
+    var photo = scrolly.querySelector('.cc-photo');
+    var beats = Array.prototype.slice.call(scrolly.querySelectorAll('.cc-beat'));
+    var pins = {
+      g1: scrolly.querySelector('[data-pin="g1"]'),
+      g2: scrolly.querySelector('[data-pin="g2"]'),
+      g3: scrolly.querySelector('[data-pin="g3"]'),
+      g4: scrolly.querySelector('[data-pin="g4"]'),
+      img: scrolly.querySelector('[data-pin="img"]'),
+      end: scrolly.querySelector('[data-pin="end"]')
+    };
+
+    function clamp(v, a, b) { return v < a ? a : (v > b ? b : v); }
+    function lerpSeg(g, pts) {                 // piecewise-linear over [[gx, val], ...], gx ascending
+      if (g <= pts[0][0]) return pts[0][1];
+      for (var i = 1; i < pts.length; i++) {
+        if (g <= pts[i][0]) {
+          var t = (g - pts[i-1][0]) / (pts[i][0] - pts[i-1][0]);
+          return pts[i-1][1] + (pts[i][1] - pts[i-1][1]) * t;
+        }
+      }
+      return pts[pts.length - 1][1];
+    }
+    function lengthAtX(path, total, targetX) { // x is monotonic along these paths -> binary search
+      var lo = 0, hi = total;
+      for (var i = 0; i < 24; i++) {
+        var mid = (lo + hi) / 2;
+        if (path.getPointAtLength(mid).x < targetX) lo = mid; else hi = mid;
+      }
+      return hi;
+    }
+    function pctAtLength(path, len) {          // viewBox 405x300 -> percentage coords for overlay
+      var p = path.getPointAtLength(len);
+      return { l: p.x / 405 * 100, t: p.y / 300 * 100 };
+    }
+
+    var gTotal = gline.getTotalLength();
+    var bTotal = bline.getTotalLength();
+    gline.style.strokeDasharray = gTotal;
+    bline.style.strokeDasharray = bTotal;
+
+    // Draw targets (SVG x): gray reaches Hire -> mid-Plan -> Build -> edge; accent early branch then full.
+    var gLen = [165, 300, 360, 405].map(function(x) { return lengthAtX(gline, gTotal, x); });
+    var gFrac = gLen.map(function(l) { return l / gTotal; });
+    var bLenEarly = lengthAtX(bline, bTotal, 95);
+    var bFracEarly = bLenEarly / bTotal;
+
+    // Pin positions (gray pins at each gray draw tip; image/end pins along the accent line)
+    function place(pin, pos) { pin.style.left = clamp(pos.l, 3, 97) + '%'; pin.style.top = clamp(pos.t, 3, 97) + '%'; }
+    place(pins.g1, pctAtLength(gline, gLen[0]));
+    place(pins.g2, pctAtLength(gline, gLen[1]));
+    place(pins.g3, pctAtLength(gline, gLen[2]));
+    place(pins.g4, pctAtLength(gline, gLen[3]));
+    var imgPos = pctAtLength(bline, bLenEarly);
+    place(pins.img, imgPos);
+    place(pins.end, pctAtLength(bline, bTotal));
+    // Park the image card up-and-right of the early accent point (clear of the y-axis label)
+    photo.style.left = clamp(imgPos.l - 4, 11, 55) + '%';
+    photo.style.top = clamp(imgPos.t - 52, 5, 52) + '%';
+
+    var captionForBeat = [1, 2, 3, 4, 5, 5, 7];   // beat index 0..6 -> data-beat value shown
+    function setCaption(idx) {
+      var want = String(captionForBeat[clamp(idx, 0, 6)]);
+      beats.forEach(function(b) { b.classList.toggle('active', b.getAttribute('data-beat') === want); });
+    }
+    function setPin(pin, op) { pin.style.opacity = op; pin.style.transform = 'scale(' + (0.6 + 0.4 * op) + ')'; }
+
+    function render(g) {                       // g in [0..7]
+      // Line draw-on
+      gline.style.strokeDashoffset = gTotal * (1 - lerpSeg(g, [[0,0],[1,gFrac[0]],[2,gFrac[1]],[3,gFrac[2]],[4,gFrac[3]]]));
+      bline.style.strokeDashoffset = bTotal * (1 - lerpSeg(g, [[5,0],[6,bFracEarly],[7,1]]));
+      // Gray pins: one at a time, peaking as the line reaches each tip
+      setPin(pins.g1, clamp(1 - Math.abs(g - 1) / 0.5, 0, 1));
+      setPin(pins.g2, clamp(1 - Math.abs(g - 2) / 0.5, 0, 1));
+      setPin(pins.g3, clamp(1 - Math.abs(g - 3) / 0.5, 0, 1));
+      setPin(pins.g4, clamp(1 - Math.abs(g - 4) / 0.5, 0, 1));
+      // Image pin + card appear in beat 6 and stay
+      var imgShow = clamp((g - 5.2) / 0.6, 0, 1);
+      setPin(pins.img, imgShow);
+      photo.style.opacity = imgShow;
+      // Final beat: accent end pin, fill + wedge, regret label
+      var gap = clamp((g - 6.0) / 0.8, 0, 1);
+      fill.style.opacity = gap;
+      wedge.style.opacity = gap;
+      risk.style.opacity = clamp((g - 6.4) / 0.5, 0, 1);
+      setPin(pins.end, clamp((g - 6.2) / 0.5, 0, 1));
+      setCaption(Math.floor(g));
+    }
+
+    function sizeTrack() { track.style.height = (scrollEl.clientHeight * 5) + 'px'; }
+    function progress() {
+      var host = scrollEl.getBoundingClientRect();
+      var box = scrolly.getBoundingClientRect();
+      var runway = box.height - host.height;
+      if (runway <= 0) return 0;
+      return clamp((host.top - box.top) / runway, 0, 1);
+    }
+    var ticking = false;
+    function update() { render(progress() * 7); ticking = false; }
+    function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
+
+    scrolly.classList.add('cc-ready');
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) { render(7); return; }          // show the completed chart, final caption
+    sizeTrack();
+    scrollEl.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', function() { sizeTrack(); update(); });
+    update();
   })();
 
   var sizeSelect = document.getElementById('size-select');
