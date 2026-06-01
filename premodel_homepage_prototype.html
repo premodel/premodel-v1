@@ -19,6 +19,10 @@
   --color-text-tertiary: #a8a7a1;
   --color-text-warning: #854f0b;
   --color-brand-navy: #3b6eb5;
+  --gray-line: #b9b8b1;
+  --hatch: #c9c8c1;
+  --fill-soft: #e4eef8;
+  --image-bg: #3a3935;
   --color-border-primary: rgba(0,0,0,0.25);
   --color-border-secondary: rgba(0,0,0,0.18);
   --color-border-tertiary: rgba(0,0,0,0.10);
@@ -40,6 +44,10 @@
     --color-text-tertiary: #6b6a64;
     --color-text-warning: #fac775;
     --color-brand-navy: #7eb3e8;
+    --gray-line: #5c5b55;
+    --hatch: #4a4943;
+    --fill-soft: #1f2a38;
+    --image-bg: #3a3935;
     --color-border-primary: rgba(255,255,255,0.25);
     --color-border-secondary: rgba(255,255,255,0.18);
     --color-border-tertiary: rgba(255,255,255,0.10);
@@ -83,16 +91,22 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .header button.header-link { appearance: none; -webkit-appearance: none; background: transparent; border: 0; padding: 0; font-family: inherit; line-height: inherit; cursor: pointer; transition: color 0.15s ease; }
 .header button.header-link:hover { color: var(--color-text-primary); }
 .header button.header-link:focus-visible { outline: 2px solid var(--color-text-primary); outline-offset: 2px; border-radius: 2px; }
-.locale-bug { display: inline-block; background: var(--color-background-warning); color: var(--color-text-warning); font-size: 9px; font-weight: 600; letter-spacing: 0.08em; padding: 2px 6px; border-radius: 4px; margin-left: 7px; vertical-align: 2px; text-transform: uppercase; }
+.locale-bug { display: inline-block; background: var(--color-background-warning); color: var(--color-text-warning); font-size: 11px; font-weight: 600; letter-spacing: 0.08em; padding: 2px 6px; border-radius: 4px; margin-left: 7px; vertical-align: 2px; text-transform: uppercase; }
 
 .reveal-hero { padding: 28px 20px 0; text-align: center; }
 .reveal-hero .h1-small { font-size: 17px; color: var(--color-text-secondary); margin: 0; line-height: 1.4; }
 .reveal-hero .h1-large { font-size: 30px; font-weight: 500; margin: 6px 0 0; letter-spacing: -0.015em; line-height: 1.05; }
+.reveal-hero .h1-large:first-child { margin: 0; }
+/* Rotating word: a fixed-width slot (sized to the longest word) keeps "Before you" from shifting as the word ticks. */
+.hero-rotator { position: relative; display: inline-block; color: var(--color-brand-navy); text-align: left; vertical-align: baseline; }
+.hero-rotator-sizer { visibility: hidden; }
+.hero-rotator-word { position: absolute; left: 0; top: 0; white-space: nowrap; transition: opacity 0.28s ease, transform 0.28s ease; }
+.hero-rotator-word.out { opacity: 0; transform: translateY(-7px); }
 
 .carousel { display: flex; overflow-x: scroll; scroll-snap-type: x mandatory; scrollbar-width: none; margin: 16px 0 0; touch-action: pan-x pan-y; }
 .carousel::-webkit-scrollbar { display: none; }
 .slide { flex: 0 0 100%; scroll-snap-align: center; padding: 0 16px; }
-.slide .img { width: 100%; aspect-ratio: 3/2; background: #3a3935; border-radius: var(--border-radius-md); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; color: rgba(255,255,255,0.42); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; position: relative; }
+.slide .img { width: 100%; aspect-ratio: 3/2; background: #3a3935; border-radius: var(--border-radius-md); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; color: rgba(255,255,255,0.42); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; position: relative; }
 .slide .img::before { content: ''; width: 38px; height: 38px; background-color: rgba(255,255,255,0.36); -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'/%3E%3Ccircle cx='9' cy='9' r='2'/%3E%3Cpath d='m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21'/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'/%3E%3Ccircle cx='9' cy='9' r='2'/%3E%3Cpath d='m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21'/%3E%3C/svg%3E") center / contain no-repeat; }
 .dots { display: flex; justify-content: center; gap: 5px; padding: 14px 0 0; align-items: center; }
 .dot { width: 4px; height: 4px; border-radius: 50%; background: var(--color-border-secondary); border: 0; padding: 0; margin: 0; appearance: none; -webkit-appearance: none; cursor: pointer; flex: 0 0 4px; display: inline-block; }
@@ -101,27 +115,31 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .reveal-sub { padding: 16px 20px 0; text-align: center; }
 .reveal-sub p { font-size: 14px; color: var(--color-text-secondary); margin: 0; line-height: 1.5; }
 .reveal-sub .italic { font-family: var(--font-serif); font-style: italic; color: var(--color-text-primary); white-space: nowrap; }
-.plan-sub { grid-row: 1; grid-column: 1; align-self: end; width: 180px; box-sizing: border-box; padding: 0 8px 4px 16px; z-index: 0; pointer-events: none; }
+.plan-sub { grid-row: 1; grid-column: 1; align-self: end; width: 140px; box-sizing: border-box; padding: 0 8px 4px 16px; z-index: 0; pointer-events: none; }
 .plan-sub p { font-size: 14px; color: var(--color-text-secondary); margin: 0; line-height: 1.5; }
 .plan-sub .italic { font-family: var(--font-serif); font-style: italic; color: var(--color-text-primary); }
 
 .plan-block { margin-top: 40px; display: grid; grid-template-columns: 1fr; grid-template-rows: auto; }
-.plan-headline { grid-row: 1; grid-column: 1; align-self: start; justify-self: start; width: 180px; padding-left: 16px; padding-right: 8px; box-sizing: border-box; z-index: 0; pointer-events: none; }
+.plan-headline { grid-row: 1; grid-column: 1; align-self: start; justify-self: start; width: 140px; padding-left: 16px; padding-right: 8px; box-sizing: border-box; z-index: 0; pointer-events: none; }
 .plan-headline .h { font-size: 30px; font-weight: 500; margin: 0; line-height: 1.05; letter-spacing: -0.015em; display: block; }
 .plan-headline .h:first-child { margin-top: -3px; }
 
-.plan-gallery { grid-row: 1; grid-column: 1; z-index: 1; display: flex; gap: 8px; overflow-x: scroll; scroll-snap-type: x mandatory; scroll-padding-left: 180px; scrollbar-width: none; padding-left: 180px; padding-right: 16px; touch-action: pan-x pan-y; background: transparent; }
+.plan-gallery { grid-row: 1; grid-column: 1; z-index: 1; display: flex; gap: 8px; overflow-x: scroll; scroll-snap-type: x mandatory; scroll-padding-left: 140px; scrollbar-width: none; padding-left: 140px; padding-right: 16px; touch-action: pan-x pan-y; background: transparent; }
 .plan-gallery::-webkit-scrollbar { display: none; }
 .tile { flex: 0 0 180px; scroll-snap-align: start; background: var(--color-background-secondary); border-radius: var(--border-radius-lg); overflow: hidden; display: flex; flex-direction: column; }
-.tile-image { width: 100%; aspect-ratio: 4/3; background: #3a3935; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; color: rgba(255,255,255,0.40); font-size: 9px; letter-spacing: 0.05em; text-transform: uppercase; position: relative; }
+.tile-image { width: 100%; aspect-ratio: 4/3; background: #3a3935; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; color: rgba(255,255,255,0.40); font-size: 11px; letter-spacing: 0.05em; text-transform: uppercase; position: relative; }
 .tile-image::before { content: ''; width: 26px; height: 26px; background-color: rgba(255,255,255,0.36); -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'/%3E%3Ccircle cx='9' cy='9' r='2'/%3E%3Cpath d='m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21'/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'/%3E%3Ccircle cx='9' cy='9' r='2'/%3E%3Cpath d='m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21'/%3E%3C/svg%3E") center / contain no-repeat; }
 .tile-body { padding: 10px 12px 12px; }
-.tile-title { font-size: 13px; font-weight: 500; margin: 0 0 2px; }
-.tile-tagline { font-size: 11px; color: var(--color-text-secondary); margin: 0 0 6px; font-weight: 500; }
-.tile-copy { font-size: 11px; color: var(--color-text-secondary); margin: 0; line-height: 1.45; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.tile-title { font-size: 13px; font-weight: 600; margin: 0 0 4px; }
+.tile-tagline { font-size: 12px; color: var(--color-text-secondary); margin: 0 0 6px; font-weight: 500; }
+.tile-copy { font-size: 13px; color: var(--color-text-secondary); margin: 0; line-height: 1.45; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
 
-.howto-section { padding: 0 16px; }
-.howto-header { padding: 40px 4px 8px; text-align: center; }
+/* Consistent section rhythm: the top of each section's pill sits 60px below the previous
+   section's last content. We put the whole gap on the section's TOP padding (60px) and zero the
+   BOTTOM padding, so the visible gap doesn't depend on the prior section's bottom padding.
+   (Trailing content margins are also neutralized where they'd otherwise add to the gap.) */
+.howto-section { padding: 60px 16px 0; }
+.howto-header { padding: 0 4px; text-align: center; }
 .phase-label { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-text-primary); padding: 32px 4px 14px; font-weight: 600; text-align: center; }
 .step { display: grid; grid-template-columns: 30px 1fr; gap: 12px; padding: 14px 8px; border-radius: var(--border-radius-lg); transition: background 0.35s ease; margin-bottom: 2px; position: relative; }
 .step.active { background: var(--color-background-secondary); }
@@ -146,16 +164,32 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .step.phase-step .heading { font-size: 18px; font-weight: 600; }
 .step .heading { font-size: 16px; font-weight: 500; line-height: 1.35; margin: 0; }
 .step:not(.phase-step) .heading { padding-top: 4px; }
-.step .opt { display: inline-block; background: var(--color-background-secondary); color: var(--color-text-secondary); font-size: 9px; font-weight: 600; letter-spacing: 0.08em; padding: 2px 6px; border-radius: 4px; margin-left: 7px; vertical-align: 2px; text-transform: uppercase; }
+.step .opt { display: inline-block; background: var(--color-background-secondary); color: var(--color-text-secondary); font-size: 11px; font-weight: 600; letter-spacing: 0.08em; padding: 2px 6px; border-radius: 4px; margin-left: 7px; vertical-align: 2px; text-transform: uppercase; }
 .step .desc { font-size: 14px; color: var(--color-text-secondary); line-height: 1.55; margin: 0; max-height: 0; opacity: 0; overflow: hidden; transition: max-height 0.4s ease, opacity 0.35s ease, padding-top 0.35s ease; }
 .step.active .desc { max-height: 240px; opacity: 1; padding-top: 8px; }
 .step.optional .heading { color: var(--color-text-secondary); }
+
+/* Layout A: scroll-linked step reveal — JS sets --p (0..1) per step from scroll position,
+   so the description and focus background scrub open at the rate of scroll (no timed snap). */
+.phone-frame[data-layout="a"] .step:not(.phase-step) { --p: 0; background: transparent; transition: none; }
+.phone-frame[data-layout="a"] .step:not(.phase-step) .num,
+.phone-frame[data-layout="a"] .step:not(.phase-step) > div:not(.num) { opacity: calc(0.45 + 0.55 * var(--p)); transition: none; }
+.phone-frame[data-layout="a"] .step:not(.phase-step) .desc { max-height: calc(240px * var(--p)); opacity: var(--p); padding-top: calc(8px * var(--p)); transition: none; }
+.phone-frame[data-layout="a"] .step:not(.phase-step).active { background: color-mix(in srgb, var(--color-background-secondary) calc(100% * var(--p)), transparent); }
 .separator { display: flex; align-items: center; gap: 12px; margin: 0 -16px; padding: 10px 16px 0; font-size: 13px; color: var(--color-text-secondary); font-family: var(--font-serif); font-style: italic; text-align: center; }
 .separator::before, .separator::after { content: ''; flex: 1; height: 1px; background: var(--color-border-tertiary); }
 
-.who-section { padding: 30px 20px 36px; text-align: center; }
-.section-eyebrow { display: inline-block; background: var(--color-background-secondary); color: var(--color-text-primary); font-size: 11px; font-weight: 600; letter-spacing: 0.12em; padding: 5px 12px; border-radius: 999px; text-transform: uppercase; margin: 0 0 14px; }
-.section-headline { font-size: 30px; font-weight: 500; line-height: 1.15; letter-spacing: -0.02em; margin: 0 0 28px; text-wrap: balance; color: var(--color-text-primary); }
+.who-section { padding: 60px 20px 0; text-align: center; }
+.who-subhead { font-size: 14px; color: var(--color-text-secondary); margin: -18px 0 26px; line-height: 1.5; }
+/* Section 3 (Layout A): gallery carousel breaks out of the section's 20px padding to span full screen width on mobile */
+.phone-frame[data-layout="a"] .who-section .why-gallery { margin-left: -20px; margin-right: -20px; }
+.phone-frame[data-layout="a"] .who-section .why-gallery-headline { margin-left: 20px; margin-right: 20px; }
+.phone-frame[data-layout="a"] .who-section .why-ig-dots { margin-left: 20px; margin-right: 20px; }
+/* Gallery slide labels: single line, left-aligned, sitting just above the bottom-right pill */
+.phone-frame[data-layout="a"] .who-section .why-ig-overlay { right: 16px; bottom: 52px; text-align: left; }
+.phone-frame[data-layout="a"] .who-section .why-ig-name { font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.section-eyebrow { display: inline-block; background: var(--color-background-secondary); color: var(--color-text-primary); font-size: 11px; font-weight: 600; letter-spacing: 0.12em; padding: 5px 12px; border-radius: 999px; text-transform: uppercase; margin: 0 0 12px; }
+.section-headline { font-size: 30px; font-weight: 500; line-height: 1.15; letter-spacing: -0.02em; margin: 0 0 20px; text-wrap: balance; color: var(--color-text-primary); }
 .section-headline .brand-navy { color: var(--color-brand-navy); }
 .section-headline .strike { text-decoration: line-through; color: var(--color-text-tertiary); }
 
@@ -170,19 +204,19 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .quote-content { flex: 1; min-width: 0; }
 .quote-content p { font-size: 14px; color: var(--color-text-secondary); font-family: var(--font-serif); line-height: 1.5; margin: 0 0 10px; }
 .quote-content strong { font-weight: 700; color: var(--color-text-primary); }
-.quote-content cite { display: block; font-size: 11px; color: var(--color-text-secondary); font-style: normal; line-height: 1.4; }
+.quote-content cite { display: block; font-size: 12px; color: var(--color-text-secondary); font-style: normal; line-height: 1.4; }
 .quote-content cite strong { color: var(--color-text-primary); font-weight: 600; }
 
 .pricing-headline { font-size: 22px; font-weight: 500; color: var(--color-text-primary); margin: 0 0 4px; letter-spacing: -0.01em; line-height: 1.15; }
-.pricing-subhead { font-size: 13px; color: var(--color-text-secondary); margin: 0 0 14px; line-height: 1.5; }
+.pricing-subhead { font-size: 14px; color: var(--color-text-secondary); margin: 0 0 14px; line-height: 1.5; }
 
 .pricing-table { width: 90%; margin: 0 auto; border-collapse: collapse; table-layout: fixed; }
 .pricing-table th, .pricing-table td { padding: 9px 4px; text-align: left; vertical-align: top; border-bottom: 0.5px solid var(--color-border-tertiary); }
-.pricing-table th { font-size: 10px; font-weight: 500; color: var(--color-text-secondary); letter-spacing: 0.06em; text-transform: uppercase; border-bottom: 0.5px solid var(--color-border-secondary); }
+.pricing-table th { font-size: 11px; font-weight: 500; color: var(--color-text-secondary); letter-spacing: 0.06em; text-transform: uppercase; border-bottom: 0.5px solid var(--color-border-secondary); }
 .pricing-table td { font-size: 12px; color: var(--color-text-primary); line-height: 1.4; }
 .pricing-table .num { text-align: right; font-variant-numeric: tabular-nums; }
 .pricing-table tbody tr:last-child td { border-bottom: none; }
-.pricing-microcopy { font-size: 11px; color: var(--color-text-tertiary); margin: 6px auto 0; line-height: 1.5; max-width: 280px; }
+.pricing-microcopy { font-size: 12px; color: var(--color-text-tertiary); margin: 6px auto 0; line-height: 1.5; max-width: 280px; }
 
 .cta-bar { flex: 0 0 auto; border-top: 0.5px solid var(--color-border-tertiary); padding: 12px 16px; display: flex; gap: 12px; align-items: center; background: var(--color-background-primary); }
 .cta-button { flex: 1; padding: 12px; background: var(--color-text-primary); color: var(--color-background-primary); border-radius: var(--border-radius-md); text-align: center; font-weight: 500; font-size: 14px; border: none; cursor: pointer; font-family: inherit; }
@@ -208,7 +242,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .rf-disclosure { background: var(--color-background-secondary); border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-lg); padding: 16px; display: flex; gap: 13px; align-items: flex-start; margin: 0 0 24px; }
 .rf-disclosure-icon { flex-shrink: 0; width: 30px; height: 30px; border-radius: 50%; background: var(--color-background-primary); border: 0.5px solid var(--color-border-secondary); display: flex; align-items: center; justify-content: center; color: var(--color-text-secondary); }
 .rf-disclosure-icon svg { width: 14px; height: 14px; stroke-width: 1.75; }
-.rf-disclosure p { font-size: 13px; color: var(--color-text-secondary); margin: 0; line-height: 1.6; }
+.rf-disclosure p { font-size: 14px; color: var(--color-text-secondary); margin: 0; line-height: 1.6; }
 .rf-disclosure strong { color: var(--color-text-primary); font-weight: 500; }
 .rf-q { margin-bottom: 24px; }
 .rf-q-label { font-size: 13px; font-weight: 600; color: var(--color-text-primary); margin: 0 0 12px; line-height: 1.3; }
@@ -252,7 +286,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .rf-br-row { display: flex; align-items: baseline; justify-content: space-between; padding: 10px 14px; border-bottom: 0.5px solid var(--color-border-tertiary); gap: 8px; }
 .rf-br-row:last-child { border-bottom: 0; background: var(--color-background-secondary); }
 .rf-br-room { font-size: 13px; color: var(--color-text-primary); flex: 1; }
-.rf-br-badge { font-size: 10px; font-weight: 600; color: var(--color-text-tertiary); background: var(--color-background-secondary); border-radius: 4px; padding: 2px 5px; margin-left: 6px; letter-spacing: 0.04em; }
+.rf-br-badge { font-size: 11px; font-weight: 600; color: var(--color-text-tertiary); background: var(--color-background-secondary); border-radius: 4px; padding: 2px 5px; margin-left: 6px; letter-spacing: 0.04em; }
 .rf-br-row:last-child .rf-br-badge { background: var(--color-background-primary); }
 .rf-br-price { font-size: 13px; color: var(--color-text-primary); font-variant-numeric: tabular-nums; white-space: nowrap; }
 .rf-br-row:last-child .rf-br-room, .rf-br-row:last-child .rf-br-price { font-weight: 600; }
@@ -263,7 +297,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .rf-proc-step:last-child::after { display: none; }
 .rf-proc-num { width: 30px; height: 30px; border-radius: 50%; background: var(--color-background-secondary); border: 0.5px solid var(--color-border-secondary); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; color: var(--color-text-primary); flex-shrink: 0; position: relative; z-index: 1; }
 .rf-proc-title { font-size: 14px; font-weight: 600; color: var(--color-text-primary); margin: 0 0 3px; padding-top: 5px; }
-.rf-proc-desc { font-size: 13px; color: var(--color-text-secondary); margin: 0; line-height: 1.5; }
+.rf-proc-desc { font-size: 14px; color: var(--color-text-secondary); margin: 0; line-height: 1.5; }
 .rf-proc-meta { font-size: 11px; color: var(--color-text-tertiary); margin: 3px 0 0; }
 .rf-fields { display: flex; flex-direction: column; gap: 14px; }
 .rf-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
@@ -277,10 +311,10 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .rf-err-msg { font-size: 12px; color: #c0392b; margin: 0; display: none; }
 .rf-ack { display: flex; gap: 12px; align-items: flex-start; margin-top: 20px; padding: 15px; background: var(--color-background-secondary); border-radius: var(--border-radius-md); border: 0.5px solid var(--color-border-tertiary); cursor: pointer; }
 .rf-ack input[type=checkbox] { flex-shrink: 0; width: 18px; height: 18px; accent-color: var(--color-text-primary); margin-top: 2px; cursor: pointer; }
-.rf-ack-text { font-size: 13px; color: var(--color-text-secondary); line-height: 1.55; margin: 0; }
+.rf-ack-text { font-size: 14px; color: var(--color-text-secondary); line-height: 1.55; margin: 0; }
 .rf-ack-text strong { color: var(--color-text-primary); font-weight: 500; }
 .rf-placeholder { border: 0.5px dashed var(--color-border-secondary); border-radius: var(--border-radius-lg); padding: 40px 20px; text-align: center; background: var(--color-background-secondary); }
-.rf-placeholder-tag { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-text-tertiary); margin: 0 0 6px; }
+.rf-placeholder-tag { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-text-tertiary); margin: 0 0 6px; }
 .rf-placeholder-note { font-size: 13px; color: var(--color-text-secondary); margin: 0; line-height: 1.55; }
 .rf-placeholder code { font-size: 11px; color: var(--color-text-tertiary); background: var(--color-background-primary); padding: 1px 5px; border-radius: 3px; }
 .rf-payment-hero { text-align: center; margin-bottom: 20px; }
@@ -305,13 +339,13 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 
 /* ── Design fees section ────────────────────────────────────────────────────── */
 .rf-df-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-text-tertiary); margin: 0 0 8px; }
-.rf-df-sub { font-size: 13px; color: var(--color-text-secondary); line-height: 1.55; margin: 0 0 14px; }
+.rf-df-sub { font-size: 14px; color: var(--color-text-secondary); line-height: 1.55; margin: 0 0 14px; }
 .rf-df-table { border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); overflow: hidden; margin-bottom: 12px; }
 .rf-df-row { display: flex; justify-content: space-between; align-items: baseline; padding: 10px 14px; background: var(--color-background-secondary); border-bottom: 0.5px solid var(--color-border-tertiary); }
 .rf-df-row:last-child { border-bottom: 0; }
 .rf-df-label { font-size: 13px; color: var(--color-text-secondary); }
 .rf-df-price { font-size: 13px; color: var(--color-text-primary); font-variant-numeric: tabular-nums; white-space: nowrap; padding-left: 12px; }
-.rf-df-microcopy { font-size: 11px; color: var(--color-text-tertiary); line-height: 1.6; margin: 0 0 16px; }
+.rf-df-microcopy { font-size: 12px; color: var(--color-text-tertiary); line-height: 1.6; margin: 0 0 16px; }
 .rf-pm-callout { background: #fdf7ef; border: 0.5px solid rgba(133,79,11,0.14); border-radius: var(--border-radius-lg); padding: 16px; }
 
 /* ── Success screen ─────────────────────────────────────────────────────────── */
@@ -326,11 +360,81 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .rf-ns-step:last-child::after { display: none; }
 .rf-ns-num { width: 30px; height: 30px; border-radius: 50%; background: var(--color-text-primary); color: var(--color-background-primary); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; flex-shrink: 0; position: relative; z-index: 1; }
 .rf-ns-title { font-size: 14px; font-weight: 600; color: var(--color-text-primary); margin: 0 0 3px; padding-top: 5px; }
-.rf-ns-desc { font-size: 13px; color: var(--color-text-secondary); margin: 0; line-height: 1.5; }
+.rf-ns-desc { font-size: 14px; color: var(--color-text-secondary); margin: 0; line-height: 1.5; }
 
 /* ── Why Premodel ──────────────────────────────────────────────────────────── */
-.why-section { padding: 30px 0 36px; }
-.why-header { padding: 0 20px; text-align: center; margin: 0 0 22px; }
+.why-section { padding: 60px 0 0; }
+.why-header { padding: 0 20px; text-align: center; margin: 0; }
+
+/* Section 4 (Layout A): full-width subheader, unboxed chart, side-by-side tilted founders, stacked static stats */
+.phone-frame[data-layout="a"] .why-chart { width: 100%; padding: 0; margin: 0 0 26px; box-sizing: border-box; }
+.phone-frame[data-layout="a"] .why-chart svg { width: 100%; height: auto; display: block; }
+/* Subhead — same scale as "Confidence, pictured" (.why-gallery-headline) for consistency */
+.phone-frame[data-layout="a"] .why-guides-subhead { font-size: 21px; font-weight: 500; letter-spacing: -0.015em; line-height: 1.2; color: var(--color-text-primary); text-align: center; text-wrap: balance; margin: 0 20px 22px; }
+
+/* Section 4 chart caption — matches the reveal sub-line below the hero carousel */
+.phone-frame[data-layout="a"] .why-chart-caption { font-size: 14px; color: var(--color-text-secondary); text-align: center; margin: 16px 20px 26px; line-height: 1.5; }
+/* Last element in the section — no trailing margin so the next section's 60px top sets the full gap */
+.phone-frame[data-layout="a"] .why-founders-note { margin-bottom: 0; }
+
+/* Founder cards: two squarish (4:3) cards, slightly tilted and overlapping like photos on a table; everything stays readable */
+/* Founder cards: wide, squarish, STACKED vertically with an organic offset + slight rotation.
+   Cards overlap only into each other's outer margin (not their padded content), so the tilt
+   reads like two photos set down on a table without any text being covered. */
+.phone-frame[data-layout="a"] .why-founders { display: flex; flex-direction: column; align-items: center; gap: 0; overflow: visible; padding: 14px 20px 24px; scroll-snap-type: none; }
+.phone-frame[data-layout="a"] .why-card.founder { flex: 0 0 auto; width: 84%; max-width: 320px; padding: 22px 22px 24px; box-shadow: 0 6px 22px rgba(0,0,0,0.13), 0 1px 3px rgba(0,0,0,0.06); }
+.phone-frame[data-layout="a"] .why-card.founder:nth-child(1) { transform: translateX(-7%) rotate(-2deg); z-index: 1; }
+.phone-frame[data-layout="a"] .why-card.founder:nth-child(2) { transform: translateX(7%) rotate(1.8deg); margin-top: -18px; z-index: 2; }
+/* Header: single row — portrait, then name/title beside it, LinkedIn at the end.
+   Tighter portrait + gaps so the full title fits on one line at this card width. */
+.phone-frame[data-layout="a"] .why-card.founder .why-founder-head { grid-template-columns: 44px 1fr auto; column-gap: 12px; }
+.phone-frame[data-layout="a"] .why-card.founder .why-founder-portrait { width: 44px; height: 44px; }
+.phone-frame[data-layout="a"] .why-card.founder .why-founder-role { white-space: nowrap; }
+/* Card type sized to match Section 3's gallery/quote cards */
+.phone-frame[data-layout="a"] .why-card.founder .why-founder-name { font-size: 16px; }
+.phone-frame[data-layout="a"] .why-card.founder .why-founder-quote { font-size: 14px; line-height: 1.6; }
+
+/* ── Cost-of-change chart — hybrid (SVG geometry + HTML overlay) ──────────────
+   SVG keeps only drawable geometry so it can animate later (stroke-dashoffset, etc.).
+   .cc-overlay holds all text/key/dots/photo as real DOM, positioned in % against the
+   405x300 viewBox: x% = svgX/405, y% = svgY/300. HTML text uses real px (no SVG scaling). */
+.cc-stage { position: relative; width: 100%; }
+.cc-svg { width: 100%; height: auto; display: block; }
+.cc-overlay { position: absolute; inset: 0; pointer-events: none; }
+
+/* SVG geometry */
+.gline { fill: none; stroke: var(--gray-line); stroke-width: 2.2; stroke-linecap: round; }
+.bline { fill: none; stroke: var(--color-brand-navy); stroke-width: 2.2; stroke-linecap: round; }
+.axis { stroke: var(--color-border-secondary); stroke-width: 1; }
+.uparrow { stroke: var(--color-text-primary); stroke-width: 1.2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.leader { stroke: var(--color-text-tertiary); stroke-width: 0.75; stroke-dasharray: 2 3; fill: none; }
+
+/* Key (top-left, stacked) */
+
+/* Axis labels */
+.cc-xlabel { position: absolute; bottom: -2%; transform: translateX(-50%); font-family: var(--font-serif); font-style: italic; font-size: 14px; color: var(--color-text-primary); white-space: nowrap; }
+/* Hangs below the up-arrow, reading bottom-to-top. Pinned at least 10px from the screen's
+   left edge; the arrow is aligned to the same x in CSS so they stay centered together. */
+.cc-ylabel { position: absolute; left: 12px; top: 40%; transform: translateY(-50%) rotate(180deg); writing-mode: vertical-rl; font-family: var(--font-serif); font-style: italic; font-size: 14px; color: var(--color-text-primary); white-space: nowrap; }
+
+/* Avoidable Risk label (sits over the hatch wedge; halo keeps it legible) */
+.cc-risk { position: absolute; left: 84%; top: 58.5%; transform: translate(-50%, -50%); width: 5em; text-align: center; font-family: var(--font-sans); font-weight: 700; font-size: 13px; line-height: 1.15; color: var(--color-text-primary); text-shadow: 0 0 3px var(--color-background-primary), 0 0 3px var(--color-background-primary), 0 0 3px var(--color-background-primary); }
+
+/* Typical-remodel callout (above the gray dot) */
+.cc-callout { position: absolute; left: 63%; top: 18.5%; transform: translate(-50%, -50%); width: 130px; text-align: center; font-family: var(--font-sans); font-size: 11px; line-height: 1.3; color: var(--color-text-secondary); }
+
+/* Timeline points */
+.cc-dot { position: absolute; width: 11px; height: 11px; border-radius: 50%; transform: translate(-50%, -50%); }
+.cc-dot--typ { left: 62.96%; top: 69%; background: var(--color-text-tertiary); }
+.cc-dot--pm { left: 24.32%; top: 87.43%; background: var(--color-brand-navy); }
+
+/* Premodel image stack (three tilted cards; front carries the photo glyph) */
+.cc-photo { position: absolute; left: 14.6%; top: 33%; width: 36.8%; height: 40%; }
+.cc-photo-card { position: absolute; inset: 0; border-radius: 11px; }
+.cc-photo-card--back { background: #cdccc4; transform: rotate(-6deg); }
+.cc-photo-card--mid { background: #e7e6df; transform: rotate(-2.8deg); }
+.cc-photo-card--front { background: var(--image-bg); display: flex; align-items: center; justify-content: center; }
+.cc-photo-card--front::before { content: ''; width: 38px; height: 38px; background-color: rgba(255,255,255,0.36); -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'/%3E%3Ccircle cx='9' cy='9' r='2'/%3E%3Cpath d='m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21'/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'/%3E%3Ccircle cx='9' cy='9' r='2'/%3E%3Cpath d='m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21'/%3E%3C/svg%3E") center / contain no-repeat; }
 
 /* Lead rail: text pinned left (non-boxed), founder cards scroll horizontally — mirrors .plan-block pattern */
 .why-lead-rail { display: grid; grid-template-columns: 1fr; grid-template-rows: auto; margin: 0 0 36px; }
@@ -339,7 +443,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .why-proof { display: flex; flex-direction: column; gap: 4px; }
 .why-proof-row { display: grid; grid-template-columns: 64px 1fr; gap: 12px; align-items: center; padding: 8px 0; }
 .why-proof-num { font-size: 22px; font-weight: 600; letter-spacing: -0.02em; color: var(--color-text-primary); font-variant-numeric: tabular-nums; line-height: 1; margin: 0; }
-.why-proof-desc { font-size: 11.5px; color: var(--color-text-secondary); line-height: 1.4; margin: 0; }
+.why-proof-desc { font-size: 13px; color: var(--color-text-secondary); line-height: 1.4; margin: 0; }
 
 .why-founders { grid-row: 1; grid-column: 1; z-index: 1; display: flex; gap: 10px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-left: 70%; scrollbar-width: none; padding: 0 20px 4px 70%; touch-action: pan-x pan-y; -webkit-overflow-scrolling: touch; background: transparent; }
 .why-founders::-webkit-scrollbar { display: none; }
@@ -348,11 +452,11 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .why-founder-portrait { width: 48px; height: 48px; border-radius: 50%; background: var(--color-background-secondary); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; color: var(--color-text-secondary); letter-spacing: 0.04em; overflow: hidden; flex-shrink: 0; }
 .why-founder-meta { min-width: 0; }
 .why-founder-name { font-size: 15px; font-weight: 600; letter-spacing: -0.01em; color: var(--color-text-primary); margin: 0 0 2px; line-height: 1.2; }
-.why-founder-role { font-size: 11px; font-weight: 500; color: var(--color-text-secondary); letter-spacing: 0.005em; margin: 0; line-height: 1.3; }
+.why-founder-role { font-size: 12px; font-weight: 500; color: var(--color-text-secondary); letter-spacing: 0.005em; margin: 0; line-height: 1.3; }
 .why-founder-linkedin { color: var(--color-text-secondary); display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 6px; text-decoration: none; transition: background 0.15s, color 0.15s; flex-shrink: 0; }
 .why-founder-linkedin:hover { background: var(--color-background-secondary); color: var(--color-text-primary); }
 .why-founder-linkedin svg { width: 14px; height: 14px; stroke-width: 1.75; }
-.why-founder-quote { font-family: var(--font-serif); font-style: italic; font-size: 13px; line-height: 1.55; color: var(--color-text-secondary); margin: 0; }
+.why-founder-quote { font-family: var(--font-serif); font-style: italic; font-size: 14px; line-height: 1.55; color: var(--color-text-secondary); margin: 0; }
 
 /* Gallery: full-bleed IG-style square carousel; tap opens case-study modal */
 .why-gallery-headline { font-size: 21px; font-weight: 500; color: var(--color-text-primary); margin: 0 20px 14px; letter-spacing: -0.015em; line-height: 1.2; text-align: center; text-wrap: balance; }
@@ -360,7 +464,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .why-ig-carousel::-webkit-scrollbar { display: none; }
 .why-ig-slide { flex: 0 0 100%; scroll-snap-align: center; position: relative; cursor: pointer; }
 .why-ig-slide::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 38%; background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0) 100%); pointer-events: none; }
-.why-ig-img { width: 100%; aspect-ratio: 1/1; background: #3a3935; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; color: rgba(255,255,255,0.36); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; position: relative; }
+.why-ig-img { width: 100%; aspect-ratio: 1/1; background: #3a3935; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; color: rgba(255,255,255,0.36); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; position: relative; }
 .why-ig-img::before { content: ''; width: 44px; height: 44px; background-color: rgba(255,255,255,0.34); -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'/%3E%3Ccircle cx='9' cy='9' r='2'/%3E%3Cpath d='m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21'/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'/%3E%3Ccircle cx='9' cy='9' r='2'/%3E%3Cpath d='m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21'/%3E%3C/svg%3E") center / contain no-repeat; }
 .why-ig-overlay { position: absolute; left: 16px; right: 132px; bottom: 14px; color: #fff; pointer-events: none; text-shadow: 0 1px 10px rgba(0,0,0,0.45); z-index: 2; }
 .why-ig-name { font-size: 16px; font-weight: 600; margin: 0 0 2px; letter-spacing: -0.01em; }
@@ -380,14 +484,14 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .case-modal-card { width: 100%; background: var(--color-background-primary); border-radius: 20px 20px 0 0; padding: 22px 22px 30px; max-height: 82%; overflow-y: auto; position: relative; box-shadow: 0 -8px 24px rgba(0,0,0,0.12); }
 .case-modal-close { position: absolute; top: 14px; right: 14px; width: 32px; height: 32px; border-radius: 50%; background: var(--color-background-secondary); border: 0; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--color-text-secondary); }
 .case-modal-close svg { width: 15px; height: 15px; stroke-width: 2; }
-.case-modal-eyebrow { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-text-tertiary); margin: 2px 0 6px; font-weight: 600; }
+.case-modal-eyebrow { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-text-tertiary); margin: 2px 0 6px; font-weight: 600; }
 .case-modal-name { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; color: var(--color-text-primary); margin: 0 0 4px; }
 .case-modal-meta { font-size: 13px; color: var(--color-text-secondary); margin: 0 0 18px; }
 .case-modal-placeholder { font-family: var(--font-serif); font-style: italic; font-size: 13.5px; color: var(--color-text-tertiary); margin: 8px 0 0; line-height: 1.6; padding: 16px; background: var(--color-background-tertiary); border-radius: var(--border-radius-md); }
 
 /* ── FAQ section ───────────────────────────────────────────────────── */
-.faq-section { padding: 30px 20px 32px; }
-.faq-header { text-align: center; margin: 0 0 20px; }
+.faq-section { padding: 60px 20px 0; }
+.faq-header { text-align: center; margin: 0; }
 .faq-list { display: flex; flex-direction: column; border-top: 0.5px solid var(--color-border-tertiary); }
 .faq-item { border-bottom: 0.5px solid var(--color-border-tertiary); }
 .faq-summary { list-style: none; cursor: pointer; display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; padding: 16px 4px; min-height: 44px; font-size: 15px; font-weight: 500; color: var(--color-text-primary); line-height: 1.4; -webkit-tap-highlight-color: transparent; }
@@ -399,7 +503,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .faq-caret svg { width: 16px; height: 16px; stroke-width: 2; }
 .faq-item[open] .faq-caret { transform: rotate(180deg); }
 .faq-answer { padding: 0 4px 18px; font-size: 14px; color: var(--color-text-secondary); line-height: 1.6; margin: 0; }
-.faq-closing { font-family: var(--font-serif); font-style: italic; font-size: 13.5px; color: var(--color-text-secondary); text-align: center; margin: 22px auto 0; max-width: 280px; line-height: 1.55; }
+.faq-closing { font-family: var(--font-serif); font-style: italic; font-size: 14px; color: var(--color-text-secondary); text-align: center; margin: 22px auto 0; max-width: 280px; line-height: 1.55; }
 
 /* ── Footer ─────────────────────────────────────────────────────────── */
 .footer { background: var(--color-surface-secondary); border-top: 1px solid var(--color-border-secondary); padding: 36px 20px 28px; color: var(--color-text-secondary); container-type: inline-size; }
@@ -440,7 +544,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .info-modal-close { position: absolute; top: 14px; right: 14px; width: 32px; height: 32px; border-radius: 50%; background: var(--color-background-secondary); border: 0; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--color-text-secondary); padding: 0; font-family: inherit; }
 .info-modal-close:focus-visible { outline: 2px solid var(--color-text-primary); outline-offset: 2px; }
 .info-modal-close svg { width: 15px; height: 15px; stroke-width: 2; }
-.info-modal-eyebrow { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-text-tertiary); margin: 2px 0 6px; font-weight: 600; }
+.info-modal-eyebrow { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-text-tertiary); margin: 2px 0 6px; font-weight: 600; }
 .info-modal-title { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; color: var(--color-text-primary); margin: 0 0 16px; line-height: 1.15; }
 .info-modal-body { font-size: 13px; line-height: 1.6; color: var(--color-text-secondary); }
 .info-modal-body h4 { font-size: 12px; font-weight: 600; color: var(--color-text-primary); margin: 18px 0 6px; letter-spacing: 0.04em; text-transform: uppercase; }
@@ -772,8 +876,8 @@ body[data-palette="saffron"] .toggle-btn {
     </div>
 
     <div class="reveal-hero">
-      <p class="h1-small">Remodel paralysis?</p>
-      <p class="h1-large">Start with a free Reveal</p>
+      <p class="h1-small">Before you <span class="hero-rotator" id="hero-rotator"><span class="hero-rotator-sizer" aria-hidden="true">remodel</span><span class="hero-rotator-word" aria-live="polite">guess</span></span></p>
+      <p class="h1-large">Start with a Reveal</p>
     </div>
 
     <div class="carousel" id="carousel">
@@ -792,51 +896,46 @@ body[data-palette="saffron"] .toggle-btn {
     </div>
 
     <div class="reveal-sub">
-      <p>3 ways to see your space, <span class="italic">before you hire anyone</span></p>
+      <p>3 ways to see your remodel <span class="italic">before you hire anyone</span></p>
     </div>
 
     <div class="plan-block">
       <div class="plan-headline">
-        <span class="h">Move it</span>
-        <span class="h">forward</span>
-        <span class="h">with a</span>
+        <span class="h">Turn your</span>
+        <span class="h">Reveal</span>
+        <span class="h">into a</span>
         <span class="h">Plan</span>
       </div>
       <div class="plan-sub">
-        <p>Our pros get you construction-ready,</p>
-        <p class="italic">starting at $1,000</p>
+        <p>Everything you need to be ready to build</p>
       </div>
       <div class="plan-gallery">
         <div class="tile">
           <div class="tile-image">Tile image</div>
           <div class="tile-body">
-            <p class="tile-title">Refine</p>
-            <p class="tile-tagline">Make it yours.</p>
-            <p class="tile-copy">We sit with you, live, until your favorite Reveal becomes the one you can't wait to live in.</p>
+            <p class="tile-title">Unmistakably yours</p>
+            <p class="tile-copy">Refine one Reveal, or pull the best from all three, until it's exactly right.</p>
           </div>
         </div>
         <div class="tile">
           <div class="tile-image">Tile image</div>
           <div class="tile-body">
-            <p class="tile-title">Walk</p>
-            <p class="tile-tagline">Feel the space.</p>
-            <p class="tile-copy">Stand inside it in VR. Build the confidence to commit. Catch the change orders that would have cost you thousands.</p>
+            <p class="tile-title">Truly certain</p>
+            <p class="tile-copy">For big changes, stand inside the space virtually and catch the costly surprises.</p>
           </div>
         </div>
         <div class="tile">
           <div class="tile-image">Tile image</div>
           <div class="tile-body">
-            <p class="tile-title">Shop</p>
-            <p class="tile-tagline">Buy exactly what you saw.</p>
-            <p class="tile-copy">Every material, ready to purchase, at every budget. Trade discounts often cover the Plan.</p>
+            <p class="tile-title">Within reach</p>
+            <p class="tile-copy">Purchase everything in the pictures, at the prices pros pay.</p>
           </div>
         </div>
         <div class="tile">
           <div class="tile-image">Tile image</div>
           <div class="tile-body">
-            <p class="tile-title">Bid</p>
-            <p class="tile-tagline">Three bids. One decision.</p>
-            <p class="tile-copy">We introduce you to three trusted local contractors. The hard part is over.</p>
+            <p class="tile-title">Full control</p>
+            <p class="tile-copy">We bring vetted builders to you. They compete for the job. Your project gets moving.</p>
           </div>
         </div>
       </div>
@@ -845,7 +944,7 @@ body[data-palette="saffron"] .toggle-btn {
     <div class="howto-section">
       <div class="howto-header">
         <p class="section-eyebrow">How it works</p>
-        <h2 class="section-headline"><span class="strike">Paralysis</span> Clarity</h2>
+        <h2 class="section-headline">Don't guess. <span class="brand-navy">Premodel</span></h2>
       </div>
 
       <div class="step phase-step" data-step="r0">
@@ -874,8 +973,8 @@ body[data-palette="saffron"] .toggle-btn {
       <div class="step" data-step="r3">
         <div class="num"><i data-lucide="layout-grid"></i></div>
         <div>
-          <p class="heading">See your space 3 ways</p>
-          <p class="desc">Inspiration images show you someone else's home. Our Reveals show yours, through the eyes of a pro.</p>
+          <p class="heading">Review 3 design directions</p>
+          <p class="desc">Inspiration images show you someone else's home. Our Reveals show yours.</p>
         </div>
       </div>
 
@@ -891,8 +990,8 @@ body[data-palette="saffron"] .toggle-btn {
       <div class="step" data-step="p1">
         <div class="num"><i data-lucide="target"></i></div>
         <div>
-          <p class="heading">Refine your favorite Reveal</p>
-          <p class="desc">Or pull elements from all three. Review updated images that explore your preferred design direction.</p>
+          <p class="heading">Explore your chosen direction, live</p>
+          <p class="desc">We meet over video to talk through your favorite Reveal, or pull the best from all three, and start building it into one design.</p>
         </div>
       </div>
 
@@ -908,15 +1007,15 @@ body[data-palette="saffron"] .toggle-btn {
         <div class="num"><i data-lucide="scan-eye"></i></div>
         <div>
           <p class="heading">Walk it in VR<span class="opt">optional</span></p>
-          <p class="desc">Reveals show you the look. VR shows you the feel. If the shape of your space is changing, walk it in VR to find the "oh no" before they cost you.</p>
+          <p class="desc">Reveals show you the look. VR gives you the feel. If the shape of your space is changing, walk it in VR to find the "oh nos" before they cost you.</p>
         </div>
       </div>
 
       <div class="step" data-step="p4">
         <div class="num"><i data-lucide="video"></i></div>
         <div>
-          <p class="heading">Finalize your design, live</p>
-          <p class="desc">We meet over video and edit your design together. Take a moment to sit with it, then approve or request another round of revisions.</p>
+          <p class="heading">Dial in the details</p>
+          <p class="desc">Everything moves to your private project page. We post updated designs, you weigh in, and we refine together until you’re ready to sign off.</p>
         </div>
       </div>
 
@@ -937,24 +1036,17 @@ body[data-palette="saffron"] .toggle-btn {
       </div>
 
       <div class="separator">Your contractor takes it from here.</div>
-
-      <div class="step phase-step" data-step="b0">
-        <div class="num">3</div>
-        <div>
-          <p class="heading">Build</p>
-        </div>
-      </div>
     </div>
 
     <div class="who-section">
       <p class="section-eyebrow">For homeowners</p>
-      <h2 class="section-headline">Don't guess. <span class="brand-navy">Premodel.</span></h2>
+      <h2 class="section-headline">Planning buys confidence</h2>
 
       <div class="quotes">
         <blockquote class="quote">
           <div class="quote-avatar">AG</div>
           <div class="quote-content">
-            <p>"Without Premodel, I honestly wouldn't have started this project because <strong>I didn't have time to agonize</strong> <strong>over possibilities</strong> I can't picture."</p>
+            <p>"<strong>Without Premodel, I honestly wouldn't have started this project</strong> because I don't have time to agonize over possibilities I can't picture."</p>
             <cite>—<strong>Anna G.</strong>, Edmonds · Master bath, pull-and-replace</cite>
           </div>
         </blockquote>
@@ -974,141 +1066,37 @@ body[data-palette="saffron"] .toggle-btn {
         </blockquote>
       </div>
 
-      <h3 class="pricing-headline">Planning buys confidence.</h3>
-      <p class="pricing-subhead">For less than 5% of your remodel budget</p>
-
-      <table class="pricing-table">
-        <colgroup>
-          <col style="width: 48%;" />
-          <col style="width: 22%;" />
-          <col style="width: 30%;" />
-        </colgroup>
-        <thead>
-          <tr>
-            <th>Project</th>
-            <th class="num">Budget</th>
-            <th class="num">Starting at</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Cosmetic bath refresh</td>
-            <td class="num">$30K</td>
-            <td class="num">$1K+</td>
-          </tr>
-          <tr>
-            <td>Pull-and-replace kitchen</td>
-            <td class="num">$75K</td>
-            <td class="num">$2.5K+</td>
-          </tr>
-          <tr>
-            <td>Multi-room remodel</td>
-            <td class="num">$150K</td>
-            <td class="num">$5K+</td>
-          </tr>
-          <tr>
-            <td>Full home renovation</td>
-            <td class="num">$300K+</td>
-            <td class="num">$10K+</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <p class="pricing-microcopy">Actual pricing varies based on scope, room count,<br>and optional deliverables.</p>
-    </div>
-
-    <!-- ── Why Premodel ──────────────────────────────────────────────── -->
-    <section class="why-section">
-      <div class="why-header">
-        <p class="section-eyebrow">Why Premodel</p>
-        <h2 class="section-headline">A new kind of remodel pro.</h2>
-      </div>
-
-      <div class="why-lead-rail">
-        <div class="why-lead-text">
-          <h3 class="why-lead-headline">Pre-remodel advisors who plan in pictures.</h3>
-          <div class="why-proof">
-            <div class="why-proof-row">
-              <p class="why-proof-num">0+</p>
-              <p class="why-proof-desc">Years each in design, tech and project planning</p>
-            </div>
-            <div class="why-proof-row">
-              <p class="why-proof-num">0×</p>
-              <p class="why-proof-desc">Lived through remodels of our own</p>
-            </div>
-            <div class="why-proof-row">
-              <p class="why-proof-num">&gt;0.0K</p>
-              <p class="why-proof-desc">Pictures used to plan homeowners' remodels</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="why-founders">
-          <article class="why-card founder">
-            <div class="why-founder-head">
-              <div class="why-founder-portrait">AW</div>
-              <div class="why-founder-meta">
-                <p class="why-founder-name">Ashley Wells</p>
-                <p class="why-founder-role">Co-founder · Pre-remodel advisor</p>
-              </div>
-              <a class="why-founder-linkedin" href="#" target="_blank" rel="noopener" aria-label="Ashley Wells on LinkedIn">
-                <i data-lucide="linkedin"></i>
-              </a>
-            </div>
-            <p class="why-founder-quote">"I walk your space with you, ask the questions you haven't thought to ask, and help you decide what's worth doing — before anyone swings a hammer."</p>
-          </article>
-
-          <article class="why-card founder">
-            <div class="why-founder-head">
-              <div class="why-founder-portrait">PS</div>
-              <div class="why-founder-meta">
-                <p class="why-founder-name">Paige Sandler</p>
-                <p class="why-founder-role">Co-founder · Pre-remodel advisor</p>
-              </div>
-              <a class="why-founder-linkedin" href="#" target="_blank" rel="noopener" aria-label="Paige Sandler on LinkedIn">
-                <i data-lucide="linkedin"></i>
-              </a>
-            </div>
-            <p class="why-founder-quote">"Every remodel I've lived through taught me what to ask early. I bring those questions to your home, so you don't learn them the painful way."</p>
-          </article>
-        </div>
-      </div>
-
       <div class="why-gallery">
-        <h3 class="why-gallery-headline">Pictures help homeowners decide.</h3>
+        <h3 class="why-gallery-headline">Confidence, pictured</h3>
         <div class="why-ig-carousel" id="why-ig-carousel">
           <div class="why-ig-slide" data-name="Anna G." data-meta="Master bath · Edmonds" data-ig="https://instagram.com/premodel">
             <div class="why-ig-img">Project image 1</div>
             <div class="why-ig-overlay">
-              <p class="why-ig-name">Master bath</p>
-              <p class="why-ig-meta">Edmonds</p>
+              <p class="why-ig-name">Master bath, Edmonds</p>
             </div>
             <a class="why-ig-link" href="https://instagram.com/premodel" target="_blank" rel="noopener" aria-label="View on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg></a>
             <div class="why-ig-cta">See the project <i data-lucide="arrow-right"></i></div>
           </div>
-          <div class="why-ig-slide" data-name="Sasha A." data-meta="Full home renovation · Seattle" data-ig="https://instagram.com/premodel">
+          <div class="why-ig-slide" data-name="Sasha A." data-meta="Full home renovation · Edmonds" data-ig="https://instagram.com/premodel">
             <div class="why-ig-img">Project image 2</div>
             <div class="why-ig-overlay">
-              <p class="why-ig-name">Full home renovation</p>
-              <p class="why-ig-meta">Seattle</p>
+              <p class="why-ig-name">Full home renovation, Edmonds</p>
             </div>
             <a class="why-ig-link" href="https://instagram.com/premodel" target="_blank" rel="noopener" aria-label="View on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg></a>
             <div class="why-ig-cta">See the project <i data-lucide="arrow-right"></i></div>
           </div>
-          <div class="why-ig-slide" data-name="Kainaz B." data-meta="Multi-room, new build · Seattle" data-ig="https://instagram.com/premodel">
+          <div class="why-ig-slide" data-name="Kainaz B." data-meta="Kitchen remodel · Seattle" data-ig="https://instagram.com/premodel">
             <div class="why-ig-img">Project image 3</div>
             <div class="why-ig-overlay">
-              <p class="why-ig-name">Multi-room remodel</p>
-              <p class="why-ig-meta">Seattle</p>
+              <p class="why-ig-name">Kitchen remodel, Seattle</p>
             </div>
             <a class="why-ig-link" href="https://instagram.com/premodel" target="_blank" rel="noopener" aria-label="View on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg></a>
             <div class="why-ig-cta">See the project <i data-lucide="arrow-right"></i></div>
           </div>
-          <div class="why-ig-slide" data-name="Jenna R." data-meta="Powder bath · Kirkland" data-ig="https://instagram.com/premodel">
+          <div class="why-ig-slide" data-name="Jenn S." data-meta="ADU · Bellevue" data-ig="https://instagram.com/premodel">
             <div class="why-ig-img">Project image 4</div>
             <div class="why-ig-overlay">
-              <p class="why-ig-name">Powder bath</p>
-              <p class="why-ig-meta">Kirkland</p>
+              <p class="why-ig-name">ADU, Bellevue</p>
             </div>
             <a class="why-ig-link" href="https://instagram.com/premodel" target="_blank" rel="noopener" aria-label="View on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg></a>
             <div class="why-ig-cta">See the project <i data-lucide="arrow-right"></i></div>
@@ -1121,6 +1109,113 @@ body[data-palette="saffron"] .toggle-btn {
           <button class="why-ig-dot" data-i="3" aria-label="Slide 4"></button>
         </div>
       </div>
+    </div>
+
+    <!-- ── Why Premodel ──────────────────────────────────────────────── -->
+    <section class="why-section">
+      <div class="why-header">
+        <p class="section-eyebrow">Why Premodel</p>
+        <h2 class="section-headline">A new way to remodel.</h2>
+      </div>
+
+      <div class="why-chart">
+        <!-- Hybrid chart: SVG holds only the drawn geometry (fills, hatch, axis, curves, connectors)
+             so it can animate (e.g. stroke-dashoffset draw-on). All text, the key, the points, and
+             the photo are HTML in .cc-overlay, positioned in % over the SVG's 405x300 viewBox. -->
+        <div class="cc-stage">
+          <svg class="cc-svg" viewBox="0 0 405 300" role="img" aria-label="A line chart showing the chance of costly surprises rising over time from imagining a space through hiring, planning, and building. A light gray line, the typical remodel, curves upward and accelerates toward build. A blue line, Premodel, shares the early path, then forks after hiring and rises only gently. A light blue band sits under the Premodel line, and the widening hatched area between the two lines is labeled Avoidable Risk.">
+            <defs>
+              <pattern id="hatch" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)">
+                <line x1="0" y1="0" x2="0" y2="6" stroke="var(--hatch)" stroke-width="1.1"/>
+              </pattern>
+            </defs>
+            <!-- Fill under the Premodel line -->
+            <path class="cc-fill" d="M0 268.9C47 268.9 102.6 267.8 149.6 261.3C271 251.5 344.5 210.5 405 194V268.9H0Z" fill="var(--fill-soft)"/>
+            <!-- Hatched Avoidable Risk wedge -->
+            <path class="cc-wedge" d="M149.6 261.3C188 254.7 224.3 240.5 254.2 216.5C328 161.5 349.5 35.5 405 24V193C241 263 213.7 252.5 149.6 261.3Z" fill="url(#hatch)"/>
+            <!-- X axis (full width) -->
+            <line class="axis" x1="0" y1="268.9" x2="405" y2="268.9"/>
+            <!-- Y axis up arrow (centered on the y-axis label's x=23, sits above the rotated text) -->
+            <path class="uparrow" d="M23 44 V34 M19.1 37.9 L23 33 L26.9 37.9"/>
+            <!-- Connectors -->
+            <line class="leader" x1="98.5" y1="231.5" x2="98.5" y2="262.3"/>
+            <line class="leader" x1="255" y1="65" x2="255" y2="207"/>
+            <!-- Lines (span the full viewBox width, x:0 -> 405).
+                 Gray (typical) runs underneath along the shared early path, then forks up.
+                 Blue (Premodel) is drawn on top: shared early segment, then the gentle branch. -->
+            <path class="gline cc-gline" d="M0 269.4C47 268.9 96.1 268.9 128.2 265.6C141 264 149.6 261.3 149.6 261.3C188 254.7 224.3 240.5 254.2 216.5C305.5 177.2 339.7 98.6 358.9 55C374 25 391 18 405 16"/>
+            <path class="bline cc-bline-1" d="M0 269.4C47 268.9 96.1 268.9 128.2 265.6C141 264 149.6 261.3 149.6 261.3"/>
+            <path class="bline cc-bline-2" d="M149.6 261.3C212.5 257.5 264 247.9 325.5 219.5C372 198 405 193.5 405 193.5"/>
+          </svg>
+
+          <div class="cc-overlay">
+            <!-- Y axis label -->
+            <span class="cc-ylabel">Chance of costly surprises</span>
+
+            <!-- Premodel image stack -->
+            <div class="cc-photo" aria-hidden="true">
+              <span class="cc-photo-card cc-photo-card--back"></span>
+              <span class="cc-photo-card cc-photo-card--mid"></span>
+              <span class="cc-photo-card cc-photo-card--front"></span>
+            </div>
+
+            <!-- Typical callout (points down to gray dot) -->
+            <span class="cc-callout">Maybe floor plans, mood boards, samples, or 3D?</span>
+
+            <!-- Avoidable Risk label -->
+            <span class="cc-risk">Avoidable Risk</span>
+
+            <!-- Points on the timeline -->
+            <span class="cc-dot cc-dot--typ"></span>
+            <span class="cc-dot cc-dot--pm"></span>
+
+            <!-- X axis labels -->
+            <span class="cc-xlabel" style="left:10.86%">Imagine</span>
+            <span class="cc-xlabel" style="left:37.04%">Hire</span>
+            <span class="cc-xlabel" style="left:62.72%">Plan</span>
+            <span class="cc-xlabel" style="left:88.89%">Build</span>
+          </div>
+        </div>
+      </div>
+
+      <p class="why-chart-caption">We plan in pictures so you decide with confidence.</p>
+
+      <h3 class="why-guides-subhead">Meet your guides.</h3>
+
+      <div class="why-founders">
+        <article class="why-card founder">
+          <div class="why-founder-head">
+            <div class="why-founder-portrait">AW</div>
+            <div class="why-founder-meta">
+              <p class="why-founder-name">Ashley Wells</p>
+              <p class="why-founder-role">Pre-remodel guide, Co-founder</p>
+            </div>
+            <!-- TODO: confirm founder LinkedIn URL -->
+            <a class="why-founder-linkedin" href="#" target="_blank" rel="noopener" aria-label="Ashley Wells on LinkedIn">
+              <i data-lucide="linkedin"></i>
+            </a>
+          </div>
+          <p class="why-founder-quote">"Let's get what's in your head into pictures. I'll help fill in what's missing and shape it into a plan."</p>
+        </article>
+
+        <article class="why-card founder">
+          <div class="why-founder-head">
+            <div class="why-founder-portrait">PS</div>
+            <div class="why-founder-meta">
+              <!-- TODO: confirm Paige's surname -->
+              <p class="why-founder-name">Paige Shaw</p>
+              <p class="why-founder-role">Pre-remodel guide, Co-founder</p>
+            </div>
+            <!-- TODO: confirm founder LinkedIn URL -->
+            <a class="why-founder-linkedin" href="#" target="_blank" rel="noopener" aria-label="Paige Shaw on LinkedIn">
+              <i data-lucide="linkedin"></i>
+            </a>
+          </div>
+          <p class="why-founder-quote">"I've been in your shoes. I've learned a lot over the multiple remodels I've done. With my background in design and technology, I knew there was a better way to tackle some of the most expensive decisions you'll ever make."</p>
+        </article>
+      </div>
+
+      <p class="why-chart-caption why-founders-note">Between us, we've lived through 12 remodels of our own homes.</p>
     </section>
 
     <!-- ── FAQ ──────────────────────────────────────────────────────── -->
@@ -1135,28 +1230,7 @@ body[data-palette="saffron"] .toggle-btn {
             <span class="faq-question">What should I expect from a Reveal?</span>
             <span class="faq-caret" aria-hidden="true"><i data-lucide="chevron-down"></i></span>
           </summary>
-          <p class="faq-answer">Three photorealistic renders of your room reimagined three different ways, based on what we hear from you at your home visit. They're a starting point: enough to know which direction excites you. A Plan is where we refine the details into a finished design.</p>
-        </details>
-        <details class="faq-item">
-          <summary class="faq-summary">
-            <span class="faq-question">Where do you work?</span>
-            <span class="faq-caret" aria-hidden="true"><i data-lucide="chevron-down"></i></span>
-          </summary>
-          <p class="faq-answer">We serve homeowners in the greater Seattle area today (King and Snohomish counties), and we're expanding region by region. Worth asking even if you're just outside.</p>
-        </details>
-        <details class="faq-item">
-          <summary class="faq-summary">
-            <span class="faq-question">Do I have to use your contractors?</span>
-            <span class="faq-caret" aria-hidden="true"><i data-lucide="chevron-down"></i></span>
-          </summary>
-          <p class="faq-answer">No. Your Reveal and your Plan are yours to keep, and to take to whichever builder you choose. The three-bid intro is the optional last step of a Plan, never a requirement.</p>
-        </details>
-        <details class="faq-item">
-          <summary class="faq-summary">
-            <span class="faq-question">How long does this take?</span>
-            <span class="faq-caret" aria-hidden="true"><i data-lucide="chevron-down"></i></span>
-          </summary>
-          <p class="faq-answer">You get your Reveals 2 to 3 days after your home visit. New deliverables follow within 2 to 4 days of your feedback. We'll propose a full timeline alongside your Reveal, so you know what to expect before deciding whether to keep going.</p>
+          <p class="faq-answer">Three photorealistic images of your room reimagined three different ways, based on what we hear from you at your home visit. They're a starting point: enough to know which direction excites you. A Plan is where we refine the details into a finished design.</p>
         </details>
         <details class="faq-item">
           <summary class="faq-summary">
@@ -1167,13 +1241,33 @@ body[data-palette="saffron"] .toggle-btn {
         </details>
         <details class="faq-item">
           <summary class="faq-summary">
-            <span class="faq-question">How is this different from a designer, architect, or design-build firm?</span>
+            <span class="faq-question">Where do you work?</span>
             <span class="faq-caret" aria-hidden="true"><i data-lucide="chevron-down"></i></span>
           </summary>
-          <p class="faq-answer">We're your first hire, and a lower-cost, lower-effort way to figure out what you want before you commit to anyone else. We help you decide what your project actually needs, then assemble the team (designer, architect, builder) as part of your Plan.</p>
+          <p class="faq-answer">We serve homeowners in the greater Seattle area today (King and Snohomish counties), and we're expanding region by region. Worth asking even if you're just outside.</p>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-summary">
+            <span class="faq-question">How long does this take?</span>
+            <span class="faq-caret" aria-hidden="true"><i data-lucide="chevron-down"></i></span>
+          </summary>
+          <p class="faq-answer">You get your Reveals in as little as 2 days after your home visit. New deliverables follow within 2 to 4 days of your feedback, so you lead the pace. We'll propose a full timeline alongside your Reveal, so you know what to expect before deciding whether to keep going.</p>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-summary">
+            <span class="faq-question">How is Premodel different from a designer, architect, or design-build firm?</span>
+            <span class="faq-caret" aria-hidden="true"><i data-lucide="chevron-down"></i></span>
+          </summary>
+          <p class="faq-answer">We're your first hire, and a lower-cost, lower-effort way to figure out what you want before you commit to anyone else. We help you determine what your project actually needs, then assemble the team (designer, architect, contractor) as part of your Plan.</p>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-summary">
+            <span class="faq-question">Do I have to use your contractors?</span>
+            <span class="faq-caret" aria-hidden="true"><i data-lucide="chevron-down"></i></span>
+          </summary>
+          <p class="faq-answer">No. Your Reveal and your Plan are yours to keep, and to take to whichever builder you choose. The three-bid intro is the optional last step of a Plan, never a requirement.</p>
         </details>
       </div>
-      <p class="faq-closing">Still have a question we didn't answer? Ask it in the form below. We read every one.</p>
     </section>
 
     <!-- Anchor section: room selection + deposit disclosure -->
@@ -2077,20 +2171,86 @@ body[data-palette="saffron"] .toggle-btn {
 
   var scrollEl = document.getElementById('scroll');
   var steps = scrollEl.querySelectorAll('.step');
+  // Scroll-linked reveal: each step's openness tracks how close it is to the focus line,
+  // so descriptions scrub open at the rate of scroll instead of snapping on a threshold.
+  var stepsArr = Array.prototype.slice.call(steps);
+  var stepTicking = false;
   function updateSteps() {
     var r = scrollEl.getBoundingClientRect();
     var center = r.top + r.height * 0.45;
+    // PLATEAU = band around the focus line where a step stays fully open (a dead-zone that
+    // keeps the focused step stable as you scroll). RAMP = distance beyond the plateau over
+    // which it eases from open to closed. Smoothstep gives a gentle slope at both ends, so
+    // neighbors don't snap in/out faster than you scroll.
+    var PLATEAU = Math.max(45, r.height * 0.08);
+    // Asymmetric ramp: a step eases open smoothly as it APPROACHES the focus line from below
+    // (RAMP_UP, long = smooth), but steps already PAST the line collapse quickly (RAMP_DOWN,
+    // short). Upcoming steps below the line stay collapsed until they're near, so their headings
+    // stack up readable and you can see several steps ahead instead of a wall of open text.
+    var RAMP_UP = Math.max(350, r.height * 0.60);
+    var RAMP_DOWN = Math.max(120, r.height * 0.20);
+    // FOCUS biases off-focus steps toward closed; keeps the transition smooth via the long ramp.
+    var FOCUS = 3;
     var best = null, bestDist = Infinity;
-    steps.forEach(function(s) {
-      var sr = s.getBoundingClientRect();
-      var sc = sr.top + sr.height / 2;
-      var d = Math.abs(sc - center);
+    stepsArr.forEach(function(s) {
+      // Anchor the distance to the step's number/header (a FIXED-height element), not the
+      // full step center. The full height grows as the description opens, which would move the
+      // center and feed back into this step's own progress — an oscillation that makes the list
+      // jitter. The header anchor is immune to the step's own expansion, so no feedback loop.
+      var numEl = s.querySelector('.num') || s;
+      var nr = numEl.getBoundingClientRect();
+      var sc = nr.top + nr.height / 2;
+      var signed = sc - center;              // <0 = below the focus line (upcoming), >0 = passed
+      var d = Math.abs(signed);
       if (d < bestDist) { bestDist = d; best = s; }
+      if (!s.classList.contains('phase-step')) {
+        var ramp = signed < 0 ? RAMP_UP : RAMP_DOWN;
+        var t = 1 - (d - PLATEAU) / ramp;      // 1 inside the plateau, ramps to 0 beyond it
+        t = t < 0 ? 0 : (t > 1 ? 1 : t);
+        var p = t * t * (3 - 2 * t);           // smoothstep: eases in and out
+        p = Math.pow(p, FOCUS);                // bias periphery toward closed, keep focus open
+        s.style.setProperty('--p', p.toFixed(3));
+      }
     });
-    steps.forEach(function(s) { s.classList.toggle('active', s === best); });
+    stepsArr.forEach(function(s) { s.classList.toggle('active', s === best); });
+    stepTicking = false;
   }
-  scrollEl.addEventListener('scroll', updateSteps, { passive: true });
+  function onStepScroll() {
+    if (!stepTicking) { stepTicking = true; requestAnimationFrame(updateSteps); }
+  }
+  scrollEl.addEventListener('scroll', onStepScroll, { passive: true });
   updateSteps();
+
+  // Hero rotating word — Layout A
+  (function initHeroRotator() {
+    var rotator = document.getElementById('hero-rotator');
+    if (!rotator) return;
+    var wordEl = rotator.querySelector('.hero-rotator-word');
+    if (!wordEl) return;
+    var words = ['guess', 'commit', 'spend', 'demo', 'remodel'];
+    var BASE_HOLD = 2000;
+    var i = 0;
+    function applyWord(w) {
+      wordEl.textContent = w;
+    }
+    var prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReduced) { applyWord(words[0]); return; }
+    function hold() {
+      // "remodel" lingers twice as long as the other words
+      return words[i] === 'remodel' ? BASE_HOLD * 2 : BASE_HOLD;
+    }
+    function tick() {
+      wordEl.classList.add('out');
+      setTimeout(function() {
+        i = (i + 1) % words.length;
+        applyWord(words[i]);
+        wordEl.classList.remove('out');
+        setTimeout(tick, hold());
+      }, 280);
+    }
+    applyWord(words[0]);
+    setTimeout(tick, hold());
+  })();
 
   var carousel = document.getElementById('carousel');
   var dots = document.querySelectorAll('#dots .dot');
