@@ -479,15 +479,33 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .why-ig-dot.active { background: var(--color-text-primary); }
 
 /* Case-study modal (sheet-style, contained inside the phone frame) */
-.case-modal { position: absolute; inset: 0; background: rgba(0,0,0,0.55); display: none; align-items: flex-end; justify-content: center; z-index: 50; }
+.case-modal { position: absolute; inset: 0; background: #1a1a18; display: none; flex-direction: column; z-index: 50; }
 .case-modal.open { display: flex; }
-.case-modal-card { width: 100%; background: var(--color-background-primary); border-radius: 20px 20px 0 0; padding: 22px 22px 30px; max-height: 82%; overflow-y: auto; position: relative; box-shadow: 0 -8px 24px rgba(0,0,0,0.12); }
-.case-modal-close { position: absolute; top: 14px; right: 14px; width: 32px; height: 32px; border-radius: 50%; background: var(--color-background-secondary); border: 0; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--color-text-secondary); }
+.case-modal-image-reel { flex: 1; overflow-y: scroll; scrollbar-width: none; -webkit-overflow-scrolling: touch; display: flex; flex-direction: column; }
+.case-modal-image-reel::-webkit-scrollbar { display: none; }
+.case-modal-card { position: absolute; bottom: 0; left: 0; right: 0; background: var(--color-background-primary); border-radius: 20px 20px 0 0; padding: 10px 22px 30px; overflow-y: auto; scrollbar-width: none; box-shadow: 0 -8px 24px rgba(0,0,0,0.12); height: 42%; transition: height 0.38s cubic-bezier(0.32,0.72,0,1); cursor: pointer; }
+.case-modal-card::-webkit-scrollbar { display: none; }
+.case-modal-card.expanded { height: calc(100% - 60px); cursor: default; }
+.case-modal-drag-handle { width: 36px; height: 4px; background: var(--color-border-secondary); border-radius: 2px; margin: 0 auto 14px; }
+.case-modal-close { position: absolute; top: 14px; right: 14px; width: 32px; height: 32px; border-radius: 50%; background: #ffffff; border: 0; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #1a1a18; z-index: 10; }
 .case-modal-close svg { width: 15px; height: 15px; stroke-width: 2; }
 .case-modal-eyebrow { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-text-tertiary); margin: 2px 0 6px; font-weight: 600; }
 .case-modal-name { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; color: var(--color-text-primary); margin: 0 0 4px; }
 .case-modal-meta { font-size: 13px; color: var(--color-text-secondary); margin: 0 0 18px; }
 .case-modal-placeholder { font-family: var(--font-serif); font-style: italic; font-size: 13.5px; color: var(--color-text-tertiary); margin: 8px 0 0; line-height: 1.6; padding: 16px; background: var(--color-background-tertiary); border-radius: var(--border-radius-md); }
+.case-modal-body { font-size: 14px; color: var(--color-text-secondary); line-height: 1.6; margin: 16px 0 0; }
+.case-modal-body:empty { display: none; }
+.case-modal-delivered { margin: 20px 0 0; }
+.case-modal-delivered:empty { display: none; }
+.case-modal-delivered-label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-text-tertiary); margin: 0 0 8px; }
+.case-modal-delivered-list { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.case-modal-delivered-item { font-size: 12px; font-weight: 500; color: var(--color-text-secondary); background: var(--color-background-secondary); border: 0.5px solid var(--color-border-tertiary); border-radius: 999px; padding: 5px 11px; }
+.case-modal-image-reel .case-modal-img { width: 100%; aspect-ratio: 4/3; background: #3a3935; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; color: rgba(255,255,255,0.40); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; flex-shrink: 0; }
+.case-modal-image-reel .case-modal-img::before { content: ''; width: 32px; height: 32px; background-color: rgba(255,255,255,0.34); -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'/%3E%3Ccircle cx='9' cy='9' r='2'/%3E%3Cpath d='m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21'/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'/%3E%3Ccircle cx='9' cy='9' r='2'/%3E%3Cpath d='m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21'/%3E%3C/svg%3E") center / contain no-repeat; }
+/* Bottom-sheet variant (Layout B modal — no image reel): dim backdrop, card auto-heights from content */
+.case-modal--sheet { background: rgba(0,0,0,0.55); justify-content: center; }
+.case-modal--sheet .case-modal-card { position: absolute; height: auto; max-height: 82%; padding: 22px 22px 30px; transition: none; cursor: default; }
+.case-modal-placeholder:empty { display: none; }
 
 /* ── FAQ section ───────────────────────────────────────────────────── */
 .faq-section { padding: 60px 20px 0; }
@@ -1069,7 +1087,7 @@ body[data-palette="saffron"] .toggle-btn {
       <div class="why-gallery">
         <h3 class="why-gallery-headline">Confidence, pictured</h3>
         <div class="why-ig-carousel" id="why-ig-carousel">
-          <div class="why-ig-slide" data-name="Anna G." data-meta="Master bath · Edmonds" data-ig="https://instagram.com/premodel">
+          <div class="why-ig-slide" data-name="Anna G." data-meta="Master bath · Edmonds" data-quote="Every idea I had sounded right on its own. It wasn't until I could walk through the space that I understood how each decision affected everything around it." data-body="Anna had fragments, not a plan — the shower by the window, maybe under the skylight, the tub tucked behind it. What looked workable on paper felt confining at real scale. VR showed her how each choice changed everything around it, and the right answer became obvious." data-delivered="Layout options · 3D spatial model · VR walkthrough · style options · styled renders" data-ig="https://instagram.com/premodel">
             <div class="why-ig-img">Project image 1</div>
             <div class="why-ig-overlay">
               <p class="why-ig-name">Master bath, Edmonds</p>
@@ -1077,7 +1095,7 @@ body[data-palette="saffron"] .toggle-btn {
             <a class="why-ig-link" href="https://instagram.com/premodel" target="_blank" rel="noopener" aria-label="View on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg></a>
             <div class="why-ig-cta">See the project <i data-lucide="arrow-right"></i></div>
           </div>
-          <div class="why-ig-slide" data-name="Sasha A." data-meta="Full home renovation · Edmonds" data-ig="https://instagram.com/premodel">
+          <div class="why-ig-slide" data-name="Sasha A." data-meta="Full home renovation · Edmonds" data-quote="We finally stopped debating and started deciding. Our contractor finished on time, on budget, with no surprises — because there was nothing left to figure out." data-body="A full-home renovation with a fixed budget, a hard move-in deadline, and strong opinions that didn't always point the same way. VR gave everyone the same reference point — the tradeoffs that had been abstract became visible, and the decisions that had felt contentious became easy. The contractor finished on time and on budget. That's what happens when everyone goes into construction looking at the same thing." data-delivered="Whole-home spatial model · VR walkthrough · style options · styled renders" data-ig="https://instagram.com/premodel">
             <div class="why-ig-img">Project image 2</div>
             <div class="why-ig-overlay">
               <p class="why-ig-name">Full home renovation, Edmonds</p>
@@ -1085,7 +1103,7 @@ body[data-palette="saffron"] .toggle-btn {
             <a class="why-ig-link" href="https://instagram.com/premodel" target="_blank" rel="noopener" aria-label="View on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg></a>
             <div class="why-ig-cta">See the project <i data-lucide="arrow-right"></i></div>
           </div>
-          <div class="why-ig-slide" data-name="Kainaz B." data-meta="Kitchen remodel · Seattle" data-ig="https://instagram.com/premodel">
+          <div class="why-ig-slide" data-name="Kainaz B." data-meta="Kitchen remodel · Seattle" data-quote="I didn't think I needed the VR walkthrough. I had no idea what I was missing until I was standing in my virtual kitchen looking up at the ceiling height." data-body="K.B. had done everything right — inspiration images, material samples, a floor plan she understood. She still couldn't land on something she was confident in. VR gave her something the floor plan never could: scale. Standing in her virtual kitchen, looking up at the ceiling height, she understood the space in a way drawings hadn't prepared her for. The right material pairings followed from there." data-delivered="3D spatial model · VR walkthrough · interactive style options · styled renders" data-ig="https://instagram.com/premodel">
             <div class="why-ig-img">Project image 3</div>
             <div class="why-ig-overlay">
               <p class="why-ig-name">Kitchen remodel, Seattle</p>
@@ -1093,7 +1111,7 @@ body[data-palette="saffron"] .toggle-btn {
             <a class="why-ig-link" href="https://instagram.com/premodel" target="_blank" rel="noopener" aria-label="View on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg></a>
             <div class="why-ig-cta">See the project <i data-lucide="arrow-right"></i></div>
           </div>
-          <div class="why-ig-slide" data-name="Jenn S." data-meta="ADU · Bellevue" data-ig="https://instagram.com/premodel">
+          <div class="why-ig-slide" data-name="Jenn S." data-meta="ADU · Bellevue" data-quote="Premodel saved me from making an expensive mistake that would have bothered me every time I used the space." data-body="Jenn had her basement layout figured out — or thought she did. Every room had a place, and it made sense on paper. Walking through it in VR, the space told a different story. The rooms felt smaller than the numbers suggested, the flow was wrong, and the layout she'd been certain about wasn't the one she could live with. Starting over from scratch led her somewhere better." data-delivered="3D spatial model · VR walkthrough · style options · styled renders" data-ig="https://instagram.com/premodel">
             <div class="why-ig-img">Project image 4</div>
             <div class="why-ig-overlay">
               <p class="why-ig-name">ADU, Bellevue</p>
@@ -1470,14 +1488,27 @@ body[data-palette="saffron"] .toggle-btn {
 
   <!-- Case-study modal (sheet-style; mounted inside phone frame for absolute containment) -->
   <div class="case-modal" id="case-modal" role="dialog" aria-modal="true" aria-labelledby="case-modal-name" aria-hidden="true">
-    <div class="case-modal-card">
-      <button type="button" class="case-modal-close" id="case-modal-close" aria-label="Close case study">
-        <i data-lucide="x"></i>
-      </button>
+    <button type="button" class="case-modal-close" id="case-modal-close" aria-label="Close case study">
+      <i data-lucide="x"></i>
+    </button>
+    <div class="case-modal-image-reel" id="case-modal-images">
+      <div class="case-modal-img">Master bath · Image 1 of 5</div>
+      <div class="case-modal-img">Master bath · Image 2 of 5</div>
+      <div class="case-modal-img">Master bath · Image 3 of 5</div>
+      <div class="case-modal-img">Master bath · Image 4 of 5</div>
+      <div class="case-modal-img">Master bath · Image 5 of 5</div>
+    </div>
+    <div class="case-modal-card" id="case-modal-card">
+      <div class="case-modal-drag-handle"></div>
       <p class="case-modal-eyebrow">Case study</p>
       <h3 class="case-modal-name" id="case-modal-name">—</h3>
       <p class="case-modal-meta" id="case-modal-meta">—</p>
-      <p class="case-modal-placeholder">Case study coming soon — multiple project images, key materials, and a 2–3 paragraph story will live here.</p>
+      <p class="case-modal-placeholder" id="case-modal-quote"></p>
+      <p class="case-modal-body" id="case-modal-body"></p>
+      <div class="case-modal-delivered" id="case-modal-delivered">
+        <p class="case-modal-delivered-label">Premodel Delivered:</p>
+        <ul class="case-modal-delivered-list" id="case-modal-delivered-list"></ul>
+      </div>
     </div>
   </div>
 
@@ -2114,7 +2145,7 @@ body[data-palette="saffron"] .toggle-btn {
   </div>
 
   <!-- Case-study modal for Layout B -->
-  <div class="case-modal" id="case-modal-b" role="dialog" aria-modal="true" aria-labelledby="case-modal-b-name" aria-hidden="true">
+  <div class="case-modal case-modal--sheet" id="case-modal-b" role="dialog" aria-modal="true" aria-labelledby="case-modal-b-name" aria-hidden="true">
     <div class="case-modal-card">
       <button type="button" class="case-modal-close" id="case-modal-b-close" aria-label="Close case study">
         <i data-lucide="x"></i>
@@ -2122,7 +2153,7 @@ body[data-palette="saffron"] .toggle-btn {
       <p class="case-modal-eyebrow">Case study</p>
       <h3 class="case-modal-name" id="case-modal-b-name">—</h3>
       <p class="case-modal-meta" id="case-modal-b-meta">—</p>
-      <p class="case-modal-placeholder">Case study coming soon — multiple project images, key materials, and a 2–3 paragraph story will live here.</p>
+      <p class="case-modal-placeholder" id="case-modal-b-quote"></p>
     </div>
   </div>
 </div>
@@ -2316,18 +2347,46 @@ body[data-palette="saffron"] .toggle-btn {
   var caseModal = document.getElementById('case-modal');
   var caseModalName = document.getElementById('case-modal-name');
   var caseModalMeta = document.getElementById('case-modal-meta');
+  var caseModalQuote = document.getElementById('case-modal-quote');
+  var caseModalBody = document.getElementById('case-modal-body');
+  var caseModalDelivered = document.getElementById('case-modal-delivered');
+  var caseModalDeliveredList = document.getElementById('case-modal-delivered-list');
   var caseModalClose = document.getElementById('case-modal-close');
   function openCaseModal(slide) {
     if (!caseModal) return;
     caseModalName.textContent = slide.dataset.name || '';
     caseModalMeta.textContent = slide.dataset.meta || '';
+    if (caseModalQuote) caseModalQuote.textContent = slide.dataset.quote || '';
+    if (caseModalBody) caseModalBody.textContent = slide.dataset.body || '';
+    if (caseModalDeliveredList) {
+      caseModalDeliveredList.innerHTML = '';
+      if (slide.dataset.delivered) {
+        slide.dataset.delivered.split('·').forEach(function(item) {
+          var li = document.createElement('li');
+          li.className = 'case-modal-delivered-item';
+          li.textContent = item.trim();
+          caseModalDeliveredList.appendChild(li);
+        });
+      }
+    }
+    if (caseModalDelivered) caseModalDelivered.style.display = slide.dataset.delivered ? '' : 'none';
     caseModal.classList.add('open');
     caseModal.setAttribute('aria-hidden', 'false');
+    requestAnimationFrame(function() {
+      var reel = document.getElementById('case-modal-images');
+      if (reel) reel.scrollTop = 0;
+      var card = document.getElementById('case-modal-card');
+      if (card) card.scrollTop = 0;
+    });
   }
   function closeCaseModal() {
     if (!caseModal) return;
     caseModal.classList.remove('open');
     caseModal.setAttribute('aria-hidden', 'true');
+    var reel = document.getElementById('case-modal-images');
+    if (reel) reel.scrollTop = 0;
+    var card = document.getElementById('case-modal-card');
+    if (card) { card.classList.remove('expanded'); card.scrollTop = 0; }
   }
   // Layout A slides → #case-modal
   document.querySelectorAll('#why-ig-carousel .why-ig-slide').forEach(function(slide) {
@@ -2339,15 +2398,40 @@ body[data-palette="saffron"] .toggle-btn {
   if (caseModalClose) caseModalClose.addEventListener('click', closeCaseModal);
   if (caseModal) caseModal.addEventListener('click', function(e) { if (e.target === caseModal) closeCaseModal(); });
 
+  // Card expand: tap or swipe-up expands the card
+  var caseModalCard = document.getElementById('case-modal-card');
+  if (caseModalCard) {
+    var touchStartY = 0;
+    caseModalCard.addEventListener('touchstart', function(e) {
+      touchStartY = e.touches[0].clientY;
+    }, { passive: true });
+    caseModalCard.addEventListener('touchend', function(e) {
+      var delta = touchStartY - e.changedTouches[0].clientY;
+      if (delta > 20) caseModalCard.classList.add('expanded');
+      else if (delta < -20) caseModalCard.classList.remove('expanded');
+    }, { passive: true });
+    caseModalCard.addEventListener('click', function() {
+      if (!caseModalCard.classList.contains('expanded')) caseModalCard.classList.add('expanded');
+    });
+    var caseModalImageReel = document.getElementById('case-modal-images');
+    if (caseModalImageReel) {
+      caseModalImageReel.addEventListener('click', function() {
+        caseModalCard.classList.remove('expanded');
+      });
+    }
+  }
+
   // Layout B slides → #case-modal-b
   var caseModalB = document.getElementById('case-modal-b');
   var caseModalBName = document.getElementById('case-modal-b-name');
   var caseModalBMeta = document.getElementById('case-modal-b-meta');
+  var caseModalBQuote = document.getElementById('case-modal-b-quote');
   var caseModalBClose = document.getElementById('case-modal-b-close');
   function openCaseModalB(slide) {
     if (!caseModalB) return;
     caseModalBName.textContent = slide.dataset.name || '';
     caseModalBMeta.textContent = slide.dataset.meta || '';
+    if (caseModalBQuote) caseModalBQuote.textContent = slide.dataset.quote || '';
     caseModalB.classList.add('open');
     caseModalB.setAttribute('aria-hidden', 'false');
   }
