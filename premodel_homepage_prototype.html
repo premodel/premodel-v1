@@ -483,9 +483,9 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .case-modal.open { display: flex; }
 .case-modal-image-reel { flex: 1; overflow-y: scroll; scrollbar-width: none; -webkit-overflow-scrolling: touch; display: flex; flex-direction: column; }
 .case-modal-image-reel::-webkit-scrollbar { display: none; }
-.case-modal-card { position: absolute; bottom: 0; left: 0; right: 0; background: var(--color-background-primary); border-radius: 20px 20px 0 0; padding: 10px 22px 30px; overflow-y: auto; scrollbar-width: none; box-shadow: 0 -8px 24px rgba(0,0,0,0.12); height: 42%; transition: height 0.38s cubic-bezier(0.32,0.72,0,1); cursor: pointer; }
+.case-modal-card { position: absolute; bottom: 0; left: 0; right: 0; background: var(--color-background-primary); border-radius: 20px 20px 0 0; padding: 10px 22px 30px; overflow-y: hidden; scrollbar-width: none; box-shadow: 0 -8px 24px rgba(0,0,0,0.12); height: 42%; transition: height 0.38s cubic-bezier(0.32,0.72,0,1); cursor: pointer; }
 .case-modal-card::-webkit-scrollbar { display: none; }
-.case-modal-card.expanded { height: calc(100% - 60px); cursor: default; }
+.case-modal-card.expanded { height: calc(100% - 60px); overflow-y: auto; cursor: default; }
 .case-modal-drag-handle { width: 36px; height: 4px; background: var(--color-border-secondary); border-radius: 2px; margin: 0 auto 14px; }
 .case-modal-close { position: absolute; top: 14px; right: 14px; width: 32px; height: 32px; border-radius: 50%; background: #ffffff; border: 0; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #1a1a18; z-index: 10; }
 .case-modal-close svg { width: 15px; height: 15px; stroke-width: 2; }
@@ -501,6 +501,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .case-modal-delivered-list { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; }
 .case-modal-delivered-item { font-size: 12px; font-weight: 500; color: var(--color-text-secondary); background: var(--color-background-secondary); border: 0.5px solid var(--color-border-tertiary); border-radius: 999px; padding: 5px 11px; }
 .case-modal-image-reel .case-modal-img { width: 100%; aspect-ratio: 4/3; background: #3a3935; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; color: rgba(255,255,255,0.40); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; flex-shrink: 0; }
+.case-modal-image-reel .case-modal-img:has(img)::before { display: none; }
 .case-modal-image-reel .case-modal-img::before { content: ''; width: 32px; height: 32px; background-color: rgba(255,255,255,0.34); -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'/%3E%3Ccircle cx='9' cy='9' r='2'/%3E%3Cpath d='m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21'/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'/%3E%3Ccircle cx='9' cy='9' r='2'/%3E%3Cpath d='m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21'/%3E%3C/svg%3E") center / contain no-repeat; }
 /* Bottom-sheet variant (Layout B modal — no image reel): dim backdrop, card auto-heights from content */
 .case-modal--sheet { background: rgba(0,0,0,0.55); justify-content: center; }
@@ -1084,13 +1085,14 @@ body[data-palette="saffron"] .toggle-btn {
         </blockquote>
       </div>
 
-      <div class="why-gallery">
-        <h3 class="why-gallery-headline">Confidence, pictured</h3>
-        <div class="why-ig-carousel" id="why-ig-carousel">
-          <div class="why-ig-slide" data-name="Anna G." data-meta="Master bath · Edmonds" data-quote="Every idea I had sounded right on its own. It wasn't until I could walk through the space that I understood how each decision affected everything around it." data-body="Anna had fragments, not a plan — the shower by the window, maybe under the skylight, the tub tucked behind it. What looked workable on paper felt confining at real scale. VR showed her how each choice changed everything around it, and the right answer became obvious." data-delivered="Layout options · 3D spatial model · VR walkthrough · style options · styled renders" data-ig="https://instagram.com/premodel">
-            <div class="why-ig-img">Project image 1</div>
-            <div class="why-ig-overlay">
-              <p class="why-ig-name">Master bath, Edmonds</p>
+      <div class="project-gallery">
+        <h3 class="project-gallery-headline">What Confidence Looks Like.</h3>
+        <div class="project-carousel" id="project-carousel">
+          <div class="project-slide" data-name="Anna G." data-meta="Master bath · Edmonds" data-quote="Every idea I had sounded right on its own. It wasn't until I could walk through the space that I understood how each decision affected everything around it." data-body="&lt;p&gt;Anna's master bath remodel started with fragments, not a plan. Shower by the picture window? Or maybe under the skylight, with the tub tucked behind it? She also knew she wanted more storage, a door on the water closet, and to get rid of the glass block wall that had been bothering her since she moved in. Each idea lived on its own, disconnected from what it would mean for everything else.&lt;/p&gt;&lt;p&gt;Three layout options gave her real choices to react to rather than a blank page. What looked workable in the floor plans felt different at real scale — walking through the space in VR, she found that the configuration she'd been drawn to felt more confining than the 2D image suggested. The layout she landed on resolved everything: storage, privacy, flow. She never looked back.&lt;/p&gt;&lt;p&gt;From there, seeing three distinctly different style directions in her actual space — the flooring, the tile, the cabinets and countertops — made the decision feel intuitive rather than overwhelming. The final design started as one of those options and became something more personal over time. She got exactly the bathroom she'd seen in the renders. For most remodels, that's a dream. For Anna, it was The Plan.&lt;/p&gt;" data-delivered="Layout options · VR walkthrough · Style options · Styled renders · Material schedule" data-ig="https://instagram.com/premodel">
+            <div class="project-slide-img"><img src="images/ag-master-bathWest-render.png" alt="Anna G. — Master bath, Edmonds" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+            <div class="project-slide-overlay">
+              <p class="project-slide-name">Master bath</p>
+              <p class="project-slide-meta">Edmonds</p>
             </div>
             <a class="why-ig-link" href="https://instagram.com/premodel" target="_blank" rel="noopener" aria-label="View on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg></a>
             <div class="why-ig-cta">See the project <i data-lucide="arrow-right"></i></div>
@@ -1492,11 +1494,18 @@ body[data-palette="saffron"] .toggle-btn {
       <i data-lucide="x"></i>
     </button>
     <div class="case-modal-image-reel" id="case-modal-images">
-      <div class="case-modal-img">Master bath · Image 1 of 5</div>
-      <div class="case-modal-img">Master bath · Image 2 of 5</div>
-      <div class="case-modal-img">Master bath · Image 3 of 5</div>
-      <div class="case-modal-img">Master bath · Image 4 of 5</div>
-      <div class="case-modal-img">Master bath · Image 5 of 5</div>
+      <div class="case-modal-img"><img src="images/ag-before.jpeg" alt="Anna G. — Master bath before" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+      <div class="case-modal-img"><img src="images/ag-layout-as-built.png" alt="Anna G. — Layout as-built" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+      <div class="case-modal-img"><img src="images/ag-layout-option1.png" alt="Anna G. — Layout option 1" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+      <div class="case-modal-img"><img src="images/ag-layout-option2.png" alt="Anna G. — Layout option 2" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+      <div class="case-modal-img"><img src="images/ag-layout-option3.png" alt="Anna G. — Layout option 3" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+      <div class="case-modal-img"></div>
+      <div class="case-modal-img"><img src="images/ag-s1l1.png" alt="Anna G. — Style 1, look 1" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+      <div class="case-modal-img"><img src="images/ag-s1l2.png" alt="Anna G. — Style 1, look 2" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+      <div class="case-modal-img"><img src="images/ag-s1l3.png" alt="Anna G. — Style 1, look 3" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+      <div class="case-modal-img"><img src="images/ag-master-bathWest-render.png" alt="Anna G. — Master bath west render" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+      <div class="case-modal-img"><img src="images/ag-master-bathSouth-render.png" alt="Anna G. — Master bath south render" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+      <div class="case-modal-img"><img src="images/ag-master-bathNorth-render.png" alt="Anna G. — Master bath north render" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
     </div>
     <div class="case-modal-card" id="case-modal-card">
       <div class="case-modal-drag-handle"></div>
@@ -1815,14 +1824,14 @@ body[data-palette="saffron"] .toggle-btn {
         </div>
       </div>
 
-      <div class="why-gallery">
-        <h3 class="why-gallery-headline">This Is What Confidence Looks Like.</h3>
-        <div class="why-ig-carousel" id="why-ig-carousel-b" data-layout="b">
-          <div class="why-ig-slide" data-name="Anna G." data-meta="Master bath · Edmonds" data-ig="https://instagram.com/premodel">
-            <div class="why-ig-img">Project image 1</div>
-            <div class="why-ig-overlay">
-              <p class="why-ig-name">Master bath</p>
-              <p class="why-ig-meta">Edmonds</p>
+      <div class="project-gallery">
+        <h3 class="project-gallery-headline">This Is What Confidence Looks Like.</h3>
+        <div class="project-carousel" id="project-carousel-b" data-layout="b">
+          <div class="project-slide" data-name="Anna G." data-meta="Master bath · Edmonds" data-quote="Every idea I had sounded right on its own. It wasn't until I could walk through the space that I understood how each decision affected everything around it." data-ig="https://instagram.com/premodel">
+            <div class="project-slide-img"><img src="images/ag-master-bathWest-render.png" alt="Anna G. — Master bath, Edmonds" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+            <div class="project-slide-overlay">
+              <p class="project-slide-name">Master bath</p>
+              <p class="project-slide-meta">Edmonds</p>
             </div>
             <a class="why-ig-link" href="https://instagram.com/premodel" target="_blank" rel="noopener" aria-label="View on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg></a>
             <div class="why-ig-cta">See the project <i data-lucide="arrow-right"></i></div>
@@ -2357,7 +2366,7 @@ body[data-palette="saffron"] .toggle-btn {
     caseModalName.textContent = slide.dataset.name || '';
     caseModalMeta.textContent = slide.dataset.meta || '';
     if (caseModalQuote) caseModalQuote.textContent = slide.dataset.quote || '';
-    if (caseModalBody) caseModalBody.textContent = slide.dataset.body || '';
+    if (caseModalBody) caseModalBody.innerHTML = slide.dataset.body || '';
     if (caseModalDeliveredList) {
       caseModalDeliveredList.innerHTML = '';
       if (slide.dataset.delivered) {
@@ -2374,9 +2383,10 @@ body[data-palette="saffron"] .toggle-btn {
     caseModal.setAttribute('aria-hidden', 'false');
     requestAnimationFrame(function() {
       var reel = document.getElementById('case-modal-images');
-      if (reel) reel.scrollTop = 0;
       var card = document.getElementById('case-modal-card');
+      if (reel) reel.scrollTop = 0;
       if (card) card.scrollTop = 0;
+      if (reel && card) reel.style.paddingBottom = card.offsetHeight + 'px';
     });
   }
   function closeCaseModal() {
@@ -2384,7 +2394,7 @@ body[data-palette="saffron"] .toggle-btn {
     caseModal.classList.remove('open');
     caseModal.setAttribute('aria-hidden', 'true');
     var reel = document.getElementById('case-modal-images');
-    if (reel) reel.scrollTop = 0;
+    if (reel) { reel.scrollTop = 0; reel.style.paddingBottom = ''; }
     var card = document.getElementById('case-modal-card');
     if (card) { card.classList.remove('expanded'); card.scrollTop = 0; }
   }
@@ -2398,9 +2408,18 @@ body[data-palette="saffron"] .toggle-btn {
   if (caseModalClose) caseModalClose.addEventListener('click', closeCaseModal);
   if (caseModal) caseModal.addEventListener('click', function(e) { if (e.target === caseModal) closeCaseModal(); });
 
-  // Card expand: tap or swipe-up expands the card
+  // Card expand: tap or swipe-up expands the card; reel padding tracks card height after transition
   var caseModalCard = document.getElementById('case-modal-card');
   if (caseModalCard) {
+    var caseModalImageReel = document.getElementById('case-modal-images');
+
+    function syncReelPadding() {
+      if (caseModalImageReel) caseModalImageReel.style.paddingBottom = caseModalCard.offsetHeight + 'px';
+    }
+    caseModalCard.addEventListener('transitionend', function(e) {
+      if (e.propertyName === 'height') syncReelPadding();
+    });
+
     var touchStartY = 0;
     caseModalCard.addEventListener('touchstart', function(e) {
       touchStartY = e.touches[0].clientY;
@@ -2413,7 +2432,6 @@ body[data-palette="saffron"] .toggle-btn {
     caseModalCard.addEventListener('click', function() {
       if (!caseModalCard.classList.contains('expanded')) caseModalCard.classList.add('expanded');
     });
-    var caseModalImageReel = document.getElementById('case-modal-images');
     if (caseModalImageReel) {
       caseModalImageReel.addEventListener('click', function() {
         caseModalCard.classList.remove('expanded');
