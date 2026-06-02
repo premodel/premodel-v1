@@ -182,12 +182,13 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .who-section { padding: 60px 20px 0; text-align: center; }
 .who-subhead { font-size: 14px; color: var(--color-text-secondary); margin: -18px 0 26px; line-height: 1.5; }
 /* Section 3 (Layout A): gallery carousel breaks out of the section's 20px padding to span full screen width on mobile */
-.phone-frame[data-layout="a"] .who-section .why-gallery { margin-left: -20px; margin-right: -20px; }
-.phone-frame[data-layout="a"] .who-section .why-gallery-headline { margin-left: 20px; margin-right: 20px; }
-.phone-frame[data-layout="a"] .who-section .why-ig-dots { margin-left: 20px; margin-right: 20px; }
+.phone-frame[data-layout="a"] .who-section .project-gallery { margin-left: -20px; margin-right: -20px; }
+.phone-frame[data-layout="a"] .who-section .project-gallery-headline { margin-left: 20px; margin-right: 20px; }
+.phone-frame[data-layout="a"] .who-section .project-dots { margin-left: 20px; margin-right: 20px; }
 /* Gallery slide labels: single line, left-aligned, sitting just above the bottom-right pill */
-.phone-frame[data-layout="a"] .who-section .why-ig-overlay { right: 16px; bottom: 52px; text-align: left; }
-.phone-frame[data-layout="a"] .who-section .why-ig-name { font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.phone-frame[data-layout="a"] .who-section .project-overlay { right: 16px; bottom: 52px; text-align: left; }
+.phone-frame[data-layout="a"] .who-section .project-name { font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.phone-frame[data-layout="a"] .project-gallery .project-overlay { bottom: 14px; right: 132px; text-align: left; }
 .section-eyebrow { display: inline-block; background: var(--color-background-secondary); color: var(--color-text-primary); font-size: 11px; font-weight: 600; letter-spacing: 0.12em; padding: 5px 12px; border-radius: 999px; text-transform: uppercase; margin: 0 0 12px; }
 .section-headline { font-size: 30px; font-weight: 500; line-height: 1.15; letter-spacing: -0.02em; margin: 0 0 20px; text-wrap: balance; color: var(--color-text-primary); }
 .section-headline .brand-navy { color: var(--color-brand-navy); }
@@ -369,7 +370,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 /* Section 4 (Layout A): full-width subheader, unboxed chart, side-by-side tilted founders, stacked static stats */
 .phone-frame[data-layout="a"] .why-chart { width: 100%; padding: 0; margin: 0 0 26px; box-sizing: border-box; }
 .phone-frame[data-layout="a"] .why-chart svg { width: 100%; height: auto; display: block; }
-/* Subhead — same scale as "Confidence, pictured" (.why-gallery-headline) for consistency */
+/* Subhead — same scale as "Confidence, pictured" (.project-gallery-headline) for consistency */
 .phone-frame[data-layout="a"] .why-guides-subhead { font-size: 21px; font-weight: 500; letter-spacing: -0.015em; line-height: 1.2; color: var(--color-text-primary); text-align: center; text-wrap: balance; margin: 0 20px 22px; }
 
 /* Section 4 chart caption — matches the reveal sub-line below the hero carousel */
@@ -459,31 +460,32 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .why-founder-quote { font-family: var(--font-serif); font-style: italic; font-size: 14px; line-height: 1.55; color: var(--color-text-secondary); margin: 0; }
 
 /* Gallery: full-bleed IG-style square carousel; tap opens case-study modal */
-.why-gallery-headline { font-size: 21px; font-weight: 500; color: var(--color-text-primary); margin: 0 20px 14px; letter-spacing: -0.015em; line-height: 1.2; text-align: center; text-wrap: balance; }
-.why-ig-carousel { display: flex; overflow-x: scroll; scroll-snap-type: x mandatory; scrollbar-width: none; touch-action: pan-x pan-y; -webkit-overflow-scrolling: touch; }
-.why-ig-carousel::-webkit-scrollbar { display: none; }
-.why-ig-slide { flex: 0 0 100%; scroll-snap-align: center; position: relative; cursor: pointer; }
-.why-ig-slide::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 38%; background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0) 100%); pointer-events: none; }
-.why-ig-img { width: 100%; aspect-ratio: 1/1; background: #3a3935; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; color: rgba(255,255,255,0.36); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; position: relative; }
-.why-ig-img::before { content: ''; width: 44px; height: 44px; background-color: rgba(255,255,255,0.34); -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'/%3E%3Ccircle cx='9' cy='9' r='2'/%3E%3Cpath d='m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21'/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'/%3E%3Ccircle cx='9' cy='9' r='2'/%3E%3Cpath d='m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21'/%3E%3C/svg%3E") center / contain no-repeat; }
-.why-ig-overlay { position: absolute; left: 16px; right: 132px; bottom: 14px; color: #fff; pointer-events: none; text-shadow: 0 1px 10px rgba(0,0,0,0.45); z-index: 2; }
-.why-ig-name { font-size: 16px; font-weight: 600; margin: 0 0 2px; letter-spacing: -0.01em; }
-.why-ig-meta { font-size: 12px; font-weight: 500; margin: 0; opacity: 0.95; letter-spacing: 0.01em; }
-.why-ig-cta { position: absolute; bottom: 12px; right: 12px; background: #ffffff; color: #1a1a18; border-radius: 999px; padding: 7px 12px 7px 14px; font-size: 11.5px; font-weight: 600; letter-spacing: -0.005em; display: inline-flex; align-items: center; gap: 5px; pointer-events: none; z-index: 2; box-shadow: 0 2px 10px rgba(0,0,0,0.28); }
-.why-ig-cta svg { width: 13px; height: 13px; stroke-width: 2; color: #1a1a18; }
-.why-ig-link { position: absolute; top: 12px; right: 12px; width: 32px; height: 32px; border-radius: 8px; background: rgba(0,0,0,0.32); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); display: flex; align-items: center; justify-content: center; color: #fff; text-decoration: none; transition: background 0.15s; z-index: 2; }
-.why-ig-link:hover { background: rgba(0,0,0,0.5); }
-.why-ig-link svg { width: 16px; height: 16px; stroke-width: 1.75; }
-.why-ig-dots { display: flex; justify-content: center; gap: 5px; padding: 14px 0 0; align-items: center; }
-.why-ig-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--color-border-secondary); border: 0; padding: 0; margin: 0; appearance: none; -webkit-appearance: none; cursor: pointer; flex: 0 0 4px; }
-.why-ig-dot.active { background: var(--color-text-primary); }
+.project-gallery-headline { font-size: 21px; font-weight: 500; color: var(--color-text-primary); margin: 0 20px 14px; letter-spacing: -0.015em; line-height: 1.2; text-align: center; text-wrap: balance; }
+.project-carousel { display: flex; overflow-x: scroll; scroll-snap-type: x mandatory; scrollbar-width: none; touch-action: pan-x pan-y; -webkit-overflow-scrolling: touch; }
+.project-carousel::-webkit-scrollbar { display: none; }
+.project-slide { flex: 0 0 100%; scroll-snap-align: center; position: relative; cursor: pointer; }
+.project-slide::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 38%; background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0) 100%); pointer-events: none; }
+.project-slide-img { width: 100%; aspect-ratio: 1/1; background: #3a3935; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; color: rgba(255,255,255,0.36); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; position: relative; overflow: hidden; }
+.project-slide-img:has(img)::before { display: none; }
+.project-slide-img::before { content: ''; width: 44px; height: 44px; background-color: rgba(255,255,255,0.34); -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'/%3E%3Ccircle cx='9' cy='9' r='2'/%3E%3Cpath d='m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21'/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'/%3E%3Ccircle cx='9' cy='9' r='2'/%3E%3Cpath d='m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21'/%3E%3C/svg%3E") center / contain no-repeat; }
+.project-overlay { position: absolute; left: 16px; right: 132px; bottom: 14px; color: #fff; pointer-events: none; text-shadow: 0 1px 10px rgba(0,0,0,0.45); z-index: 2; }
+.project-name { font-size: 16px; font-weight: 600; margin: 0 0 2px; letter-spacing: -0.01em; }
+.project-meta { font-size: 12px; font-weight: 500; margin: 0; opacity: 0.95; letter-spacing: 0.01em; }
+.project-cta { position: absolute; bottom: 12px; right: 12px; background: #ffffff; color: #1a1a18; border-radius: 999px; padding: 7px 12px 7px 14px; font-size: 11.5px; font-weight: 600; letter-spacing: -0.005em; display: inline-flex; align-items: center; gap: 5px; pointer-events: none; z-index: 2; box-shadow: 0 2px 10px rgba(0,0,0,0.28); }
+.project-cta svg { width: 13px; height: 13px; stroke-width: 2; color: #1a1a18; }
+.project-link { position: absolute; top: 12px; right: 12px; width: 32px; height: 32px; border-radius: 8px; background: rgba(0,0,0,0.32); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); display: flex; align-items: center; justify-content: center; color: #fff; text-decoration: none; transition: background 0.15s; z-index: 2; }
+.project-link:hover { background: rgba(0,0,0,0.5); }
+.project-link svg { width: 16px; height: 16px; stroke-width: 1.75; }
+.project-dots { display: flex; justify-content: center; gap: 5px; padding: 14px 0 0; align-items: center; }
+.project-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--color-border-secondary); border: 0; padding: 0; margin: 0; appearance: none; -webkit-appearance: none; cursor: pointer; flex: 0 0 4px; }
+.project-dot.active { background: var(--color-text-primary); }
 
 /* Case-study modal (sheet-style, contained inside the phone frame) */
 .case-modal { position: absolute; inset: 0; background: #1a1a18; display: none; flex-direction: column; z-index: 50; }
 .case-modal.open { display: flex; }
 .case-modal-image-reel { flex: 1; overflow-y: scroll; scrollbar-width: none; -webkit-overflow-scrolling: touch; display: flex; flex-direction: column; }
 .case-modal-image-reel::-webkit-scrollbar { display: none; }
-.case-modal-card { position: absolute; bottom: 0; left: 0; right: 0; background: var(--color-background-primary); border-radius: 20px 20px 0 0; padding: 10px 22px 30px; overflow-y: hidden; scrollbar-width: none; box-shadow: 0 -8px 24px rgba(0,0,0,0.12); height: 42%; transition: height 0.38s cubic-bezier(0.32,0.72,0,1); cursor: pointer; }
+.case-modal-card { position: absolute; bottom: 0; left: 0; right: 0; background: var(--color-background-primary); border-radius: 20px 20px 0 0; padding: 10px 22px 30px; overflow-y: hidden; scrollbar-width: none; box-shadow: 0 -8px 24px rgba(0,0,0,0.12); height: 42%; transition: height 0.38s cubic-bezier(0.32,0.72,0,1); cursor: pointer; z-index: 10; }
 .case-modal-card::-webkit-scrollbar { display: none; }
 .case-modal-card.expanded { height: calc(100% - 60px); overflow-y: auto; cursor: default; }
 .case-modal-drag-handle { width: 36px; height: 4px; background: var(--color-border-secondary); border-radius: 2px; margin: 0 auto 14px; }
@@ -500,8 +502,12 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .case-modal-delivered-label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-text-tertiary); margin: 0 0 8px; }
 .case-modal-delivered-list { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; }
 .case-modal-delivered-item { font-size: 12px; font-weight: 500; color: var(--color-text-secondary); background: var(--color-background-secondary); border: 0.5px solid var(--color-border-tertiary); border-radius: 999px; padding: 5px 11px; }
-.case-modal-image-reel .case-modal-img { width: 100%; aspect-ratio: 4/3; background: #3a3935; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; color: rgba(255,255,255,0.40); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; flex-shrink: 0; }
-.case-modal-image-reel .case-modal-img:has(img)::before { display: none; }
+.case-modal-image-reel .case-modal-img { width: 100%; aspect-ratio: 4/3; background: #3a3935; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; color: rgba(255,255,255,0.40); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; flex-shrink: 0; position: relative; }
+.case-modal-image-reel .case-modal-img:has(img)::before,
+.case-modal-image-reel .case-modal-img:has(video)::before { display: none; }
+.case-modal-image-reel .case-modal-img--video { aspect-ratio: unset; height: auto; background: transparent; display: block; }
+.case-modal-image-reel .case-modal-img--video video { width: 100%; height: auto; display: block; object-fit: unset; }
+.case-modal-img-label { position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.45); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); color: #fff; font-size: 10px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; padding: 4px 9px; border-radius: 999px; pointer-events: none; z-index: 2; }
 .case-modal-image-reel .case-modal-img::before { content: ''; width: 32px; height: 32px; background-color: rgba(255,255,255,0.34); -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'/%3E%3Ccircle cx='9' cy='9' r='2'/%3E%3Cpath d='m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21'/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'/%3E%3Ccircle cx='9' cy='9' r='2'/%3E%3Cpath d='m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21'/%3E%3C/svg%3E") center / contain no-repeat; }
 /* Bottom-sheet variant (Layout B modal — no image reel): dim backdrop, card auto-heights from content */
 .case-modal--sheet { background: rgba(0,0,0,0.55); justify-content: center; }
@@ -1088,45 +1094,45 @@ body[data-palette="saffron"] .toggle-btn {
       <div class="project-gallery">
         <h3 class="project-gallery-headline">What Confidence Looks Like.</h3>
         <div class="project-carousel" id="project-carousel">
-          <div class="project-slide" data-name="Anna G." data-meta="Master bath · Edmonds" data-quote="Every idea I had sounded right on its own. It wasn't until I could walk through the space that I understood how each decision affected everything around it." data-body="&lt;p&gt;Anna's master bath remodel started with fragments, not a plan. Shower by the picture window? Or maybe under the skylight, with the tub tucked behind it? She also knew she wanted more storage, a door on the water closet, and to get rid of the glass block wall that had been bothering her since she moved in. Each idea lived on its own, disconnected from what it would mean for everything else.&lt;/p&gt;&lt;p&gt;Three layout options gave her real choices to react to rather than a blank page. What looked workable in the floor plans felt different at real scale — walking through the space in VR, she found that the configuration she'd been drawn to felt more confining than the 2D image suggested. The layout she landed on resolved everything: storage, privacy, flow. She never looked back.&lt;/p&gt;&lt;p&gt;From there, seeing three distinctly different style directions in her actual space — the flooring, the tile, the cabinets and countertops — made the decision feel intuitive rather than overwhelming. The final design started as one of those options and became something more personal over time. She got exactly the bathroom she'd seen in the renders. For most remodels, that's a dream. For Anna, it was The Plan.&lt;/p&gt;" data-delivered="Layout options · VR walkthrough · Style options · Styled renders · Material schedule" data-ig="https://instagram.com/premodel">
+          <div class="project-slide" data-name="Anna G." data-meta="Master bath · Edmonds" data-images='[{"src":"images/ag-before.jpeg","alt":"Before"},{"src":"images/ag-layout-as-built.png","alt":"As-built floor plan"},{"src":"images/ag-layout-option1.png","alt":"Floor plan Option 1"},{"src":"images/ag-layout-option2.png","alt":"Floor plan Option 2"},{"src":"images/ag-layout-option3.png","alt":"Floor plan Option 3"},{"src":"https://www.premodel.design/hero-video.mp4","alt":"VR Walkthrough","type":"video"},{"src":"images/ag-s1l1.png","alt":"Style Option 1"},{"src":"images/ag-s1l2.png","alt":"Style Option 2"},{"src":"images/ag-s1l3.png","alt":"Style Option 3"},{"src":"images/ag-master-bathWest-render.png","alt":"Final 1"},{"src":"images/ag-master-bathSouth-render.png","alt":"Final 2"},{"src":"images/ag-master-bathNorth-render.png","alt":"Final 3"}]' data-image-labels="Before · As-built floor plan · Floor plan Option 1 · Floor plan Option 2 · Floor plan Option 3 · VR Walkthrough · Style Option 1 · Style Option 2 · Style Option 3 · Final 1 · Final 2 · Final 3" data-quote="Every idea I had sounded right on its own. It wasn't until I could walk through the space that I understood how each decision affected everything around it." data-body="&lt;p&gt;Anna's master bath remodel started with fragments, not a plan. Shower by the picture window? Or maybe under the skylight, with the tub tucked behind it? She also knew she wanted more storage, a door on the water closet, and to get rid of the glass block wall that had been bothering her since she moved in. Each idea lived on its own, disconnected from what it would mean for everything else.&lt;/p&gt;&lt;p&gt;Three layout options gave her real choices to react to rather than a blank page. What looked workable in the floor plans felt different at real scale — walking through the space in VR, she found that the configuration she'd been drawn to felt more confining than the 2D image suggested. The layout she landed on resolved everything: storage, privacy, flow. She never looked back.&lt;/p&gt;&lt;p&gt;From there, seeing three distinctly different style directions in her actual space — the flooring, the tile, the cabinets and countertops — made the decision feel intuitive rather than overwhelming. The final design started as one of those options and became something more personal over time. She got exactly the bathroom she'd seen in the renders. For most remodels, that's a dream. For Anna, it was The Plan.&lt;/p&gt;" data-delivered="Layout options · VR walkthrough · Style options · Styled renders · Material schedule" data-ig="https://instagram.com/premodel">
             <div class="project-slide-img"><img src="images/ag-master-bathWest-render.png" alt="Anna G. — Master bath, Edmonds" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
-            <div class="project-slide-overlay">
-              <p class="project-slide-name">Master bath</p>
-              <p class="project-slide-meta">Edmonds</p>
+            <div class="project-overlay">
+              <p class="project-name">Master bath</p>
+              <p class="project-meta">Edmonds</p>
             </div>
-            <a class="why-ig-link" href="https://instagram.com/premodel" target="_blank" rel="noopener" aria-label="View on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg></a>
-            <div class="why-ig-cta">See the project <i data-lucide="arrow-right"></i></div>
+            <a class="project-link" href="https://instagram.com/premodel" target="_blank" rel="noopener" aria-label="View on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg></a>
+            <div class="project-cta">See the project <i data-lucide="arrow-right"></i></div>
           </div>
-          <div class="why-ig-slide" data-name="Sasha A." data-meta="Full home renovation · Edmonds" data-quote="We finally stopped debating and started deciding. Our contractor finished on time, on budget, with no surprises — because there was nothing left to figure out." data-body="A full-home renovation with a fixed budget, a hard move-in deadline, and strong opinions that didn't always point the same way. VR gave everyone the same reference point — the tradeoffs that had been abstract became visible, and the decisions that had felt contentious became easy. The contractor finished on time and on budget. That's what happens when everyone goes into construction looking at the same thing." data-delivered="Whole-home spatial model · VR walkthrough · style options · styled renders" data-ig="https://instagram.com/premodel">
-            <div class="why-ig-img">Project image 2</div>
-            <div class="why-ig-overlay">
-              <p class="why-ig-name">Full home renovation, Edmonds</p>
+          <div class="project-slide" data-image-count="5" data-name="Sasha A." data-meta="Full home renovation · Edmonds" data-quote="We finally stopped debating and started deciding. Our contractor finished on time, on budget, with no surprises — because there was nothing left to figure out." data-body="A full-home renovation with a fixed budget, a hard move-in deadline, and strong opinions that didn't always point the same way. VR gave everyone the same reference point — the tradeoffs that had been abstract became visible, and the decisions that had felt contentious became easy. The contractor finished on time and on budget. That's what happens when everyone goes into construction looking at the same thing." data-delivered="Whole-home spatial model · VR walkthrough · style options · styled renders" data-ig="https://instagram.com/premodel">
+            <div class="project-img">Project image 2</div>
+            <div class="project-overlay">
+              <p class="project-name">Full home renovation, Edmonds</p>
             </div>
-            <a class="why-ig-link" href="https://instagram.com/premodel" target="_blank" rel="noopener" aria-label="View on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg></a>
-            <div class="why-ig-cta">See the project <i data-lucide="arrow-right"></i></div>
+            <a class="project-link" href="https://instagram.com/premodel" target="_blank" rel="noopener" aria-label="View on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg></a>
+            <div class="project-cta">See the project <i data-lucide="arrow-right"></i></div>
           </div>
-          <div class="why-ig-slide" data-name="Kainaz B." data-meta="Kitchen remodel · Seattle" data-quote="I didn't think I needed the VR walkthrough. I had no idea what I was missing until I was standing in my virtual kitchen looking up at the ceiling height." data-body="K.B. had done everything right — inspiration images, material samples, a floor plan she understood. She still couldn't land on something she was confident in. VR gave her something the floor plan never could: scale. Standing in her virtual kitchen, looking up at the ceiling height, she understood the space in a way drawings hadn't prepared her for. The right material pairings followed from there." data-delivered="3D spatial model · VR walkthrough · interactive style options · styled renders" data-ig="https://instagram.com/premodel">
-            <div class="why-ig-img">Project image 3</div>
-            <div class="why-ig-overlay">
-              <p class="why-ig-name">Kitchen remodel, Seattle</p>
+          <div class="project-slide" data-image-count="5" data-name="Kainaz B." data-meta="Kitchen remodel · Seattle" data-quote="I didn't think I needed the VR walkthrough. I had no idea what I was missing until I was standing in my virtual kitchen looking up at the ceiling height." data-body="K.B. had done everything right — inspiration images, material samples, a floor plan she understood. She still couldn't land on something she was confident in. VR gave her something the floor plan never could: scale. Standing in her virtual kitchen, looking up at the ceiling height, she understood the space in a way drawings hadn't prepared her for. The right material pairings followed from there." data-delivered="3D spatial model · VR walkthrough · interactive style options · styled renders" data-ig="https://instagram.com/premodel">
+            <div class="project-img">Project image 3</div>
+            <div class="project-overlay">
+              <p class="project-name">Kitchen remodel, Seattle</p>
             </div>
-            <a class="why-ig-link" href="https://instagram.com/premodel" target="_blank" rel="noopener" aria-label="View on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg></a>
-            <div class="why-ig-cta">See the project <i data-lucide="arrow-right"></i></div>
+            <a class="project-link" href="https://instagram.com/premodel" target="_blank" rel="noopener" aria-label="View on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg></a>
+            <div class="project-cta">See the project <i data-lucide="arrow-right"></i></div>
           </div>
-          <div class="why-ig-slide" data-name="Jenn S." data-meta="ADU · Bellevue" data-quote="Premodel saved me from making an expensive mistake that would have bothered me every time I used the space." data-body="Jenn had her basement layout figured out — or thought she did. Every room had a place, and it made sense on paper. Walking through it in VR, the space told a different story. The rooms felt smaller than the numbers suggested, the flow was wrong, and the layout she'd been certain about wasn't the one she could live with. Starting over from scratch led her somewhere better." data-delivered="3D spatial model · VR walkthrough · style options · styled renders" data-ig="https://instagram.com/premodel">
-            <div class="why-ig-img">Project image 4</div>
-            <div class="why-ig-overlay">
-              <p class="why-ig-name">ADU, Bellevue</p>
+          <div class="project-slide" data-image-count="5" data-name="Jenn S." data-meta="ADU · Bellevue" data-quote="Premodel saved me from making an expensive mistake that would have bothered me every time I used the space." data-body="Jenn had her basement layout figured out — or thought she did. Every room had a place, and it made sense on paper. Walking through it in VR, the space told a different story. The rooms felt smaller than the numbers suggested, the flow was wrong, and the layout she'd been certain about wasn't the one she could live with. Starting over from scratch led her somewhere better." data-delivered="3D spatial model · VR walkthrough · style options · styled renders" data-ig="https://instagram.com/premodel">
+            <div class="project-img">Project image 4</div>
+            <div class="project-overlay">
+              <p class="project-name">ADU, Bellevue</p>
             </div>
-            <a class="why-ig-link" href="https://instagram.com/premodel" target="_blank" rel="noopener" aria-label="View on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg></a>
-            <div class="why-ig-cta">See the project <i data-lucide="arrow-right"></i></div>
+            <a class="project-link" href="https://instagram.com/premodel" target="_blank" rel="noopener" aria-label="View on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg></a>
+            <div class="project-cta">See the project <i data-lucide="arrow-right"></i></div>
           </div>
         </div>
-        <div class="why-ig-dots" id="why-ig-dots">
-          <button class="why-ig-dot active" data-i="0" aria-label="Slide 1"></button>
-          <button class="why-ig-dot" data-i="1" aria-label="Slide 2"></button>
-          <button class="why-ig-dot" data-i="2" aria-label="Slide 3"></button>
-          <button class="why-ig-dot" data-i="3" aria-label="Slide 4"></button>
+        <div class="project-dots" id="project-dots">
+          <button class="project-dot active" data-i="0" aria-label="Slide 1"></button>
+          <button class="project-dot" data-i="1" aria-label="Slide 2"></button>
+          <button class="project-dot" data-i="2" aria-label="Slide 3"></button>
+          <button class="project-dot" data-i="3" aria-label="Slide 4"></button>
         </div>
       </div>
     </div>
@@ -1493,20 +1499,7 @@ body[data-palette="saffron"] .toggle-btn {
     <button type="button" class="case-modal-close" id="case-modal-close" aria-label="Close case study">
       <i data-lucide="x"></i>
     </button>
-    <div class="case-modal-image-reel" id="case-modal-images">
-      <div class="case-modal-img"><img src="images/ag-before.jpeg" alt="Anna G. — Master bath before" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
-      <div class="case-modal-img"><img src="images/ag-layout-as-built.png" alt="Anna G. — Layout as-built" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
-      <div class="case-modal-img"><img src="images/ag-layout-option1.png" alt="Anna G. — Layout option 1" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
-      <div class="case-modal-img"><img src="images/ag-layout-option2.png" alt="Anna G. — Layout option 2" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
-      <div class="case-modal-img"><img src="images/ag-layout-option3.png" alt="Anna G. — Layout option 3" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
-      <div class="case-modal-img"></div>
-      <div class="case-modal-img"><img src="images/ag-s1l1.png" alt="Anna G. — Style 1, look 1" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
-      <div class="case-modal-img"><img src="images/ag-s1l2.png" alt="Anna G. — Style 1, look 2" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
-      <div class="case-modal-img"><img src="images/ag-s1l3.png" alt="Anna G. — Style 1, look 3" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
-      <div class="case-modal-img"><img src="images/ag-master-bathWest-render.png" alt="Anna G. — Master bath west render" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
-      <div class="case-modal-img"><img src="images/ag-master-bathSouth-render.png" alt="Anna G. — Master bath south render" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
-      <div class="case-modal-img"><img src="images/ag-master-bathNorth-render.png" alt="Anna G. — Master bath north render" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
-    </div>
+    <div class="case-modal-image-reel" id="case-modal-images"></div>
     <div class="case-modal-card" id="case-modal-card">
       <div class="case-modal-drag-handle"></div>
       <p class="case-modal-eyebrow">Case study</p>
@@ -1829,46 +1822,46 @@ body[data-palette="saffron"] .toggle-btn {
         <div class="project-carousel" id="project-carousel-b" data-layout="b">
           <div class="project-slide" data-name="Anna G." data-meta="Master bath · Edmonds" data-quote="Every idea I had sounded right on its own. It wasn't until I could walk through the space that I understood how each decision affected everything around it." data-ig="https://instagram.com/premodel">
             <div class="project-slide-img"><img src="images/ag-master-bathWest-render.png" alt="Anna G. — Master bath, Edmonds" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
-            <div class="project-slide-overlay">
-              <p class="project-slide-name">Master bath</p>
-              <p class="project-slide-meta">Edmonds</p>
+            <div class="project-overlay">
+              <p class="project-name">Master bath</p>
+              <p class="project-meta">Edmonds</p>
             </div>
-            <a class="why-ig-link" href="https://instagram.com/premodel" target="_blank" rel="noopener" aria-label="View on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg></a>
-            <div class="why-ig-cta">See the project <i data-lucide="arrow-right"></i></div>
+            <a class="project-link" href="https://instagram.com/premodel" target="_blank" rel="noopener" aria-label="View on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg></a>
+            <div class="project-cta">See the project <i data-lucide="arrow-right"></i></div>
           </div>
-          <div class="why-ig-slide" data-name="Sasha A." data-meta="Full home renovation · Seattle" data-ig="https://instagram.com/premodel">
-            <div class="why-ig-img">Project image 2</div>
-            <div class="why-ig-overlay">
-              <p class="why-ig-name">Full home renovation</p>
-              <p class="why-ig-meta">Seattle</p>
+          <div class="project-slide" data-image-count="5" data-name="Sasha A." data-meta="Full home renovation · Seattle" data-ig="https://instagram.com/premodel">
+            <div class="project-img">Project image 2</div>
+            <div class="project-overlay">
+              <p class="project-name">Full home renovation</p>
+              <p class="project-meta">Seattle</p>
             </div>
-            <a class="why-ig-link" href="https://instagram.com/premodel" target="_blank" rel="noopener" aria-label="View on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg></a>
-            <div class="why-ig-cta">See the project <i data-lucide="arrow-right"></i></div>
+            <a class="project-link" href="https://instagram.com/premodel" target="_blank" rel="noopener" aria-label="View on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg></a>
+            <div class="project-cta">See the project <i data-lucide="arrow-right"></i></div>
           </div>
-          <div class="why-ig-slide" data-name="Kainaz B." data-meta="Multi-room, new build · Seattle" data-ig="https://instagram.com/premodel">
-            <div class="why-ig-img">Project image 3</div>
-            <div class="why-ig-overlay">
-              <p class="why-ig-name">Multi-room remodel</p>
-              <p class="why-ig-meta">Seattle</p>
+          <div class="project-slide" data-image-count="5" data-name="Kainaz B." data-meta="Multi-room, new build · Seattle" data-ig="https://instagram.com/premodel">
+            <div class="project-img">Project image 3</div>
+            <div class="project-overlay">
+              <p class="project-name">Multi-room remodel</p>
+              <p class="project-meta">Seattle</p>
             </div>
-            <a class="why-ig-link" href="https://instagram.com/premodel" target="_blank" rel="noopener" aria-label="View on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg></a>
-            <div class="why-ig-cta">See the project <i data-lucide="arrow-right"></i></div>
+            <a class="project-link" href="https://instagram.com/premodel" target="_blank" rel="noopener" aria-label="View on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg></a>
+            <div class="project-cta">See the project <i data-lucide="arrow-right"></i></div>
           </div>
-          <div class="why-ig-slide" data-name="Jenna R." data-meta="Powder bath · Kirkland" data-ig="https://instagram.com/premodel">
-            <div class="why-ig-img">Project image 4</div>
-            <div class="why-ig-overlay">
-              <p class="why-ig-name">Powder bath</p>
-              <p class="why-ig-meta">Kirkland</p>
+          <div class="project-slide" data-name="Jenna R." data-meta="Powder bath · Kirkland" data-ig="https://instagram.com/premodel">
+            <div class="project-img">Project image 4</div>
+            <div class="project-overlay">
+              <p class="project-name">Powder bath</p>
+              <p class="project-meta">Kirkland</p>
             </div>
-            <a class="why-ig-link" href="https://instagram.com/premodel" target="_blank" rel="noopener" aria-label="View on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg></a>
-            <div class="why-ig-cta">See the project <i data-lucide="arrow-right"></i></div>
+            <a class="project-link" href="https://instagram.com/premodel" target="_blank" rel="noopener" aria-label="View on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg></a>
+            <div class="project-cta">See the project <i data-lucide="arrow-right"></i></div>
           </div>
         </div>
-        <div class="why-ig-dots" id="why-ig-dots-b">
-          <button class="why-ig-dot active" data-i="0" aria-label="Slide 1"></button>
-          <button class="why-ig-dot" data-i="1" aria-label="Slide 2"></button>
-          <button class="why-ig-dot" data-i="2" aria-label="Slide 3"></button>
-          <button class="why-ig-dot" data-i="3" aria-label="Slide 4"></button>
+        <div class="project-dots" id="project-dots-b">
+          <button class="project-dot active" data-i="0" aria-label="Slide 1"></button>
+          <button class="project-dot" data-i="1" aria-label="Slide 2"></button>
+          <button class="project-dot" data-i="2" aria-label="Slide 3"></button>
+          <button class="project-dot" data-i="3" aria-label="Slide 4"></button>
         </div>
       </div>
     <!-- ── FAQ ──────────────────────────────────────────────────────── -->
@@ -2322,9 +2315,9 @@ body[data-palette="saffron"] .toggle-btn {
   }
 
   // Why Premodel — IG-style case study carousel + modal
-  var igCarousel = document.getElementById('why-ig-carousel');
+  var igCarousel = document.getElementById('project-carousel');
   if (igCarousel) {
-    var igDots = document.querySelectorAll('#why-ig-dots .why-ig-dot');
+    var igDots = document.querySelectorAll('#project-dots .project-dot');
     function updateIgDots() {
       var i = Math.round(igCarousel.scrollLeft / igCarousel.clientWidth);
       igDots.forEach(function(d, j) { d.classList.toggle('active', j === i); });
@@ -2338,9 +2331,9 @@ body[data-palette="saffron"] .toggle-btn {
   }
 
   // Why Premodel — IG-style carousel + dots (Layout B)
-  var igCarouselB = document.getElementById('why-ig-carousel-b');
+  var igCarouselB = document.getElementById('project-carousel-b');
   if (igCarouselB) {
-    var igDotsB = document.querySelectorAll('#why-ig-dots-b .why-ig-dot');
+    var igDotsB = document.querySelectorAll('#project-dots-b .project-dot');
     function updateIgDotsB() {
       var i = Math.round(igCarouselB.scrollLeft / igCarouselB.clientWidth);
       igDotsB.forEach(function(d, j) { d.classList.toggle('active', j === i); });
@@ -2361,6 +2354,56 @@ body[data-palette="saffron"] .toggle-btn {
   var caseModalDelivered = document.getElementById('case-modal-delivered');
   var caseModalDeliveredList = document.getElementById('case-modal-delivered-list');
   var caseModalClose = document.getElementById('case-modal-close');
+  function buildCaseModalReel(slide) {
+    var reel = document.getElementById('case-modal-images');
+    if (!reel) return;
+    reel.innerHTML = '';
+    var labels = slide.dataset.imageLabels ? slide.dataset.imageLabels.split('·').map(function(l) { return l.trim(); }) : [];
+    function addLabel(div, index) {
+      var text = labels[index] || '';
+      if (!text) return;
+      var chip = document.createElement('span');
+      chip.className = 'case-modal-img-label';
+      chip.textContent = text;
+      div.appendChild(chip);
+    }
+    if (slide.dataset.images) {
+      var images = JSON.parse(slide.dataset.images);
+      images.forEach(function(img, i) {
+        var div = document.createElement('div');
+        div.className = 'case-modal-img';
+        if (img.src) {
+          var el;
+          if (img.type === 'video') {
+            div.classList.add('case-modal-img--video');
+            el = document.createElement('video');
+            el.src = img.src;
+            el.autoplay = true;
+            el.loop = true;
+            el.muted = true;
+            el.playsInline = true;
+            el.style.cssText = 'width:100%;height:auto;display:block;';
+          } else {
+            el = document.createElement('img');
+            el.src = img.src;
+            el.alt = img.alt || '';
+            el.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block;';
+          }
+          div.appendChild(el);
+        }
+        addLabel(div, i);
+        reel.appendChild(div);
+      });
+    } else {
+      var count = parseInt(slide.dataset.imageCount, 10) || 5;
+      for (var i = 0; i < count; i++) {
+        var div = document.createElement('div');
+        div.className = 'case-modal-img';
+        addLabel(div, i);
+        reel.appendChild(div);
+      }
+    }
+  }
   function openCaseModal(slide) {
     if (!caseModal) return;
     caseModalName.textContent = slide.dataset.name || '';
@@ -2379,6 +2422,7 @@ body[data-palette="saffron"] .toggle-btn {
       }
     }
     if (caseModalDelivered) caseModalDelivered.style.display = slide.dataset.delivered ? '' : 'none';
+    buildCaseModalReel(slide);
     caseModal.classList.add('open');
     caseModal.setAttribute('aria-hidden', 'false');
     requestAnimationFrame(function() {
@@ -2399,9 +2443,9 @@ body[data-palette="saffron"] .toggle-btn {
     if (card) { card.classList.remove('expanded'); card.scrollTop = 0; }
   }
   // Layout A slides → #case-modal
-  document.querySelectorAll('#why-ig-carousel .why-ig-slide').forEach(function(slide) {
+  document.querySelectorAll('#project-carousel .project-slide').forEach(function(slide) {
     slide.addEventListener('click', function(e) {
-      if (e.target.closest('.why-ig-link')) return;
+      if (e.target.closest('.project-link')) return;
       openCaseModal(slide);
     });
   });
@@ -2458,9 +2502,9 @@ body[data-palette="saffron"] .toggle-btn {
     caseModalB.classList.remove('open');
     caseModalB.setAttribute('aria-hidden', 'true');
   }
-  document.querySelectorAll('#why-ig-carousel-b .why-ig-slide').forEach(function(slide) {
+  document.querySelectorAll('#project-carousel-b .project-slide').forEach(function(slide) {
     slide.addEventListener('click', function(e) {
-      if (e.target.closest('.why-ig-link')) return;
+      if (e.target.closest('.project-link')) return;
       openCaseModalB(slide);
     });
   });
