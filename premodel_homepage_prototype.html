@@ -367,7 +367,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .why-header { padding: 0 20px; text-align: center; margin: 0; }
 
 /* Section 4 (Layout A): full-width subheader, unboxed chart, side-by-side tilted founders, stacked static stats */
-.phone-frame[data-layout="a"] .why-chart { width: 100%; padding: 0; margin: 0 0 26px; box-sizing: border-box; }
+.phone-frame[data-layout="a"] .why-chart { width: 100%; padding: 0; margin: 0; box-sizing: border-box; }
 .phone-frame[data-layout="a"] .why-chart svg { width: 100%; height: auto; display: block; }
 /* Subhead — same scale as "Confidence, pictured" (.why-gallery-headline) for consistency */
 .phone-frame[data-layout="a"] .why-guides-subhead { font-size: 21px; font-weight: 500; letter-spacing: -0.015em; line-height: 1.2; color: var(--color-text-primary); text-align: center; text-wrap: balance; margin: 0 20px 22px; }
@@ -392,7 +392,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .phone-frame[data-layout="a"] .why-card.founder .why-founder-role { white-space: nowrap; }
 /* Card type sized to match Section 3's gallery/quote cards */
 .phone-frame[data-layout="a"] .why-card.founder .why-founder-name { font-size: 16px; }
-.phone-frame[data-layout="a"] .why-card.founder .why-founder-quote { font-size: 14px; line-height: 1.6; }
+.phone-frame[data-layout="a"] .why-card.founder .why-founder-quote { font-size: 14px; line-height: 1.5; }
 
 /* ── Cost-of-change chart — hybrid (SVG geometry + HTML overlay) ──────────────
    SVG keeps only drawable geometry so it can animate later (stroke-dashoffset, etc.).
@@ -413,9 +413,9 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 
 /* Axis labels */
 .cc-xlabel { position: absolute; bottom: -2%; transform: translateX(-50%); font-family: var(--font-serif); font-style: italic; font-size: 14px; color: var(--color-text-primary); white-space: nowrap; }
-/* Hangs below the up-arrow, reading bottom-to-top. Pinned at least 10px from the screen's
-   left edge; the arrow is aligned to the same x in CSS so they stay centered together. */
-.cc-ylabel { position: absolute; left: 12px; top: 40%; transform: translateY(-50%) rotate(180deg); writing-mode: vertical-rl; font-family: var(--font-serif); font-style: italic; font-size: 14px; color: var(--color-text-primary); white-space: nowrap; }
+/* Vertical axis label, reading bottom-to-top, centered on the axis. The up-arrow is a trailing
+   character on the label itself (no separate SVG arrow). Pinned at least 10px from the left edge. */
+.cc-ylabel { position: absolute; left: 12px; top: 50%; transform: translateY(-50%) rotate(180deg); writing-mode: vertical-rl; font-family: var(--font-serif); font-style: italic; font-size: 14px; color: var(--color-text-primary); white-space: nowrap; }
 
 /* Avoidable Risk label (sits over the hatch wedge; halo keeps it legible) */
 .cc-risk { position: absolute; left: 84%; top: 58.5%; transform: translate(-50%, -50%); width: 5em; text-align: center; font-family: var(--font-sans); font-weight: 700; font-size: 13px; line-height: 1.15; color: var(--color-text-primary); text-shadow: 0 0 3px var(--color-background-primary), 0 0 3px var(--color-background-primary), 0 0 3px var(--color-background-primary); }
@@ -451,11 +451,14 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .why-chart--scrolly .cc-photo { opacity: 0; }
 
 /* Beat pins (placed along the lines by JS; opacity/scale driven per frame, so no transition) */
-.cc-pin { position: absolute; width: 30px; height: 30px; margin: -15px 0 0 -15px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; background: var(--gray-line); box-shadow: 0 1px 5px rgba(0,0,0,0.2); opacity: 0; transform: scale(0.6); will-change: opacity, transform; }
-.cc-pin--accent { background: var(--color-brand-navy); }
-.cc-pin--img { width: 34px; height: 34px; margin: -17px 0 0 -17px; }
-.cc-pin svg { width: 16px; height: 16px; stroke-width: 2; }
-.cc-pin--img svg { width: 18px; height: 18px; }
+.cc-pin { position: absolute; width: 40px; height: 40px; margin: -20px 0 0 -20px; box-sizing: border-box; border-radius: 50%; overflow: hidden; display: flex; align-items: center; justify-content: center; background: var(--color-background-primary); box-shadow: 0 1px 4px rgba(0,0,0,0.18); opacity: 0; transform: scale(0.6); cursor: pointer; will-change: opacity, transform; }
+.cc-pin:focus-visible { outline: 2px solid var(--color-brand-navy); outline-offset: 2px; }
+/* OpenMoji faces as single-color CSS masks, scaled up (mask-size) to fill the dot. The dot gives a
+   white (background) fill behind the face, clipped to a circle, so the face reads over the chart
+   lines and hatch. Typical dots = darker gray, Premodel dots = accent navy. */
+.cc-pin .cc-emoji { width: 100%; height: 100%; display: block; -webkit-mask: var(--cc-mask) center / 132% no-repeat; mask: var(--cc-mask) center / 132% no-repeat; }
+.cc-pin--gray .cc-emoji { background-color: var(--color-text-secondary); }
+.cc-pin--accent .cc-emoji { background-color: var(--color-brand-navy); }
 
 /* Persistent thesis line + rotating beat captions (fixed in place while the chart animates) */
 .cc-thesis { font-family: var(--font-serif); font-style: italic; font-size: 15px; color: var(--color-text-primary); text-align: center; margin: 14px 20px 8px; line-height: 1.4; }
@@ -468,6 +471,51 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 @media (prefers-reduced-motion: reduce) {
   .cc-track { display: none; }
 }
+
+/* ── Pinned composition (Layout A): eyebrow + headline, chart with the rotating beat caption
+   overlaid on its open top-left, and the "Meet your guides" cards all lock together while the
+   chart scrubs. The sticky block gets an opaque background so runway content can't show through. ── */
+.phone-frame[data-layout="a"] .why-section { padding-top: 48px; }
+.phone-frame[data-layout="a"] .cc-sticky {
+  top: 12px;
+  background: var(--color-background-primary);
+  padding-bottom: 14px;
+}
+.phone-frame[data-layout="a"] .cc-sticky .why-header { margin: 0 0 4px; }
+.phone-frame[data-layout="a"] .cc-sticky .section-headline { margin-top: 2px; }
+
+/* Rotating beats: laid over the chart's open top area, centered, with a color-coded path label
+   ("Typical remodel" / "Premodel") above that matches the active line color. A paper-colored halo
+   keeps the text legible where it crosses the chart lines. */
+.phone-frame[data-layout="a"] .cc-stage .cc-caption {
+  position: absolute; top: 60px; left: 22%; width: 56%;
+  min-height: 0; margin: 0; z-index: 3; pointer-events: none;
+  transition: top 0.3s ease;
+}
+/* Premodel beats sit higher (clear of the gray line's rise / lower than the image card) */
+.phone-frame[data-layout="a"] .cc-stage .cc-caption--pm { top: 10px; }
+.phone-frame[data-layout="a"] .cc-stage .cc-beat-label {
+  position: absolute; top: 0; left: 0; right: 0; margin: 0; text-align: center;
+  font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+  transition: color 0.35s ease;
+  text-shadow: 0 0 4px var(--color-background-primary), 0 0 4px var(--color-background-primary), 0 0 8px var(--color-background-primary);
+}
+.phone-frame[data-layout="a"] .cc-stage .cc-beat-label--typ { color: var(--gray-line); }
+.phone-frame[data-layout="a"] .cc-stage .cc-beat-label--pm { color: var(--color-brand-navy); }
+.phone-frame[data-layout="a"] .cc-stage .cc-beat {
+  top: 19px; left: 0; right: 0; width: auto; text-align: center;
+  font-size: 14px; line-height: 1.45;
+  text-shadow: 0 0 4px var(--color-background-primary), 0 0 4px var(--color-background-primary), 0 0 8px var(--color-background-primary);
+}
+
+/* Chart fills the locked frame; guides follow */
+.phone-frame[data-layout="a"] .cc-sticky .cc-stage { width: auto; margin: 0; }
+/* Subhead + its sub-line ("We learned the hard way…") sit just above the founder cards */
+.phone-frame[data-layout="a"] .cc-sticky .why-guides-subhead { margin: 32px 20px 6px; }
+.phone-frame[data-layout="a"] .cc-sticky .why-founders-note { margin: 0 20px 18px; }
+.phone-frame[data-layout="a"] .cc-sticky .why-founders { padding: 0 20px 0; }
+.phone-frame[data-layout="a"] .cc-sticky .why-card.founder { padding: 20px; }
+.phone-frame[data-layout="a"] .cc-sticky .why-card.founder:nth-child(2) { margin-top: -8px; }
 
 /* Lead rail: text pinned left (non-boxed), founder cards scroll horizontally — mirrors .plan-block pattern */
 .why-lead-rail { display: grid; grid-template-columns: 1fr; grid-template-rows: auto; margin: 0 0 36px; }
@@ -489,7 +537,11 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .why-founder-linkedin { color: var(--color-text-secondary); display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 6px; text-decoration: none; transition: background 0.15s, color 0.15s; flex-shrink: 0; }
 .why-founder-linkedin:hover { background: var(--color-background-secondary); color: var(--color-text-primary); }
 .why-founder-linkedin svg { width: 14px; height: 14px; stroke-width: 1.75; }
-.why-founder-quote { font-family: var(--font-serif); font-style: italic; font-size: 14px; line-height: 1.55; color: var(--color-text-secondary); margin: 0; }
+/* Founder quote + Background line mirror the homeowner quote cards' <p> and <cite> styles */
+.why-founder-quote { font-family: var(--font-serif); font-style: normal; font-size: 14px; line-height: 1.5; color: var(--color-text-secondary); margin: 0 0 10px; }
+.why-founder-quote strong { font-weight: 700; color: var(--color-text-primary); }
+.why-founder-before { display: block; font-size: 12px; line-height: 1.4; color: var(--color-text-secondary); font-style: normal; margin: 0; }
+.why-founder-before strong { color: var(--color-text-primary); font-weight: 600; }
 
 /* Gallery: full-bleed IG-style square carousel; tap opens case-study modal */
 .why-gallery-headline { font-size: 21px; font-weight: 500; color: var(--color-text-primary); margin: 0 20px 14px; letter-spacing: -0.015em; line-height: 1.2; text-align: center; text-wrap: balance; }
@@ -541,7 +593,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .case-modal-placeholder:empty { display: none; }
 
 /* ── FAQ section ───────────────────────────────────────────────────── */
-.faq-section { padding: 60px 20px 0; }
+.faq-section { padding: 40px 20px 0; }
 .faq-header { text-align: center; margin: 0; }
 .faq-list { display: flex; flex-direction: column; border-top: 0.5px solid var(--color-border-tertiary); }
 .faq-item { border-bottom: 0.5px solid var(--color-border-tertiary); }
@@ -1164,33 +1216,38 @@ body[data-palette="saffron"] .toggle-btn {
 
     <!-- ── Why Premodel ──────────────────────────────────────────────── -->
     <section class="why-section">
-      <div class="why-header">
-        <p class="section-eyebrow">Why Premodel</p>
-        <h2 class="section-headline">A new way to remodel.</h2>
-      </div>
-
       <div class="why-chart why-chart--scrolly" id="cc-scrolly">
-        <!-- Scrollytelling cost-of-change chart. .cc-sticky (chart + caption) pins while the
-             .cc-track below provides scroll runway; JS scrubs a 0..1 progress into 7 beats,
-             drawing the gray "typical" line, then the accent Premodel line, then the gap.
-             SVG holds only drawable geometry; all text/pins are HTML in .cc-overlay, positioned
-             in % over the SVG's 405x300 viewBox. -->
+        <!-- Scrollytelling cost-of-change chart. The whole composition pins in .cc-sticky —
+             eyebrow + headline, the chart with the rotating beat caption overlaid on its open
+             top-left, then the "Meet your guides" cards — while .cc-track below provides the
+             scroll runway. JS scrubs a 0..1 progress into 7 beats, drawing the gray "typical"
+             line, then the accent Premodel line, then the gap. SVG holds only drawable geometry;
+             all text/pins are HTML in .cc-overlay, positioned in % over the 405x300 viewBox. -->
         <div class="cc-sticky">
+          <div class="why-header">
+            <p class="section-eyebrow">Why Premodel</p>
+            <h2 class="section-headline">A new way to remodel.</h2>
+          </div>
+
           <div class="cc-stage">
             <svg class="cc-svg" viewBox="0 0 405 300" role="img" aria-label="A line chart of the chance of costly surprises over a remodel, from imagining a space through hiring, planning, and building. A gray line, the typical remodel, rises and accelerates toward build. An accent line, Premodel, shares the early path then rises only gently, with an image pin placed early. The widening gap between the two lines is labeled Avoidable regret.">
               <defs>
                 <pattern id="hatch" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)">
                   <line x1="0" y1="0" x2="0" y2="6" stroke="var(--hatch)" stroke-width="1.1"/>
                 </pattern>
+                <!-- Reveal rect grows with the gray line (JS animates its width) so the hatch fill tracks the draw -->
+                <clipPath id="ghatch-clip"><rect x="0" y="0" width="0" height="300"/></clipPath>
               </defs>
+              <!-- Persistent diagonal-hatch fill under the gray (typical) line; clipped to the drawn width so it
+                   grows with the line instead of appearing all at once. Sits beneath the soft Premodel fill, which
+                   later covers the lower portion to leave the hatched "Avoidable regret" wedge between the lines. -->
+              <path class="cc-ghatch" d="M0 269.4C47 268.9 96.1 268.9 128.2 265.6C141 264 149.6 261.3 149.6 261.3C188 254.7 224.3 240.5 254.2 216.5C305.5 177.2 339.7 98.6 358.9 55C374 25 391 18 405 16 L405 268.9 L0 268.9 Z" fill="url(#hatch)" clip-path="url(#ghatch-clip)"/>
               <!-- Fill under the Premodel line (revealed in the final beat) -->
               <path class="cc-fill" d="M0 268.9C47 268.9 102.6 267.8 149.6 261.3C271 251.5 344.5 210.5 405 194V268.9H0Z" fill="var(--fill-soft)"/>
               <!-- Hatched Avoidable-regret wedge (revealed in the final beat) -->
               <path class="cc-wedge" d="M149.6 261.3C188 254.7 224.3 240.5 254.2 216.5C328 161.5 349.5 35.5 405 24V193C241 263 213.7 252.5 149.6 261.3Z" fill="url(#hatch)"/>
               <!-- X axis (full width) -->
               <line class="axis" x1="0" y1="268.9" x2="405" y2="268.9"/>
-              <!-- Y axis up arrow -->
-              <path class="uparrow" d="M23 44 V34 M19.1 37.9 L23 33 L26.9 37.9"/>
               <!-- Gray (typical) line: drawn progressively across beats 1-4 -->
               <path class="gline cc-gline" d="M0 269.4C47 268.9 96.1 268.9 128.2 265.6C141 264 149.6 261.3 149.6 261.3C188 254.7 224.3 240.5 254.2 216.5C305.5 177.2 339.7 98.6 358.9 55C374 25 391 18 405 16"/>
               <!-- Accent (Premodel) line, one continuous path: beat 6 draws the early branch, beat 7 the rest -->
@@ -1199,7 +1256,7 @@ body[data-palette="saffron"] .toggle-btn {
 
             <div class="cc-overlay">
               <!-- Y axis label -->
-              <span class="cc-ylabel">Chance of costly surprises</span>
+              <span class="cc-ylabel">Chance of costly surprises →</span>
 
               <!-- Premodel image pin (revealed in beat 6) -->
               <div class="cc-photo" aria-hidden="true">
@@ -1211,13 +1268,15 @@ body[data-palette="saffron"] .toggle-btn {
               <!-- Avoidable-regret label (revealed in beat 7) -->
               <span class="cc-risk">Avoidable regret</span>
 
-              <!-- Animated beat pins (positioned along the lines by JS) -->
-              <span class="cc-pin cc-pin--gray" data-pin="g1"><i data-lucide="circle-help"></i></span>
-              <span class="cc-pin cc-pin--gray" data-pin="g2"><i data-lucide="eye-off"></i></span>
-              <span class="cc-pin cc-pin--gray" data-pin="g3"><i data-lucide="circle-dollar-sign"></i></span>
-              <span class="cc-pin cc-pin--gray" data-pin="g4"><i data-lucide="frown"></i></span>
-              <span class="cc-pin cc-pin--accent cc-pin--img" data-pin="img"><i data-lucide="sparkles"></i></span>
-              <span class="cc-pin cc-pin--accent" data-pin="end"><i data-lucide="smile"></i></span>
+              <!-- Animated beat pins (positioned along the lines by JS). Faces are OpenMoji
+                   (non-color), vendored in assets/openmoji and recolored via CSS mask: the line
+                   color as the ring, a white interior, and a colored face per the working spec. -->
+              <span class="cc-pin cc-pin--gray" data-pin="g1"><span class="cc-emoji" style="--cc-mask:url('assets/openmoji/1F914.svg')"></span></span>
+              <span class="cc-pin cc-pin--gray" data-pin="g2"><span class="cc-emoji" style="--cc-mask:url('assets/openmoji/1F613.svg')"></span></span>
+              <span class="cc-pin cc-pin--gray" data-pin="g3"><span class="cc-emoji" style="--cc-mask:url('assets/openmoji/1F616.svg')"></span></span>
+              <span class="cc-pin cc-pin--gray" data-pin="g4"><span class="cc-emoji" style="--cc-mask:url('assets/openmoji/1F623.svg')"></span></span>
+              <span class="cc-pin cc-pin--accent cc-pin--img" data-pin="img"><span class="cc-emoji" style="--cc-mask:url('assets/openmoji/1F929.svg')"></span></span>
+              <span class="cc-pin cc-pin--accent" data-pin="end"><span class="cc-emoji" style="--cc-mask:url('assets/openmoji/1F605.svg')"></span></span>
 
               <!-- X axis labels -->
               <span class="cc-xlabel" style="left:10.86%">Imagine</span>
@@ -1225,26 +1284,26 @@ body[data-palette="saffron"] .toggle-btn {
               <span class="cc-xlabel" style="left:62.72%">Plan</span>
               <span class="cc-xlabel" style="left:88.89%">Build</span>
             </div>
+
+            <!-- Rotating beat captions, overlaid on the chart's open top area. The path label
+                 above flips between "Typical remodel" (gray) and "Premodel" (accent), color-matched
+                 to the line currently being drawn. -->
+            <div class="cc-caption">
+              <p class="cc-beat-label cc-beat-label--typ" data-beat-label>Typical remodel</p>
+              <p class="cc-beat" data-beat="1">Once you hire, <strong>changing your mind</strong> gets expensive fast.</p>
+              <p class="cc-beat" data-beat="2">Floor plans, mood boards, and samples still <strong>leave a lot to your imagination</strong>.</p>
+              <p class="cc-beat" data-beat="3">That's why <mark class="cc-hl">10–15% of your budget</mark> often goes toward changes mid-construction.</p>
+              <p class="cc-beat" data-beat="4">No wonder <mark class="cc-hl">74%</mark> of homeowners reported <strong>post-remodel regrets</strong> in 2024.</p>
+              <p class="cc-beat" data-beat="5">Premodel puts <strong>pictures first</strong>, with <mark class="cc-hl">1,200+</mark> delivered before building.</p>
+              <p class="cc-beat" data-beat="7">Get the <strong>full picture earlier</strong>. Decide with confidence. <strong>Regret less later</strong>.</p>
+            </div>
           </div>
 
-          <p class="cc-thesis">We plan in pictures so you decide with confidence.</p>
+          <h3 class="why-guides-subhead">Meet your guides.</h3>
 
-          <div class="cc-caption">
-            <p class="cc-beat" data-beat="1">Once you hire, <strong>changing your mind</strong> gets expensive fast.</p>
-            <p class="cc-beat" data-beat="2">Floor plans, mood boards, and samples still <strong>leave a lot to your imagination</strong>.</p>
-            <p class="cc-beat" data-beat="3">That's why <mark class="cc-hl">10–15% of your budget</mark> often goes toward changes mid-construction.</p>
-            <p class="cc-beat" data-beat="4">No wonder <mark class="cc-hl">74%</mark> of homeowners reported <strong>post-remodel regrets</strong> in 2024.</p>
-            <p class="cc-beat" data-beat="5">Premodel puts <strong>pictures first</strong>, with <mark class="cc-hl">1,200+</mark> delivered before building.</p>
-            <p class="cc-beat" data-beat="7">Get the <strong>full picture earlier</strong>. Decide with confidence. <strong>Regret less later</strong>.</p>
-          </div>
-        </div>
+          <p class="why-chart-caption why-founders-note">We learned the hard way, on our own homes. 12×.</p>
 
-        <div class="cc-track" aria-hidden="true"></div>
-      </div>
-
-      <h3 class="why-guides-subhead">Meet your guides.</h3>
-
-      <div class="why-founders">
+          <div class="why-founders">
         <article class="why-card founder">
           <div class="why-founder-head">
             <div class="why-founder-portrait">AW</div>
@@ -1258,6 +1317,7 @@ body[data-palette="saffron"] .toggle-btn {
             </a>
           </div>
           <p class="why-founder-quote">"Let's get what's in your head into pictures. I'll help fill in what's missing and shape it into a plan."</p>
+          <p class="why-founder-before"><strong>Background:</strong> 25+ years in design + tech</p>
         </article>
 
         <article class="why-card founder">
@@ -1274,10 +1334,14 @@ body[data-palette="saffron"] .toggle-btn {
             </a>
           </div>
           <p class="why-founder-quote">"I've been in your shoes. I've learned a lot over the multiple remodels I've done. With my background in design and technology, I knew there was a better way to tackle some of the most expensive decisions you'll ever make."</p>
+          <!-- TODO: confirm Paige's background -->
+          <p class="why-founder-before"><strong>Background:</strong> TBD</p>
         </article>
-      </div>
+          </div>
+        </div>
 
-      <p class="why-chart-caption why-founders-note">Between us, we've lived through 12 remodels of our own homes.</p>
+        <div class="cc-track" aria-hidden="true"></div>
+      </div>
     </section>
 
     <!-- ── FAQ ──────────────────────────────────────────────────────── -->
@@ -2715,6 +2779,7 @@ body[data-palette="saffron"] .toggle-btn {
     var bline = scrolly.querySelector('.cc-bline');
     var fill = scrolly.querySelector('.cc-fill');
     var wedge = scrolly.querySelector('.cc-wedge');
+    var ghatchClip = scrolly.querySelector('#ghatch-clip rect');
     var risk = scrolly.querySelector('.cc-risk');
     var photo = scrolly.querySelector('.cc-photo');
     var beats = Array.prototype.slice.call(scrolly.querySelectorAll('.cc-beat'));
@@ -2771,36 +2836,77 @@ body[data-palette="saffron"] .toggle-btn {
     var imgPos = pctAtLength(bline, bLenEarly);
     place(pins.img, imgPos);
     place(pins.end, pctAtLength(bline, bTotal));
+    pins.end.style.left = '96%';   // pull the final dot in so it isn't cropped by the right edge
     // Park the image card up-and-right of the early accent point (clear of the y-axis label)
     photo.style.left = clamp(imgPos.l - 4, 11, 55) + '%';
     photo.style.top = clamp(imgPos.t - 52, 5, 52) + '%';
 
+    // Tap a dot to jump to that moment in the chart (each maps to the middle of its caption window)
+    var pinTargetG = { g1: 0.5, g2: 1.5, g3: 2.5, g4: 3.5, img: 5.0, end: 6.7 };
+    function jumpToG(G) {
+      var runway = scrolly.offsetHeight - scrollEl.clientHeight;
+      if (runway <= 0) return;
+      scrollEl.scrollTo({ top: scrolly.offsetTop + (G / 7) * runway, behavior: 'smooth' });
+    }
+    Object.keys(pins).forEach(function(key) {
+      var p = pins[key];
+      if (!p) return;
+      p.setAttribute('role', 'button');
+      p.setAttribute('aria-label', 'Jump to this moment in the chart');
+      p.addEventListener('click', function() { jumpToG(pinTargetG[key]); });
+      p.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); jumpToG(pinTargetG[key]); }
+      });
+    });
+
     var captionForBeat = [1, 2, 3, 4, 5, 5, 7];   // beat index 0..6 -> data-beat value shown
+    var labelEl = scrolly.querySelector('[data-beat-label]');
+    var captionEl = scrolly.querySelector('.cc-caption');
     function setCaption(idx) {
       var want = String(captionForBeat[clamp(idx, 0, 6)]);
       beats.forEach(function(b) { b.classList.toggle('active', b.getAttribute('data-beat') === want); });
+      var pm = (want === '5' || want === '7');    // Premodel beats vs typical-remodel beats
+      if (captionEl) captionEl.classList.toggle('cc-caption--pm', pm);
+      if (labelEl) {                              // path label color-matches the active line
+        labelEl.textContent = pm ? 'Premodel' : 'Typical remodel';
+        labelEl.classList.toggle('cc-beat-label--pm', pm);
+        labelEl.classList.toggle('cc-beat-label--typ', !pm);
+      }
     }
-    function setPin(pin, op) { pin.style.opacity = op; pin.style.transform = 'scale(' + (0.6 + 0.4 * op) + ')'; }
+    function setPin(pin, op) {
+      pin.style.opacity = op;
+      pin.style.transform = 'scale(' + (0.6 + 0.4 * op) + ')';
+      var on = op > 0.05;                         // only visible dots are tappable / focusable
+      pin.style.pointerEvents = on ? 'auto' : 'none';
+      pin.setAttribute('tabindex', on ? '0' : '-1');
+    }
 
     function render(g) {                       // g in [0..7]
-      // Line draw-on
-      gline.style.strokeDashoffset = gTotal * (1 - lerpSeg(g, [[0,0],[1,gFrac[0]],[2,gFrac[1]],[3,gFrac[2]],[4,gFrac[3]]]));
-      bline.style.strokeDashoffset = bTotal * (1 - lerpSeg(g, [[5,0],[6,bFracEarly],[7,1]]));
-      // Gray pins: one at a time, peaking as the line reaches each tip
-      setPin(pins.g1, clamp(1 - Math.abs(g - 1) / 0.5, 0, 1));
-      setPin(pins.g2, clamp(1 - Math.abs(g - 2) / 0.5, 0, 1));
-      setPin(pins.g3, clamp(1 - Math.abs(g - 3) / 0.5, 0, 1));
-      setPin(pins.g4, clamp(1 - Math.abs(g - 4) / 0.5, 0, 1));
-      // Image pin + card appear in beat 6 and stay
-      var imgShow = clamp((g - 5.2) / 0.6, 0, 1);
+      // Line draw-on. The gray "typical" line STARTS already at the first dot (Hire) and extends
+      // one dot per beat; the accent "Premodel" line branches in beats 5-6. Dots and reveals land
+      // at the START of each caption window, so the matching text is on screen as its dot appears.
+      var gDraw = lerpSeg(g, [[0,gFrac[0]],[1,gFrac[1]],[2,gFrac[2]],[3,gFrac[3]]]);
+      gline.style.strokeDashoffset = gTotal * (1 - gDraw);
+      bline.style.strokeDashoffset = bTotal * (1 - lerpSeg(g, [[4,0],[5,bFracEarly],[6,1]]));
+      // Grow the hatch-fill clip to the gray line's current tip x so the fill tracks the draw
+      if (ghatchClip) ghatchClip.setAttribute('width', gline.getPointAtLength(gTotal * gDraw).x);
+      // Gray pins fade in as the line reaches each tip and STAY up until the line switches to the
+      // Premodel path (g=4) — so all four are visible once the gray line reaches the right edge.
+      var grayOut = clamp(1 - (g - 4) / 0.6, 0, 1);
+      setPin(pins.g1, Math.min(clamp((g + 0.4) / 0.4, 0, 1), grayOut));
+      setPin(pins.g2, Math.min(clamp((g - 0.6) / 0.4, 0, 1), grayOut));
+      setPin(pins.g3, Math.min(clamp((g - 1.6) / 0.4, 0, 1), grayOut));
+      setPin(pins.g4, Math.min(clamp((g - 2.6) / 0.4, 0, 1), grayOut));
+      // Image pin + card appear as the accent line branches (beat 5) and stay
+      var imgShow = clamp((g - 4.2) / 0.6, 0, 1);
       setPin(pins.img, imgShow);
       photo.style.opacity = imgShow;
       // Final beat: accent end pin, fill + wedge, regret label
-      var gap = clamp((g - 6.0) / 0.8, 0, 1);
+      var gap = clamp((g - 5.4) / 0.7, 0, 1);
       fill.style.opacity = gap;
       wedge.style.opacity = gap;
-      risk.style.opacity = clamp((g - 6.4) / 0.5, 0, 1);
-      setPin(pins.end, clamp((g - 6.2) / 0.5, 0, 1));
+      risk.style.opacity = clamp((g - 5.7) / 0.5, 0, 1);
+      setPin(pins.end, clamp((g - 5.5) / 0.5, 0, 1));
       setCaption(Math.floor(g));
     }
 
