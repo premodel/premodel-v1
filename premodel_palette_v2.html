@@ -267,6 +267,33 @@
     align-items: center;
     flex-wrap: wrap;
   }
+  .control-btn {
+    font-family: var(--font-body);
+    font-size: var(--fs-small);
+    font-weight: 600;
+    color: var(--text-secondary);
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-pill);
+    padding: 7px 16px;
+    cursor: pointer;
+    transition: border-color 120ms ease, color 120ms ease;
+  }
+  .control-btn:hover { border-color: var(--border-strong); color: var(--text-primary); }
+  .control-btn:focus-visible { outline: 2px solid var(--text-primary); outline-offset: 1px; }
+  /* Inline color editor: chip becomes a clickable color well */
+  .swatch .chip { position: relative; }
+  .swatch .chip:has(input[type="color"]) { cursor: pointer; }
+  .swatch .chip input[type="color"] {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    opacity: 0; cursor: pointer; border: 0; padding: 0;
+  }
+  .swatch .chip:has(input[type="color"])::after {
+    content: ""; position: absolute; right: 3px; bottom: 3px;
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--bg-surface-elevated); box-shadow: 0 0 0 1px var(--border-strong);
+    opacity: 0.7; pointer-events: none;
+  }
   .control-dropdown {
     display: flex;
     align-items: center;
@@ -713,6 +740,8 @@
             <option value="desktop">Desktop 1200+</option>
           </select>
         </label>
+        <button type="button" id="tokensExport" class="control-btn" title="Copy current token overrides to the clipboard">Export</button>
+        <button type="button" id="tokensReset" class="control-btn" title="Clear all local token edits and revert to defaults">Reset</button>
       </div>
     </div>
   </div>
@@ -1485,6 +1514,65 @@
     if (previewSize && previewSize.value !== size) previewSize.value = size;
   }
   if (previewSize) previewSize.addEventListener('change', e => applyPreview(e.target.value));
+
+  // ═══════════════════════════════════════════════════════════════════════
+  // INLINE COLOR EDITOR — turn each palette swatch into a live color well.
+  // Edits write through PremodelTokens (persist + broadcast to the prototype
+  // tab). External changes (e.g. the prototype's picker) refresh the displays.
+  // ═══════════════════════════════════════════════════════════════════════
+  function toHex6(v) {
+    if (!v) return null;
+    v = v.trim();
+    var m3 = /^#([0-9a-fA-F]{3})$/.exec(v);
+    if (m3) return '#' + m3[1].split('').map(function (c) { return c + c; }).join('').toLowerCase();
+    var m6 = /^#([0-9a-fA-F]{6})$/.exec(v);
+    if (m6) return ('#' + m6[1]).toLowerCase();
+    return null; // non-hex (e.g. rgba) — not editable via <input type=color>
+  }
+  var swatchControls = [];
+  document.querySelectorAll('.swatch').forEach(function (sw) {
+    var varEl = sw.querySelector('.var');
+    var chip = sw.querySelector('.chip');
+    var hexEl = sw.querySelector('.hex');
+    if (!varEl || !chip) return;
+    var name = varEl.textContent.trim();
+    if (name.indexOf('--') !== 0) return;
+    var cur = (hexEl && toHex6(hexEl.textContent)) || toHex6(getComputedStyle(root).getPropertyValue(name));
+    if (!cur) return; // skip rgba / non-hex swatches
+    var input = document.createElement('input');
+    input.type = 'color';
+    input.value = cur;
+    input.setAttribute('aria-label', 'Edit ' + name);
+    chip.appendChild(input);
+    input.addEventListener('input', function () {
+      var val = input.value;
+      PremodelTokens.set({ [name]: val });
+      chip.style.background = val;
+      if (hexEl) hexEl.textContent = val;
+    });
+    swatchControls.push({ name: name, chip: chip, hexEl: hexEl, input: input });
+  });
+  function refreshSwatches() {
+    swatchControls.forEach(function (c) {
+      var hx = toHex6(PremodelTokens.get(c.name));
+      if (hx) { c.chip.style.background = hx; c.input.value = hx; if (c.hexEl) c.hexEl.textContent = hx; }
+    });
+  }
+  PremodelTokens.onChange(refreshSwatches);
+
+  // ── Export / Reset ──────────────────────────────────────────────────────
+  var exportBtn = document.getElementById('tokensExport');
+  var resetBtn = document.getElementById('tokensReset');
+  if (exportBtn) exportBtn.addEventListener('click', function () {
+    var data = JSON.stringify(PremodelTokens.overrides(), null, 2);
+    var done = function () { var t = exportBtn.textContent; exportBtn.textContent = 'Copied!'; setTimeout(function () { exportBtn.textContent = t; }, 1200); };
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(data).then(done, function () { window.prompt('Token overrides:', data); });
+    else window.prompt('Token overrides:', data);
+  });
+  if (resetBtn) resetBtn.addEventListener('click', function () {
+    PremodelTokens.reset();
+    refreshSwatches();
+  });
 </script>
 </body>
 </html>
