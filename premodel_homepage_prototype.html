@@ -374,6 +374,115 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .rf-budget-chip { appearance: none; -webkit-appearance: none; background: var(--color-background-secondary); border: 0.5px solid var(--color-border-tertiary); border-radius: 8px; padding: 10px 12px; font-size: 12px; font-family: inherit; color: var(--color-text-primary); cursor: pointer; text-align: left; line-height: 1.3; transition: background 0.15s, border-color 0.15s, color 0.15s; }
 .rf-budget-chip.sel { background: var(--color-text-primary); color: var(--color-background-primary); border-color: var(--color-text-primary); }
 
+/* ── Reveal stepper: fixed-height, three-phase card ─────────────────────────── */
+/* The card morphs from dark (questions) to light (reveal + contact). Each phase
+   re-scopes the text/surface/border custom properties, so the markup that references
+   var(--color-text-*) adapts automatically and selected chips/buttons invert by the
+   same token swap. The card height is fixed and the body never scrolls. */
+/* Match the other section headers: centered, same section top padding, and the
+   default .section-eyebrow (0 0 12px) + .section-headline (0 0 20px) margins. */
+.rf-card-intro { padding: 48px 20px 0; text-align: center; }
+
+.rf-card {
+  --rf-card-h: 472px;
+  display: flex;
+  flex-direction: column;
+  height: var(--rf-card-h);
+  margin: 0 16px 28px;
+  border-radius: var(--border-radius-xl, 18px);
+  overflow: hidden;
+  box-shadow: 0 18px 48px rgba(0,0,0,0.22), 0 2px 8px rgba(0,0,0,0.12);
+  color: var(--color-text-primary);
+  transition: background-color 0.55s ease, box-shadow 0.55s ease;
+}
+/* Phase 1 — questions: dark surface */
+.rf-card.phase-questions {
+  --color-text-primary:         #f4f1e9;
+  --color-text-secondary:       #b9b3a6;
+  --color-text-tertiary:        #8c867a;
+  --color-background-primary:   #181612;
+  --color-background-secondary: #2b2823;
+  --color-surface-secondary:    #2b2823;
+  --color-border-primary:       rgba(244,241,233,0.30);
+  --color-border-secondary:     rgba(244,241,233,0.18);
+  --color-border-tertiary:      rgba(244,241,233,0.12);
+  background: #1b1915;
+  box-shadow: 0 18px 48px rgba(0,0,0,0.30), 0 2px 8px rgba(0,0,0,0.18);
+}
+/* Phases 2–3 — reveal + contact: light surface (the "lights on" reveal) */
+.rf-card.phase-reveal, .rf-card.phase-contact {
+  --color-text-primary:         #2a2826;
+  --color-text-secondary:       #6a625a;
+  --color-text-tertiary:        #998f80;
+  --color-background-primary:   #ffffff;
+  --color-background-secondary: #f2ede1;
+  --color-surface-secondary:    #f2ede1;
+  --color-border-primary:       rgba(42,40,38,0.22);
+  --color-border-secondary:     rgba(42,40,38,0.16);
+  --color-border-tertiary:      rgba(42,40,38,0.10);
+  background: #fbf8f1;
+}
+
+/* 3-segment progress — questions phase only */
+.rf-card-steps { display: flex; gap: 6px; padding: 20px 22px 0; }
+.rf-card.phase-reveal .rf-card-steps, .rf-card.phase-contact .rf-card-steps { display: none; }
+.rf-card-seg { flex: 1; height: 3px; border-radius: 2px; background: rgba(244,241,233,0.16); transition: background 0.35s ease; }
+.rf-card-seg.on { background: var(--color-text-primary); }
+
+/* Body — flex, top-aligned, never scrolls */
+.rf-card-body { flex: 1; min-height: 0; overflow: hidden; padding: 22px; display: flex; flex-direction: column; }
+.rf-card-panel { animation: rf-card-fade 0.4s ease; }
+@keyframes rf-card-fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+.rf-card-q { font-size: 17px; font-weight: 500; letter-spacing: -0.01em; color: var(--color-text-primary); margin: 0 0 16px; line-height: 1.3; }
+
+/* Back / Next footer */
+.rf-card-nav { display: flex; gap: 10px; padding: 12px 22px 20px; }
+.rf-card-nav[hidden] { display: none; }
+.rf-card-back { flex: 0 0 auto; min-width: 88px; padding: 13px 16px; background: transparent; border: 1px solid var(--color-border-secondary); border-radius: var(--border-radius-md); color: var(--color-text-secondary); font-size: 14px; font-weight: 500; font-family: inherit; cursor: pointer; transition: opacity 0.2s, border-color 0.2s; }
+.rf-card-back:disabled { opacity: 0.32; cursor: default; }
+.rf-card-next { flex: 1; padding: 13px; background: var(--color-text-primary); color: var(--color-background-primary); border-radius: var(--border-radius-md); font-size: 14px; font-weight: 600; font-family: inherit; border: 0; cursor: pointer; transition: opacity 0.2s; }
+.rf-card-next:disabled { opacity: 0.32; cursor: default; }
+
+/* Dark-phase polish */
+.rf-card.phase-questions .rf-input:focus { background: #34302a; }
+.rf-card .rf-tier { padding: 14px 15px; }
+.rf-card .rf-tier-desc { margin-top: 3px; line-height: 1.4; }
+/* Fix: selected tier's description was light-on-light — force dark text on the light fill */
+.rf-card .rf-tier.sel .rf-tier-desc { color: rgba(24,22,18,0.62); }
+
+/* ── Reveal panel (condensed estimate) ─────────────────────────────────────── */
+.rfc-reveal-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-text-tertiary); margin: 0 0 12px; }
+.rfc-reveal-label { font-size: 13px; color: var(--color-text-secondary); margin: 0 0 2px; }
+.rfc-reveal-price { font-size: 42px; font-weight: 500; letter-spacing: -0.03em; line-height: 1; color: var(--color-text-primary); margin: 0; }
+.rfc-reveal-savings { font-size: 12px; color: var(--color-text-secondary); margin: 8px 0 0; }
+.rfc-reveal-savings[hidden] { display: none; }
+.rfc-reveal-row { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin: 18px 0 0; padding-top: 14px; border-top: 0.5px solid var(--color-border-tertiary); }
+.rfc-reveal-row-label { font-size: 13px; color: var(--color-text-secondary); }
+.rfc-reveal-row-val { font-size: 16px; font-weight: 600; letter-spacing: -0.01em; color: var(--color-text-primary); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.rfc-verdict { margin-top: 14px; }
+.rfc-verdict-pill { display: flex; align-items: flex-start; gap: 8px; padding: 10px 12px; border-radius: 10px; font-size: 13px; line-height: 1.4; }
+.rfc-verdict-pill svg { flex-shrink: 0; margin-top: 1px; }
+.rfc-verdict-pill.aligned { background: #edf7ed; color: #1b5e20; }
+.rfc-verdict-pill.tight,
+.rfc-verdict-pill.too_low { background: #fff8e1; color: #7a4500; }
+.rfc-verdict-pill.has_room { background: #eaf2fb; color: #2a5490; }
+.rfc-verdict-pill.not_sure { background: var(--color-background-secondary); color: var(--color-text-secondary); }
+.rfc-reveal-nudge { font-family: var(--font-serif); font-style: italic; font-size: 13px; color: var(--color-text-secondary); line-height: 1.5; margin: 16px 0 0; }
+
+/* ── Contact panels ────────────────────────────────────────────────────────── */
+.rfc-form-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-text-tertiary); margin: 0 0 8px; }
+.rfc-form-title { font-size: 20px; font-weight: 500; letter-spacing: -0.015em; line-height: 1.15; margin: 0 0 16px; color: var(--color-text-primary); }
+.rfc-form-sub { font-size: 13px; color: var(--color-text-secondary); line-height: 1.55; margin: -8px 0 18px; }
+
+/* ── Success (condensed) ───────────────────────────────────────────────────── */
+.rfc-success { display: flex; flex-direction: column; align-items: center; text-align: center; }
+.rfc-success .rf-success-icon { margin-bottom: 14px; }
+.rfc-success .rf-success-title { margin: 0 0 8px; }
+.rfc-success .rf-success-sub { margin: 0 0 20px; max-width: 280px; }
+.rfc-success-steps { display: flex; flex-direction: column; gap: 11px; width: 100%; text-align: left; }
+.rfc-success-step { display: flex; align-items: center; gap: 11px; font-size: 13px; color: var(--color-text-secondary); line-height: 1.35; }
+.rfc-success-dot { flex-shrink: 0; width: 22px; height: 22px; border-radius: 50%; background: var(--color-text-primary); color: var(--color-background-primary); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; }
+
 /* ── Design fees section ────────────────────────────────────────────────────── */
 .rf-df-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-text-tertiary); margin: 0 0 8px; }
 .rf-df-sub { font-size: 14px; color: var(--color-text-secondary); line-height: 1.55; margin: 0 0 14px; }
@@ -638,8 +747,9 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 /* ── FAQ section ───────────────────────────────────────────────────── */
 .faq-section { padding: 40px 20px 0; }
 .faq-header { text-align: center; margin: 0; }
-.faq-list { display: flex; flex-direction: column; border-top: 0.5px solid var(--color-border-tertiary); }
+.faq-list { display: flex; flex-direction: column; }
 .faq-item { border-bottom: 0.5px solid var(--color-border-tertiary); }
+.faq-item:last-child { border-bottom: 0; }
 .faq-summary { list-style: none; cursor: pointer; display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; padding: 16px 4px; min-height: 44px; font-size: 15px; font-weight: 500; color: var(--color-text-primary); line-height: 1.4; -webkit-tap-highlight-color: transparent; }
 .faq-summary::-webkit-details-marker { display: none; }
 .faq-summary::marker { content: ''; }
@@ -1469,55 +1579,133 @@ body[data-palette="saffron"] .toggle-btn {
       </div>
     </section>
 
-    <!-- Anchor section: room selection + deposit disclosure -->
-    <div class="rf-anchor" id="rf-anchor-a" style="padding:24px 20px 20px">
-      <p class="rf-eyebrow">Get your estimate</p>
-      <h2 class="rf-title">Book your Reveal</h2>
-      <p style="font-size:15px;font-weight:500;letter-spacing:-0.01em;color:var(--color-text-primary);margin:0 0 14px">Which rooms are you planning to remodel?</p>
-      <div class="rf-chips" id="rf-anchor-chips-a">
-        <button class="rf-chip" type="button" data-room="kitchen">Kitchen</button>
-        <button class="rf-chip" type="button" data-room="primary_bath">Primary bath</button>
-        <button class="rf-chip" type="button" data-room="secondary_bath">Secondary bath</button>
-        <button class="rf-chip" type="button" data-room="living">Living room</button>
-        <button class="rf-chip" type="button" data-room="dining">Dining room</button>
-        <button class="rf-chip" type="button" data-room="office">Home office</button>
-        <button class="rf-chip" type="button" data-room="bedroom">Bedroom</button>
-        <button class="rf-chip" type="button" data-room="entry_mudroom">Entry / mudroom</button>
-        <button class="rf-chip" type="button" data-room="basement_adu">ADU</button>
+    <!-- Get started: headline lifted out of the card, matching the other section headers -->
+    <div class="rf-card-intro">
+      <p class="section-eyebrow">Start here</p>
+      <h2 class="section-headline">Ready for your reveal?</h2>
+    </div>
+
+    <!-- Reveal card: fixed height, three phases (questions → reveal → contact) -->
+    <div class="rf-card phase-questions" id="rf-card-a">
+      <!-- 3-segment progress (questions phase only) -->
+      <div class="rf-card-steps" id="rf-card-steps-a">
+        <span class="rf-card-seg"></span>
+        <span class="rf-card-seg"></span>
+        <span class="rf-card-seg"></span>
       </div>
-      <div style="margin-top:20px">
-        <p class="rf-q-label">Type of remodel</p>
-        <div class="rf-chips" id="rf-anchor-tiers-a">
-          <button class="rf-chip" type="button" data-tier="refresh"
-            data-desc="Budget-friendly updates that refresh the look without major construction.">
-            Refresh
-          </button>
-          <button class="rf-chip" type="button" data-tier="replace"
-            data-desc="Everything replaced, nothing moved. New style, same layout.">
-            Replace
-          </button>
-          <button class="rf-chip" type="button" data-tier="reconfigure"
-            data-desc="A layout redesigned around how you actually want to live.">
-            Reconfigure
-          </button>
+
+      <div class="rf-card-body" id="rf-card-body-a">
+
+        <!-- Q1: Rooms (multi-select; Next gated on ≥1) -->
+        <div class="rf-card-panel" id="rfc-rooms-a">
+          <p class="rf-card-q">Which rooms are you planning to remodel?</p>
+          <div class="rf-chips" id="rf-card-chips-a">
+            <button class="rf-chip" type="button" data-room="kitchen">Kitchen</button>
+            <button class="rf-chip" type="button" data-room="primary_bath">Primary bath</button>
+            <button class="rf-chip" type="button" data-room="secondary_bath">Secondary bath</button>
+            <button class="rf-chip" type="button" data-room="living">Living room</button>
+            <button class="rf-chip" type="button" data-room="dining">Dining room</button>
+            <button class="rf-chip" type="button" data-room="office">Home office</button>
+            <button class="rf-chip" type="button" data-room="bedroom">Bedroom</button>
+            <button class="rf-chip" type="button" data-room="entry_mudroom">Entry / mudroom</button>
+            <button class="rf-chip" type="button" data-room="basement_adu">ADU</button>
+          </div>
         </div>
-        <div class="rf-tier-desc-box" id="rf-tier-desc-a" style="display:none;margin-top:10px">
-          <div class="rf-tier-desc-inner" id="rf-tier-desc-text-a"></div>
+
+        <!-- Q2: Type of remodel (auto-advances on select) -->
+        <div class="rf-card-panel" id="rfc-type-a" hidden>
+          <p class="rf-card-q">What kind of remodel are you planning?</p>
+          <div class="rf-tiers" id="rf-card-tiers-a">
+            <button class="rf-tier" type="button" data-tier="refresh">
+              <span class="rf-tier-name">Refresh</span>
+              <span class="rf-tier-desc">Budget-friendly updates that refresh the look without major construction.</span>
+            </button>
+            <button class="rf-tier" type="button" data-tier="replace">
+              <span class="rf-tier-name">Replace</span>
+              <span class="rf-tier-desc">Everything replaced, nothing moved. New style, same layout.</span>
+            </button>
+            <button class="rf-tier" type="button" data-tier="reconfigure">
+              <span class="rf-tier-name">Reconfigure</span>
+              <span class="rf-tier-desc">A layout redesigned around how you actually want to live.</span>
+            </button>
+          </div>
         </div>
+
+        <!-- Q3: Rough budget (optional; auto-advances on select) -->
+        <div class="rf-card-panel" id="rfc-budget-a" hidden>
+          <p class="rf-card-q">What's your rough construction budget?<span class="rf-q-optional">optional</span></p>
+          <div class="rf-budget-grid" id="rf-card-budgets-a">
+            <button class="rf-budget-chip" type="button" data-budget="under_50k">Under $50k</button>
+            <button class="rf-budget-chip" type="button" data-budget="50k_100k">$50k – $100k</button>
+            <button class="rf-budget-chip" type="button" data-budget="100k_200k">$100k – $200k</button>
+            <button class="rf-budget-chip" type="button" data-budget="200k_400k">$200k – $400k</button>
+            <button class="rf-budget-chip" type="button" data-budget="400k_plus">$400k+</button>
+            <button class="rf-budget-chip" type="button" data-budget="not_sure">Not sure yet</button>
+          </div>
+        </div>
+
+        <!-- Reveal: condensed estimate (card has morphed to light) -->
+        <div class="rf-card-panel rfc-reveal" id="rfc-reveal-a" hidden>
+          <p class="rfc-reveal-eyebrow">Your reveal</p>
+          <p class="rfc-reveal-label">Your Premodel design</p>
+          <p class="rfc-reveal-price" id="rfc-price-a"></p>
+          <p class="rfc-reveal-savings" id="rfc-savings-a" hidden>Includes multi-room bundle savings</p>
+          <div class="rfc-reveal-row">
+            <span class="rfc-reveal-row-label">Typical construction for your scope</span>
+            <strong class="rfc-reveal-row-val" id="rfc-constr-a"></strong>
+          </div>
+          <div class="rfc-verdict" id="rfc-verdict-a"></div>
+          <p class="rfc-reveal-nudge">Next, leave your details and we'll confirm everything on a quick, no-pressure call.</p>
+        </div>
+
+        <!-- Contact 1: reachability fields -->
+        <div class="rf-card-panel" id="rfc-contact1-a" hidden>
+          <p class="rfc-form-eyebrow">Almost there</p>
+          <h3 class="rfc-form-title">How should we reach you?</h3>
+          <div class="rf-fields">
+            <div class="rf-row">
+              <div class="rf-field" id="rff-first-a"><label class="rf-label" for="rfi-first-a">First name</label><input class="rf-input" id="rfi-first-a" type="text" placeholder="First" autocomplete="given-name" /><p class="rf-err-msg">Required</p></div>
+              <div class="rf-field" id="rff-last-a"><label class="rf-label" for="rfi-last-a">Last name</label><input class="rf-input" id="rfi-last-a" type="text" placeholder="Last" autocomplete="family-name" /><p class="rf-err-msg">Required</p></div>
+            </div>
+            <div class="rf-field" id="rff-email-a"><label class="rf-label" for="rfi-email-a">Email address</label><input class="rf-input" id="rfi-email-a" type="email" placeholder="you@example.com" autocomplete="email" /><p class="rf-err-msg">Enter a valid email</p></div>
+            <div class="rf-row">
+              <div class="rf-field" id="rff-phone-a"><label class="rf-label" for="rfi-phone-a">Phone number</label><input class="rf-input" id="rfi-phone-a" type="tel" placeholder="(206) 555-0100" autocomplete="tel" /><p class="rf-err-msg">Enter a valid phone</p></div>
+              <div class="rf-field" id="rff-zip-a"><label class="rf-label" for="rfi-zip-a">Zip code</label><input class="rf-input" id="rfi-zip-a" type="text" inputmode="numeric" maxlength="5" placeholder="98101" autocomplete="postal-code" /><p class="rf-err-msg">5-digit zip</p></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Contact 2: deposit acknowledgment -->
+        <div class="rf-card-panel" id="rfc-contact2-a" hidden>
+          <p class="rfc-form-eyebrow">One last thing</p>
+          <h3 class="rfc-form-title">Scheduling your visit</h3>
+          <p class="rfc-form-sub">We'll call during business hours (Mon–Fri, 9–5) to get you scheduled, then come scan your space.</p>
+          <label class="rf-ack">
+            <input type="checkbox" id="rf-ack-a" />
+            <p class="rf-ack-text">I understand that scheduling a home visit requires a <strong>refundable $200 deposit</strong>, applied toward my Premodel service if I move forward.</p>
+          </label>
+        </div>
+
+        <!-- Success / what's next (condensed) -->
+        <div class="rf-card-panel" id="rfc-success-a" hidden>
+          <div class="rfc-success">
+            <div class="rf-success-icon"><i data-lucide="check"></i></div>
+            <h3 class="rf-success-title">Request received!</h3>
+            <p class="rf-success-sub">We'll call you shortly to schedule your home visit — your Reveal follows soon after.</p>
+            <div class="rfc-success-steps">
+              <div class="rfc-success-step"><span class="rfc-success-dot">1</span><span>We call to schedule &amp; take your refundable deposit</span></div>
+              <div class="rfc-success-step"><span class="rfc-success-dot">2</span><span>We visit and scan your space</span></div>
+              <div class="rfc-success-step"><span class="rfc-success-dot">3</span><span>Your Reveal arrives — yours to keep</span></div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /rf-card-body -->
+
+      <div class="rf-card-nav" id="rf-card-nav-a">
+        <button class="rf-card-back" type="button" id="rf-card-back-a" disabled>Back</button>
+        <button class="rf-card-next" type="button" id="rf-card-next-a" disabled>Next</button>
       </div>
-      <div style="margin-top:16px">
-        <p class="rf-q-label">Rough construction budget<span class="rf-q-optional">optional</span></p>
-        <div class="rf-budget-grid" id="rf-anchor-budgets-a">
-          <button class="rf-budget-chip" type="button" data-budget="under_50k">Under $50k</button>
-          <button class="rf-budget-chip" type="button" data-budget="50k_100k">$50k – $100k</button>
-          <button class="rf-budget-chip" type="button" data-budget="100k_200k">$100k – $200k</button>
-          <button class="rf-budget-chip" type="button" data-budget="200k_400k">$200k – $400k</button>
-          <button class="rf-budget-chip" type="button" data-budget="400k_plus">$400k+</button>
-          <button class="rf-budget-chip" type="button" data-budget="not_sure">Not sure yet</button>
-        </div>
-      </div>
-      <button class="rf-anchor-cta" type="button" id="rf-anchor-cta-a" disabled>See my estimate →</button>
-      <p style="font-size:12px;color:var(--color-text-secondary);line-height:1.55;margin:12px 0 0;text-align:center">A refundable $200 deposit is collected when we schedule your visit — applied in full toward your service if you move forward.</p>
     </div>
 
     <!-- ── Footer ─────────────────────────────────────────────────────── -->
@@ -1563,108 +1751,7 @@ body[data-palette="saffron"] .toggle-btn {
   </div>
 
   <div class="cta-bar">
-    <button class="cta-button" type="button">Book Your Complimentary Reveal</button>
-  </div>
-
-  <div class="rf-overlay" id="rf-a">
-    <div class="rf-header">
-      <button class="rf-back" id="rf-back-a" hidden><i data-lucide="arrow-left"></i>Back</button>
-      <span class="rf-step-label" id="rf-label-a"></span>
-      <button class="rf-close" id="rf-close-a" aria-label="Close"><i data-lucide="x"></i></button>
-    </div>
-    <div class="rf-progress"><div class="rf-progress-fill" id="rf-prog-a"></div></div>
-
-    <div class="rf-body" id="rf-body-a">
-
-      <!-- Step 2: Estimate -->
-      <div id="rf-s2-a" hidden>
-        <!-- Premodel service hero — dominant price -->
-        <div class="rf-pm-hero">
-          <p class="rf-pm-hero-label">Your Premodel estimate</p>
-          <p class="rf-pm-hero-price" id="rf-pm-total-a"></p>
-          <p class="rf-pm-hero-note">Starting estimate · confirmed after your intake call</p>
-        </div>
-        <!-- Per-room breakdown with bundle discounts -->
-        <div class="rf-breakdown" id="rf-pm-breakdown-a" style="margin-bottom:6px"></div>
-        <p style="font-size:11px;color:var(--color-text-tertiary);line-height:1.5;margin:0 0 16px">Multi-room projects are discounted — up to 30% off on additional rooms.</p>
-        <!-- Construction cost + budget alignment — one unified section -->
-        <div style="border-top:0.5px solid var(--color-border-tertiary);padding-top:16px;margin-bottom:16px">
-          <p style="font-size:13px;color:var(--color-text-secondary);margin:0 0 4px">Estimated construction cost for your scope</p>
-          <p style="font-size:20px;font-weight:500;letter-spacing:-0.02em;color:var(--color-text-primary);margin:0 0 4px" id="rf-est-range-a"></p>
-          <p style="font-size:11px;color:var(--color-text-tertiary);line-height:1.5;margin:0 0 12px">Typical Seattle / Eastside range · older homes and structural changes can push costs higher</p>
-          <div id="rf-cmp-a"></div>
-        </div>
-        <!-- Design fee education -->
-        <div style="border-top:0.5px solid var(--color-border-tertiary);padding-top:16px">
-          <p style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--color-text-tertiary);margin:0 0 6px">Good to know</p>
-          <p style="font-size:13px;color:var(--color-text-secondary);line-height:1.55;margin:0 0 8px">Design fees typically run <strong style="color:var(--color-text-primary);font-weight:500">5–10% of construction costs</strong> — separate from what you pay your contractor. For a project in this range, that's usually:</p>
-          <p style="font-size:22px;font-weight:500;letter-spacing:-0.02em;color:var(--color-text-primary);margin:0 0 4px" id="rf-df-range-a"></p>
-          <p style="font-size:11px;color:var(--color-text-tertiary);line-height:1.5;margin:0">Estimated for your scope · Seattle market · in addition to construction costs</p>
-        </div>
-      </div>
-
-      <!-- Step 3: Contact info + acknowledgment -->
-      <div id="rf-s3-a" hidden>
-        <p class="rf-eyebrow">Almost there</p>
-        <h2 class="rf-title">How should we reach you?</h2>
-        <p class="rf-sub" style="margin-bottom:20px">We'll call you as soon as possible during business hours (Mon–Fri, 9–5) to answer questions and get you scheduled.</p>
-        <div class="rf-fields">
-          <div class="rf-row">
-            <div class="rf-field" id="rff-first-a"><label class="rf-label" for="rfi-first-a">First name</label><input class="rf-input" id="rfi-first-a" type="text" placeholder="First" autocomplete="given-name" /><p class="rf-err-msg">Required</p></div>
-            <div class="rf-field" id="rff-last-a"><label class="rf-label" for="rfi-last-a">Last name</label><input class="rf-input" id="rfi-last-a" type="text" placeholder="Last" autocomplete="family-name" /><p class="rf-err-msg">Required</p></div>
-          </div>
-          <div class="rf-field" id="rff-email-a"><label class="rf-label" for="rfi-email-a">Email address</label><input class="rf-input" id="rfi-email-a" type="email" placeholder="you@example.com" autocomplete="email" /><p class="rf-err-msg">Enter a valid email</p></div>
-          <div class="rf-field" id="rff-phone-a"><label class="rf-label" for="rfi-phone-a">Phone number</label><input class="rf-input" id="rfi-phone-a" type="tel" placeholder="(206) 555-0100" autocomplete="tel" /><p class="rf-err-msg">Enter a valid phone number</p></div>
-          <div class="rf-field" id="rff-zip-a"><label class="rf-label" for="rfi-zip-a">Zip code</label><input class="rf-input" id="rfi-zip-a" type="text" inputmode="numeric" maxlength="5" placeholder="98101" autocomplete="postal-code" /><p class="rf-err-msg">Enter your 5-digit zip</p></div>
-        </div>
-        <label class="rf-ack">
-          <input type="checkbox" id="rf-ack-a" />
-          <p class="rf-ack-text">I understand that scheduling a home visit requires a <strong>refundable $200 deposit</strong>, which is applied toward my Premodel service if I move forward.</p>
-        </label>
-      </div>
-
-      <!-- Step 4: Success screen -->
-      <div id="rf-s4-a" hidden>
-        <div class="rf-success">
-          <div class="rf-success-icon"><i data-lucide="check"></i></div>
-          <h2 class="rf-success-title">Request received!</h2>
-          <p class="rf-success-sub">We'll be in touch soon. Here's what to expect next.</p>
-          <div class="rf-ns-step">
-            <div class="rf-ns-num">1</div>
-            <div>
-              <p class="rf-ns-title">We'll call to get you scheduled</p>
-              <p class="rf-ns-desc">We'll set up your home visit and collect a refundable $200 deposit over the phone.</p>
-            </div>
-          </div>
-          <div class="rf-ns-step">
-            <div class="rf-ns-num">2</div>
-            <div>
-              <p class="rf-ns-title">We visit and scan your space</p>
-              <p class="rf-ns-desc">One of our team comes to your home to walk the rooms and capture everything we need to build your Reveal.</p>
-            </div>
-          </div>
-          <div class="rf-ns-step">
-            <div class="rf-ns-num">3</div>
-            <div>
-              <p class="rf-ns-title">Share your inspiration images</p>
-              <p class="rf-ns-desc">We'll ask you to share a few images of spaces you love — they help us understand your style and bring your Reveal to life.</p>
-            </div>
-          </div>
-          <div class="rf-ns-step">
-            <div class="rf-ns-num">4</div>
-            <div>
-              <p class="rf-ns-title">Your Reveal</p>
-              <p class="rf-ns-desc">We deliver images showing what your space could become — yours to keep, whether or not you move forward.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div><!-- /rf-body -->
-
-    <div class="rf-footer" id="rf-footer-a">
-      <button class="rf-btn" type="button" id="rf-next-a">Continue</button>
-    </div>
+    <button class="cta-button" type="button">Ready for your reveal?</button>
   </div>
 
   <!-- Case-study modal (sheet-style; mounted inside phone frame for absolute containment) -->
@@ -3628,7 +3715,180 @@ body[data-palette="saffron"] .toggle-btn {
     });
   }
 
-  initRevealSheet('a');
+  // ── In-page black-card stepper (Layout A) ───────────────────────────────────
+  // One card, six progressively-disclosed screens: rooms → type → budget →
+  // estimate → contact → success. Reuses every shared calculator above.
+  function initRevealCard(id) {
+    var card        = document.getElementById('rf-card-' + id);
+    if (!card) return;
+    var stepsWrap   = document.getElementById('rf-card-steps-' + id);
+    var segs        = stepsWrap.querySelectorAll('.rf-card-seg');
+    var nav         = document.getElementById('rf-card-nav-' + id);
+    var backBtn     = document.getElementById('rf-card-back-' + id);
+    var nextBtn     = document.getElementById('rf-card-next-' + id);
+    var roomChips   = document.querySelectorAll('#rf-card-chips-' + id + ' .rf-chip');
+    var tierBtns    = document.querySelectorAll('#rf-card-tiers-' + id + ' .rf-tier');
+    var budChips    = document.querySelectorAll('#rf-card-budgets-' + id + ' .rf-budget-chip');
+    var ackBox      = document.getElementById('rf-ack-' + id);
+    var ctaBtn      = document.querySelector('.phone-frame[data-layout="' + id + '"] .cta-button');
+    var ctaBarWrap  = document.querySelector('.phone-frame[data-layout="' + id + '"] .cta-bar');
+    var scrollEl    = document.querySelector('.phone-frame[data-layout="' + id + '"] .phone-scroll');
+    var frame       = document.querySelector('.phone-frame[data-layout="' + id + '"]');
+
+    // Step model: 1 rooms · 2 type · 3 budget · 4 reveal · 5 contact-fields ·
+    // 6 contact-ack · 7 success. Phases drive the card's dark→light color morph.
+    var PANELS = ['rooms', 'type', 'budget', 'reveal', 'contact1', 'contact2', 'success'];
+    var LAST   = 7;
+    var step = 1, rooms = [], tier = null, budget = null, advanceTimer = null;
+
+    function panel(n) { return document.getElementById('rfc-' + PANELS[n - 1] + '-' + id); }
+    function phaseOf(n) { return n <= 3 ? 'questions' : (n === 4 ? 'reveal' : 'contact'); }
+    function val(f) { return document.getElementById('rfi-' + f + '-' + id).value.trim(); }
+
+    function fieldsValid() {
+      return !!(val('first') && val('last')
+        && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val('email'))
+        && val('phone').replace(/\D/g, '').length >= 10
+        && /^\d{5}$/.test(val('zip')));
+    }
+
+    // ── Condensed reveal: hero price + construction range + one-line budget verdict ──
+    var VERDICTS = {
+      aligned:  { cls: 'aligned',  ic: '<polyline points="20 6 9 17 4 12"></polyline>',
+                  txt: 'Your budget looks realistic for this scope.' },
+      tight:    { cls: 'tight',    ic: '<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line>',
+                  txt: 'Workable at the lower end — expect some tradeoffs on finishes.' },
+      too_low:  { cls: 'too_low',  ic: '<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line>',
+                  txt: 'Your budget may be light for this scope — we can help you phase it.' },
+      has_room: { cls: 'has_room', ic: '<circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line>',
+                  txt: 'Your budget has room beyond this scope.' },
+      not_sure: { cls: 'not_sure', ic: '<circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line>',
+                  txt: 'Not sure yet? We’ll help you build a realistic budget.' }
+    };
+    function buildReveal() {
+      var est = calcConstruction(rooms, tier);
+      if (!est) return;
+      var pm = buildPmBreakdown(rooms, tier);
+      document.getElementById('rfc-price-'  + id).textContent = fmtDollars(pm.total);
+      document.getElementById('rfc-savings-' + id).hidden     = rooms.length <= 1;
+      document.getElementById('rfc-constr-' + id).textContent = fmtRange(est.lo, est.hi);
+      var v = VERDICTS[getBudgetState(est.lo, est.hi, budget)] || VERDICTS.not_sure;
+      document.getElementById('rfc-verdict-' + id).innerHTML =
+        '<div class="rfc-verdict-pill ' + v.cls + '">'
+        + '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" '
+        + 'stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">' + v.ic + '</svg>'
+        + '<span>' + v.txt + '</span></div>';
+    }
+
+    function applyNav(n) {
+      backBtn.disabled = (n === 1);
+      var label = 'Next', disabled = false;
+      if (n === 1)      { disabled = rooms.length === 0; }
+      else if (n === 4) { label = 'Leave your details →'; }
+      else if (n === 5) { disabled = !fieldsValid(); }
+      else if (n === 6) { label = 'Submit request'; disabled = !(ackBox.checked && fieldsValid()); }
+      nextBtn.textContent = label;
+      nextBtn.disabled = disabled;
+    }
+
+    function showStep(n) {
+      step = n;
+      for (var i = 1; i <= LAST; i++) panel(i).hidden = (i !== n);
+      card.classList.remove('phase-questions', 'phase-reveal', 'phase-contact');
+      card.classList.add('phase-' + phaseOf(n));
+      segs.forEach(function(s, i) { s.classList.toggle('on', n <= 3 && i < n); });
+      nav.hidden = (n === LAST); // success has no nav
+      if (n === 4) buildReveal();
+      applyNav(n);
+      if (window.lucide && window.lucide.createIcons) window.lucide.createIcons();
+    }
+
+    function advance(to) {
+      if (advanceTimer) clearTimeout(advanceTimer);
+      advanceTimer = setTimeout(function() { showStep(to); }, 240);
+    }
+
+    // Q1 — rooms (multi-select; Next gated on ≥1)
+    roomChips.forEach(function(chip) {
+      chip.addEventListener('click', function() {
+        chip.classList.toggle('sel');
+        rooms = Array.prototype.filter.call(roomChips, function(c) {
+          return c.classList.contains('sel');
+        }).map(function(c) { return c.getAttribute('data-room'); });
+        if (step === 1) nextBtn.disabled = rooms.length === 0;
+      });
+    });
+
+    // Q2 — type (single-select, auto-advance)
+    tierBtns.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        tierBtns.forEach(function(b) { b.classList.remove('sel'); });
+        btn.classList.add('sel');
+        tier = btn.getAttribute('data-tier');
+        advance(3);
+      });
+    });
+
+    // Q3 — budget (optional single-select, auto-advance into the reveal)
+    budChips.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        budChips.forEach(function(b) { b.classList.remove('sel'); });
+        btn.classList.add('sel');
+        budget = btn.getAttribute('data-budget');
+        advance(4);
+      });
+    });
+
+    // Contact fields — live-validate Next (step 5) + blur errors
+    ['first', 'last', 'email', 'phone', 'zip'].forEach(function(f) {
+      var el = document.getElementById('rfi-' + f + '-' + id);
+      if (!el) return;
+      el.addEventListener('input', function() { if (step === 5) applyNav(5); });
+      el.addEventListener('blur', function() {
+        var fld = document.getElementById('rff-' + f + '-' + id);
+        var v = el.value.trim(), ok = true;
+        if (f === 'email') ok = !v || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+        else if (f === 'phone') ok = !v || v.replace(/\D/g, '').length >= 10;
+        else if (f === 'zip') ok = !v || /^\d{5}$/.test(v);
+        else ok = !!v;
+        fld.classList.toggle('err', !ok);
+      });
+    });
+    if (ackBox) ackBox.addEventListener('change', function() { if (step === 6) applyNav(6); });
+
+    // Footer nav — forward / submit
+    nextBtn.addEventListener('click', function() {
+      if (step === 5 && !fieldsValid()) return;
+      if (step === 6) { if (ackBox.checked && fieldsValid()) showStep(7); return; }
+      if (step < LAST) showStep(step + 1);
+    });
+    backBtn.addEventListener('click', function() {
+      if (step > 1) showStep(step - 1);
+    });
+
+    // Bottom fixed CTA scrolls to the card; IntersectionObserver hides the bar
+    // whenever the card is on screen so there's never a duplicate CTA.
+    if (ctaBtn) ctaBtn.addEventListener('click', function() {
+      requestAnimationFrame(function() {
+        if (card) card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+    if ('IntersectionObserver' in window && ctaBarWrap && card) {
+      requestAnimationFrame(function() {
+        var io = new IntersectionObserver(function(entries) {
+          entries.forEach(function(e) {
+            if (frame && frame.hidden) { ctaBarWrap.style.display = ''; return; }
+            ctaBarWrap.style.display = e.isIntersecting ? 'none' : '';
+          });
+        }, { root: scrollEl, threshold: 0.04 });
+        io.observe(card);
+      });
+    }
+
+    showStep(1);
+  }
+
+  initRevealCard('a');
   initRevealSheet('b');
 
 })();
