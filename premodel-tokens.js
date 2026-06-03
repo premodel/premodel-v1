@@ -52,6 +52,7 @@
     '--text-on-dark':       { value: '#f3ede1', type: 'color', group: 'Text', label: 'Text on dark' },
     '--text-on-dark-2':     { value: '#a89a82', type: 'color', group: 'Text', label: 'Text on dark (2)' },
     '--text-on-dark-3':     { value: '#6a625a', type: 'color', group: 'Text', label: 'Text on dark (3)' },
+    '--text-on-accent':     { value: '#ffffff', type: 'color', group: 'Text', label: 'Text on accent' },
 
     // ── Borders & icons ───────────────────────────────────────────────
     '--border-divider':     { value: '#e4dccb', type: 'color', group: 'Borders', label: 'Hairline divider' },

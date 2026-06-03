@@ -41,6 +41,7 @@
   --text-on-dark:    #f3ede1;
   --text-on-dark-2:  #a89a82;
   --text-on-dark-3:  #6a625a;
+  --text-on-accent:  #ffffff;
   /* Borders & icons */
   --border-divider:  #e4dccb;
   --border-subtle:   #d8cfc0;
@@ -1085,7 +1086,7 @@ body.palette-active .cta-button,
 body.palette-active .rf-btn,
 body.palette-active .rf-anchor-cta {
   background: var(--accent);
-  color: #ffffff;
+  color: var(--text-on-accent);
   border-radius: 999px;
   transition: background 0.2s ease;
 }
@@ -1106,7 +1107,7 @@ body.palette-active .rf-chip.sel,
 body.palette-active .rf-budget-chip.sel {
   background: var(--accent);
   border-color: var(--accent);
-  color: #ffffff;
+  color: var(--text-on-accent);
 }
 body.palette-active .rf-tier.sel,
 body.palette-active .rf-budget.sel {
@@ -1115,7 +1116,7 @@ body.palette-active .rf-budget.sel {
 }
 body.palette-active .rf-tier.sel .rf-tier-name,
 body.palette-active .rf-budget.sel {
-  color: #ffffff;
+  color: var(--text-on-accent);
 }
 
 /* Inline accent text (the "Premodel." wordmark already inherits via
