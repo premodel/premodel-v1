@@ -1437,7 +1437,7 @@ body[data-palette="saffron"] .toggle-btn {
 
             <div class="cc-overlay">
               <!-- Y axis label -->
-              <span class="cc-ylabel">Stress level →</span>
+              <span class="cc-ylabel">STRESS →</span>
 
               <!-- Premodel image pin (revealed in beat 6) -->
               <div class="cc-photo" aria-hidden="true">
@@ -1446,8 +1446,8 @@ body[data-palette="saffron"] .toggle-btn {
                 <span class="cc-photo-card cc-photo-card--front"></span>
               </div>
 
-              <!-- Avoid-regret label (revealed in frame 7) -->
-              <span class="cc-risk">Avoid regret</span>
+              <!-- Avoidable-risk label (revealed in frame 7) -->
+              <span class="cc-risk">Avoidable<br>risk</span>
 
               <!-- Animated emotion pins (positioned along the lines by JS) — one per frame, accumulating
                    as the line builds so the emotional path stays visible. Faces are OpenMoji (non-color),
@@ -3242,7 +3242,7 @@ body[data-palette="saffron"] .toggle-btn {
       setCaption(Math.floor(g));
     }
 
-    function sizeTrack() { track.style.height = (scrollEl.clientHeight * 6) + 'px'; }
+    function sizeTrack() { track.style.height = (scrollEl.clientHeight * 6.5) + 'px'; }
     function progress() {
       var host = scrollEl.getBoundingClientRect();
       var box = scrolly.getBoundingClientRect();
@@ -3251,7 +3251,9 @@ body[data-palette="saffron"] .toggle-btn {
       return clamp((host.top - box.top) / runway, 0, 1);
     }
     var ticking = false;
-    function update() { render(progress() * 7); ticking = false; }
+    // Finish the 7 frames by 88% of the runway, then HOLD the completed chart for the last 12% so the
+    // Premodel line reaches point 7 well before the sticky section unlocks.
+    function update() { render(clamp(progress() / 0.88 * 7, 0, 7)); ticking = false; }
     function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
 
     scrolly.classList.add('cc-ready');
