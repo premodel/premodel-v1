@@ -6,7 +6,7 @@
 <title>Premodel — Style Guide</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;500;600&family=Inter:wght@400;500;600;700&family=Fraunces:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=Roboto:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;500;600&family=Inter:wght@400;500;600;700&family=Fraunces:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Cormorant+Garamond:wght@500;600;700&family=Lora:wght@400;500;600;700&family=Roboto:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <!-- premodel-tokens: pre-paint bootstrap. Applies persisted token overrides before
      first paint so there's no flash. Full engine (premodel-tokens.js) loads at body end. -->
 <script>
@@ -19,10 +19,10 @@
   :root {
     /* ── Surfaces ── */
     --bg-page:              #f7f4eb;
-    --bg-surface:           #fbf8ef;
-    --bg-surface-elevated:  #ffffff;
+    --bg-surface:           #ffffff;
+    --bg-surface-elevated:  #f7f4eb;
     --bg-pill:              #ece4d1;
-    --bg-footer:            #ece4d1;
+    --bg-footer:            #f7f4eb;
     /* --bg-chip intentionally unset: chips fall back to --bg-surface until set. */
     --bg-warning:           #faeeda;
     --bg-dark:              #1a1816;
@@ -41,7 +41,7 @@
 
     /* ── Borders / dividers ── */
     --border-divider:  #e4dccb;
-    --border-subtle:   #d8cfc0;
+    --border-subtle:   #e4dccb;
     --border-strong:   #b8ae9c;
     --border-on-dark:  rgba(243, 237, 225, 0.16);
 
@@ -50,8 +50,8 @@
     --icon-muted:      #998f80;
 
     /* ── Chart / illustration ── */
-    --chart-line:        #b9b8b1;
-    --chart-hatch:       #c9c8c1;
+    --chart-line:        #6a625a;
+    --chart-hatch:       #e4dccb;
     --chart-fill-soft:   #e4eef8;
     --media-placeholder: #3a3935;
 
@@ -61,10 +61,10 @@
     --accent-soft:     #ecd0d0;
     --accent-on-dark:  #a4666a;
 
-    /* ── Type stack — driven by switcher. Default: Editorial ── */
-    --font-display:    'Source Serif 4', Georgia, serif;
-    --font-body:       'Inter', system-ui, sans-serif;
-    --display-weight:  500;
+    /* ── Type stack — driven by switcher. Default: Warm contemporary ── */
+    --font-display:    'Fraunces', Georgia, serif;
+    --font-body:       'Manrope', system-ui, sans-serif;
+    --display-weight:  600;
 
     /* ── Spacing scale (4-based, with half-steps captured from the prototype) ── */
     --space-0-5: 2px;
@@ -98,11 +98,11 @@
        the cascade + the screen preview, so each breakpoint is independently
        editable. ── */
     --fs-display-1-m: 44px; --fs-display-1-t: 56px; --fs-display-1-d: 64px;
-    --fs-display-2-m: 32px; --fs-display-2-t: 40px; --fs-display-2-d: 44px;
+    --fs-display-2-m: 36px; --fs-display-2-t: 40px; --fs-display-2-d: 44px;
     --fs-h1-m:        28px; --fs-h1-t:        32px; --fs-h1-d:        36px;
     --fs-h2-m:        22px; --fs-h2-t:        24px; --fs-h2-d:        24px;
     --fs-h3-m:        18px; --fs-h3-t:        19px; --fs-h3-d:        19px;
-    --fs-body-lg-m:   17px; --fs-body-lg-t:   18px; --fs-body-lg-d:   18px;
+    --fs-body-lg-m:   15px; --fs-body-lg-t:   18px; --fs-body-lg-d:   18px;
     --fs-body-m:      15px; --fs-body-t:      16px; --fs-body-d:      16px;
     --fs-display-1: var(--fs-display-1-m);
     --fs-display-2: var(--fs-display-2-m);
@@ -781,8 +781,10 @@
           <span class="control-label">Type</span>
           <select id="typeSelect" aria-label="Type stack">
             <option value="editorial">Editorial</option>
-            <option value="warm">Warm contemporary</option>
-            <option value="modern">Modern sans</option>
+            <option value="warm" selected>Warm contemporary</option>
+            <option value="literary">Literary</option>
+            <option value="quietluxury">Quiet luxury</option>
+            <option value="classic">Classic</option>
           </select>
         </label>
         <label class="control-dropdown">
@@ -826,15 +828,15 @@
 
       <div class="subgroup-label">Surfaces</div>
       <div class="swatch-grid">
-        <div class="swatch"><div class="chip" style="background:#f7f4eb"></div><div><div class="role">Page background</div><div class="var">--bg-page</div><div class="hex">#f7f4eb</div><div class="desc">Warm paper. Body bg of the entire site — never pure #fff.</div></div></div>
-        <div class="swatch"><div class="chip" style="background:#fbf8ef"></div><div><div class="role">Card surface</div><div class="var">--bg-surface</div><div class="hex">#fbf8ef</div><div class="desc">Half-tone lighter than page. Tiles, quote cards, section frames.</div></div></div>
-        <div class="swatch"><div class="chip" style="background:#ffffff; border-color:#e4dccb"></div><div><div class="role">Elevated surface</div><div class="var">--bg-surface-elevated</div><div class="hex">#ffffff</div><div class="desc">Raised cards / pills above the page. Pure white. (Used heavily in the prototype.)</div></div></div>
+        <div class="swatch"><div class="chip" style="background:#f7f4eb"></div><div><div class="role">Page background</div><div class="var">--bg-page</div><div class="hex">#f7f4eb</div><div class="desc">Warm paper. App background and modal placeholder fills — never pure #fff.</div></div></div>
+        <div class="swatch"><div class="chip" style="background:#fbf8ef"></div><div><div class="role">Card surface</div><div class="var">--bg-surface</div><div class="hex">#fbf8ef</div><div class="desc">Half-tone lighter than page. Tiles, chips, avatars, toolbar controls.</div></div></div>
+        <div class="swatch"><div class="chip" style="background:#ffffff; border-color:#e4dccb"></div><div><div class="role">Elevated surface</div><div class="var">--bg-surface-elevated</div><div class="hex">#ffffff</div><div class="desc">Pure white. Raised cards, the reveal card, step numbers, the CTA bar — used heavily.</div></div></div>
         <div class="swatch"><div class="chip" style="background:#fbf8ef"></div><div><div class="role">Chip / eyebrow bg</div><div class="var">--bg-chip</div><div class="hex">#fbf8ef</div><div class="desc">Eyebrow tags, chips, small pills. Defaults to card surface until set.</div></div></div>
         <div class="swatch"><div class="chip" style="background:#ece4d1"></div><div><div class="role">Footer background</div><div class="var">--bg-footer</div><div class="hex">#ece4d1</div><div class="desc">Footer strip background (footer-only in the prototype).</div></div></div>
-        <div class="swatch"><div class="chip" style="background:#faeeda"></div><div><div class="role">Warning bg</div><div class="var">--bg-warning</div><div class="hex">#faeeda</div><div class="desc">Soft amber background for notices / disclaimers.</div></div></div>
-        <div class="swatch"><div class="chip" style="background:#1a1816"></div><div><div class="role">Dark surface</div><div class="var">--bg-dark</div><div class="hex">#1a1816</div><div class="desc">Warm near-black for footer and dark hero overlays. Never pure #000.</div></div></div>
+        <div class="swatch"><div class="chip" style="background:#faeeda"></div><div><div class="role">Warning bg</div><div class="var">--bg-warning</div><div class="hex">#faeeda</div><div class="desc">—</div></div></div>
+        <div class="swatch"><div class="chip" style="background:#1a1816"></div><div><div class="role">Dark surface</div><div class="var">--bg-dark</div><div class="hex">#1a1816</div><div class="desc">Warm near-black. Dark-theme surfaces and the case-study modal — never pure #000.</div></div></div>
         <div class="swatch"><div class="chip" style="background:#24221f"></div><div><div class="role">Dark elevated</div><div class="var">--bg-dark-elevated</div><div class="hex">#24221f</div><div class="desc">Raised surface on a dark section.</div></div></div>
-        <div class="swatch"><div class="chip" style="background:#f7f4eb"></div><div><div class="role">Card on dark</div><div class="var">--bg-dark-card</div><div class="hex">#f7f4eb</div><div class="desc">Paper card placed on a dark surface.</div></div></div>
+        <div class="swatch"><div class="chip" style="background:#f7f4eb"></div><div><div class="role">Card on dark</div><div class="var">--bg-dark-card</div><div class="hex">#f7f4eb</div><div class="desc">—</div></div></div>
       </div>
 
       <div class="subgroup-label">Text</div>
@@ -842,35 +844,35 @@
         <div class="swatch"><div class="chip" style="background:#2a2826"></div><div><div class="role">Primary text</div><div class="var">--text-primary</div><div class="hex">#2a2826</div><div class="desc">Headlines, body. Warm-toned near-black.</div></div></div>
         <div class="swatch"><div class="chip" style="background:#6a625a"></div><div><div class="role">Secondary text</div><div class="var">--text-secondary</div><div class="hex">#6a625a</div><div class="desc">Lede, descriptions, supporting copy.</div></div></div>
         <div class="swatch"><div class="chip" style="background:#998f80"></div><div><div class="role">Tertiary text</div><div class="var">--text-tertiary</div><div class="hex">#998f80</div><div class="desc">Eyebrow, captions, metadata, fine print.</div></div></div>
-        <div class="swatch"><div class="chip" style="background:#854f0b"></div><div><div class="role">Warning text</div><div class="var">--text-warning</div><div class="hex">#854f0b</div><div class="desc">Text / icons inside warning notices.</div></div></div>
+        <div class="swatch"><div class="chip" style="background:#854f0b"></div><div><div class="role">Warning text</div><div class="var">--text-warning</div><div class="hex">#854f0b</div><div class="desc">—</div></div></div>
         <div class="swatch"><div class="chip" style="background:#f3ede1; border-color:#444"></div><div><div class="role">Text on dark</div><div class="var">--text-on-dark</div><div class="hex">#f3ede1</div><div class="desc">Primary text when on dark surface.</div></div></div>
         <div class="swatch"><div class="chip" style="background:#a89a82; border-color:#444"></div><div><div class="role">Text on dark (2)</div><div class="var">--text-on-dark-2</div><div class="hex">#a89a82</div><div class="desc">Secondary text on dark surfaces.</div></div></div>
         <div class="swatch"><div class="chip" style="background:#6a625a; border-color:#444"></div><div><div class="role">Text on dark (3)</div><div class="var">--text-on-dark-3</div><div class="hex">#6a625a</div><div class="desc">Tertiary / muted text on dark.</div></div></div>
-        <div class="swatch"><div class="chip" style="background:#ffffff; border-color:#e4dccb"></div><div><div class="role">Text on accent</div><div class="var">--text-on-accent</div><div class="hex">#ffffff</div><div class="desc">Text / icons on an accent-filled button or selected chip.</div></div></div>
+        <div class="swatch"><div class="chip" style="background:#ffffff; border-color:#e4dccb"></div><div><div class="role">Text on accent</div><div class="var">--text-on-accent</div><div class="hex">#ffffff</div><div class="desc">Text / icons on accent fills — buttons, selected chips, the step-number circles.</div></div></div>
       </div>
 
       <div class="subgroup-label">Borders &amp; icons</div>
       <div class="swatch-grid">
-        <div class="swatch"><div class="chip" style="background:#e4dccb"></div><div><div class="role">Hairline divider</div><div class="var">--border-divider</div><div class="hex">#e4dccb</div></div></div>
-        <div class="swatch"><div class="chip" style="background:#d8cfc0"></div><div><div class="role">Subtle border</div><div class="var">--border-subtle</div><div class="hex">#d8cfc0</div></div></div>
-        <div class="swatch"><div class="chip" style="background:#b8ae9c"></div><div><div class="role">Strong border</div><div class="var">--border-strong</div><div class="hex">#b8ae9c</div></div></div>
-        <div class="swatch"><div class="chip" style="background:#2a2826"></div><div><div class="role">Icons (primary)</div><div class="var">--icon-primary</div><div class="hex">#2a2826</div></div></div>
-        <div class="swatch"><div class="chip" style="background:#998f80"></div><div><div class="role">Icons (muted)</div><div class="var">--icon-muted</div><div class="hex">#998f80</div></div></div>
+        <div class="swatch"><div class="chip" style="background:#e4dccb"></div><div><div class="role">Hairline divider</div><div class="var">--border-divider</div><div class="hex">#e4dccb</div><div class="desc">Hairlines — header, table rows, the CTA bar, section dividers.</div></div></div>
+        <div class="swatch"><div class="chip" style="background:#d8cfc0"></div><div><div class="role">Subtle border</div><div class="var">--border-subtle</div><div class="hex">#d8cfc0</div><div class="desc">Card &amp; input outlines, the phone frame.</div></div></div>
+        <div class="swatch"><div class="chip" style="background:#b8ae9c"></div><div><div class="role">Strong border</div><div class="var">--border-strong</div><div class="hex">#b8ae9c</div><div class="desc">The step-list connector line.</div></div></div>
+        <div class="swatch"><div class="chip" style="background:#2a2826"></div><div><div class="role">Icons (primary)</div><div class="var">--icon-primary</div><div class="hex">#2a2826</div><div class="desc">—</div></div></div>
+        <div class="swatch"><div class="chip" style="background:#998f80"></div><div><div class="role">Icons (muted)</div><div class="var">--icon-muted</div><div class="hex">#998f80</div><div class="desc">—</div></div></div>
       </div>
 
       <div class="subgroup-label">Accent <span style="color:var(--text-tertiary); font-weight:400; text-transform:none; letter-spacing:0; font-size:13px;">— currently: <span id="paletteAccentName">oxblood</span></span></div>
       <div class="swatch-grid">
-        <div class="swatch"><div class="chip" id="chipAccent" style="background:#5e2c2e"></div><div><div class="role">Accent — primary</div><div class="var">--accent</div><div class="hex" id="hexAccent">#5e2c2e</div><div class="desc">CTAs, links, tagline, key statistic numbers, quote marks.</div></div></div>
-        <div class="swatch"><div class="chip" id="chipHover" style="background:#3f1c1d"></div><div><div class="role">Accent — hover</div><div class="var">--accent-hover</div><div class="hex" id="hexHover">#3f1c1d</div><div class="desc">Pressed / hover states on accent surfaces.</div></div></div>
-        <div class="swatch"><div class="chip" id="chipSoft" style="background:#ecd0d0"></div><div><div class="role">Accent — soft tint</div><div class="var">--accent-soft</div><div class="hex" id="hexSoft">#ecd0d0</div><div class="desc">Pill backgrounds, callouts, focus rings.</div></div></div>
-        <div class="swatch"><div class="chip" id="chipOnDark" style="background:#a4666a"></div><div><div class="role">Accent — on dark</div><div class="var">--accent-on-dark</div><div class="hex" id="hexOnDark">#a4666a</div><div class="desc">Lightened shade for accent on dark surface.</div></div></div>
+        <div class="swatch"><div class="chip" id="chipAccent" style="background:#5e2c2e"></div><div><div class="role">Accent — primary</div><div class="var">--accent</div><div class="hex" id="hexAccent">#5e2c2e</div><div class="desc">Rotating hero word, the "Premodel" brand word, step-number circles, chart highlights, active-palette CTAs.</div></div></div>
+        <div class="swatch"><div class="chip" id="chipHover" style="background:#3f1c1d"></div><div><div class="role">Accent — hover</div><div class="var">--accent-hover</div><div class="hex" id="hexHover">#3f1c1d</div><div class="desc">Hover / pressed accent states; the Seattle locale-tag text.</div></div></div>
+        <div class="swatch"><div class="chip" id="chipSoft" style="background:#ecd0d0"></div><div><div class="role">Accent — soft tint</div><div class="var">--accent-soft</div><div class="hex" id="hexSoft">#ecd0d0</div><div class="desc">Soft fills — the Seattle locale tag, the chart area, active-palette pills.</div></div></div>
+        <div class="swatch"><div class="chip" id="chipOnDark" style="background:#a4666a"></div><div><div class="role">Accent — on dark</div><div class="var">--accent-on-dark</div><div class="hex" id="hexOnDark">#a4666a</div><div class="desc">—</div></div></div>
       </div>
 
       <div class="subgroup-label">Chart &amp; illustration</div>
       <div class="swatch-grid">
         <div class="swatch"><div class="chip" style="background:#b9b8b1"></div><div><div class="role">Chart line / rule</div><div class="var">--chart-line</div><div class="hex">#b9b8b1</div><div class="desc">The chart line stroke itself — axis lines, rules, the "old way" line.</div></div></div>
         <div class="swatch"><div class="chip" style="background:#c9c8c1"></div><div><div class="role">Chart line background</div><div class="var">--chart-hatch</div><div class="hex">#c9c8c1</div><div class="desc">Fill behind the chart line — e.g. the avoidable-risk area — controlled separately from the line.</div></div></div>
-        <div class="swatch"><div class="chip" style="background:#e4eef8"></div><div><div class="role">Chart soft fill <span style="opacity:.6">(unused)</span></div><div class="var">--chart-fill-soft</div><div class="hex">#e4eef8</div><div class="desc">No longer used: the Premodel area now uses the accent soft tint (--accent-soft).</div></div></div>
+        <div class="swatch"><div class="chip" style="background:#e4eef8"></div><div><div class="role">Chart soft fill <span style="opacity:.6">(unused)</span></div><div class="var">--chart-fill-soft</div><div class="hex">#e4eef8</div><div class="desc">—</div></div></div>
         <div class="swatch"><div class="chip" style="background:#3a3935"></div><div><div class="role">Image placeholder</div><div class="var">--media-placeholder</div><div class="hex">#3a3935</div><div class="desc">Fallback block where imagery loads.</div></div></div>
       </div>
     </section>
@@ -881,15 +883,15 @@
     <section class="style-section" id="type">
       <div class="section-head">
         <span class="eyebrow"><span class="num">02</span> Typography</span>
-        <h2>Three candidate stacks. Toggle above to compare.</h2>
-        <p class="lead">All three pairings are free / Google Fonts and load fast. Each gives a different register without losing the editorial-restraint mood. Display font drives headlines and the rotator; body font drives everything else.</p>
+        <h2>Five candidate stacks. Toggle above to compare.</h2>
+        <p class="lead">All five pairings are free / Google Fonts and load fast. Each gives a different register without losing the editorial, warm-neutral mood — from the restrained Source Serif to the high-contrast elegance of Cormorant. Display font drives headlines and the rotator; body font drives everything else.</p>
       </div>
 
       <div class="subgroup-label">Current stack <span style="color:var(--text-tertiary); font-weight:400; text-transform:none; letter-spacing:0; font-size:13px;">— display / body</span></div>
       <div class="type-sample">
         <div class="label">
           <span class="name">Display</span>
-          <span class="meta" id="metaDisplay">Source Serif 4 · 500 · -0.01em</span>
+          <span class="meta" id="metaDisplay">Fraunces · 600 · -0.01em</span>
         </div>
         <div class="display-1">Don't guess. <span class="accent-word">Premodel.</span></div>
         <div class="display-2" style="margin-top: 14px;">Start with a Reveal.</div>
@@ -898,7 +900,7 @@
       <div class="type-sample">
         <div class="label">
           <span class="name">Body</span>
-          <span class="meta" id="metaBody">Inter · 400 · 1.55</span>
+          <span class="meta" id="metaBody">Manrope · 400 · 1.55</span>
         </div>
         <p style="margin:0 0 12px; font-size: var(--fs-body-lg);">Two seasoned advisors walk your home, listen, and turn what they hear into photorealistic Reveals — so you can sit with the decision before you spend a dollar on construction.</p>
         <p style="margin:0; color: var(--text-secondary);">The mark stays neutral. The wordmark stays deep ink. Only "Before You Remodel" — the tagline that is the positioning statement — takes the accent.</p>
@@ -909,15 +911,15 @@
       <table class="rhythm-table">
         <thead><tr><th>Role</th><th>Var</th><th>Mobile (≤ 640)</th><th>Tablet (768)</th><th>Desktop (1200+)</th><th>Line-height</th><th>Used in</th></tr></thead>
         <tbody>
-          <tr><td><b>Display 1</b></td><td class="mono">--fs-display-1</td><td class="mono">44px</td><td class="mono">56px</td><td class="mono">64px</td><td class="mono">1.1</td><td>Hero rotator headline</td></tr>
-          <tr><td><b>Display 2</b></td><td class="mono">--fs-display-2</td><td class="mono">32px</td><td class="mono">40px</td><td class="mono">44px</td><td class="mono">1.1</td><td>Section headlines</td></tr>
-          <tr><td>H1</td><td class="mono">--fs-h1</td><td class="mono">28px</td><td class="mono">32px</td><td class="mono">36px</td><td class="mono">1.2</td><td>Subsection</td></tr>
-          <tr><td>H2</td><td class="mono">--fs-h2</td><td class="mono">22px</td><td class="mono">24px</td><td class="mono">24px</td><td class="mono">1.2</td><td>Card headline</td></tr>
-          <tr><td>H3</td><td class="mono">--fs-h3</td><td class="mono">18px</td><td class="mono">19px</td><td class="mono">19px</td><td class="mono">1.2</td><td>Tile headline</td></tr>
-          <tr><td>Body L</td><td class="mono">--fs-body-lg</td><td class="mono">17px</td><td class="mono">18px</td><td class="mono">18px</td><td class="mono">1.55</td><td>Lede paragraph</td></tr>
-          <tr><td>Body</td><td class="mono">--fs-body</td><td class="mono">15px</td><td class="mono">16px</td><td class="mono">16px</td><td class="mono">1.55</td><td>Default body</td></tr>
-          <tr><td>Small</td><td class="mono">--fs-small</td><td class="mono">13px</td><td class="mono">13px</td><td class="mono">13px</td><td class="mono">1.5</td><td>Caption, tile body</td></tr>
-          <tr><td>Caption</td><td class="mono">--fs-caption</td><td class="mono">11px</td><td class="mono">11px</td><td class="mono">11px</td><td class="mono">1.4</td><td>Eyebrow, fine print</td></tr>
+          <tr><td><b>Display 1</b></td><td class="mono">--fs-display-1</td><td class="mono">44px</td><td class="mono">56px</td><td class="mono">64px</td><td class="mono">1.1</td><td>—</td></tr>
+          <tr><td><b>Display 2</b></td><td class="mono">--fs-display-2</td><td class="mono">32px</td><td class="mono">40px</td><td class="mono">44px</td><td class="mono">1.1</td><td>Hero &amp; section headlines</td></tr>
+          <tr><td>H1</td><td class="mono">--fs-h1</td><td class="mono">28px</td><td class="mono">32px</td><td class="mono">36px</td><td class="mono">1.2</td><td>—</td></tr>
+          <tr><td>H2</td><td class="mono">--fs-h2</td><td class="mono">22px</td><td class="mono">24px</td><td class="mono">24px</td><td class="mono">1.2</td><td>Pricing, modal &amp; form titles; proof stats</td></tr>
+          <tr><td>H3</td><td class="mono">--fs-h3</td><td class="mono">18px</td><td class="mono">19px</td><td class="mono">19px</td><td class="mono">1.2</td><td>Step headings, footer mark, chart labels</td></tr>
+          <tr><td>Body L</td><td class="mono">--fs-body-lg</td><td class="mono">17px</td><td class="mono">18px</td><td class="mono">18px</td><td class="mono">1.55</td><td>Hero subhead, finder questions</td></tr>
+          <tr><td>Body</td><td class="mono">--fs-body</td><td class="mono">15px</td><td class="mono">16px</td><td class="mono">16px</td><td class="mono">1.55</td><td>Default body, buttons, form fields</td></tr>
+          <tr><td>Small</td><td class="mono">--fs-small</td><td class="mono">13px</td><td class="mono">13px</td><td class="mono">13px</td><td class="mono">1.5</td><td>Tile &amp; table copy, chips, controls</td></tr>
+          <tr><td>Caption</td><td class="mono">--fs-caption</td><td class="mono">11px</td><td class="mono">11px</td><td class="mono">11px</td><td class="mono">1.4</td><td>Eyebrows, pills, labels, fine print</td></tr>
         </tbody>
       </table>
       </div>
@@ -1531,12 +1533,28 @@
       metaDisp: 'Fraunces · 600 · -0.01em',
       metaBody: 'Manrope · 400 · 1.55',
     },
-    modern: {
-      name: 'Modern sans',
-      display: "'Inter', system-ui, sans-serif",
+    literary: {
+      name: 'Literary',
+      display: "'Newsreader', Georgia, serif",
       body:    "'Inter', system-ui, sans-serif",
-      displayWeight: '700',
-      metaDisp: 'Inter · 700 · -0.025em',
+      displayWeight: '500',   // Newsreader's bookish contrast reads best at medium weight
+      metaDisp: 'Newsreader · 500 · -0.01em',
+      metaBody: 'Inter · 400 · 1.55',
+    },
+    quietluxury: {
+      name: 'Quiet luxury',
+      display: "'Cormorant Garamond', Georgia, serif",
+      body:    "'Inter', system-ui, sans-serif",
+      displayWeight: '600',   // high-contrast Garamond needs the heavier cut to hold at headline scale
+      metaDisp: 'Cormorant Garamond · 600 · -0.01em',
+      metaBody: 'Inter · 400 · 1.55',
+    },
+    classic: {
+      name: 'Classic',
+      display: "'Lora', Georgia, serif",
+      body:    "'Inter', system-ui, sans-serif",
+      displayWeight: '600',
+      metaDisp: 'Lora · 600 · -0.01em',
       metaBody: 'Inter · 400 · 1.55',
     },
   };

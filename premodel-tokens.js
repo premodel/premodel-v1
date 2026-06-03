@@ -34,10 +34,10 @@
   var DEFAULT_TOKENS = {
     // ── Surfaces ──────────────────────────────────────────────────────
     '--bg-page':            { value: '#f7f4eb', type: 'color', group: 'Surfaces', label: 'Page background' },
-    '--bg-surface':         { value: '#fbf8ef', type: 'color', group: 'Surfaces', label: 'Card surface' },
-    '--bg-surface-elevated':{ value: '#ffffff', type: 'color', group: 'Surfaces', label: 'Elevated surface' },
+    '--bg-surface':         { value: '#ffffff', type: 'color', group: 'Surfaces', label: 'Card surface' },
+    '--bg-surface-elevated':{ value: '#f7f4eb', type: 'color', group: 'Surfaces', label: 'Elevated surface' },
     '--bg-pill':            { value: '#ece4d1', type: 'color', group: 'Surfaces', label: 'Pill bg (guide demo)' },
-    '--bg-footer':          { value: '#ece4d1', type: 'color', group: 'Surfaces', label: 'Footer background' },
+    '--bg-footer':          { value: '#f7f4eb', type: 'color', group: 'Surfaces', label: 'Footer background' },
     '--bg-chip':            { value: '#fbf8ef', type: 'color', group: 'Surfaces', label: 'Chip / eyebrow bg' },
     '--bg-warning':         { value: '#faeeda', type: 'color', group: 'Surfaces', label: 'Warning bg' },
     '--bg-dark':            { value: '#1a1816', type: 'color', group: 'Surfaces', label: 'Dark surface' },
@@ -56,7 +56,7 @@
 
     // ── Borders & icons ───────────────────────────────────────────────
     '--border-divider':     { value: '#e4dccb', type: 'color', group: 'Borders', label: 'Hairline divider' },
-    '--border-subtle':      { value: '#d8cfc0', type: 'color', group: 'Borders', label: 'Subtle border' },
+    '--border-subtle':      { value: '#e4dccb', type: 'color', group: 'Borders', label: 'Subtle border' },
     '--border-strong':      { value: '#b8ae9c', type: 'color', group: 'Borders', label: 'Strong border' },
     '--border-on-dark':     { value: 'rgba(243, 237, 225, 0.16)', type: 'color', group: 'Borders', label: 'Border on dark' },
     '--icon-primary':       { value: '#2a2826', type: 'color', group: 'Borders', label: 'Icon (primary)' },
@@ -69,15 +69,15 @@
     '--accent-on-dark':     { value: '#a4666a', type: 'color', group: 'Accent', label: 'Accent — on dark' },
 
     // ── Chart / illustration (renamed from --gray-line/--hatch/etc.) ──
-    '--chart-line':         { value: '#b9b8b1', type: 'color', group: 'Chart', label: 'Chart line / rule' },
-    '--chart-hatch':        { value: '#c9c8c1', type: 'color', group: 'Chart', label: 'Chart line background' },
+    '--chart-line':         { value: '#6a625a', type: 'color', group: 'Chart', label: 'Chart line / rule' },
+    '--chart-hatch':        { value: '#e4dccb', type: 'color', group: 'Chart', label: 'Chart line background' },
     '--chart-fill-soft':    { value: '#e4eef8', type: 'color', group: 'Chart', label: 'Chart soft fill (unused)' },
     '--media-placeholder':  { value: '#3a3935', type: 'color', group: 'Chart', label: 'Image placeholder' },
 
     // ── Fonts ─────────────────────────────────────────────────────────
-    '--font-display':       { value: "'Source Serif 4', Georgia, serif", type: 'font', group: 'Type', label: 'Display font' },
-    '--font-body':          { value: "'Inter', system-ui, sans-serif", type: 'font', group: 'Type', label: 'Body font' },
-    '--display-weight':     { value: '500', type: 'unitless', group: 'Type', label: 'Display weight' },
+    '--font-display':       { value: "'Fraunces', Georgia, serif", type: 'font', group: 'Type', label: 'Display font' },
+    '--font-body':          { value: "'Manrope', system-ui, sans-serif", type: 'font', group: 'Type', label: 'Body font' },
+    '--display-weight':     { value: '600', type: 'unitless', group: 'Type', label: 'Display weight' },
 
     // ── Radii ─────────────────────────────────────────────────────────
     '--radius-input':       { value: '6px',   type: 'length', group: 'Radius', label: 'Input radius' },
@@ -94,11 +94,11 @@
 
     // ── Type scale (responsive: base = mobile, md = 768, lg = 1200+) ──
     '--fs-display-1':       { value: '44px', type: 'length', group: 'Type', label: 'Display 1', responsive: { base: '44px', md: '56px', lg: '64px' } },
-    '--fs-display-2':       { value: '32px', type: 'length', group: 'Type', label: 'Display 2', responsive: { base: '32px', md: '40px', lg: '44px' } },
+    '--fs-display-2':       { value: '36px', type: 'length', group: 'Type', label: 'Display 2', responsive: { base: '36px', md: '40px', lg: '44px' } },
     '--fs-h1':              { value: '28px', type: 'length', group: 'Type', label: 'H1', responsive: { base: '28px', md: '32px', lg: '36px' } },
     '--fs-h2':              { value: '22px', type: 'length', group: 'Type', label: 'H2', responsive: { base: '22px', md: '24px', lg: '24px' } },
     '--fs-h3':              { value: '18px', type: 'length', group: 'Type', label: 'H3', responsive: { base: '18px', md: '19px', lg: '19px' } },
-    '--fs-body-lg':         { value: '17px', type: 'length', group: 'Type', label: 'Body large', responsive: { base: '17px', md: '18px', lg: '18px' } },
+    '--fs-body-lg':         { value: '15px', type: 'length', group: 'Type', label: 'Body large', responsive: { base: '15px', md: '18px', lg: '18px' } },
     '--fs-body':            { value: '15px', type: 'length', group: 'Type', label: 'Body', responsive: { base: '15px', md: '16px', lg: '16px' } },
     '--fs-small':           { value: '13px', type: 'length', group: 'Type', label: 'Small', responsive: { base: '13px', md: '13px', lg: '13px' } },
     '--fs-caption':         { value: '11px', type: 'length', group: 'Type', label: 'Caption', responsive: { base: '11px', md: '11px', lg: '11px' } },
