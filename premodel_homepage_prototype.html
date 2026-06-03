@@ -720,7 +720,6 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .phone-frame[data-layout="a"] .why-section { padding-top: var(--space-7); }
 .phone-frame[data-layout="a"] .cc-sticky {
   top: 12px;
-  background: var(--bg-surface-elevated);
   padding-bottom: var(--space-3-5);
 }
 .phone-frame[data-layout="a"] .cc-sticky .why-header { margin: 0 0 var(--space-1); }
@@ -1523,11 +1522,13 @@ body[data-palette="saffron"] .toggle-btn {
               </defs>
               <g filter="url(#cc-sketch)">
                 <!-- Fill under the Premodel line (revealed in the final beat): the accent soft tint, so the
-                     Premodel area is tied to the accent color rather than a separate chart fill token. -->
-                <path class="cc-fill" d="M0 268.9C47 268.9 102.6 267.8 149.6 261.3C271 251.5 344.5 210.5 405 194V268.9H0Z" fill="var(--accent-soft)"/>
+                     Premodel area is tied to the accent color rather than a separate chart fill token. Top
+                     edge traces the EXACT bline path (no gap between the fill and the line). -->
+                <path class="cc-fill" d="M0 269.4C47 268.9 96.1 268.9 128.2 265.6C141 264 149.6 261.3 149.6 261.3C212.5 257.5 264 247.9 325.5 219.5C372 198 405 193.5 405 193.5L405 268.9L0 268.9Z" fill="var(--accent-soft)"/>
                 <!-- Avoid-regret gap between the two lines (revealed in the final beat): the gray line's
-                     background/fill, controlled separately from the line stroke (--chart-line). -->
-                <path class="cc-wedge" d="M149.6 261.3C188 254.7 224.3 240.5 254.2 216.5C328 161.5 349.5 35.5 405 24V193C241 263 213.7 252.5 149.6 261.3Z" fill="var(--chart-hatch)"/>
+                     background/fill, controlled separately from the line stroke (--chart-line). Top edge
+                     traces the EXACT gline path, bottom edge the EXACT bline (no gaps with either line). -->
+                <path class="cc-wedge" d="M149.6 261.3C188 254.7 224.3 240.5 254.2 216.5C305.5 177.2 339.7 98.6 358.9 55C374 25 391 18 405 16L405 193.5C405 193.5 372 198 325.5 219.5C264 247.9 212.5 257.5 149.6 261.3Z" fill="var(--chart-hatch)"/>
                 <!-- X axis (full width) -->
                 <line class="axis" x1="0" y1="268.9" x2="405" y2="268.9"/>
                 <!-- Gray (typical) line: drawn progressively across frames 1-5 -->
