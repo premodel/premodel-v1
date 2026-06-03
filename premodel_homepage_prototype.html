@@ -608,7 +608,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 
 /* Flip text: centered lines pushed down to overlap the top of the chart. Frames cross-fade in place
    (absolute-stacked, so the chart below never jumps). A paper halo keeps them legible over the lines. */
-.cc-caption { position: relative; z-index: 3; min-height: 16px; margin: 8px 42px 0; transform: translateY(100px); pointer-events: none; }
+.cc-caption { position: relative; z-index: 3; min-height: 16px; margin: 0 42px 0; transform: translateY(15px); pointer-events: none; }
 .cc-beat { position: absolute; left: 0; right: 0; top: 0; margin: 0; font-family: var(--font-serif); font-size: 18px; line-height: 1.34; letter-spacing: -0.01em; text-align: center; text-wrap: balance; color: var(--color-text-secondary); opacity: 0; transition: opacity 0.4s ease; pointer-events: none;
   text-shadow: 0 0 4px var(--color-background-primary), 0 0 4px var(--color-background-primary), 0 0 8px var(--color-background-primary); }
 .cc-beat.active { opacity: 1; }
@@ -634,8 +634,8 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .phone-frame[data-layout="a"] .cc-sticky .why-header { margin: 0 0 4px; }
 .phone-frame[data-layout="a"] .cc-sticky .section-headline { margin-top: 2px; }
 
-/* Flip text overlaps the top of the chart: centered, 18px, pushed down 100px, with 42px side margins. */
-.phone-frame[data-layout="a"] .cc-caption { min-height: 16px; margin: 8px 42px 0; transform: translateY(100px); }
+/* Flip text sits just below the headline, centered, 18px, nudged down 15px, with 42px side margins. */
+.phone-frame[data-layout="a"] .cc-caption { min-height: 16px; margin: 0 42px 0; transform: translateY(15px); }
 .phone-frame[data-layout="a"] .cc-beat { font-size: 18px; line-height: 1.34; text-align: center; }
 
 /* Chart fills the locked frame; guides follow */
@@ -1411,11 +1411,6 @@ body[data-palette="saffron"] .toggle-btn {
           <div class="cc-stage">
             <svg class="cc-svg" viewBox="0 0 405 300" role="img" aria-label="A line chart of the chance of costly surprises over a remodel, from imagining a space through hiring, planning, and building. A gray line, the typical remodel, rises and accelerates toward build. An accent line, Premodel, shares the early path then rises only gently, with an image pin placed early. The widening gap between the two lines is labeled Avoidable regret.">
               <defs>
-                <pattern id="hatch" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)">
-                  <line x1="0" y1="0" x2="0" y2="6" stroke="var(--hatch)" stroke-width="1.1"/>
-                </pattern>
-                <!-- Reveal rect grows with the gray line (JS animates its width) so the hatch fill tracks the draw -->
-                <clipPath id="ghatch-clip"><rect x="0" y="0" width="0" height="300"/></clipPath>
                 <!-- Hand-drawn wobble: heavily jitters the geometry so the chart reads as a loose,
                      hand-sketched emotional explanation rather than a precise plot. Two displacement
                      passes (a long roll + a fine pencil chatter). Visual only — JS measures true paths. -->
@@ -1427,14 +1422,10 @@ body[data-palette="saffron"] .toggle-btn {
                 </filter>
               </defs>
               <g filter="url(#cc-sketch)">
-                <!-- Persistent diagonal-hatch fill under the gray (typical) line; clipped to the drawn width so it
-                     grows with the line instead of appearing all at once. Sits beneath the soft Premodel fill, which
-                     later covers the lower portion to leave the hatched "Avoid regret" wedge between the lines. -->
-                <path class="cc-ghatch" d="M0 269.4C47 268.9 96.1 268.9 128.2 265.6C141 264 149.6 261.3 149.6 261.3C188 254.7 224.3 240.5 254.2 216.5C305.5 177.2 339.7 98.6 358.9 55C374 25 391 18 405 16 L405 268.9 L0 268.9 Z" fill="url(#hatch)" clip-path="url(#ghatch-clip)"/>
-                <!-- Fill under the Premodel line (revealed in the final beat) -->
+                <!-- Soft fill under the Premodel line (revealed in the final beat) -->
                 <path class="cc-fill" d="M0 268.9C47 268.9 102.6 267.8 149.6 261.3C271 251.5 344.5 210.5 405 194V268.9H0Z" fill="var(--fill-soft)"/>
-                <!-- Hatched Avoid-regret wedge (revealed in the final beat) -->
-                <path class="cc-wedge" d="M149.6 261.3C188 254.7 224.3 240.5 254.2 216.5C328 161.5 349.5 35.5 405 24V193C241 263 213.7 252.5 149.6 261.3Z" fill="url(#hatch)"/>
+                <!-- Avoid-regret gap between the two lines (revealed in the final beat), softly shaded -->
+                <path class="cc-wedge" d="M149.6 261.3C188 254.7 224.3 240.5 254.2 216.5C328 161.5 349.5 35.5 405 24V193C241 263 213.7 252.5 149.6 261.3Z" fill="color-mix(in srgb, var(--color-brand-navy) 15%, transparent)"/>
                 <!-- X axis (full width) -->
                 <line class="axis" x1="0" y1="268.9" x2="405" y2="268.9"/>
                 <!-- Gray (typical) line: drawn progressively across frames 1-5 -->
@@ -3121,7 +3112,6 @@ body[data-palette="saffron"] .toggle-btn {
     var bline = scrolly.querySelector('.cc-bline');
     var fill = scrolly.querySelector('.cc-fill');
     var wedge = scrolly.querySelector('.cc-wedge');
-    var ghatchClip = scrolly.querySelector('#ghatch-clip rect');
     var risk = scrolly.querySelector('.cc-risk');
     var photo = scrolly.querySelector('.cc-photo');
     var beats = Array.prototype.slice.call(scrolly.querySelectorAll('.cc-beat'));
@@ -3164,16 +3154,15 @@ body[data-palette="saffron"] .toggle-btn {
     gline.style.strokeDasharray = gTotal;
     bline.style.strokeDasharray = bTotal;
 
-    // Gray draw stops (SVG x), one per frame 1-5: the line grows Imagine -> Hire -> Plan -> (Plan..Build)
-    // -> Build -> high-stress end, so its tip lands on each frame's emotion pin. gDrawX[0] is the frame-1
-    // start so the line is seen drawing toward Hire.
-    var gDrawX = [60, 150, 254, 307, 360, 405];
+    // Gray dots (SVG x): 1 at Hire, 2 at Plan, 3 between Plan and Build, 4 halfway between dots 3 and 5,
+    // 5 at the end. The line STARTS at dot 1 (frame 1 shows with dot 1 already in place) and then reaches
+    // one dot per frame, so each text flips exactly as the line arrives at the matching dot.
+    var gDrawX = [150, 254, 307, 348, 405];
     var gFrac = gDrawX.map(function(x) { return lengthAtX(gline, gTotal, x) / gTotal; });
-    // Gray emotion pins: 1 at Hire, 2 at Plan, 3 between Plan and Build, 4 at Build, 5 at the end.
-    var gPinX = [150, 254, 307, 360, 405];
+    var gPinX = gDrawX.slice();
     var gPinLen = gPinX.map(function(x) { return lengthAtX(gline, gTotal, x); });
     // Accent (Premodel) line draws an early branch (frame 6) then the rest through Plan/Build (frame 7).
-    var bLenEarly = lengthAtX(bline, bTotal, 149);   // halfway Imagine..Plan — the reveal/image marker
+    var bLenEarly = lengthAtX(bline, bTotal, 97);    // halfway Imagine..Hire — the reveal/image marker
     var bFracEarly = bLenEarly / bTotal;
 
     // Pin positions (gray pins at each gray draw tip; image/end pins along the accent line)
@@ -3188,11 +3177,15 @@ body[data-palette="saffron"] .toggle-btn {
     place(pins.img, imgPos);
     place(pins.end, pctAtLength(bline, bTotal));
     pins.end.style.left = '96%';   // pull the final dot in so it isn't cropped by the right edge
-    // Park the reveal card low in the open area under the rising curve, so the centered flip text
-    // (which now overlaps the chart's upper band) stays clear and legible over it.
-    photo.style.left = clamp(imgPos.l - 22, 8, 26) + '%';
-    photo.style.top = '55%';
-    photo.style.height = '31%';
+    // Park the reveal card ABOVE the Premodel marker pin so it floats over (not resting on) the dot,
+    // keeping at least 20px between the card's bottom edge and the pin's top edge.
+    var ovH = (scrolly.querySelector('.cc-overlay') || photo).clientHeight || 248;
+    var cardHpct = 31;
+    photo.style.height = cardHpct + '%';
+    var pinTopPx = imgPos.t / 100 * ovH - 20;              // pin is 40px tall, centered on imgPos
+    var cardTopPct = clamp((pinTopPx - 20) / ovH * 100 - cardHpct, 3, 60);  // 20px gap above the pin
+    photo.style.top = cardTopPct + '%';
+    photo.style.left = clamp(imgPos.l - 6, 6, 30) + '%';
 
     // Tap a dot to jump to that moment in the chart (each maps to the middle of its caption window)
     var pinTargetG = { g1: 0.5, g2: 1.5, g3: 2.5, g4: 3.5, g5: 4.5, img: 5.5, end: 6.5 };
@@ -3226,25 +3219,24 @@ body[data-palette="saffron"] .toggle-btn {
     }
 
     function render(g) {                       // g in [0..7]
-      // Line draw-on. The gray "typical" stress line grows one segment per frame across frames 1-5
-      // (g 0..5); the accent "Premodel" line then draws an early branch (frame 6) and the rest (frame 7).
-      // Emotion pins fade in as the line reaches each tip and STAY, so the emotional path accumulates.
-      var gDraw = lerpSeg(g, [[0,gFrac[0]],[1,gFrac[1]],[2,gFrac[2]],[3,gFrac[3]],[4,gFrac[4]],[5,gFrac[5]]]);
+      // Line draw-on. The gray "typical" stress line STARTS at dot 1 (g=0) and reaches one dot per
+      // frame (dot N at g=N-1), so dots 1..5 land at g 0,1,2,3,4 and each text flips as the line arrives.
+      // After dot 5 the chart holds (g 4..5), then the accent "Premodel" line draws its early branch
+      // (frame 6, g 5..6) and the rest through Plan/Build (frame 7, g 6..7).
+      var gDraw = lerpSeg(g, [[0,gFrac[0]],[1,gFrac[1]],[2,gFrac[2]],[3,gFrac[3]],[4,gFrac[4]]]);
       gline.style.strokeDashoffset = gTotal * (1 - gDraw);
       bline.style.strokeDashoffset = bTotal * (1 - lerpSeg(g, [[5,0],[6,bFracEarly],[7,1]]));
-      // Grow the hatch-fill clip to the gray line's current tip x so the fill tracks the draw
-      if (ghatchClip) ghatchClip.setAttribute('width', gline.getPointAtLength(gTotal * gDraw).x);
       // Dim the gray path slightly once the Premodel path starts (frame 6), so the accent reads first.
       var grayDim = clamp(1 - (g - 5) / 0.5 * 0.5, 0.5, 1);
       gline.style.opacity = grayDim;
-      // Gray emotion pins fade in just before the line reaches each tip, accumulating, then fade out
-      // COMPLETELY as the Premodel line animates in (frame 6), leaving only the Premodel pins.
+      // Gray emotion pins land with the line at each dot (dot 1 is shown from the very start) and
+      // accumulate, then fade out COMPLETELY as the Premodel line animates in (frame 6).
       var grayPinFade = clamp(1 - (g - 5) / 0.5, 0, 1);
-      setPin(pins.g1, clamp((g - 0.55) / 0.35, 0, 1) * grayPinFade);
-      setPin(pins.g2, clamp((g - 1.55) / 0.35, 0, 1) * grayPinFade);
-      setPin(pins.g3, clamp((g - 2.55) / 0.35, 0, 1) * grayPinFade);
-      setPin(pins.g4, clamp((g - 3.55) / 0.35, 0, 1) * grayPinFade);
-      setPin(pins.g5, clamp((g - 4.55) / 0.35, 0, 1) * grayPinFade);
+      setPin(pins.g1, clamp((g + 0.2) / 0.2, 0, 1) * grayPinFade);
+      setPin(pins.g2, clamp((g - 0.8) / 0.2, 0, 1) * grayPinFade);
+      setPin(pins.g3, clamp((g - 1.8) / 0.2, 0, 1) * grayPinFade);
+      setPin(pins.g4, clamp((g - 2.8) / 0.2, 0, 1) * grayPinFade);
+      setPin(pins.g5, clamp((g - 3.8) / 0.2, 0, 1) * grayPinFade);
       // Frame 6: image/reveal marker + Excited pin appear as the accent line branches, and stay
       var imgShow = clamp((g - 5.15) / 0.5, 0, 1);
       setPin(pins.img, imgShow);
