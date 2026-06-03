@@ -22,6 +22,8 @@
     --bg-surface:           #fbf8ef;
     --bg-surface-elevated:  #ffffff;
     --bg-pill:              #ece4d1;
+    --bg-footer:            #ece4d1;
+    /* --bg-chip intentionally unset: chips fall back to --bg-surface until set. */
     --bg-warning:           #faeeda;
     --bg-dark:              #1a1816;
     --bg-dark-elevated:     #24221f;
@@ -799,7 +801,8 @@
       <div class="swatch-grid">
         <div class="swatch"><div class="chip" style="background:#f7f4eb"></div><div><div class="role">Page background</div><div class="var">--bg-page</div><div class="hex">#f7f4eb</div><div class="desc">Warm paper. Body bg of the entire site — never pure #fff.</div></div></div>
         <div class="swatch"><div class="chip" style="background:#fbf8ef"></div><div><div class="role">Card surface</div><div class="var">--bg-surface</div><div class="hex">#fbf8ef</div><div class="desc">Half-tone lighter than page. Tiles, quote cards, section frames.</div></div></div>
-        <div class="swatch"><div class="chip" style="background:#ece4d1"></div><div><div class="role">Pill / chip bg</div><div class="var">--bg-pill</div><div class="hex">#ece4d1</div><div class="desc">Eyebrow tags, small avatars, key callouts.</div></div></div>
+        <div class="swatch"><div class="chip" style="background:#fbf8ef"></div><div><div class="role">Chip / eyebrow bg</div><div class="var">--bg-chip</div><div class="hex">#fbf8ef</div><div class="desc">Eyebrow tags, chips, small pills. Defaults to card surface until set.</div></div></div>
+        <div class="swatch"><div class="chip" style="background:#ece4d1"></div><div><div class="role">Footer background</div><div class="var">--bg-footer</div><div class="hex">#ece4d1</div><div class="desc">Footer strip background (footer-only in the prototype).</div></div></div>
         <div class="swatch"><div class="chip" style="background:#1a1816"></div><div><div class="role">Dark surface</div><div class="var">--bg-dark</div><div class="hex">#1a1816</div><div class="desc">Warm near-black for footer and dark hero overlays. Never pure #000.</div></div></div>
       </div>
 
