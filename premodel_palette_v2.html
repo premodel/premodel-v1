@@ -129,6 +129,30 @@
     }
   }
 
+  /* ── Screen-size preview ──────────────────────────────────────────────
+     The "Screen" picker sets data-preview on <html> to render the whole
+     guide's type at one breakpoint regardless of window width. Attribute
+     selectors (specificity 0,1,1) beat the plain :root @media rules (0,0,1),
+     so the chosen breakpoint wins at any viewport. ── */
+  :root[data-preview="mobile"] {
+    --fs-display-1: 44px; --fs-display-2: 32px; --fs-h1: 28px; --fs-h2: 22px;
+    --fs-h3: 18px; --fs-body-lg: 17px; --fs-body: 15px;
+  }
+  :root[data-preview="tablet"] {
+    --fs-display-1: 56px; --fs-display-2: 40px; --fs-h1: 32px; --fs-h2: 24px;
+    --fs-h3: 19px; --fs-body-lg: 18px; --fs-body: 16px;
+  }
+  :root[data-preview="desktop"] {
+    --fs-display-1: 64px; --fs-display-2: 44px; --fs-h1: 36px; --fs-h2: 24px;
+    --fs-h3: 19px; --fs-body-lg: 18px; --fs-body: 16px;
+  }
+  /* Highlight the active breakpoint column in the rhythm table (cols 3/4/5). */
+  .rhythm-table[data-active="mobile"]  :is(th,td):nth-child(3),
+  .rhythm-table[data-active="tablet"]  :is(th,td):nth-child(4),
+  .rhythm-table[data-active="desktop"] :is(th,td):nth-child(5) {
+    background: var(--accent-soft); color: var(--text-primary); font-weight: 600;
+  }
+
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; scroll-padding-top: 80px; }
   body {
@@ -678,6 +702,15 @@
             <option value="editorial">Editorial</option>
             <option value="warm">Warm contemporary</option>
             <option value="modern">Modern sans</option>
+          </select>
+        </label>
+        <label class="control-dropdown">
+          <span class="control-label">Screen</span>
+          <select id="previewSize" aria-label="Screen size preview">
+            <option value="auto">Auto (window)</option>
+            <option value="mobile">Mobile ≤640</option>
+            <option value="tablet">Tablet 768</option>
+            <option value="desktop">Desktop 1200+</option>
           </select>
         </label>
       </div>
@@ -1434,6 +1467,24 @@
     if (typeSelect && typeSelect.value !== key) typeSelect.value = key;
   }
   if (typeSelect) typeSelect.addEventListener('change', e => applyType(e.target.value));
+
+  // ═══════════════════════════════════════════════════════════════════════
+  // SCREEN-SIZE PREVIEW — render the guide's type at one breakpoint regardless
+  // of actual window width, and highlight the matching rhythm-table column.
+  // ═══════════════════════════════════════════════════════════════════════
+  const previewSize = document.getElementById('previewSize');
+  const rhythmTable = document.querySelector('.rhythm-table');
+  function applyPreview(size) {
+    if (!size || size === 'auto') {
+      root.removeAttribute('data-preview');
+      if (rhythmTable) rhythmTable.removeAttribute('data-active');
+    } else {
+      root.setAttribute('data-preview', size);
+      if (rhythmTable) rhythmTable.setAttribute('data-active', size);
+    }
+    if (previewSize && previewSize.value !== size) previewSize.value = size;
+  }
+  if (previewSize) previewSize.addEventListener('change', e => applyPreview(e.target.value));
 </script>
 </body>
 </html>

@@ -1187,6 +1187,14 @@ body[data-palette="saffron"] .toggle-btn {
         <button type="button" class="toggle-btn" data-layout="b" role="tab" aria-selected="false" aria-label="Layout B">B</button>
       </div>
     </div>
+    <div class="theme-control layout-control">
+      <span class="layout-label">Theme</span>
+      <div class="theme-toggle layout-toggle" role="group" aria-label="Theme selector">
+        <button type="button" class="toggle-btn active" data-theme-choice="auto" aria-pressed="true">Auto</button>
+        <button type="button" class="toggle-btn" data-theme-choice="light" aria-pressed="false">Light</button>
+        <button type="button" class="toggle-btn" data-theme-choice="dark" aria-pressed="false">Dark</button>
+      </div>
+    </div>
     <div class="size-control">
       <label for="size-select" class="size-label">Size</label>
       <div class="size-select-wrap">
@@ -3053,7 +3061,7 @@ body[data-palette="saffron"] .toggle-btn {
     io.observe(proofEl);
   })();
 
-  var toggleButtons = document.querySelectorAll('.toggle-btn');
+  var toggleButtons = document.querySelectorAll('.toggle-btn[data-layout]');
   var phoneFrames = document.querySelectorAll('.phone-frame');
   toggleButtons.forEach(function(btn) {
     btn.addEventListener('click', function() {
@@ -3070,6 +3078,23 @@ body[data-palette="saffron"] .toggle-btn {
           var bar = frame.querySelector('.cta-bar');
           if (bar) bar.style.display = '';
         }
+      });
+    });
+  });
+
+  // ── Theme toggle (Auto / Light / Dark) ────────────────────────────────
+  // Auto = remove the attribute and honor the OS preference; Light/Dark force
+  // the theme via :root[data-theme="..."] (see the dark-theme CSS block).
+  var themeButtons = document.querySelectorAll('.toggle-btn[data-theme-choice]');
+  themeButtons.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var choice = btn.getAttribute('data-theme-choice');
+      if (choice === 'auto') document.documentElement.removeAttribute('data-theme');
+      else document.documentElement.setAttribute('data-theme', choice);
+      themeButtons.forEach(function(b) {
+        var isActive = b === btn;
+        b.classList.toggle('active', isActive);
+        b.setAttribute('aria-pressed', isActive ? 'true' : 'false');
       });
     });
   });
