@@ -3,683 +3,1399 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Premodel — Editorial Neutrals palette v2</title>
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500&display=swap" rel="stylesheet">
+<title>Premodel — Style Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;500;600&family=Inter:wght@400;500;600;700&family=Fraunces:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
+  /* ═══════════════════════════════════════════════════════════════════════
+     ROOT TOKENS — single source of truth
+     ═══════════════════════════════════════════════════════════════════════ */
   :root {
-    /* ── SURFACES ──────────────────────────────────────────── */
+    /* ── Surfaces ── */
     --bg-page:              #f7f4eb;
     --bg-surface:           #fbf8ef;
     --bg-surface-elevated:  #ffffff;
     --bg-pill:              #ece4d1;
     --bg-dark:              #1a1816;
+    --bg-dark-elevated:     #24221f;
     --bg-dark-card:         #f7f4eb;
 
-    /* ── TEXT ──────────────────────────────────────────────── */
+    /* ── Text ── */
     --text-primary:    #2a2826;
     --text-secondary:  #6a625a;
     --text-tertiary:   #998f80;
     --text-on-dark:    #f3ede1;
     --text-on-dark-2:  #a89a82;
+    --text-on-dark-3:  #6a625a;
 
-    /* ── BORDERS / DIVIDERS ────────────────────────────────── */
+    /* ── Borders / dividers ── */
     --border-divider:  #e4dccb;
     --border-subtle:   #d8cfc0;
     --border-strong:   #b8ae9c;
+    --border-on-dark:  rgba(243, 237, 225, 0.16);
 
-    /* ── ICONS ─────────────────────────────────────────────── */
+    /* ── Icons ── */
     --icon-primary:    #2a2826;
     --icon-muted:      #998f80;
 
-    /* ── ACCENT — driven by toggle. Default: oxblood ── */
+    /* ── Accent — driven by toggle. Default: oxblood ── */
     --accent:          #5e2c2e;
     --accent-hover:    #3f1c1d;
     --accent-soft:     #ecd0d0;
     --accent-on-dark:  #a4666a;
 
+    /* ── Type stack — driven by switcher. Default: Editorial ── */
+    --font-display:    'Source Serif 4', Georgia, serif;
+    --font-body:       'Inter', system-ui, sans-serif;
+    --display-weight:  500;
+
+    /* ── Spacing scale (4-based) ── */
+    --space-1:  4px;
+    --space-2:  8px;
+    --space-3:  12px;
+    --space-4:  16px;
+    --space-5:  24px;
+    --space-6:  32px;
+    --space-7:  48px;
+    --space-8:  64px;
+    --space-9:  96px;
+
+    /* ── Radii ── */
     --radius-pill:  999px;
+    --radius-input: 6px;
     --radius-card: 14px;
     --radius-tile: 18px;
+    --radius-modal: 22px;
+
+    /* ── Type scale (mobile defaults; override per breakpoint below) ── */
+    --fs-display-1:  44px;
+    --fs-display-2:  32px;
+    --fs-h1:         28px;
+    --fs-h2:         22px;
+    --fs-h3:         18px;
+    --fs-body-lg:    17px;
+    --fs-body:       15px;
+    --fs-small:      13px;
+    --fs-caption:    11px;
+    --lh-display:    1.1;
+    --lh-heading:    1.2;
+    --lh-body:       1.55;
+  }
+  @media (min-width: 768px) {
+    :root {
+      --fs-display-1: 56px;
+      --fs-display-2: 40px;
+      --fs-h1:        32px;
+      --fs-h2:        24px;
+      --fs-h3:        19px;
+      --fs-body-lg:   18px;
+      --fs-body:      16px;
+    }
+  }
+  @media (min-width: 1200px) {
+    :root {
+      --fs-display-1: 64px;
+      --fs-display-2: 44px;
+      --fs-h1:        36px;
+    }
   }
 
   * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 80px; }
   body {
     margin: 0;
     background: var(--bg-page);
     color: var(--text-primary);
-    font-family: 'Roboto', system-ui, sans-serif;
+    font-family: var(--font-body);
     font-weight: 400;
-    line-height: 1.5;
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
     -webkit-font-smoothing: antialiased;
   }
-  h1, h2, h3 { font-family: 'Source Serif 4', Georgia, serif; font-weight: 500; letter-spacing: -0.01em; line-height: 1.1; margin: 0; }
-  h1 { font-size: 56px; }
-  h2 { font-size: 36px; }
-  h3 { font-size: 22px; }
 
-  .container { max-width: 1100px; margin: 0 auto; padding: 64px 32px; }
+  /* ── Headings use display font ── */
+  .display-1, .display-2, h1, h2 {
+    font-family: var(--font-display);
+    font-weight: var(--display-weight);
+    letter-spacing: -0.01em;
+    line-height: var(--lh-heading);
+    margin: 0;
+  }
+  .display-1 { font-size: var(--fs-display-1); line-height: var(--lh-display); }
+  .display-2 { font-size: var(--fs-display-2); line-height: var(--lh-display); }
+  h1 { font-size: var(--fs-h1); }
+  h2 { font-size: var(--fs-h2); }
+  h3 { font-size: var(--fs-h3); font-family: var(--font-body); font-weight: 600; letter-spacing: 0; }
 
-  /* ── Accent toggle bar (sticky at top) ───────────────── */
-  .toggle-bar {
+  .eyebrow {
+    font-family: var(--font-body);
+    font-size: var(--fs-caption);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--text-tertiary);
+  }
+  code, .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; color: var(--text-tertiary); }
+
+  .container { max-width: 1240px; margin: 0 auto; padding: 0 24px; }
+  @media (min-width: 768px) { .container { padding: 0 32px; } }
+
+  /* ═══════════════════════════════════════════════════════════════════════
+     STICKY CONTROL BAR (top)
+     ═══════════════════════════════════════════════════════════════════════ */
+  .control-bar {
     position: sticky;
     top: 0;
     z-index: 50;
     background: rgba(247, 244, 235, 0.94);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--border-divider);
   }
-  .toggle-bar-inner {
-    max-width: 1100px;
+  .control-bar-inner {
+    max-width: 1240px;
     margin: 0 auto;
-    padding: 14px 32px;
+    padding: 10px 24px;
     display: flex;
-    gap: 18px;
+    flex-direction: column;
+    gap: 10px;
+  }
+  @media (min-width: 1024px) {
+    .control-bar-inner { flex-direction: row; align-items: center; padding: 12px 32px; }
+  }
+  .control-group {
+    display: flex;
+    gap: 8px;
     align-items: center;
     flex-wrap: wrap;
   }
-  .toggle-label {
-    font-size: 11px;
+  .control-label {
+    font-family: var(--font-body);
+    font-size: 10px;
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--text-tertiary);
     font-weight: 600;
   }
-  .accent-buttons { display: flex; gap: 6px; flex-wrap: wrap; }
-  .accent-btn {
+  .section-nav { display: flex; gap: 12px; overflow-x: auto; flex: 1; }
+  .section-nav a {
+    font-family: var(--font-body);
+    font-size: 12px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    white-space: nowrap;
+    padding: 4px 0;
+    border-bottom: 1px solid transparent;
+  }
+  .section-nav a:hover { color: var(--text-primary); border-bottom-color: var(--border-subtle); }
+  .pill-btn {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 7px 14px 7px 8px;
+    padding: 6px 12px 6px 8px;
     background: var(--bg-surface);
     border: 1px solid var(--border-subtle);
     border-radius: var(--radius-pill);
     font: inherit;
-    font-size: 13px;
+    font-family: var(--font-body);
+    font-size: 12px;
     color: var(--text-primary);
     cursor: pointer;
-    transition: border-color 120ms ease, background 120ms ease;
+    transition: border-color 120ms ease;
   }
-  .accent-btn:hover { border-color: var(--border-strong); }
-  .accent-btn .dot {
-    width: 16px;
-    height: 16px;
+  .pill-btn:hover { border-color: var(--border-strong); }
+  .pill-btn.active { background: var(--bg-pill); border-color: var(--text-primary); font-weight: 600; }
+  .pill-btn .dot { width: 14px; height: 14px; border-radius: 50%; border: 1px solid rgba(0,0,0,0.08); flex: 0 0 auto; }
+
+  /* ── Dropdown controls (side-by-side) ── */
+  .control-dropdowns {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .control-dropdown {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-pill);
+    padding: 4px 6px 4px 14px;
+    transition: border-color 120ms ease;
+  }
+  .control-dropdown:hover, .control-dropdown:focus-within { border-color: var(--border-strong); }
+  .control-dropdown .control-label {
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+    font-weight: 600;
+  }
+  .control-dropdown .swatch-dot {
+    width: 14px;
+    height: 14px;
     border-radius: 50%;
     border: 1px solid rgba(0,0,0,0.08);
     flex: 0 0 auto;
+    transition: background 200ms ease;
   }
-  .accent-btn.active {
-    background: var(--bg-pill);
-    border-color: var(--text-primary);
-    font-weight: 600;
+  .control-dropdown select {
+    appearance: none;
+    -webkit-appearance: none;
+    background: transparent;
+    border: 0;
+    font: inherit;
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-primary);
+    padding: 6px 28px 6px 4px;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path fill='none' stroke='%236a625a' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round' d='M1 1l4 4 4-4'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
   }
-  .toggle-hex {
-    margin-left: auto;
-    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-    font-size: 12px;
-    color: var(--text-tertiary);
-  }
+  .control-dropdown select:focus { outline: none; }
 
-  /* ── Doc header ─────────────────────────────────────── */
-  .doc-head { padding-top: 32px; padding-bottom: 8px; }
-  .doc-head .eyebrow { color: var(--text-tertiary); font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; }
-  .doc-head h1 { margin-top: 12px; }
-  .doc-head p  { color: var(--text-secondary); max-width: 680px; margin-top: 16px; font-size: 17px; }
-
+  /* ═══════════════════════════════════════════════════════════════════════
+     PAGE HEADER
+     ═══════════════════════════════════════════════════════════════════════ */
+  .doc-head { padding: 56px 0 32px; border-bottom: 1px solid var(--border-divider); }
+  .doc-head .eyebrow { display: block; margin-bottom: 14px; }
+  .doc-head .display-1 { margin-bottom: 18px; max-width: 720px; }
+  .doc-head .intro { color: var(--text-secondary); font-size: var(--fs-body-lg); max-width: 760px; }
   .changelog {
-    margin-top: 20px;
+    margin-top: 24px;
     padding: 16px 20px;
     background: var(--bg-surface);
     border: 1px solid var(--border-divider);
     border-radius: var(--radius-card);
-    font-size: 13px;
+    font-size: var(--fs-small);
     color: var(--text-secondary);
   }
   .changelog b { color: var(--text-primary); font-weight: 600; }
 
-  /* ── Section frames ─────────────────────────────────── */
-  .section { padding: 56px 0; border-top: 1px solid var(--border-divider); }
-  .section-label { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-tertiary); font-weight: 600; margin-bottom: 28px; }
+  /* ═══════════════════════════════════════════════════════════════════════
+     SECTION FRAMING
+     ═══════════════════════════════════════════════════════════════════════ */
+  section.style-section { padding: 56px 0; border-top: 1px solid var(--border-divider); }
+  section.style-section:first-of-type { border-top: 0; }
+  .section-head { margin-bottom: 28px; }
+  .section-head .num { color: var(--text-tertiary); font-family: var(--font-display); font-size: 14px; font-weight: 500; margin-right: 8px; }
+  .section-head h2 { margin-top: 10px; font-size: var(--fs-display-2); }
+  .section-head .lead { color: var(--text-secondary); margin-top: 12px; max-width: 720px; font-size: var(--fs-body-lg); }
 
-  /* ── Palette swatch grid ───────────────────────────── */
-  .swatches { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
-  .swatch { background: var(--bg-surface); border: 1px solid var(--border-divider); border-radius: var(--radius-card); padding: 18px; display: flex; gap: 16px; align-items: flex-start; }
-  .swatch .chip { width: 64px; height: 64px; border-radius: 10px; flex: 0 0 auto; border: 1px solid var(--border-subtle); }
-  .swatch .meta { flex: 1; min-width: 0; }
-  .swatch .role { font-weight: 600; font-size: 14px; color: var(--text-primary); margin: 0 0 4px; }
-  .swatch .var  { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11px; color: var(--text-tertiary); }
-  .swatch .hex  { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; color: var(--text-secondary); }
-  .swatch .desc { font-size: 13px; color: var(--text-secondary); margin-top: 6px; }
-
-  /* Accent swatches recolor live via CSS vars */
-  .swatch.live-accent .chip { transition: background 200ms ease; }
-
-  /* ── Pill / eyebrow ─────────────────────────────────── */
-  .pill { display: inline-block; background: var(--bg-pill); color: var(--text-primary); font-size: 11px; font-weight: 600; letter-spacing: 0.12em; padding: 6px 14px; border-radius: var(--radius-pill); text-transform: uppercase; }
-  .pill-accent { background: var(--accent-soft); color: var(--accent-hover); transition: background 200ms ease, color 200ms ease; }
-
-  /* ── Mockup: applied hero ───────────────────────────── */
-  .mockup { background: var(--bg-surface); border: 1px solid var(--border-divider); border-radius: var(--radius-tile); padding: 56px 48px; }
-  .mockup .pill { margin-bottom: 24px; }
-  .mockup h1 { margin: 0 0 16px; }
-  .mockup .lede { font-size: 19px; color: var(--text-secondary); max-width: 580px; margin: 0 0 32px; }
-  .mockup .cta-row { display: flex; gap: 12px; align-items: center; }
-  .accent-word { color: var(--accent); transition: color 200ms ease; }
-  .btn-primary { background: var(--accent); color: #fff; border: 0; border-radius: var(--radius-pill); padding: 14px 26px; font-size: 15px; font-weight: 500; cursor: pointer; font-family: inherit; transition: background 200ms ease; }
-  .btn-primary:hover { background: var(--accent-hover); }
-  .btn-ghost { background: transparent; color: var(--text-primary); border: 1px solid var(--border-strong); border-radius: var(--radius-pill); padding: 14px 26px; font-size: 15px; font-weight: 500; cursor: pointer; font-family: inherit; }
-  .mockup .meta { color: var(--text-tertiary); font-size: 13px; margin-top: 28px; }
-  .text-link { color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent-soft); transition: color 200ms ease, border-color 200ms ease; }
-
-  /* ── Mockup: tile row ───────────────────────────────── */
-  .tile-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 24px; }
-  .tile { background: var(--bg-surface); border: 1px solid var(--border-divider); border-radius: var(--radius-tile); padding: 22px; }
-  .tile .icon { width: 36px; height: 36px; border-radius: 10px; background: var(--bg-pill); display: flex; align-items: center; justify-content: center; margin-bottom: 18px; color: var(--icon-primary); }
-  .tile h3 { font-family: 'Roboto', sans-serif; font-size: 18px; font-weight: 600; margin: 0 0 6px; color: var(--text-primary); }
-  .tile p { color: var(--text-secondary); font-size: 14px; margin: 0; }
-  .tile .accent-icon { background: var(--accent-soft); color: var(--accent); transition: background 200ms ease, color 200ms ease; }
-
-  /* ── Mockup: quote ──────────────────────────────────── */
-  .quote { background: var(--bg-surface); border: 1px solid var(--border-divider); border-radius: var(--radius-tile); padding: 32px 36px; margin-top: 24px; }
-  .quote .mark { font-family: 'Source Serif 4', serif; color: var(--accent); font-size: 48px; line-height: 0.6; margin-bottom: 8px; transition: color 200ms ease; }
-  .quote .body { font-size: 19px; color: var(--text-primary); line-height: 1.5; }
-  .quote .attrib { color: var(--text-tertiary); font-size: 13px; margin-top: 16px; }
-
-  /* ── Lockup placement on light + dark surface ───────── */
-  .lockup-stage { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 24px; }
-  .lockup-light { background: var(--bg-surface); border: 1px solid var(--border-divider); border-radius: var(--radius-tile); padding: 32px; display: flex; align-items: center; justify-content: center; min-height: 220px; }
-  .lockup-dark  { background: var(--bg-dark);    border-radius: var(--radius-tile); padding: 32px; display: flex; align-items: center; justify-content: center; min-height: 220px; }
-  .lockup-png   { max-width: 100%; height: auto; display: block; }
-  .stage-caption { font-size: 12px; color: var(--text-tertiary); margin-top: 10px; letter-spacing: 0.04em; }
-
-  /* ── Dark-surface text demo ─────────────────────────── */
-  .on-dark-demo { background: var(--bg-dark); color: var(--text-on-dark); border-radius: var(--radius-tile); padding: 36px; }
-  .on-dark-demo h2 { color: var(--text-on-dark); margin-bottom: 8px; }
-  .on-dark-demo p  { color: var(--text-on-dark-2); margin: 0; max-width: 620px; }
-  .on-dark-demo .pill { background: rgba(247,244,235,0.10); color: var(--text-on-dark); }
-  .on-dark-demo .btn-primary { background: var(--accent-on-dark); color: #1a1816; transition: background 200ms ease; }
-
-  /* ── Accent alternates compare ──────────────────────── */
-  .accents { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 18px; }
-  @media (max-width: 920px) { .accents { grid-template-columns: repeat(2, 1fr); } }
-  .accent-card { background: var(--bg-surface); border: 1px solid var(--border-divider); border-radius: var(--radius-card); padding: 22px; cursor: pointer; transition: border-color 120ms ease, transform 120ms ease; }
-  .accent-card:hover { border-color: var(--border-strong); }
-  .accent-card.active { border-color: var(--text-primary); border-width: 2px; padding: 21px; }
-  .accent-card .swatch-line { display: flex; gap: 10px; margin-bottom: 14px; }
-  .accent-card .swatch-line .c { width: 36px; height: 36px; border-radius: 8px; border: 1px solid var(--border-subtle); }
-  .accent-card h3 { font-family: 'Roboto', sans-serif; font-size: 15px; font-weight: 600; margin: 0 0 4px; }
-  .accent-card .hex { font-family: ui-monospace, monospace; font-size: 11px; color: var(--text-tertiary); }
-  .accent-card p { font-size: 13px; color: var(--text-secondary); margin: 8px 0 0; }
-  .active-tag {
-    display: inline-block;
-    margin-top: 8px;
-    font-size: 10px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    font-weight: 600;
-    color: var(--accent);
-    transition: color 200ms ease;
+  /* ── Swatch grid (palette section) ── */
+  .swatch-grid { display: grid; grid-template-columns: 1fr; gap: 14px; }
+  @media (min-width: 640px) { .swatch-grid { grid-template-columns: repeat(2, 1fr); } }
+  .swatch {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-divider);
+    border-radius: var(--radius-card);
+    padding: 16px;
+    display: flex; gap: 14px; align-items: flex-start;
   }
+  .swatch .chip { width: 56px; height: 56px; border-radius: 8px; flex: 0 0 auto; border: 1px solid var(--border-subtle); transition: background 200ms ease; }
+  .swatch .role { font-weight: 600; font-size: 13px; color: var(--text-primary); }
+  .swatch .var { font-family: ui-monospace, monospace; font-size: 11px; color: var(--text-tertiary); }
+  .swatch .hex { font-family: ui-monospace, monospace; font-size: 12px; color: var(--text-secondary); }
+  .swatch .desc { font-size: 12px; color: var(--text-secondary); margin-top: 4px; }
+
+  /* ── Subgroup label ── */
+  .subgroup-label { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-tertiary); font-weight: 600; margin: 32px 0 14px; }
+
+  /* ── Type sample blocks ── */
+  .type-sample { padding: 24px; background: var(--bg-surface); border: 1px solid var(--border-divider); border-radius: var(--radius-card); margin-bottom: 18px; }
+  .type-sample .label { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; gap: 16px; }
+  .type-sample .label .name { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-tertiary); font-weight: 600; }
+  .type-sample .label .meta { font-family: ui-monospace, monospace; font-size: 11px; color: var(--text-tertiary); }
+
+  /* Type rhythm table */
+  .rhythm-table { width: 100%; border-collapse: collapse; font-family: var(--font-body); font-size: var(--fs-small); }
+  .rhythm-table th, .rhythm-table td { padding: 10px 12px; border-bottom: 1px solid var(--border-divider); text-align: left; }
+  .rhythm-table th { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-tertiary); font-weight: 600; }
+  .rhythm-table td.mono { font-family: ui-monospace, monospace; font-size: 12px; color: var(--text-secondary); }
+  .rhythm-table .breakpoint { font-weight: 600; color: var(--text-primary); }
+
+  /* ── Spacing scale visual ── */
+  .space-scale { display: flex; flex-direction: column; gap: 6px; }
+  .space-row { display: grid; grid-template-columns: 80px 80px 1fr; gap: 16px; align-items: center; padding: 6px 0; border-bottom: 1px dashed var(--border-divider); }
+  .space-row .name { font-family: ui-monospace, monospace; font-size: 12px; color: var(--text-secondary); }
+  .space-row .px { font-family: ui-monospace, monospace; font-size: 12px; color: var(--text-tertiary); }
+  .space-row .bar { background: var(--accent); height: 12px; border-radius: 3px; }
+
+  /* ── Component blocks ── */
+  .comp-grid { display: grid; grid-template-columns: 1fr; gap: 18px; }
+  @media (min-width: 768px) { .comp-grid { grid-template-columns: repeat(2, 1fr); } }
+  .comp-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-divider);
+    border-radius: var(--radius-card);
+    padding: 22px;
+  }
+  .comp-card .title { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-tertiary); font-weight: 600; margin-bottom: 16px; }
+  .comp-row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-bottom: 14px; }
+  .comp-row:last-child { margin-bottom: 0; }
+  .comp-meta { font-size: 11px; color: var(--text-tertiary); margin-top: 8px; line-height: 1.5; }
+
+  /* ── Buttons ── */
+  .btn-primary { background: var(--accent); color: #fff; border: 0; border-radius: var(--radius-pill); padding: 12px 22px; font: inherit; font-family: var(--font-body); font-size: 14px; font-weight: 500; cursor: pointer; transition: background 200ms ease; }
+  .btn-primary:hover { background: var(--accent-hover); }
+  .btn-primary[disabled] { opacity: 0.5; cursor: not-allowed; }
+  .btn-ghost { background: transparent; color: var(--text-primary); border: 1px solid var(--border-strong); border-radius: var(--radius-pill); padding: 12px 22px; font: inherit; font-family: var(--font-body); font-size: 14px; font-weight: 500; cursor: pointer; }
+  .btn-ghost:hover { background: var(--bg-pill); }
+  .btn-link { background: none; border: 0; color: var(--accent); font: inherit; font-family: var(--font-body); font-size: 14px; font-weight: 500; cursor: pointer; padding: 0; border-bottom: 1px solid var(--accent-soft); }
+  .btn-link:hover { color: var(--accent-hover); }
+
+  /* ── Pills ── */
+  .pill { display: inline-block; background: var(--bg-pill); color: var(--text-primary); font-size: 11px; font-weight: 600; letter-spacing: 0.12em; padding: 6px 14px; border-radius: var(--radius-pill); text-transform: uppercase; }
+  .pill-accent { background: var(--accent-soft); color: var(--accent-hover); }
+
+  /* ── Inputs ── */
+  .input-field {
+    width: 100%;
+    padding: 10px 12px;
+    background: var(--bg-page);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-input);
+    font: inherit;
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--text-primary);
+  }
+  .input-field:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+  .input-field[disabled] { opacity: 0.6; background: var(--bg-surface); }
+  .input-label { display: block; font-size: 12px; color: var(--text-secondary); margin-bottom: 6px; }
+
+  /* ── Card mini ── */
+  .mini-card { background: var(--bg-page); border: 1px solid var(--border-divider); border-radius: var(--radius-card); padding: 14px; }
+  .mini-card .ph { background: var(--bg-pill); border-radius: 6px; height: 60px; margin-bottom: 10px; }
+  .mini-card .t { font-weight: 600; font-size: 14px; margin-bottom: 3px; }
+  .mini-card .s { font-size: 12px; color: var(--text-secondary); }
+
+  /* ── Modal mockup (static) ── */
+  .modal-mockup {
+    background: var(--bg-surface-elevated);
+    border: 1px solid var(--border-divider);
+    border-radius: var(--radius-modal);
+    padding: 24px;
+    box-shadow: 0 16px 40px rgba(42, 40, 38, 0.10);
+  }
+  .modal-mockup .modal-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+  .modal-mockup .modal-head h3 { font-size: 17px; font-weight: 600; margin: 0; }
+  .modal-mockup .modal-head .close { background: none; border: 0; cursor: pointer; color: var(--text-tertiary); padding: 4px 6px; font-size: 18px; line-height: 1; }
+  .modal-mockup p { color: var(--text-secondary); font-size: 14px; margin: 0 0 14px; }
+  .modal-mockup .modal-actions { display: flex; gap: 10px; justify-content: flex-end; }
+
+  /* ═══════════════════════════════════════════════════════════════════════
+     ICONOGRAPHY
+     ═══════════════════════════════════════════════════════════════════════ */
+  .icon-scale { display: flex; gap: 28px; align-items: flex-end; flex-wrap: wrap; padding: 20px; background: var(--bg-surface); border-radius: var(--radius-card); border: 1px solid var(--border-divider); }
+  .icon-scale-item { text-align: center; }
+  .icon-scale-item svg { color: var(--icon-primary); display: block; margin: 0 auto 6px; }
+  .icon-scale-item .px { font-family: ui-monospace, monospace; font-size: 11px; color: var(--text-tertiary); }
+
+  /* ═══════════════════════════════════════════════════════════════════════
+     VOICE & TONE
+     ═══════════════════════════════════════════════════════════════════════ */
+  .voice-grid { display: grid; grid-template-columns: 1fr; gap: 18px; }
+  @media (min-width: 768px) { .voice-grid { grid-template-columns: repeat(3, 1fr); } }
+  .voice-card { background: var(--bg-surface); border: 1px solid var(--border-divider); border-radius: var(--radius-card); padding: 22px; }
+  .voice-card h4 { font-family: var(--font-display); font-size: 19px; font-weight: 500; margin: 0 0 8px; }
+  .voice-card p { color: var(--text-secondary); font-size: 14px; margin: 0; }
+
+  .do-dont { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 18px; }
+  @media (min-width: 768px) { .do-dont { grid-template-columns: 1fr 1fr; } }
+  .do-dont .cell { padding: 16px; border-radius: var(--radius-card); border: 1px solid var(--border-divider); background: var(--bg-page); }
+  .do-dont .cell .tag { display: inline-block; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 700; padding: 3px 8px; border-radius: 4px; margin-bottom: 8px; }
+  .do-dont .cell.do .tag    { background: #dfe6db; color: #3b5230; }
+  .do-dont .cell.dont .tag  { background: #efd4d4; color: #6e2e2e; }
+  .do-dont .cell .quote { font-size: 14px; color: var(--text-primary); font-style: italic; line-height: 1.5; }
+
+  .terminology { margin-top: 24px; }
+  .terminology dl { display: grid; grid-template-columns: 180px 1fr; gap: 8px 18px; font-size: 13px; }
+  .terminology dt { font-weight: 600; color: var(--text-primary); }
+  .terminology dd { color: var(--text-secondary); margin: 0; }
+
+  /* ═══════════════════════════════════════════════════════════════════════
+     APPLIED EXAMPLES — light + dark
+     ═══════════════════════════════════════════════════════════════════════ */
+  .applied-grid { display: flex; flex-direction: column; gap: 32px; }
+  .applied-pair {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  @media (min-width: 1024px) {
+    .applied-pair { grid-template-columns: 1fr 1fr; }
+  }
+  .applied-cell { border-radius: var(--radius-tile); overflow: hidden; border: 1px solid var(--border-divider); }
+  .applied-cell .applied-label { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; color: var(--text-tertiary); padding: 10px 16px; background: var(--bg-surface); border-bottom: 1px solid var(--border-divider); }
+  .applied-cell .applied-body { padding: 28px; }
+
+  /* Dark variant — uses contrasting CSS vars */
+  .applied-cell.dark { border: 0; background: var(--bg-dark); }
+  .applied-cell.dark .applied-label { background: var(--bg-dark-elevated); color: var(--text-on-dark-2); border-bottom: 1px solid var(--border-on-dark); }
+  .applied-cell.dark .applied-body { color: var(--text-on-dark); }
+  .applied-cell.dark .applied-body .display-1,
+  .applied-cell.dark .applied-body .display-2,
+  .applied-cell.dark .applied-body h1,
+  .applied-cell.dark .applied-body h2,
+  .applied-cell.dark .applied-body h3 { color: var(--text-on-dark); }
+  .applied-cell.dark .applied-body .pill { background: rgba(243,237,225,0.10); color: var(--text-on-dark); }
+  .applied-cell.dark .applied-body .pill-accent { background: rgba(0,0,0,0.20); color: var(--accent-on-dark); }
+  .applied-cell.dark .applied-body .btn-primary { background: var(--accent-on-dark); color: #1a1816; }
+  .applied-cell.dark .applied-body .btn-ghost { color: var(--text-on-dark); border-color: var(--border-on-dark); }
+  .applied-cell.dark .applied-body .btn-link { color: var(--accent-on-dark); border-bottom-color: rgba(0,0,0,0.20); }
+  .applied-cell.dark .applied-body p { color: var(--text-on-dark-2); }
+  .applied-cell.dark .applied-body .lede { color: var(--text-on-dark-2); }
+  .applied-cell.dark .applied-body .accent-word { color: var(--accent-on-dark); }
+  .applied-cell.dark .applied-body .step { border-bottom-color: var(--border-on-dark); }
+  .applied-cell.dark .applied-body .step .num { background: rgba(243,237,225,0.10); color: var(--text-on-dark); }
+  .applied-cell.dark .applied-body .step .desc { color: var(--text-on-dark-2); }
+  .applied-cell.dark .applied-body .quote-card { background: var(--bg-dark-elevated); border-color: var(--border-on-dark); }
+  .applied-cell.dark .applied-body .quote-avatar { background: rgba(243,237,225,0.10); color: var(--text-on-dark); }
+  .applied-cell.dark .applied-body cite { color: var(--text-on-dark-2); }
+  .applied-cell.dark .applied-body .pricing-card { background: var(--bg-dark-elevated); border-color: var(--border-on-dark); }
+  .applied-cell.dark .applied-body .pricing-card .price-num { color: var(--accent-on-dark); }
+  .applied-cell.dark .applied-body .modal-mockup { background: var(--bg-dark-elevated); border-color: var(--border-on-dark); color: var(--text-on-dark); box-shadow: 0 16px 40px rgba(0,0,0,0.5); }
+  .applied-cell.dark .applied-body .modal-mockup h3 { color: var(--text-on-dark); }
+  .applied-cell.dark .applied-body .modal-mockup p { color: var(--text-on-dark-2); }
+
+  /* Applied — hero */
+  .a-hero h1.applied-display { font-family: var(--font-display); font-size: var(--fs-display-2); line-height: var(--lh-display); letter-spacing: -0.01em; font-weight: 500; margin: 14px 0 12px; }
+  .accent-word { color: var(--accent); transition: color 200ms ease; }
+  .a-hero .lede { font-size: var(--fs-body-lg); color: var(--text-secondary); margin: 0 0 24px; max-width: 520px; }
+  .a-hero .cta-row { display: flex; flex-wrap: wrap; gap: 10px; }
+
+  /* Applied — how-it-works step */
+  .step-list { padding: 0; margin: 16px 0 0; list-style: none; }
+  .step {
+    display: grid;
+    grid-template-columns: 36px 1fr;
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border-divider);
+  }
+  .step .num {
+    width: 32px; height: 32px;
+    background: var(--bg-pill);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+  .step .heading { font-weight: 600; font-size: 15px; margin: 0 0 4px; }
+  .step .desc    { font-size: 13px; color: var(--text-secondary); margin: 0; }
+
+  /* Applied — testimonial quote */
+  .quote-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-divider);
+    border-radius: var(--radius-card);
+    padding: 20px;
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    gap: 14px;
+  }
+  .quote-avatar {
+    width: 40px; height: 40px;
+    background: var(--bg-pill);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--text-primary);
+  }
+  .quote-card p { font-size: 14px; color: var(--text-primary); margin: 0 0 8px; line-height: 1.55; }
+  .quote-card cite { font-size: 12px; color: var(--text-tertiary); font-style: normal; }
+
+  /* Applied — pricing card */
+  .pricing-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-divider);
+    border-radius: var(--radius-card);
+    padding: 22px;
+  }
+  .pricing-card .price-eyebrow { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; color: var(--text-tertiary); }
+  .pricing-card .price-num { font-family: var(--font-display); font-size: 36px; font-weight: 500; color: var(--accent); margin: 8px 0 6px; transition: color 200ms ease; }
+  .pricing-card .price-detail { font-size: 13px; color: var(--text-secondary); margin: 0 0 16px; }
+  .pricing-card ul { padding: 0; margin: 0 0 16px; list-style: none; font-size: 13px; color: var(--text-primary); }
+  .pricing-card li { padding: 6px 0; border-bottom: 1px dashed var(--border-divider); }
+  .pricing-card li:last-child { border-bottom: 0; }
+
+  /* Applied — CTA bar */
+  .cta-bar-demo {
+    background: var(--bg-page);
+    border-top: 1px solid var(--border-divider);
+    padding: 14px;
+    display: flex;
+    justify-content: center;
+  }
+  .cta-bar-demo .btn-primary { width: 100%; max-width: 340px; }
+
+  /* ═══════════════════════════════════════════════════════════════════════
+     LOGO + EXPRESSIVE MARK GRIDS
+     ═══════════════════════════════════════════════════════════════════════ */
+  .logo-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  @media (min-width: 768px) { .logo-grid { grid-template-columns: repeat(3, 1fr); } }
+  @media (min-width: 1200px) { .logo-grid { grid-template-columns: repeat(4, 1fr); } }
+
+  .logo-cell {
+    background: #fff;
+    border: 1px solid var(--border-divider);
+    border-radius: var(--radius-card);
+    overflow: hidden;
+  }
+  .logo-cell .stage { padding: 18px; min-height: 110px; display: flex; align-items: center; justify-content: center; }
+  .logo-cell .stage img { max-width: 100%; max-height: 80px; height: auto; }
+  .logo-cell .meta { padding: 10px 14px; border-top: 1px solid var(--border-divider); background: var(--bg-surface); }
+  .logo-cell .meta .name { font-size: 12px; font-weight: 600; color: var(--text-primary); }
+  .logo-cell .meta .hex { font-family: ui-monospace, monospace; font-size: 10px; color: var(--text-tertiary); margin-top: 2px; }
+
+  .group-section { margin-top: 32px; }
+  .group-section .subgroup-label { margin-top: 0; }
+
+  /* Material grid — larger cells */
+  .material-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+  @media (min-width: 768px) { .material-grid { grid-template-columns: repeat(2, 1fr); } }
+  .material-cell {
+    background: #fff;
+    border: 1px solid var(--border-divider);
+    border-radius: var(--radius-tile);
+    overflow: hidden;
+  }
+  .material-cell .stage {
+    background: var(--bg-page);
+    padding: 28px;
+    display: flex; align-items: center; justify-content: center;
+    min-height: 280px;
+  }
+  .material-cell .stage img { max-width: 100%; max-height: 240px; height: auto; }
+  .material-cell .meta { padding: 16px 22px 18px; border-top: 1px solid var(--border-divider); }
+  .material-cell .meta h3 { margin-bottom: 4px; font-size: 16px; }
+  .material-cell .meta .layers { color: var(--text-secondary); font-size: 12px; margin: 0; }
+
+  /* ═══════════════════════════════════════════════════════════════════════
+     LOCKUP SECTION
+     ═══════════════════════════════════════════════════════════════════════ */
+  .lockup-stage-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  @media (min-width: 768px) { .lockup-stage-row { grid-template-columns: 1fr 1fr; } }
+  .lockup-light { background: var(--bg-surface); border: 1px solid var(--border-divider); border-radius: var(--radius-tile); padding: 28px; display: flex; align-items: center; justify-content: center; min-height: 200px; }
+  .lockup-dark  { background: var(--bg-dark); border-radius: var(--radius-tile); padding: 0; display: flex; align-items: center; justify-content: center; min-height: 200px; overflow: hidden; }
+  .lockup-light img, .lockup-dark img { max-width: 100%; height: auto; display: block; }
+  .stage-caption { font-size: 10px; color: var(--text-tertiary); margin-top: 8px; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600; }
+
+  /* ═══════════════════════════════════════════════════════════════════════
+     FOOTER
+     ═══════════════════════════════════════════════════════════════════════ */
+  footer.page-footer {
+    margin-top: 80px;
+    padding: 32px 0 48px;
+    border-top: 1px solid var(--border-divider);
+    color: var(--text-tertiary);
+    font-size: 13px;
+  }
+  footer.page-footer a { color: var(--text-secondary); text-decoration: none; border-bottom: 1px solid var(--border-subtle); }
+  footer.page-footer a:hover { color: var(--text-primary); }
 </style>
 </head>
 <body>
 
-  <!-- ───────────────────────────────────────────────── -->
-  <!-- ACCENT TOGGLE BAR                                    -->
-  <!-- ───────────────────────────────────────────────── -->
-  <div class="toggle-bar">
-    <div class="toggle-bar-inner">
-      <span class="toggle-label">Accent</span>
-      <div class="accent-buttons" id="accentButtons">
-        <button class="accent-btn active" data-accent="oxblood"><span class="dot" style="background:#5e2c2e"></span>Oxblood</button>
-        <button class="accent-btn" data-accent="sage"><span class="dot" style="background:#7d8a72"></span>Sage</button>
-        <button class="accent-btn" data-accent="cyanotype"><span class="dot" style="background:#2a5680"></span>Cyanotype</button>
-        <button class="accent-btn" data-accent="aubergine"><span class="dot" style="background:#4a2942"></span>Aubergine</button>
-        <button class="accent-btn" data-accent="saffron"><span class="dot" style="background:#c89028"></span>Saffron</button>
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       STICKY CONTROL BAR
+       ═══════════════════════════════════════════════════════════════════════ -->
+  <div class="control-bar">
+    <div class="control-bar-inner">
+      <nav class="section-nav">
+        <a href="#palette">Palette</a>
+        <a href="#type">Typography</a>
+        <a href="#spacing">Spacing</a>
+        <a href="#components">Components</a>
+        <a href="#icons">Icons &amp; imagery</a>
+        <a href="#voice">Voice</a>
+        <a href="#applied">Applied</a>
+        <a href="#logo">Logo</a>
+        <a href="#expressive">Expressive mark</a>
+      </nav>
+      <div class="control-dropdowns">
+        <label class="control-dropdown">
+          <span class="control-label">Accent</span>
+          <span class="swatch-dot" id="accentDot" style="background:#5e2c2e"></span>
+          <select id="accentSelect" aria-label="Accent color">
+            <option value="oxblood">Oxblood</option>
+            <option value="sage">Sage</option>
+            <option value="cyanotype">Cyanotype</option>
+            <option value="aubergine">Aubergine</option>
+            <option value="saffron">Saffron</option>
+          </select>
+        </label>
+        <label class="control-dropdown">
+          <span class="control-label">Type</span>
+          <select id="typeSelect" aria-label="Type stack">
+            <option value="editorial">Editorial</option>
+            <option value="warm">Warm contemporary</option>
+            <option value="modern">Modern sans</option>
+          </select>
+        </label>
       </div>
-      <span class="toggle-hex" id="toggleHex">#5e2c2e</span>
     </div>
   </div>
 
   <div class="container">
 
+    <!-- ═══════════════════════════════════════════════════════════════════
+         DOC HEAD
+         ═══════════════════════════════════════════════════════════════════ -->
     <header class="doc-head">
-      <div class="eyebrow">Premodel · Brand palette v2</div>
-      <h1>Editorial neutrals, applied.</h1>
-      <p>The full color system for the new homepage. Every color in service of letting Reveal photography lead — restrained background, ink headlines, taupe supporting copy, one warm accent doing the work of the old navy. Hex values + CSS variable names included so this maps cleanly onto the prototype's existing token structure.</p>
+      <span class="eyebrow">Premodel · Style guide</span>
+      <h1 class="display-1">Brand &amp; design system, v2.</h1>
+      <p class="intro">A single-page style guide consolidating palette, typography, spacing, components, voice, applied examples, and the logo system. The accent toggle and type-stack switcher at the top re-skin the entire page in place — palette swatches, components, applied layouts, and the signature lockup all update in sync. Built to feed the working prototype at <code>premodel_homepage_prototype.html</code>.</p>
       <div class="changelog">
-        <b>What changed.</b> &nbsp; Five accent candidates spanning the color wheel. Warm-family Claude-adjacent options (sienna, terracotta, rust) all retired. &nbsp; · &nbsp; <b>Oxblood</b> (deep wine, default) and <b>sage</b> (PNW cool) carried forward. &nbsp; · &nbsp; <b>Cyanotype</b> added — the architect's blueprint blue, with a direct conceptual tie to Premodel's value prop. &nbsp; · &nbsp; <b>Aubergine</b> and <b>saffron</b> added as creative options outside the standard editorial-warm-neutral palette. &nbsp; · &nbsp; Signature lockup approach: only the tagline carries the accent; mark and wordmark stay neutral. Toggle accent above — the page and tagline re-skin in sync.
+        <b>How this is wired.</b> Every color and font on this page is driven by a CSS variable. Changing the toggles updates the variable, which cascades to every consumer. Future step: open these variables for direct editing on this page so you can dial in a palette / type rhythm here and ship it to the prototype with confidence.
       </div>
     </header>
 
-    <!-- ───────────────────────────────────────────────── -->
-    <!-- 1. THE PALETTE                                       -->
-    <!-- ───────────────────────────────────────────────── -->
-    <section class="section">
-      <div class="section-label">01 · The palette</div>
-
-      <h2 style="margin-bottom:24px;">Surfaces</h2>
-      <div class="swatches">
-        <div class="swatch">
-          <div class="chip" style="background:#f7f4eb"></div>
-          <div class="meta">
-            <div class="role">Page background</div>
-            <div class="var">--bg-page</div>
-            <div class="hex">#f7f4eb</div>
-            <div class="desc">Warm paper. The body bg of the entire site — instead of #fff. Lets the cream layers of the mark blend into negative space and signals "editorial" before a single word is read.</div>
-          </div>
-        </div>
-        <div class="swatch">
-          <div class="chip" style="background:#fbf8ef"></div>
-          <div class="meta">
-            <div class="role">Card / section surface</div>
-            <div class="var">--bg-surface</div>
-            <div class="hex">#fbf8ef</div>
-            <div class="desc">Slightly lighter than page. For tiles, quote cards, How-to-Premodel steps. Establishes mild layering without resorting to drop shadows.</div>
-          </div>
-        </div>
-        <div class="swatch">
-          <div class="chip" style="background:#ece4d1"></div>
-          <div class="meta">
-            <div class="role">Pill / eyebrow background</div>
-            <div class="var">--bg-pill</div>
-            <div class="hex">#ece4d1</div>
-            <div class="desc">A half-step darker than page. Eyebrow tags ("Why Premodel," "Get your estimate"), small icon chips, key callouts.</div>
-          </div>
-        </div>
-        <div class="swatch">
-          <div class="chip" style="background:#1a1816"></div>
-          <div class="meta">
-            <div class="role">Dark surface</div>
-            <div class="var">--bg-dark</div>
-            <div class="hex">#1a1816</div>
-            <div class="desc">Footer, dark hero overlays. Warm-toned near-black, never pure #000. When the logo lives here, it sits on a cream rounded card (see below).</div>
-          </div>
-        </div>
+    <!-- ═══════════════════════════════════════════════════════════════════
+         §01 PALETTE
+         ═══════════════════════════════════════════════════════════════════ -->
+    <section class="style-section" id="palette">
+      <div class="section-head">
+        <span class="eyebrow"><span class="num">01</span> Palette</span>
+        <h2>Editorial warm-neutrals, with a single brand accent.</h2>
+        <p class="lead">Warm paper background, deep ink text, taupe supporting copy, and one accent doing all the work the old navy did. Five accent candidates — click any one in the toggle above to apply it across the page.</p>
       </div>
 
-      <h2 style="margin: 48px 0 24px;">Text</h2>
-      <div class="swatches">
-        <div class="swatch">
-          <div class="chip" style="background:#2a2826"></div>
-          <div class="meta">
-            <div class="role">Primary text</div>
-            <div class="var">--text-primary</div>
-            <div class="hex">#2a2826</div>
-            <div class="desc">Headlines, body copy. Warm-toned near-black to match the mark's deep-ink bottom layer — avoid pure #000 (cold, too SaaS).</div>
-          </div>
-        </div>
-        <div class="swatch">
-          <div class="chip" style="background:#6a625a"></div>
-          <div class="meta">
-            <div class="role">Secondary text</div>
-            <div class="var">--text-secondary</div>
-            <div class="hex">#6a625a</div>
-            <div class="desc">Supporting copy under headlines, lede paragraphs, tile descriptions. Warm taupe — same family as the mark's middle layer.</div>
-          </div>
-        </div>
-        <div class="swatch">
-          <div class="chip" style="background:#998f80"></div>
-          <div class="meta">
-            <div class="role">Tertiary text</div>
-            <div class="var">--text-tertiary</div>
-            <div class="hex">#998f80</div>
-            <div class="desc">Eyebrow labels (when not on pill bg), captions, fine print, "Required" hints, metadata.</div>
-          </div>
-        </div>
-        <div class="swatch">
-          <div class="chip" style="background:#f3ede1; border-color:#444;"></div>
-          <div class="meta">
-            <div class="role">Text on dark</div>
-            <div class="var">--text-on-dark</div>
-            <div class="hex">#f3ede1</div>
-            <div class="desc">When text sits on the dark surface (footer headlines, dark-hero overlay copy). Warm bone — same family as the mark's top translucent layer.</div>
-          </div>
-        </div>
+      <div class="subgroup-label">Surfaces</div>
+      <div class="swatch-grid">
+        <div class="swatch"><div class="chip" style="background:#f7f4eb"></div><div><div class="role">Page background</div><div class="var">--bg-page</div><div class="hex">#f7f4eb</div><div class="desc">Warm paper. Body bg of the entire site — never pure #fff.</div></div></div>
+        <div class="swatch"><div class="chip" style="background:#fbf8ef"></div><div><div class="role">Card surface</div><div class="var">--bg-surface</div><div class="hex">#fbf8ef</div><div class="desc">Half-tone lighter than page. Tiles, quote cards, section frames.</div></div></div>
+        <div class="swatch"><div class="chip" style="background:#ece4d1"></div><div><div class="role">Pill / chip bg</div><div class="var">--bg-pill</div><div class="hex">#ece4d1</div><div class="desc">Eyebrow tags, small avatars, key callouts.</div></div></div>
+        <div class="swatch"><div class="chip" style="background:#1a1816"></div><div><div class="role">Dark surface</div><div class="var">--bg-dark</div><div class="hex">#1a1816</div><div class="desc">Warm near-black for footer and dark hero overlays. Never pure #000.</div></div></div>
       </div>
 
-      <h2 style="margin: 48px 0 24px;">Borders, dividers, icons</h2>
-      <div class="swatches">
-        <div class="swatch">
-          <div class="chip" style="background:#e4dccb"></div>
-          <div class="meta">
-            <div class="role">Hairline divider</div>
-            <div class="var">--border-divider</div>
-            <div class="hex">#e4dccb</div>
-            <div class="desc">Section breaks, table rows, between How-to-Premodel steps. Should be visible but quiet.</div>
-          </div>
-        </div>
-        <div class="swatch">
-          <div class="chip" style="background:#d8cfc0"></div>
-          <div class="meta">
-            <div class="role">Subtle border</div>
-            <div class="var">--border-subtle</div>
-            <div class="hex">#d8cfc0</div>
-            <div class="desc">Card outlines, input field borders, ghost buttons. The "second tier" of structure.</div>
-          </div>
-        </div>
-        <div class="swatch">
-          <div class="chip" style="background:#b8ae9c"></div>
-          <div class="meta">
-            <div class="role">Strong border</div>
-            <div class="var">--border-strong</div>
-            <div class="hex">#b8ae9c</div>
-            <div class="desc">Selected states, focused inputs, emphasized borders.</div>
-          </div>
-        </div>
-        <div class="swatch">
-          <div class="chip" style="background:#2a2826"></div>
-          <div class="meta">
-            <div class="role">Icons (primary)</div>
-            <div class="var">--icon-primary</div>
-            <div class="hex">#2a2826</div>
-            <div class="desc">Inline icons paired with text: arrows, checks, step numbers. Reads as part of the type.</div>
-          </div>
-        </div>
+      <div class="subgroup-label">Text</div>
+      <div class="swatch-grid">
+        <div class="swatch"><div class="chip" style="background:#2a2826"></div><div><div class="role">Primary text</div><div class="var">--text-primary</div><div class="hex">#2a2826</div><div class="desc">Headlines, body. Warm-toned near-black.</div></div></div>
+        <div class="swatch"><div class="chip" style="background:#6a625a"></div><div><div class="role">Secondary text</div><div class="var">--text-secondary</div><div class="hex">#6a625a</div><div class="desc">Lede, descriptions, supporting copy.</div></div></div>
+        <div class="swatch"><div class="chip" style="background:#998f80"></div><div><div class="role">Tertiary text</div><div class="var">--text-tertiary</div><div class="hex">#998f80</div><div class="desc">Eyebrow, captions, metadata, fine print.</div></div></div>
+        <div class="swatch"><div class="chip" style="background:#f3ede1; border-color:#444"></div><div><div class="role">Text on dark</div><div class="var">--text-on-dark</div><div class="hex">#f3ede1</div><div class="desc">Primary text when on dark surface.</div></div></div>
       </div>
 
-      <h2 style="margin: 48px 0 24px;">Accent <span id="paletteAccentName" style="font-weight:400; color:var(--text-tertiary); font-family: 'Roboto'; font-size: 22px;">(currently: oxblood)</span></h2>
-      <div class="swatches">
-        <div class="swatch live-accent">
-          <div class="chip" id="chipAccent" style="background:#5e2c2e"></div>
-          <div class="meta">
-            <div class="role">Accent — primary</div>
-            <div class="var">--accent</div>
-            <div class="hex" id="hexAccent">#5e2c2e</div>
-            <div class="desc">The single brand accent. Lives in: CTAs, links, the tagline "Before You Remodel," key statistic numbers, quote marks. Replaces the navy.</div>
-          </div>
-        </div>
-        <div class="swatch live-accent">
-          <div class="chip" id="chipHover" style="background:#3f1c1d"></div>
-          <div class="meta">
-            <div class="role">Accent — hover/active</div>
-            <div class="var">--accent-hover</div>
-            <div class="hex" id="hexHover">#3f1c1d</div>
-            <div class="desc">Darker shade for hover and pressed states on accent surfaces.</div>
-          </div>
-        </div>
-        <div class="swatch live-accent">
-          <div class="chip" id="chipSoft" style="background:#ecd0d0"></div>
-          <div class="meta">
-            <div class="role">Accent — soft tint</div>
-            <div class="var">--accent-soft</div>
-            <div class="hex" id="hexSoft">#ecd0d0</div>
-            <div class="desc">Pale tint for accent-pill backgrounds, highlight blocks, callouts where the full accent would be too loud.</div>
-          </div>
-        </div>
-        <div class="swatch live-accent">
-          <div class="chip" id="chipOnDark" style="background:#a4666a"></div>
-          <div class="meta">
-            <div class="role">Accent — on dark</div>
-            <div class="var">--accent-on-dark</div>
-            <div class="hex" id="hexOnDark">#a4666a</div>
-            <div class="desc">Lightened shade for use on the dark surface. Same brand color, calibrated for contrast.</div>
-          </div>
-        </div>
+      <div class="subgroup-label">Borders &amp; icons</div>
+      <div class="swatch-grid">
+        <div class="swatch"><div class="chip" style="background:#e4dccb"></div><div><div class="role">Hairline divider</div><div class="var">--border-divider</div><div class="hex">#e4dccb</div></div></div>
+        <div class="swatch"><div class="chip" style="background:#d8cfc0"></div><div><div class="role">Subtle border</div><div class="var">--border-subtle</div><div class="hex">#d8cfc0</div></div></div>
+        <div class="swatch"><div class="chip" style="background:#b8ae9c"></div><div><div class="role">Strong border</div><div class="var">--border-strong</div><div class="hex">#b8ae9c</div></div></div>
+        <div class="swatch"><div class="chip" style="background:#2a2826"></div><div><div class="role">Icons (primary)</div><div class="var">--icon-primary</div><div class="hex">#2a2826</div></div></div>
+      </div>
+
+      <div class="subgroup-label">Accent <span style="color:var(--text-tertiary); font-weight:400; text-transform:none; letter-spacing:0; font-size:13px;">— currently: <span id="paletteAccentName">oxblood</span></span></div>
+      <div class="swatch-grid">
+        <div class="swatch"><div class="chip" id="chipAccent" style="background:#5e2c2e"></div><div><div class="role">Accent — primary</div><div class="var">--accent</div><div class="hex" id="hexAccent">#5e2c2e</div><div class="desc">CTAs, links, tagline, key statistic numbers, quote marks.</div></div></div>
+        <div class="swatch"><div class="chip" id="chipHover" style="background:#3f1c1d"></div><div><div class="role">Accent — hover</div><div class="var">--accent-hover</div><div class="hex" id="hexHover">#3f1c1d</div><div class="desc">Pressed / hover states on accent surfaces.</div></div></div>
+        <div class="swatch"><div class="chip" id="chipSoft" style="background:#ecd0d0"></div><div><div class="role">Accent — soft tint</div><div class="var">--accent-soft</div><div class="hex" id="hexSoft">#ecd0d0</div><div class="desc">Pill backgrounds, callouts, focus rings.</div></div></div>
+        <div class="swatch"><div class="chip" id="chipOnDark" style="background:#a4666a"></div><div><div class="role">Accent — on dark</div><div class="var">--accent-on-dark</div><div class="hex" id="hexOnDark">#a4666a</div><div class="desc">Lightened shade for accent on dark surface.</div></div></div>
       </div>
     </section>
 
+    <!-- ═══════════════════════════════════════════════════════════════════
+         §02 TYPOGRAPHY
+         ═══════════════════════════════════════════════════════════════════ -->
+    <section class="style-section" id="type">
+      <div class="section-head">
+        <span class="eyebrow"><span class="num">02</span> Typography</span>
+        <h2>Three candidate stacks. Toggle above to compare.</h2>
+        <p class="lead">All three pairings are free / Google Fonts and load fast. Each gives a different register without losing the editorial-restraint mood. Display font drives headlines and the rotator; body font drives everything else.</p>
+      </div>
 
-    <!-- ───────────────────────────────────────────────── -->
-    <!-- 2. APPLIED: HERO MOCKUP                              -->
-    <!-- ───────────────────────────────────────────────── -->
-    <section class="section">
-      <div class="section-label">02 · Applied · Hero section</div>
-      <div class="mockup">
-        <span class="pill">Pre-remodel advisors</span>
-        <h1>Don't guess. <span class="accent-word">Premodel.</span></h1>
-        <p class="lede">Two seasoned advisors walk your home, listen, and turn what they hear into photorealistic Reveals — so you can sit with the decision before you spend a dollar on construction.</p>
-        <div class="cta-row">
-          <button class="btn-primary">Book your Reveal</button>
-          <button class="btn-ghost">See how it works</button>
+      <div class="subgroup-label">Current stack <span style="color:var(--text-tertiary); font-weight:400; text-transform:none; letter-spacing:0; font-size:13px;">— display / body</span></div>
+      <div class="type-sample">
+        <div class="label">
+          <span class="name">Display</span>
+          <span class="meta" id="metaDisplay">Source Serif 4 · 500 · -0.01em</span>
         </div>
-        <div class="meta">A refundable $200 deposit secures your home visit. <a href="#" class="text-link">See refund policy</a>.</div>
+        <div class="display-1">Don't guess. <span class="accent-word">Premodel.</span></div>
+        <div class="display-2" style="margin-top: 14px;">Start with a Reveal.</div>
+      </div>
+
+      <div class="type-sample">
+        <div class="label">
+          <span class="name">Body</span>
+          <span class="meta" id="metaBody">Inter · 400 · 1.55</span>
+        </div>
+        <p style="margin:0 0 12px; font-size: var(--fs-body-lg);">Two seasoned advisors walk your home, listen, and turn what they hear into photorealistic Reveals — so you can sit with the decision before you spend a dollar on construction.</p>
+        <p style="margin:0; color: var(--text-secondary);">The mark stays neutral. The wordmark stays deep ink. Only "Before You Remodel" — the tagline that is the positioning statement — takes the accent.</p>
+      </div>
+
+      <div class="subgroup-label">Mobile-first type rhythm</div>
+      <div style="overflow-x: auto;">
+      <table class="rhythm-table">
+        <thead><tr><th>Role</th><th>Var</th><th>Mobile (≤ 640)</th><th>Tablet (768)</th><th>Desktop (1200+)</th><th>Line-height</th><th>Used in</th></tr></thead>
+        <tbody>
+          <tr><td><b>Display 1</b></td><td class="mono">--fs-display-1</td><td class="mono">44px</td><td class="mono">56px</td><td class="mono">64px</td><td class="mono">1.1</td><td>Hero rotator headline</td></tr>
+          <tr><td><b>Display 2</b></td><td class="mono">--fs-display-2</td><td class="mono">32px</td><td class="mono">40px</td><td class="mono">44px</td><td class="mono">1.1</td><td>Section headlines</td></tr>
+          <tr><td>H1</td><td class="mono">--fs-h1</td><td class="mono">28px</td><td class="mono">32px</td><td class="mono">36px</td><td class="mono">1.2</td><td>Subsection</td></tr>
+          <tr><td>H2</td><td class="mono">--fs-h2</td><td class="mono">22px</td><td class="mono">24px</td><td class="mono">24px</td><td class="mono">1.2</td><td>Card headline</td></tr>
+          <tr><td>H3</td><td class="mono">--fs-h3</td><td class="mono">18px</td><td class="mono">19px</td><td class="mono">19px</td><td class="mono">1.2</td><td>Tile headline</td></tr>
+          <tr><td>Body L</td><td class="mono">--fs-body-lg</td><td class="mono">17px</td><td class="mono">18px</td><td class="mono">18px</td><td class="mono">1.55</td><td>Lede paragraph</td></tr>
+          <tr><td>Body</td><td class="mono">--fs-body</td><td class="mono">15px</td><td class="mono">16px</td><td class="mono">16px</td><td class="mono">1.55</td><td>Default body</td></tr>
+          <tr><td>Small</td><td class="mono">--fs-small</td><td class="mono">13px</td><td class="mono">13px</td><td class="mono">13px</td><td class="mono">1.5</td><td>Caption, tile body</td></tr>
+          <tr><td>Caption</td><td class="mono">--fs-caption</td><td class="mono">11px</td><td class="mono">11px</td><td class="mono">11px</td><td class="mono">1.4</td><td>Eyebrow, fine print</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <p style="font-size:13px; color: var(--text-secondary); margin-top: 14px; max-width: 720px;">
+      Mobile-readability principles enforced here: body never below 15px, line-height never tighter than 1.55 on body, and the display sizes use a fluid scale where the hero stays comfortably scannable at 44px on a 320px-wide iPhone SE.
+      </p>
+
+      <div class="subgroup-label">Sample paragraphs at each size</div>
+      <div class="type-sample">
+        <div class="label">
+          <span class="name">Body Large · lede</span>
+          <span class="meta">--fs-body-lg · 1.55</span>
+        </div>
+        <p style="font-size: var(--fs-body-lg); margin: 0;">Inspiration images show you someone else's home. Our Reveals show yours — photoreal, layered, every fixture and finish where you'd actually put it.</p>
+      </div>
+      <div class="type-sample">
+        <div class="label">
+          <span class="name">Body · default</span>
+          <span class="meta">--fs-body · 1.55</span>
+        </div>
+        <p style="margin: 0;">Most homeowners struggle to put their ideas into words. We walk your space with you, ask questions, discuss your inspiration images, and turn what we hear into your Reveal. You leave with three design directions, photorealistic renders of your actual rooms, and a starting point you couldn't have built alone.</p>
+      </div>
+      <div class="type-sample">
+        <div class="label">
+          <span class="name">Small · tile body / caption</span>
+          <span class="meta">--fs-small · 1.5</span>
+        </div>
+        <p style="font-size: var(--fs-small); margin: 0; color: var(--text-secondary);">A refundable $200 deposit secures your home visit. We confirm the estimate after your intake call. Multi-room projects are discounted up to 30% off additional rooms.</p>
       </div>
     </section>
 
-
-    <!-- ───────────────────────────────────────────────── -->
-    <!-- 3. APPLIED: TILES + QUOTE                            -->
-    <!-- ───────────────────────────────────────────────── -->
-    <section class="section">
-      <div class="section-label">03 · Applied · Tiles &amp; testimonial</div>
-
-      <span class="pill pill-accent">How it works</span>
-      <h2 style="margin:18px 0 6px;">Three ways to see your space</h2>
-      <p style="color:var(--text-secondary); max-width:620px; margin:0;">Before you hire anyone, before you commit to a budget, before construction.</p>
-
-      <div class="tile-row">
-        <div class="tile">
-          <div class="icon">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
-          </div>
-          <h3>Reveal</h3>
-          <p>Photorealistic renders of your actual space, not someone else's Pinterest board.</p>
-        </div>
-        <div class="tile">
-          <div class="icon accent-icon">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9"/><path d="M3 4v5h5"/></svg>
-          </div>
-          <h3>Refine</h3>
-          <p>We sit with you live until your favorite Reveal becomes the one you can't wait to live in.</p>
-        </div>
-        <div class="tile">
-          <div class="icon">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h20"/><path d="M12 2v20"/><circle cx="12" cy="12" r="4"/></svg>
-          </div>
-          <h3>Walk</h3>
-          <p>Stand inside it in VR before construction begins. Catch the change orders that would've cost you thousands.</p>
-        </div>
+    <!-- ═══════════════════════════════════════════════════════════════════
+         §03 SPACING SCALE
+         ═══════════════════════════════════════════════════════════════════ -->
+    <section class="style-section" id="spacing">
+      <div class="section-head">
+        <span class="eyebrow"><span class="num">03</span> Spacing scale</span>
+        <h2>4-based scale with semantic step names.</h2>
+        <p class="lead">Every gap, padding, and margin in the system comes from this 9-step scale. The bars below are sized to actual pixel value so you can eyeball the relationships.</p>
       </div>
 
-      <div class="quote">
-        <div class="mark">"</div>
-        <div class="body">We got a preview before committing to a big construction budget. It's crazy that it's the opposite for most remodels: commit first, see it months later.</div>
-        <div class="attrib">— Sasha A., Seattle · Full home renovation</div>
+      <div class="space-scale">
+        <div class="space-row"><span class="name">--space-1</span><span class="px">4px</span><div class="bar" style="width: 4px;"></div></div>
+        <div class="space-row"><span class="name">--space-2</span><span class="px">8px</span><div class="bar" style="width: 8px;"></div></div>
+        <div class="space-row"><span class="name">--space-3</span><span class="px">12px</span><div class="bar" style="width: 12px;"></div></div>
+        <div class="space-row"><span class="name">--space-4</span><span class="px">16px</span><div class="bar" style="width: 16px;"></div></div>
+        <div class="space-row"><span class="name">--space-5</span><span class="px">24px</span><div class="bar" style="width: 24px;"></div></div>
+        <div class="space-row"><span class="name">--space-6</span><span class="px">32px</span><div class="bar" style="width: 32px;"></div></div>
+        <div class="space-row"><span class="name">--space-7</span><span class="px">48px</span><div class="bar" style="width: 48px;"></div></div>
+        <div class="space-row"><span class="name">--space-8</span><span class="px">64px</span><div class="bar" style="width: 64px;"></div></div>
+        <div class="space-row"><span class="name">--space-9</span><span class="px">96px</span><div class="bar" style="width: 96px;"></div></div>
+      </div>
+
+      <div class="subgroup-label">Vertical rhythm guide</div>
+      <ul style="margin:0; padding-left: 18px; font-size: 14px; color: var(--text-secondary); line-height: 1.7;">
+        <li><b>Within a card:</b> headline → body uses <code>--space-3</code> (12px). Body → CTA uses <code>--space-5</code> (24px).</li>
+        <li><b>Between cards:</b> always <code>--space-4</code> (16px) on mobile, <code>--space-5</code> (24px) on desktop.</li>
+        <li><b>Between sections:</b> <code>--space-8</code> (64px) on mobile, <code>--space-9</code> (96px) on desktop.</li>
+        <li><b>Inside form fields:</b> always <code>--space-3</code> (12px) padding.</li>
+        <li><b>Page edge padding (gutter):</b> <code>--space-5</code> (24px) on mobile, <code>--space-6</code> (32px) on desktop.</li>
+      </ul>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         §04 COMPONENTS
+         ═══════════════════════════════════════════════════════════════════ -->
+    <section class="style-section" id="components">
+      <div class="section-head">
+        <span class="eyebrow"><span class="num">04</span> Components</span>
+        <h2>UI primitives — default, hover, active, disabled.</h2>
+        <p class="lead">Every component below is wired to the same CSS variables as the rest of the page, so the accent toggle re-skins them in real time. Hover the buttons and focus the input to see state changes.</p>
+      </div>
+
+      <div class="comp-grid">
+
+        <div class="comp-card">
+          <div class="title">Buttons</div>
+          <div class="comp-row">
+            <button class="btn-primary">Book your Reveal</button>
+            <button class="btn-primary" disabled>Disabled</button>
+          </div>
+          <div class="comp-row">
+            <button class="btn-ghost">See how it works</button>
+            <button class="btn-link">Read pricing →</button>
+          </div>
+          <p class="comp-meta">Primary uses <code>--accent</code> / <code>--accent-hover</code>. Ghost uses <code>--border-strong</code>. Link uses <code>--accent</code> with a soft underline.</p>
+        </div>
+
+        <div class="comp-card">
+          <div class="title">Pills</div>
+          <div class="comp-row">
+            <span class="pill">Pre-remodel advisors</span>
+            <span class="pill pill-accent">How it works</span>
+            <span class="pill">Seattle &amp; Eastside</span>
+          </div>
+          <p class="comp-meta">Default pill sits on <code>--bg-pill</code>. Accent-variant uses <code>--accent-soft</code> with <code>--accent-hover</code> text.</p>
+        </div>
+
+        <div class="comp-card">
+          <div class="title">Inputs</div>
+          <label class="input-label" for="ex-input">Email address</label>
+          <input type="email" id="ex-input" class="input-field" placeholder="hello@example.com" style="margin-bottom:12px;">
+          <label class="input-label" for="ex-select">Project type</label>
+          <select class="input-field" id="ex-select" style="margin-bottom:12px;">
+            <option>Kitchen</option><option>Bathroom</option><option>Full home</option>
+          </select>
+          <label class="input-label">Disabled</label>
+          <input type="text" class="input-field" value="Confirmed value" disabled>
+          <p class="comp-meta" style="margin-top: 10px;">Focus ring uses <code>--accent</code> + <code>--accent-soft</code>. Click the field to see it live.</p>
+        </div>
+
+        <div class="comp-card">
+          <div class="title">Mini cards</div>
+          <div class="comp-row" style="gap:10px;">
+            <div class="mini-card" style="flex:1; min-width: 140px;"><div class="ph"></div><div class="t">Reveal</div><div class="s">Photoreal renders of your actual space.</div></div>
+            <div class="mini-card" style="flex:1; min-width: 140px;"><div class="ph"></div><div class="t">Refine</div><div class="s">Live sessions until your favorite is ready.</div></div>
+          </div>
+          <p class="comp-meta">Placeholder area uses <code>--bg-pill</code>. The full tile renders are richer in the prototype.</p>
+        </div>
+
+        <div class="comp-card" style="grid-column: 1 / -1;">
+          <div class="title">Modal</div>
+          <div class="modal-mockup">
+            <div class="modal-head">
+              <h3>What's included in your Reveal</h3>
+              <button class="close" aria-label="Close">×</button>
+            </div>
+            <p>Three photoreal design directions for the room you submit, plus a 30-minute walkthrough call to align before we start. Refundable if you don't move forward.</p>
+            <div class="modal-actions">
+              <button class="btn-ghost">Maybe later</button>
+              <button class="btn-primary">Got it</button>
+            </div>
+          </div>
+        </div>
+
       </div>
     </section>
 
+    <!-- ═══════════════════════════════════════════════════════════════════
+         §05 ICONOGRAPHY + IMAGERY
+         ═══════════════════════════════════════════════════════════════════ -->
+    <section class="style-section" id="icons">
+      <div class="section-head">
+        <span class="eyebrow"><span class="num">05</span> Iconography &amp; imagery</span>
+        <h2>Lucide line icons + Reveal photography only.</h2>
+        <p class="lead">Inline icons stay subordinate to text. Photography earns its place — Reveal renders, real room photos, occasionally inspiration; never stock.</p>
+      </div>
 
-    <!-- ───────────────────────────────────────────────── -->
-    <!-- 4. LOCKUP — light & dark surface (REAL PNGs)         -->
-    <!-- ───────────────────────────────────────────────── -->
-    <section class="section">
-      <div class="section-label">04 · Lockup placement</div>
-      <p style="color:var(--text-secondary); max-width:680px;">Signature lockup applied — the mark stays fully neutral, "Premodel" stays deep ink, and only the tagline "Before You Remodel" carries the accent. Toggle the accent above and the tagline color updates in sync. Logo geometry stays one mark; on dark it lives inside a cream rounded card.</p>
+      <div class="subgroup-label">Icon sizing &amp; stroke</div>
+      <div class="icon-scale">
+        <div class="icon-scale-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12,7 12,12 15,15"/></svg>
+          <div class="px">16</div>
+        </div>
+        <div class="icon-scale-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12,7 12,12 15,15"/></svg>
+          <div class="px">18</div>
+        </div>
+        <div class="icon-scale-item">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12,7 12,12 15,15"/></svg>
+          <div class="px">24</div>
+        </div>
+        <div class="icon-scale-item">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12,7 12,12 15,15"/></svg>
+          <div class="px">32</div>
+        </div>
+        <div class="icon-scale-item">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12,7 12,12 15,15"/></svg>
+          <div class="px">48</div>
+        </div>
+      </div>
+      <p style="font-size:13px; color: var(--text-secondary); margin-top: 14px; max-width: 720px;">
+        <b>Stroke:</b> always 1.5px (matches Lucide default for editorial restraint). &nbsp; · &nbsp; <b>Color:</b> <code>--icon-primary</code> for inline icons paired with text; <code>--icon-muted</code> for decorative-only. &nbsp; · &nbsp; <b>Accent icons</b> live inside <code>--accent-soft</code> chips when an icon needs to pop, never as a standalone color choice.
+      </p>
 
-      <div class="lockup-stage">
+      <div class="subgroup-label">Imagery rules</div>
+      <ul style="margin:0; padding-left: 18px; font-size: 14px; color: var(--text-secondary); line-height: 1.7; max-width: 760px;">
+        <li><b>Reveal renders are the hero.</b> They earn the carousel, the case-study modals, the social proof spots.</li>
+        <li><b>Real client room photos</b> belong next to before/after explanations and on dedicated case-study pages.</li>
+        <li><b>Inspiration images</b> are used sparingly and always attributed to the homeowner — never as a stand-in for our own work.</li>
+        <li><b>No stock photography.</b> If we can't show our own work for a section, the section gets type and white space instead.</li>
+        <li><b>Aspect ratios:</b> 4:3 for room interiors, 1:1 for avatars / detail crops, 16:9 for screen recordings of the VR walkthrough.</li>
+        <li><b>Corner radius:</b> images inside cards use <code>--radius-card</code> (14px). Standalone editorial images stay un-rounded.</li>
+      </ul>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         §06 VOICE & TONE
+         ═══════════════════════════════════════════════════════════════════ -->
+    <section class="style-section" id="voice">
+      <div class="section-head">
+        <span class="eyebrow"><span class="num">06</span> Voice &amp; tone</span>
+        <h2>Considered. Direct. Quietly confident.</h2>
+        <p class="lead">Premodel sells calm. The voice mirrors the product — no urgency tricks, no jargon, no construction-industry posturing. We're advisors, not vendors.</p>
+      </div>
+
+      <div class="voice-grid">
+        <div class="voice-card">
+          <h4>Plainspoken</h4>
+          <p>Short sentences. Specific nouns. No industry acronyms unless we define them in the same sentence. If a contractor would say it, we probably shouldn't.</p>
+        </div>
+        <div class="voice-card">
+          <h4>Quietly confident</h4>
+          <p>State the thing without hedging or oversell. "Photoreal renders of your actual space" beats "innovative AI-powered visualization solutions."</p>
+        </div>
+        <div class="voice-card">
+          <h4>On the homeowner's side</h4>
+          <p>Address the reader's actual experience — fragments of ideas, Pinterest fatigue, fear of committing — rather than describing our process from our perspective.</p>
+        </div>
+      </div>
+
+      <div class="subgroup-label">Do / don't</div>
+      <div class="do-dont">
+        <div class="cell do">
+          <span class="tag">Do</span>
+          <div class="quote">"Don't guess. Premodel."</div>
+        </div>
+        <div class="cell dont">
+          <span class="tag">Don't</span>
+          <div class="quote">"Revolutionize your renovation journey with AI-powered design intelligence."</div>
+        </div>
+        <div class="cell do">
+          <span class="tag">Do</span>
+          <div class="quote">"A refundable $200 deposit secures your home visit."</div>
+        </div>
+        <div class="cell dont">
+          <span class="tag">Don't</span>
+          <div class="quote">"Lock in your spot today before pricing changes!"</div>
+        </div>
+        <div class="cell do">
+          <span class="tag">Do</span>
+          <div class="quote">"Yours to keep, even if you don't hire us."</div>
+        </div>
+        <div class="cell dont">
+          <span class="tag">Don't</span>
+          <div class="quote">"Risk-free trial with no commitment required."</div>
+        </div>
+      </div>
+
+      <div class="subgroup-label">Terminology</div>
+      <div class="terminology">
+        <dl>
+          <dt>Reveal</dt><dd>Always capitalized. It's the proper noun for our deliverable — photoreal renders + walkthrough. Lowercase "reveal" only as a generic verb.</dd>
+          <dt>Premodel</dt><dd>Can be used as a verb ("Premodel before you remodel") and as the company name. Both are intentional. Always one word, capital P.</dd>
+          <dt>Plan</dt><dd>Capitalized when referring to our second-phase deliverable. Lowercase otherwise.</dd>
+          <dt>Pre-remodel advisor</dt><dd>The role title for Ashley and Paige. Hyphenated. Avoid "consultant" — too transactional.</dd>
+          <dt>Walk / walkthrough</dt><dd>For VR sessions. "Walk your home" is better than "tour your space."</dd>
+          <dt>Construction budget</dt><dd>What homeowners will spend with their contractor. Distinct from our service fee. Never blur the two.</dd>
+        </dl>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         §07 APPLIED EXAMPLES (light + dark)
+         ═══════════════════════════════════════════════════════════════════ -->
+    <section class="style-section" id="applied">
+      <div class="section-head">
+        <span class="eyebrow"><span class="num">07</span> Applied examples</span>
+        <h2>Layouts from the prototype, light + dark.</h2>
+        <p class="lead">Each layout pattern is shown twice — light surface and dark surface — using the same components and tokens. Switching accent at the top re-skins everything live.</p>
+      </div>
+
+      <div class="applied-grid">
+
+        <!-- HERO -->
         <div>
-          <div class="lockup-light">
-            <img id="lockupPaper" src="lockup-explorations/lockup_tagline_oxblood_on-paper.png" alt="Premodel lockup on paper" class="lockup-png" style="max-height: 160px;">
+          <div class="subgroup-label" style="margin-top: 0;">Hero</div>
+          <div class="applied-pair">
+            <div class="applied-cell">
+              <div class="applied-label">Light surface</div>
+              <div class="applied-body a-hero">
+                <span class="pill">Pre-remodel advisors</span>
+                <h1 class="applied-display" style="margin-top: 14px;">Don't guess. <span class="accent-word">Premodel.</span></h1>
+                <p class="lede">Two seasoned advisors walk your home, listen, and turn what they hear into photorealistic Reveals — so you can sit with the decision before you spend a dollar on construction.</p>
+                <div class="cta-row">
+                  <button class="btn-primary">Book your Reveal</button>
+                  <button class="btn-ghost">See how it works</button>
+                </div>
+              </div>
+            </div>
+            <div class="applied-cell dark">
+              <div class="applied-label">Dark surface</div>
+              <div class="applied-body a-hero">
+                <span class="pill">Pre-remodel advisors</span>
+                <h1 class="applied-display" style="margin-top: 14px;">Don't guess. <span class="accent-word">Premodel.</span></h1>
+                <p class="lede">Two seasoned advisors walk your home, listen, and turn what they hear into photorealistic Reveals — so you can sit with the decision before you spend a dollar on construction.</p>
+                <div class="cta-row">
+                  <button class="btn-primary">Book your Reveal</button>
+                  <button class="btn-ghost">See how it works</button>
+                </div>
+              </div>
+            </div>
           </div>
+        </div>
+
+        <!-- HOW IT WORKS STEPS -->
+        <div>
+          <div class="subgroup-label">How it works · step list</div>
+          <div class="applied-pair">
+            <div class="applied-cell">
+              <div class="applied-label">Light surface</div>
+              <div class="applied-body">
+                <span class="pill pill-accent">How it works</span>
+                <h2 style="margin: 14px 0 4px; font-family: var(--font-display); font-size: var(--fs-display-2); line-height: var(--lh-display);">Don't guess. <span class="accent-word">Premodel.</span></h2>
+                <ol class="step-list">
+                  <li class="step"><div class="num">1</div><div><p class="heading">Submit a Reveal request</p><p class="desc">Takes a minute. You don't need to have it all figured out.</p></div></li>
+                  <li class="step"><div class="num">2</div><div><p class="heading">Show us your home</p><p class="desc">We walk your space, ask questions, and turn what we hear into your Reveal.</p></div></li>
+                  <li class="step"><div class="num">3</div><div><p class="heading">Review 3 design directions</p><p class="desc">Inspiration images show you someone else's home. Our Reveals show yours.</p></div></li>
+                </ol>
+              </div>
+            </div>
+            <div class="applied-cell dark">
+              <div class="applied-label">Dark surface</div>
+              <div class="applied-body">
+                <span class="pill pill-accent">How it works</span>
+                <h2 style="margin: 14px 0 4px; font-family: var(--font-display); font-size: var(--fs-display-2); line-height: var(--lh-display);">Don't guess. <span class="accent-word">Premodel.</span></h2>
+                <ol class="step-list">
+                  <li class="step"><div class="num">1</div><div><p class="heading">Submit a Reveal request</p><p class="desc">Takes a minute. You don't need to have it all figured out.</p></div></li>
+                  <li class="step"><div class="num">2</div><div><p class="heading">Show us your home</p><p class="desc">We walk your space, ask questions, and turn what we hear into your Reveal.</p></div></li>
+                  <li class="step"><div class="num">3</div><div><p class="heading">Review 3 design directions</p><p class="desc">Inspiration images show you someone else's home. Our Reveals show yours.</p></div></li>
+                </ol>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TESTIMONIAL -->
+        <div>
+          <div class="subgroup-label">Testimonial</div>
+          <div class="applied-pair">
+            <div class="applied-cell">
+              <div class="applied-label">Light surface</div>
+              <div class="applied-body">
+                <div class="quote-card">
+                  <div class="quote-avatar">AG</div>
+                  <div>
+                    <p>"Without Premodel, I honestly wouldn't have started this project because I don't have time to agonize over possibilities I can't picture."</p>
+                    <cite>— Anna G., Edmonds · Master bath, pull-and-replace</cite>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="applied-cell dark">
+              <div class="applied-label">Dark surface</div>
+              <div class="applied-body">
+                <div class="quote-card">
+                  <div class="quote-avatar">AG</div>
+                  <div>
+                    <p>"Without Premodel, I honestly wouldn't have started this project because I don't have time to agonize over possibilities I can't picture."</p>
+                    <cite>— Anna G., Edmonds · Master bath, pull-and-replace</cite>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PRICING CARD -->
+        <div>
+          <div class="subgroup-label">Pricing card</div>
+          <div class="applied-pair">
+            <div class="applied-cell">
+              <div class="applied-label">Light surface</div>
+              <div class="applied-body">
+                <div class="pricing-card">
+                  <p class="price-eyebrow">Your Premodel estimate</p>
+                  <p class="price-num">$3,400</p>
+                  <p class="price-detail">Starting estimate · confirmed after your intake call</p>
+                  <ul>
+                    <li>Primary bath · pull-and-replace</li>
+                    <li>3 photoreal design directions</li>
+                    <li>30-minute review session</li>
+                    <li>Refundable $200 deposit</li>
+                  </ul>
+                  <button class="btn-primary" style="width: 100%;">Book this Reveal</button>
+                </div>
+              </div>
+            </div>
+            <div class="applied-cell dark">
+              <div class="applied-label">Dark surface</div>
+              <div class="applied-body">
+                <div class="pricing-card">
+                  <p class="price-eyebrow">Your Premodel estimate</p>
+                  <p class="price-num">$3,400</p>
+                  <p class="price-detail">Starting estimate · confirmed after your intake call</p>
+                  <ul>
+                    <li>Primary bath · pull-and-replace</li>
+                    <li>3 photoreal design directions</li>
+                    <li>30-minute review session</li>
+                    <li>Refundable $200 deposit</li>
+                  </ul>
+                  <button class="btn-primary" style="width: 100%;">Book this Reveal</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- MODAL -->
+        <div>
+          <div class="subgroup-label">Info modal</div>
+          <div class="applied-pair">
+            <div class="applied-cell">
+              <div class="applied-label">Light surface</div>
+              <div class="applied-body" style="background: var(--bg-pill); padding: 40px;">
+                <div class="modal-mockup">
+                  <div class="modal-head">
+                    <h3>What's included in your Reveal</h3>
+                    <button class="close" aria-label="Close">×</button>
+                  </div>
+                  <p>Three photoreal design directions for the room you submit, plus a 30-minute walkthrough call to align before we start.</p>
+                  <div class="modal-actions">
+                    <button class="btn-ghost">Maybe later</button>
+                    <button class="btn-primary">Got it</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="applied-cell dark">
+              <div class="applied-label">Dark surface</div>
+              <div class="applied-body" style="background: var(--bg-dark); padding: 40px;">
+                <div class="modal-mockup">
+                  <div class="modal-head">
+                    <h3>What's included in your Reveal</h3>
+                    <button class="close" aria-label="Close" style="color: var(--text-on-dark-2);">×</button>
+                  </div>
+                  <p>Three photoreal design directions for the room you submit, plus a 30-minute walkthrough call to align before we start.</p>
+                  <div class="modal-actions">
+                    <button class="btn-ghost">Maybe later</button>
+                    <button class="btn-primary">Got it</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CTA BAR (sticky-style) -->
+        <div>
+          <div class="subgroup-label">Sticky CTA bar</div>
+          <div class="applied-pair">
+            <div class="applied-cell">
+              <div class="applied-label">Light surface</div>
+              <div class="applied-body" style="padding: 0;">
+                <div style="background: var(--bg-surface); padding: 18px 24px; color: var(--text-secondary); font-size: 13px; min-height: 120px; display: flex; align-items: flex-end;">
+                  …rest of the page content scrolls up here…
+                </div>
+                <div class="cta-bar-demo">
+                  <button class="btn-primary">Book Your Complimentary Reveal</button>
+                </div>
+              </div>
+            </div>
+            <div class="applied-cell dark">
+              <div class="applied-label">Dark surface</div>
+              <div class="applied-body" style="padding: 0;">
+                <div style="background: var(--bg-dark-elevated); padding: 18px 24px; color: var(--text-on-dark-2); font-size: 13px; min-height: 120px; display: flex; align-items: flex-end;">
+                  …rest of the page content scrolls up here…
+                </div>
+                <div class="cta-bar-demo" style="background: var(--bg-dark); border-top: 1px solid var(--border-on-dark);">
+                  <button class="btn-primary">Book Your Complimentary Reveal</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         §08 LOGO — flat color variations + current lockup
+         ═══════════════════════════════════════════════════════════════════ -->
+    <section class="style-section" id="logo">
+      <div class="section-head">
+        <span class="eyebrow"><span class="num">08</span> Logo system</span>
+        <h2>Signature lockup + flat color variations.</h2>
+        <p class="lead">The signature lockup keeps the mark and wordmark neutral; only the tagline carries the accent. It re-skins with the toggle above. Below, 18 flat-color variations of the full lockup for reference and brand archive.</p>
+      </div>
+
+      <div class="subgroup-label" style="margin-top:0;">Signature lockup · live</div>
+      <div class="lockup-stage-row">
+        <div>
+          <div class="lockup-light"><img id="lockupPaper" src="lockup-explorations/lockup_tagline_oxblood_on-paper.png" alt="Premodel lockup on paper" style="max-height: 140px;"></div>
           <div class="stage-caption">On --bg-page · primary placement</div>
         </div>
-
         <div>
-          <div class="lockup-dark" style="padding: 0; overflow: hidden;">
-            <img id="lockupDark" src="lockup-explorations/lockup_tagline_oxblood_on-dark-card.png" alt="Premodel lockup inside cream card on dark surface" class="lockup-png" style="max-height: 220px;">
-          </div>
-          <div class="stage-caption">On --bg-dark · logo lives inside a cream card. Same mark, no recolor.</div>
+          <div class="lockup-dark"><img id="lockupDark" src="lockup-explorations/lockup_tagline_oxblood_on-dark-card.png" alt="Premodel lockup on dark card" style="max-height: 200px;"></div>
+          <div class="stage-caption">On --bg-dark · logo lives inside a cream card</div>
         </div>
       </div>
 
-      <div class="on-dark-demo" style="margin-top:24px;">
-        <span class="pill" style="background:rgba(247,244,235,0.10); color:var(--text-on-dark);">Footer</span>
-        <h2 style="margin-top:14px;">Planning buys confidence.</h2>
-        <p>Two pre-remodel advisors. Seattle &amp; Eastside. A new way to start a renovation — picture first, hammer later.</p>
-        <button class="btn-primary" style="margin-top:18px;">Book your Reveal</button>
+      <div class="group-section">
+        <div class="subgroup-label">Flat color variations · earth tones</div>
+        <div class="logo-grid">
+          <div class="logo-cell"><div class="stage"><img src="lockup-explorations/palette-variations/01_sand_baseline.png" alt=""></div><div class="meta"><div class="name">Sand · baseline</div><div class="hex">#2a2826 · #a89a82 · #e8dcc6</div></div></div>
+          <div class="logo-cell"><div class="stage"><img src="lockup-explorations/palette-variations/02_warm_peach.png" alt=""></div><div class="meta"><div class="name">Warm peach</div><div class="hex">#2a2826 · #b8987a · #f0d8b8</div></div></div>
+          <div class="logo-cell"><div class="stage"><img src="lockup-explorations/palette-variations/03_cool_sand.png" alt=""></div><div class="meta"><div class="name">Cool sand</div><div class="hex">#2a2826 · #998d80 · #d8d2c5</div></div></div>
+          <div class="logo-cell"><div class="stage"><img src="lockup-explorations/palette-variations/04_bronze.png" alt=""></div><div class="meta"><div class="name">Bronze</div><div class="hex">#1a1612 · #8a6e4e · #c8a87e</div></div></div>
+          <div class="logo-cell"><div class="stage"><img src="lockup-explorations/palette-variations/05_stone.png" alt=""></div><div class="meta"><div class="name">Stone</div><div class="hex">#2a2a26 · #8a8a82 · #d2d0c4</div></div></div>
+          <div class="logo-cell"><div class="stage"><img src="lockup-explorations/palette-variations/06_sepia.png" alt=""></div><div class="meta"><div class="name">Sepia</div><div class="hex">#1a120c · #8c684a · #d8b890</div></div></div>
+          <div class="logo-cell"><div class="stage"><img src="lockup-explorations/palette-variations/07_limestone.png" alt=""></div><div class="meta"><div class="name">Limestone</div><div class="hex">#2a2826 · #c0b6a4 · #ece4d0</div></div></div>
+          <div class="logo-cell"><div class="stage"><img src="lockup-explorations/palette-variations/08_clay.png" alt=""></div><div class="meta"><div class="name">Clay</div><div class="hex">#3a261e · #a8755a · #dba892</div></div></div>
+        </div>
       </div>
-    </section>
 
+      <div class="group-section">
+        <div class="subgroup-label">Neutral grayscales</div>
+        <div class="logo-grid">
+          <div class="logo-cell"><div class="stage"><img src="lockup-explorations/palette-variations/09_pure_gray.png" alt=""></div><div class="meta"><div class="name">Pure gray</div><div class="hex">#1f1f1f · #8a8a8a · #d8d8d8</div></div></div>
+          <div class="logo-cell"><div class="stage"><img src="lockup-explorations/palette-variations/10_charcoal_mono.png" alt=""></div><div class="meta"><div class="name">Charcoal mono</div><div class="hex">#1a1a1a · #5a5a5a · #b0b0b0</div></div></div>
+          <div class="logo-cell"><div class="stage"><img src="lockup-explorations/palette-variations/11_slate_gray.png" alt=""></div><div class="meta"><div class="name">Slate gray</div><div class="hex">#2a3035 · #7e858a · #c8ced3</div></div></div>
+          <div class="logo-cell"><div class="stage"><img src="lockup-explorations/palette-variations/12_graphite.png" alt=""></div><div class="meta"><div class="name">Graphite</div><div class="hex">#22221f · #666660 · #bcbcb4</div></div></div>
+        </div>
+      </div>
 
-    <!-- ───────────────────────────────────────────────── -->
-    <!-- 5. ACCENT FAMILY — clickable cards re-skin the page  -->
-    <!-- ───────────────────────────────────────────────── -->
-    <section class="section">
-      <div class="section-label">05 · Accent family · click a card to apply</div>
-      <p style="color:var(--text-secondary); max-width:720px;">Five candidates spanning the color wheel — three of them deliberately outside the editorial-warm-neutrals lane that's gotten crowded. Oxblood is the default; the others give you real range to react to. Every card is clickable; the entire page (palette swatches, mockup, lockup tagline) re-skins live.</p>
-
-      <div class="accents" id="accentCards" style="grid-template-columns: repeat(5, 1fr);">
-        <div class="accent-card active" data-accent="oxblood">
-          <div class="swatch-line">
-            <div class="c" style="background:#5e2c2e"></div>
-            <div class="c" style="background:#3f1c1d"></div>
-            <div class="c" style="background:#ecd0d0"></div>
-          </div>
-          <h3>Oxblood</h3>
-          <div class="hex">#5e2c2e · #3f1c1d · #ecd0d0</div>
-          <p>Default. Deep wine — architectural, heritage, serious. Most distinctive of the warm options. Works at tagline scale where the deep saturation reads as deliberate.</p>
-          <span class="active-tag" data-active-tag>· Default · active</span>
-        </div>
-        <div class="accent-card" data-accent="sage">
-          <div class="swatch-line">
-            <div class="c" style="background:#7d8a72"></div>
-            <div class="c" style="background:#566052"></div>
-            <div class="c" style="background:#e4ecd6"></div>
-          </div>
-          <h3>Sage</h3>
-          <div class="hex">#7d8a72 · #566052 · #e4ecd6</div>
-          <p>Cool PNW-coded. Quiet counterweight to the warm mark. Reads as "considered, calm, regional." Risk: sage has been peaking for ~3 years; trend-cycle dependent.</p>
-          <span class="active-tag" data-active-tag style="display:none;">· active</span>
-        </div>
-        <div class="accent-card" data-accent="cyanotype">
-          <div class="swatch-line">
-            <div class="c" style="background:#2a5680"></div>
-            <div class="c" style="background:#16365a"></div>
-            <div class="c" style="background:#c8d8e8"></div>
-          </div>
-          <h3>Cyanotype <span style="color:var(--accent); font-weight:500;">· concept play</span></h3>
-          <div class="hex">#2a5680 · #16365a · #c8d8e8</div>
-          <p>The architect's blueprint blue. Direct conceptual tie: Premodel literally shows you the blueprint of your home before you build it. Could own this the way Tiffany owns robin's egg.</p>
-          <span class="active-tag" data-active-tag style="display:none;">· active</span>
-        </div>
-        <div class="accent-card" data-accent="aubergine">
-          <div class="swatch-line">
-            <div class="c" style="background:#4a2942"></div>
-            <div class="c" style="background:#2e1828"></div>
-            <div class="c" style="background:#d8c8d2"></div>
-          </div>
-          <h3>Aubergine</h3>
-          <div class="hex">#4a2942 · #2e1828 · #d8c8d2</div>
-          <p>Deep plum. Sophisticated and unexpected — and quietly kitchen-coded (eggplant cabinetry is having a real moment in high-end interiors). Confident, individual, not following.</p>
-          <span class="active-tag" data-active-tag style="display:none;">· active</span>
-        </div>
-        <div class="accent-card" data-accent="saffron">
-          <div class="swatch-line">
-            <div class="c" style="background:#c89028"></div>
-            <div class="c" style="background:#966819"></div>
-            <div class="c" style="background:#f4e0b8"></div>
-          </div>
-          <h3>Saffron</h3>
-          <div class="hex">#c89028 · #966819 · #f4e0b8</div>
-          <p>Warm but yellow-leaning — completely different family than Claude's red-orange coral. Optimistic, generous, library-coded. Risk: pushed too far it reads "heritage brand."</p>
-          <span class="active-tag" data-active-tag style="display:none;">· active</span>
+      <div class="group-section">
+        <div class="subgroup-label">Tinted monochromes · the whole mark in one color family</div>
+        <div class="logo-grid">
+          <div class="logo-cell"><div class="stage"><img src="lockup-explorations/palette-variations/13_cyanotype_mono.png" alt=""></div><div class="meta"><div class="name">Cyanotype</div><div class="hex">#1a3358 · #5680b3 · #b8d0e8</div></div></div>
+          <div class="logo-cell"><div class="stage"><img src="lockup-explorations/palette-variations/14_sage_mono.png" alt=""></div><div class="meta"><div class="name">Sage</div><div class="hex">#2a3a2a · #7d8a72 · #c8d4bd</div></div></div>
+          <div class="logo-cell"><div class="stage"><img src="lockup-explorations/palette-variations/15_oxblood_mono.png" alt=""></div><div class="meta"><div class="name">Oxblood</div><div class="hex">#2a1416 · #7c3d3f · #d8b0b2</div></div></div>
+          <div class="logo-cell"><div class="stage"><img src="lockup-explorations/palette-variations/16_aubergine_mono.png" alt=""></div><div class="meta"><div class="name">Aubergine</div><div class="hex">#1f0f1d · #6e4a64 · #c8b0c0</div></div></div>
+          <div class="logo-cell"><div class="stage"><img src="lockup-explorations/palette-variations/17_ochre_mono.png" alt=""></div><div class="meta"><div class="name">Ochre</div><div class="hex">#4a3a18 · #b88a2a · #f0d090</div></div></div>
+          <div class="logo-cell"><div class="stage"><img src="lockup-explorations/palette-variations/18_pine_mono.png" alt=""></div><div class="meta"><div class="name">Pine</div><div class="hex">#1a2a1e · #547568 · #b0c8b8</div></div></div>
         </div>
       </div>
     </section>
 
-    <footer style="padding: 48px 0; color: var(--text-tertiary); font-size: 13px; border-top: 1px solid var(--border-divider); margin-top: 24px;">
-      Premodel · Editorial neutrals palette v2 · Live accent toggle · Real lockup PNGs · CSS variables ready to drop into the prototype.
+    <!-- ═══════════════════════════════════════════════════════════════════
+         §09 EXPRESSIVE LETTERMARK — material renders
+         ═══════════════════════════════════════════════════════════════════ -->
+    <section class="style-section" id="expressive">
+      <div class="section-head">
+        <span class="eyebrow"><span class="num">09</span> Expressive lettermark</span>
+        <h2>The mark as a stack of material samples.</h2>
+        <p class="lead">A parallel "expressive" treatment of the lettermark only, rendered as physical material samples. <b>Usage rule:</b> only ever shown alone, only ever shown large. Not used inside the standard wordmark lockup (material detail vanishes at lockup scale). Reserved for hero placements, marketing collateral, social, anywhere the mark gets its own canvas.</p>
+      </div>
+
+      <div class="material-grid">
+        <div class="material-cell"><div class="stage"><img src="lockup-explorations/material-variations/01_warm_woods.png" alt="Warm woods"></div><div class="meta"><h3>Warm woods</h3><p class="layers">White oak / walnut / ebonized oak</p></div></div>
+        <div class="material-cell"><div class="stage"><img src="lockup-explorations/material-variations/02_marble_brass_steel.png" alt="Marble brass steel"></div><div class="meta"><h3>Marble, brass, blackened steel</h3><p class="layers">Calacatta marble / brushed brass / blackened steel</p></div></div>
+        <div class="material-cell"><div class="stage"><img src="lockup-explorations/material-variations/03_kitchen_mood.png" alt="Kitchen mood"></div><div class="meta"><h3>Kitchen mood</h3><p class="layers">Honed Carrara / white oak / navy millwork</p></div></div>
+        <div class="material-cell"><div class="stage"><img src="lockup-explorations/material-variations/04_stone_study.png" alt="Stone study"></div><div class="meta"><h3>Stone study</h3><p class="layers">Travertine / limestone / honed slate</p></div></div>
+        <div class="material-cell"><div class="stage"><img src="lockup-explorations/material-variations/05_modern_bathroom.png" alt="Modern bathroom"></div><div class="meta"><h3>Modern bathroom</h3><p class="layers">Frosted glass / Carrara / matte black soapstone</p></div></div>
+        <div class="material-cell"><div class="stage"><img src="lockup-explorations/material-variations/06_pnw_lodge.png" alt="PNW lodge"></div><div class="meta"><h3>PNW lodge</h3><p class="layers">Cedar plank / river stone / moss-green plaster</p></div></div>
+        <div class="material-cell"><div class="stage"><img src="lockup-explorations/material-variations/07_mid_century.png" alt="Mid-century"></div><div class="meta"><h3>Mid-century</h3><p class="layers">Walnut / brushed brass / terrazzo</p></div></div>
+        <div class="material-cell"><div class="stage"><img src="lockup-explorations/material-variations/08_mediterranean.png" alt="Mediterranean"></div><div class="meta"><h3>Mediterranean</h3><p class="layers">Travertine / cream limewash / terracotta tile</p></div></div>
+      </div>
+    </section>
+
+    <footer class="page-footer">
+      Premodel · Style guide v2 · Single page, all tokens driven by CSS variables. Future: open palette + type for direct editing here, then ship to the prototype. Related artifacts: <a href="premodel_homepage_prototype.html">working prototype</a>.
     </footer>
 
   </div>
 
 <script>
-  // ── Accent palette definitions ──────────────────────
+  // ═══════════════════════════════════════════════════════════════════════
+  // ACCENT TOGGLE
+  // ═══════════════════════════════════════════════════════════════════════
   const ACCENTS = {
-    oxblood: {
-      name: 'oxblood',
-      primary: '#5e2c2e',
-      hover:   '#3f1c1d',
-      soft:    '#ecd0d0',
-      onDark:  '#a4666a',   // lifted for dark-bg contrast
-    },
-    sage: {
-      name: 'sage',
-      primary: '#7d8a72',
-      hover:   '#566052',
-      soft:    '#e4ecd6',
-      onDark:  '#a8b59c',
-    },
-    cyanotype: {
-      name: 'cyanotype blue',
-      primary: '#2a5680',
-      hover:   '#16365a',
-      soft:    '#c8d8e8',
-      onDark:  '#6993bd',
-    },
-    aubergine: {
-      name: 'aubergine',
-      primary: '#4a2942',
-      hover:   '#2e1828',
-      soft:    '#d8c8d2',
-      onDark:  '#8e6a86',
-    },
-    saffron: {
-      name: 'saffron',
-      primary: '#c89028',
-      hover:   '#966819',
-      soft:    '#f4e0b8',
-      onDark:  '#d8a84a',
-    },
+    oxblood:   { name: 'oxblood',         primary: '#5e2c2e', hover: '#3f1c1d', soft: '#ecd0d0', onDark: '#a4666a' },
+    sage:      { name: 'sage',            primary: '#7d8a72', hover: '#566052', soft: '#e4ecd6', onDark: '#a8b59c' },
+    cyanotype: { name: 'cyanotype blue',  primary: '#2a5680', hover: '#16365a', soft: '#c8d8e8', onDark: '#6993bd' },
+    aubergine: { name: 'aubergine',       primary: '#4a2942', hover: '#2e1828', soft: '#d8c8d2', onDark: '#8e6a86' },
+    saffron:   { name: 'saffron',         primary: '#c89028', hover: '#966819', soft: '#f4e0b8', onDark: '#d8a84a' },
   };
-
   const root = document.documentElement;
-  const buttons = document.querySelectorAll('#accentButtons .accent-btn');
-  const cards = document.querySelectorAll('#accentCards .accent-card');
-  const toggleHex = document.getElementById('toggleHex');
+  const accentSelect = document.getElementById('accentSelect');
+  const accentDot = document.getElementById('accentDot');
   const paletteName = document.getElementById('paletteAccentName');
+  const chips = {
+    accent:  { c: document.getElementById('chipAccent'),  h: document.getElementById('hexAccent')  },
+    hover:   { c: document.getElementById('chipHover'),   h: document.getElementById('hexHover')   },
+    soft:    { c: document.getElementById('chipSoft'),    h: document.getElementById('hexSoft')    },
+    onDark:  { c: document.getElementById('chipOnDark'),  h: document.getElementById('hexOnDark')  },
+  };
   const lockupPaper = document.getElementById('lockupPaper');
   const lockupDark  = document.getElementById('lockupDark');
-  const chipMap = {
-    accent:  { chip: document.getElementById('chipAccent'),  hex: document.getElementById('hexAccent')  },
-    hover:   { chip: document.getElementById('chipHover'),   hex: document.getElementById('hexHover')   },
-    soft:    { chip: document.getElementById('chipSoft'),    hex: document.getElementById('hexSoft')    },
-    onDark:  { chip: document.getElementById('chipOnDark'),  hex: document.getElementById('hexOnDark')  },
-  };
 
   function applyAccent(key) {
-    const a = ACCENTS[key];
-    if (!a) return;
-    root.style.setProperty('--accent',          a.primary);
-    root.style.setProperty('--accent-hover',    a.hover);
-    root.style.setProperty('--accent-soft',     a.soft);
-    root.style.setProperty('--accent-on-dark',  a.onDark);
-
-    toggleHex.textContent = a.primary;
-    paletteName.textContent = '(currently: ' + a.name + ')';
-
-    chipMap.accent.chip.style.background = a.primary;
-    chipMap.accent.hex.textContent = a.primary;
-    chipMap.hover.chip.style.background = a.hover;
-    chipMap.hover.hex.textContent = a.hover;
-    chipMap.soft.chip.style.background = a.soft;
-    chipMap.soft.hex.textContent = a.soft;
-    chipMap.onDark.chip.style.background = a.onDark;
-    chipMap.onDark.hex.textContent = a.onDark;
-
-    // Swap the lockup PNGs in sync with accent
+    const a = ACCENTS[key]; if (!a) return;
+    root.style.setProperty('--accent',         a.primary);
+    root.style.setProperty('--accent-hover',   a.hover);
+    root.style.setProperty('--accent-soft',    a.soft);
+    root.style.setProperty('--accent-on-dark', a.onDark);
+    paletteName.textContent = a.name;
+    if (accentDot) accentDot.style.background = a.primary;
+    chips.accent.c.style.background = a.primary; chips.accent.h.textContent = a.primary;
+    chips.hover.c.style.background  = a.hover;   chips.hover.h.textContent  = a.hover;
+    chips.soft.c.style.background   = a.soft;    chips.soft.h.textContent   = a.soft;
+    chips.onDark.c.style.background = a.onDark;  chips.onDark.h.textContent = a.onDark;
     if (lockupPaper) lockupPaper.src = `lockup-explorations/lockup_tagline_${key}_on-paper.png`;
     if (lockupDark)  lockupDark.src  = `lockup-explorations/lockup_tagline_${key}_on-dark-card.png`;
-
-    buttons.forEach(b => b.classList.toggle('active', b.dataset.accent === key));
-    cards.forEach(c => {
-      const isActive = c.dataset.accent === key;
-      c.classList.toggle('active', isActive);
-      const tag = c.querySelector('[data-active-tag]');
-      if (tag) {
-        if (isActive) {
-          tag.style.display = '';
-          tag.textContent = key === 'oxblood' ? '· Default · active' : '· active';
-        } else {
-          tag.style.display = 'none';
-        }
-      }
-    });
+    if (accentSelect && accentSelect.value !== key) accentSelect.value = key;
   }
+  if (accentSelect) accentSelect.addEventListener('change', e => applyAccent(e.target.value));
 
-  buttons.forEach(b => b.addEventListener('click', () => applyAccent(b.dataset.accent)));
-  cards.forEach(c => c.addEventListener('click', () => applyAccent(c.dataset.accent)));
+  // ═══════════════════════════════════════════════════════════════════════
+  // TYPE STACK SWITCHER
+  // ═══════════════════════════════════════════════════════════════════════
+  const TYPE_STACKS = {
+    editorial: {
+      name: 'Editorial',
+      display: "'Source Serif 4', Georgia, serif",
+      body:    "'Inter', system-ui, sans-serif",
+      displayWeight: '500',
+      metaDisp: 'Source Serif 4 · 500 · -0.01em',
+      metaBody: 'Inter · 400 · 1.55',
+    },
+    warm: {
+      name: 'Warm contemporary',
+      display: "'Fraunces', Georgia, serif",
+      body:    "'Manrope', system-ui, sans-serif",
+      displayWeight: '600',   // boost so Fraunces' decorative character is unmistakable
+      metaDisp: 'Fraunces · 600 · -0.01em',
+      metaBody: 'Manrope · 400 · 1.55',
+    },
+    modern: {
+      name: 'Modern sans',
+      display: "'Inter', system-ui, sans-serif",
+      body:    "'Inter', system-ui, sans-serif",
+      displayWeight: '700',
+      metaDisp: 'Inter · 700 · -0.025em',
+      metaBody: 'Inter · 400 · 1.55',
+    },
+  };
+  const typeSelect = document.getElementById('typeSelect');
+  const metaDisplay = document.getElementById('metaDisplay');
+  const metaBody = document.getElementById('metaBody');
+  function applyType(key) {
+    const t = TYPE_STACKS[key]; if (!t) return;
+    root.style.setProperty('--font-display', t.display);
+    root.style.setProperty('--font-body',    t.body);
+    root.style.setProperty('--display-weight', t.displayWeight);
+    if (metaDisplay) metaDisplay.textContent = t.metaDisp;
+    if (metaBody)    metaBody.textContent    = t.metaBody;
+    if (typeSelect && typeSelect.value !== key) typeSelect.value = key;
+  }
+  if (typeSelect) typeSelect.addEventListener('change', e => applyType(e.target.value));
 </script>
 </body>
 </html>
