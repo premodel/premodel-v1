@@ -560,17 +560,12 @@
      APPLIED EXAMPLES — light + dark
      ═══════════════════════════════════════════════════════════════════════ */
   .applied-grid { display: flex; flex-direction: column; gap: 32px; }
-  .applied-pair {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-  @media (min-width: 1024px) {
-    .applied-pair { grid-template-columns: 1fr 1fr; }
-  }
-  .applied-cell { border-radius: var(--radius-tile); overflow: hidden; border: 1px solid var(--border-divider); }
+  /* Each example renders as a real phone-width screen (390px, matching the
+     prototype frame), light + dark — so the layouts read as mobile. */
+  .applied-pair { display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start; }
+  .applied-cell { flex: 0 1 390px; max-width: 390px; border-radius: var(--radius-tile); overflow: hidden; border: 1px solid var(--border-divider); }
   .applied-cell .applied-label { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; color: var(--text-tertiary); padding: 10px 16px; background: var(--bg-surface); border-bottom: 1px solid var(--border-divider); }
-  .applied-cell .applied-body { padding: 28px; }
+  .applied-cell .applied-body { padding: 20px; }
 
   /* Dark variant — uses contrasting CSS vars */
   .applied-cell.dark { border: 0; background: var(--bg-dark); }
@@ -604,8 +599,9 @@
   /* Applied — hero */
   .a-hero h1.applied-display { font-family: var(--font-display); font-size: var(--fs-display-2); line-height: var(--lh-display); letter-spacing: -0.01em; font-weight: 500; margin: 14px 0 12px; }
   .accent-word { color: var(--accent); transition: color 200ms ease; }
-  .a-hero .lede { font-size: var(--fs-body-lg); color: var(--text-secondary); margin: 0 0 24px; max-width: 520px; }
-  .a-hero .cta-row { display: flex; flex-wrap: wrap; gap: 10px; }
+  .a-hero .lede { font-size: var(--fs-body-lg); color: var(--text-secondary); margin: 0 0 24px; }
+  .a-hero .cta-row { display: flex; flex-direction: column; gap: 10px; }
+  .a-hero .cta-row button { width: 100%; }
 
   /* Applied — how-it-works step */
   .step-list { padding: 0; margin: 16px 0 0; list-style: none; }
@@ -1167,8 +1163,8 @@
     <section class="style-section" id="applied">
       <div class="section-head">
         <span class="eyebrow"><span class="num">07</span> Applied examples</span>
-        <h2>Layouts from the prototype, light + dark.</h2>
-        <p class="lead">Each layout pattern is shown twice — light surface and dark surface — using the same components and tokens. Switching accent at the top re-skins everything live.</p>
+        <h2>Layouts from the prototype, at mobile width — light + dark.</h2>
+        <p class="lead">Each pattern is shown as a phone-width screen (the prototype's 390px frame), on a light and a dark surface, using the same tokens. Switching accent at the top re-skins everything live.</p>
       </div>
 
       <div class="applied-grid">
