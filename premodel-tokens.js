@@ -70,8 +70,8 @@
 
     // ── Chart / illustration (renamed from --gray-line/--hatch/etc.) ──
     '--chart-line':         { value: '#b9b8b1', type: 'color', group: 'Chart', label: 'Chart line / rule' },
-    '--chart-hatch':        { value: '#c9c8c1', type: 'color', group: 'Chart', label: 'Chart hatch' },
-    '--chart-fill-soft':    { value: '#e4eef8', type: 'color', group: 'Chart', label: 'Chart soft fill' },
+    '--chart-hatch':        { value: '#c9c8c1', type: 'color', group: 'Chart', label: 'Chart line background' },
+    '--chart-fill-soft':    { value: '#e4eef8', type: 'color', group: 'Chart', label: 'Chart soft fill (unused)' },
     '--media-placeholder':  { value: '#3a3935', type: 'color', group: 'Chart', label: 'Image placeholder' },
 
     // ── Fonts ─────────────────────────────────────────────────────────

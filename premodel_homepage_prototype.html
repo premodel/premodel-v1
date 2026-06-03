@@ -127,7 +127,7 @@
     --text-warning: #fac775;
     --border-divider: rgba(255,255,255,0.10); --border-subtle: rgba(255,255,255,0.18);
     --border-strong: rgba(255,255,255,0.25);
-    --accent: #a4666a;
+    --accent: #a4666a; --accent-soft: #43302f;
     --chart-line: #5c5b55; --chart-hatch: #4a4943; --chart-fill-soft: #1f2a38;
   }
 }
@@ -138,7 +138,7 @@
   --text-warning: #fac775;
   --border-divider: rgba(255,255,255,0.10); --border-subtle: rgba(255,255,255,0.18);
   --border-strong: rgba(255,255,255,0.25);
-  --accent: #a4666a;
+  --accent: #a4666a; --accent-soft: #43302f;
   --chart-line: #5c5b55; --chart-hatch: #4a4943; --chart-fill-soft: #1f2a38;
 }
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -1522,10 +1522,12 @@ body[data-palette="saffron"] .toggle-btn {
                 </filter>
               </defs>
               <g filter="url(#cc-sketch)">
-                <!-- Soft fill under the Premodel line (revealed in the final beat) -->
-                <path class="cc-fill" d="M0 268.9C47 268.9 102.6 267.8 149.6 261.3C271 251.5 344.5 210.5 405 194V268.9H0Z" fill="color-mix(in srgb, var(--chart-line) 22%, transparent)"/>
-                <!-- Avoid-regret gap between the two lines (revealed in the final beat), softly shaded light gray -->
-                <path class="cc-wedge" d="M149.6 261.3C188 254.7 224.3 240.5 254.2 216.5C328 161.5 349.5 35.5 405 24V193C241 263 213.7 252.5 149.6 261.3Z" fill="color-mix(in srgb, var(--chart-line) 50%, transparent)"/>
+                <!-- Fill under the Premodel line (revealed in the final beat): the accent soft tint, so the
+                     Premodel area is tied to the accent color rather than a separate chart fill token. -->
+                <path class="cc-fill" d="M0 268.9C47 268.9 102.6 267.8 149.6 261.3C271 251.5 344.5 210.5 405 194V268.9H0Z" fill="var(--accent-soft)"/>
+                <!-- Avoid-regret gap between the two lines (revealed in the final beat): the gray line's
+                     background/fill, controlled separately from the line stroke (--chart-line). -->
+                <path class="cc-wedge" d="M149.6 261.3C188 254.7 224.3 240.5 254.2 216.5C328 161.5 349.5 35.5 405 24V193C241 263 213.7 252.5 149.6 261.3Z" fill="var(--chart-hatch)"/>
                 <!-- X axis (full width) -->
                 <line class="axis" x1="0" y1="268.9" x2="405" y2="268.9"/>
                 <!-- Gray (typical) line: drawn progressively across frames 1-5 -->
