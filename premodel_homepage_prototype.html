@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 <title>Premodel — homepage prototype</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Inter:wght@400;500;600;700&family=Roboto:wght@300;400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&family=Fraunces:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Inter:wght@400;500;600;700&family=Roboto:wght@300;400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&family=Fraunces:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Cormorant+Garamond:wght@500;600;700&family=Lora:wght@400;500;600;700&display=swap" rel="stylesheet">
 <!-- premodel-tokens: pre-paint bootstrap. Applies persisted token overrides before
      first paint so there's no flash. Full engine (premodel-tokens.js) loads at body end. -->
 <script>
@@ -19,10 +19,10 @@
 :root {
   /* Surfaces */
   --bg-page:              #f7f4eb;
-  --bg-surface:           #fbf8ef;
-  --bg-surface-elevated:  #ffffff;
+  --bg-surface:           #ffffff;
+  --bg-surface-elevated:  #f7f4eb;
   --bg-pill:              #ece4d1;
-  --bg-footer:            #ece4d1;  /* footer strip — its own knob, no longer shared with pills */
+  --bg-footer:            #f7f4eb;  /* footer strip — its own knob, no longer shared with pills */
   /* --bg-chip intentionally UNSET here: chips/eyebrows read var(--bg-chip, var(--bg-surface)),
      so they track the (possibly scope-local) card surface until the editor sets a chip color. */
   --bg-warning:           #faeeda;
@@ -44,7 +44,7 @@
   --text-on-accent:  #ffffff;
   /* Borders & icons */
   --border-divider:  #e4dccb;
-  --border-subtle:   #d8cfc0;
+  --border-subtle:   #e4dccb;
   --border-strong:   #b8ae9c;
   --border-on-dark:  rgba(243, 237, 225, 0.16);
   --icon-primary:    #2a2826;
@@ -55,21 +55,25 @@
   --accent-soft:     #ecd0d0;
   --accent-on-dark:  #a4666a;
   /* Chart / illustration */
-  --chart-line:        #b9b8b1;
-  --chart-hatch:       #c9c8c1;
+  --chart-line:        #6a625a;
+  --chart-hatch:       #e4dccb;
   --chart-fill-soft:   #e4eef8;
   --media-placeholder: #3a3935;
   /* Fonts */
-  --font-display:    'Source Serif 4', Georgia, serif;
-  --font-body:       'Inter', system-ui, sans-serif;
+  --font-display:    'Fraunces', Georgia, serif;
+  --font-body:       'Manrope', system-ui, sans-serif;
   --font-hand:       'Caveat', 'Bradley Hand', 'Comic Sans MS', cursive;  /* chart-only: handwritten exception to the type system */
-  --display-weight:  500;
+  --display-weight:  600;
   /* Radii */
   --radius-input: 6px;
   --radius-sm:    8px;
   --radius-card:  14px;
   --radius-tile:  18px;
   --radius-modal: 22px;
+
+  /* One soft "raised off the page" shadow shared by every floating card
+     (hero carousel, plan tiles, quotes, founder cards, the reveal card). */
+  --shadow-raised: 0 2px 4px rgba(0,0,0,0.04), 0 6px 18px rgba(0,0,0,0.09);
   --radius-pill:  999px;
   /* Line heights */
   --lh-display: 1.1;
@@ -79,11 +83,11 @@
      source tokens (-m/-t/-d) so the editor can drive them, but this fixed
      phone frame always uses the mobile (-m) value. */
   --fs-display-1-m: 44px; --fs-display-1-t: 56px; --fs-display-1-d: 64px;
-  --fs-display-2-m: 32px; --fs-display-2-t: 40px; --fs-display-2-d: 44px;
+  --fs-display-2-m: 36px; --fs-display-2-t: 40px; --fs-display-2-d: 44px;
   --fs-h1-m:        28px; --fs-h1-t:        32px; --fs-h1-d:        36px;
   --fs-h2-m:        22px; --fs-h2-t:        24px; --fs-h2-d:        24px;
   --fs-h3-m:        18px; --fs-h3-t:        19px; --fs-h3-d:        19px;
-  --fs-body-lg-m:   17px; --fs-body-lg-t:   18px; --fs-body-lg-d:   18px;
+  --fs-body-lg-m:   15px; --fs-body-lg-t:   18px; --fs-body-lg-d:   18px;
   --fs-body-m:      15px; --fs-body-t:      16px; --fs-body-d:      16px;
   --fs-display-1: var(--fs-display-1-m);
   --fs-display-2: var(--fs-display-2-m);
@@ -164,6 +168,8 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .toggle-btn { appearance: none; -webkit-appearance: none; background: transparent; border: 0; padding: var(--space-2) var(--space-3-5); font-size: var(--fs-small); font-weight: 500; color: var(--text-secondary); border-radius: 999px; cursor: pointer; font-family: inherit; letter-spacing: 0.02em; transition: background 0.18s ease, color 0.18s ease, box-shadow 0.18s ease; }
 .toggle-btn.active { background: var(--bg-surface-elevated); color: var(--text-primary); box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
 .toggle-btn:focus-visible { outline: 2px solid var(--text-primary); outline-offset: 1px; }
+.theme-toggle .toggle-btn { display: inline-flex; align-items: center; justify-content: center; }
+.theme-toggle .toggle-btn svg { width: 15px; height: 15px; }
 .phone-frame[hidden] { display: none; }
 
 .layout-b-placeholder { display: flex; flex-direction: column; align-items: center; justify-content: center; flex: 1; padding: var(--space-6-5) var(--space-4-5); text-align: center; }
@@ -174,28 +180,29 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .phone-scroll { flex: 1; overflow-y: scroll; scrollbar-width: thin; }
 
 .header { display: flex; align-items: center; justify-content: space-between; padding: var(--space-3-5) var(--space-4); border-bottom: 0.5px solid var(--border-divider); }
-.header .logo-name { font-size: 16px; font-weight: 500; margin: 0; letter-spacing: -0.005em; }
+.header .logo-name { font-size: 16px; font-weight: 500; margin: 0; letter-spacing: -0.005em; display: inline-flex; align-items: center; }
+.header .logo-mark { height: 24px; width: auto; display: block; }
 .header .header-link { font-size: var(--fs-small); color: var(--text-secondary); text-decoration: none; font-weight: 400; }
 .header button.header-link { appearance: none; -webkit-appearance: none; background: transparent; border: 0; padding: 0; font-family: inherit; line-height: inherit; cursor: pointer; transition: color 0.15s ease; }
 .header button.header-link:hover { color: var(--text-primary); }
 .header button.header-link:focus-visible { outline: 2px solid var(--text-primary); outline-offset: 2px; border-radius: 2px; }
-.locale-bug { display: inline-block; background: var(--bg-warning); color: var(--text-warning); font-size: var(--fs-caption); font-weight: 600; letter-spacing: 0.08em; padding: var(--space-0-5) var(--space-1-5); border-radius: 4px; margin-left: var(--space-2); vertical-align: 2px; text-transform: uppercase; }
+.locale-bug { display: inline-block; background: var(--accent-soft); color: var(--accent-hover); font-size: var(--fs-caption); font-weight: 600; letter-spacing: 0.08em; padding: var(--space-0-5) var(--space-1-5); border-radius: 4px; margin-left: var(--space-2); vertical-align: 2px; text-transform: uppercase; }
 
 .reveal-hero { padding: var(--space-5-5) var(--space-4-5) 0; text-align: center; }
-.reveal-hero .h1-small { font-size: var(--fs-body-lg); color: var(--text-secondary); margin: 0; line-height: 1.4; }
-.reveal-hero .h1-large { font-size: var(--fs-display-2); font-weight: 500; margin: var(--space-1-5) 0 0; letter-spacing: -0.015em; line-height: 1.05; }
+.reveal-hero .h1-small { font-size: var(--fs-body-lg); font-weight: 600; color: var(--text-secondary); margin: 0; line-height: 1.4; }
+.reveal-hero .h1-large { font-size: var(--fs-display-2); font-weight: 500; margin: var(--space-1-5) 0 0; letter-spacing: -0.03em; line-height: 1.05; }
 .reveal-hero .h1-large:first-child { margin: 0; }
 /* Rotating word: a fixed-width slot (sized to the longest word) keeps "Before you" from shifting as the word ticks. */
-.hero-rotator { position: relative; display: inline-block; color: var(--accent); text-align: left; vertical-align: baseline; }
+.hero-rotator { position: relative; display: inline-block; color: var(--accent); font-weight: 600; text-align: left; vertical-align: baseline; }
 .hero-rotator-sizer { visibility: hidden; }
 .hero-rotator-word { position: absolute; left: 0; top: 0; white-space: nowrap; transition: opacity 0.28s ease, transform 0.28s ease; }
 .hero-rotator-word.out { opacity: 0; transform: translateY(-7px); }
 
 /* Vertical padding gives the 3D flip room inside the scrollport so it isn't clipped; negative margins keep surrounding layout unchanged. */
-.carousel { display: flex; overflow-x: scroll; scroll-snap-type: x mandatory; scrollbar-width: none; margin: -12px 0 -28px; padding: var(--space-5-5) 0; touch-action: pan-x pan-y; }
+.carousel { display: flex; overflow-x: scroll; scroll-snap-type: x mandatory; scrollbar-width: none; margin: -28px 0 -44px; padding: 44px 0; touch-action: pan-x pan-y; }
 .carousel::-webkit-scrollbar { display: none; }
 .slide { flex: 0 0 100%; scroll-snap-align: center; padding: 0 var(--space-4); }
-.slide .img { width: 100%; aspect-ratio: 3/2; background: var(--media-placeholder); border-radius: var(--radius-sm); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--space-2-5); color: rgba(255,255,255,0.42); font-size: var(--fs-caption); letter-spacing: 0.08em; text-transform: uppercase; position: relative; }
+.slide .img { width: 100%; aspect-ratio: 3/2; background: var(--media-placeholder); border-radius: var(--radius-sm); box-shadow: var(--shadow-raised); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--space-2-5); color: rgba(255,255,255,0.42); font-size: var(--fs-caption); letter-spacing: 0.08em; text-transform: uppercase; position: relative; }
 .slide .img::before { content: ''; width: 38px; height: 38px; background-color: rgba(255,255,255,0.36); -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'/%3E%3Ccircle cx='9' cy='9' r='2'/%3E%3Cpath d='m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21'/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'/%3E%3Ccircle cx='9' cy='9' r='2'/%3E%3Cpath d='m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21'/%3E%3C/svg%3E") center / contain no-repeat; }
 /* Hero flip cards (Layout A): each slide flips to reveal another version of the image */
 .flip-card { position: relative; perspective: 1200px; }
@@ -249,20 +256,20 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .dot.active { background: var(--text-primary); }
 
 .reveal-sub { padding: var(--space-4) var(--space-4-5) 0; text-align: center; }
-.reveal-sub p { font-size: var(--fs-body); color: var(--text-secondary); margin: 0; line-height: 1.5; }
+.reveal-sub p { font-size: var(--fs-body); font-weight: 600; color: var(--text-secondary); margin: 0; line-height: 1.5; }
 .reveal-sub .italic { font-family: var(--font-display); font-style: italic; color: var(--text-primary); white-space: nowrap; }
-.plan-sub { grid-row: 1; grid-column: 1; align-self: end; width: 140px; box-sizing: border-box; padding: 0 var(--space-2) var(--space-1) var(--space-4); z-index: 0; pointer-events: none; }
-.plan-sub p { font-size: var(--fs-body); color: var(--text-secondary); margin: 0; line-height: 1.5; }
+.plan-sub { grid-row: 1; grid-column: 1; align-self: end; width: 160px; box-sizing: border-box; padding: 0 var(--space-2) var(--space-1) var(--space-4); z-index: 0; pointer-events: none; }
+.plan-sub p { font-size: var(--fs-body); font-weight: 600; color: var(--text-secondary); margin: 0; line-height: 1.5; }
 .plan-sub .italic { font-family: var(--font-display); font-style: italic; color: var(--text-primary); }
 
 .plan-block { margin-top: var(--space-6-5); display: grid; grid-template-columns: 1fr; grid-template-rows: auto; }
-.plan-headline { grid-row: 1; grid-column: 1; align-self: start; justify-self: start; width: 140px; padding-left: var(--space-4); padding-right: var(--space-2); box-sizing: border-box; z-index: 0; pointer-events: none; }
+.plan-headline { grid-row: 1; grid-column: 1; align-self: start; justify-self: start; width: 160px; padding-left: var(--space-4); padding-right: var(--space-2); box-sizing: border-box; z-index: 0; pointer-events: none; }
 .plan-headline .h { font-size: var(--fs-display-2); font-weight: 500; margin: 0; line-height: 1.05; letter-spacing: -0.015em; display: block; }
 .plan-headline .h:first-child { margin-top: -3px; }
 
-.plan-gallery { grid-row: 1; grid-column: 1; z-index: 1; display: flex; gap: var(--space-2); overflow-x: scroll; scroll-snap-type: x mandatory; scroll-padding-left: 140px; scrollbar-width: none; padding-left: 140px; padding-right: var(--space-4); touch-action: pan-x pan-y; background: transparent; }
+.plan-gallery { grid-row: 1; grid-column: 1; z-index: 1; display: flex; gap: var(--space-2); overflow-x: scroll; scroll-snap-type: x mandatory; scroll-padding-left: 160px; scrollbar-width: none; padding-left: 160px; padding-right: var(--space-4); touch-action: pan-x pan-y; background: transparent; }
 .plan-gallery::-webkit-scrollbar { display: none; }
-.tile { flex: 0 0 180px; scroll-snap-align: start; background: var(--bg-surface); border-radius: var(--radius-card); overflow: hidden; display: flex; flex-direction: column; }
+.tile { flex: 0 0 180px; scroll-snap-align: start; background: var(--bg-surface); border-radius: var(--radius-card); overflow: hidden; display: flex; flex-direction: column; box-shadow: var(--shadow-raised); }
 .tile-image { width: 100%; aspect-ratio: 4/3; background: var(--media-placeholder); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--space-1-5); color: rgba(255,255,255,0.40); font-size: var(--fs-caption); letter-spacing: 0.05em; text-transform: uppercase; position: relative; }
 .tile-image::before { content: ''; width: 26px; height: 26px; background-color: rgba(255,255,255,0.36); -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'/%3E%3Ccircle cx='9' cy='9' r='2'/%3E%3Cpath d='m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21'/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'/%3E%3Ccircle cx='9' cy='9' r='2'/%3E%3Cpath d='m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21'/%3E%3C/svg%3E") center / contain no-repeat; }
 .tile-body { padding: var(--space-2-5) var(--space-3) var(--space-3); }
@@ -278,7 +285,8 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .howto-header { padding: 0 var(--space-1); text-align: center; }
 .phase-label { font-size: var(--fs-caption); letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-primary); padding: var(--space-6) var(--space-1) var(--space-3-5); font-weight: 600; text-align: center; }
 .step { display: grid; grid-template-columns: 30px 1fr; gap: var(--space-3); padding: var(--space-3-5) var(--space-2); border-radius: var(--radius-card); transition: background 0.35s ease; margin-bottom: var(--space-0-5); position: relative; }
-.step.active { background: var(--bg-surface); }
+.step.active { background: var(--bg-surface); box-shadow: inset 0 0 60px 0px var(--bg-page); }
+.phone-frame[data-layout="a"] .step:not(.phase-step).active { outline: 1px solid var(--border-divider); }
 .step:not(.phase-step) .num, .step:not(.phase-step) > div:not(.num) { opacity: 0.45; transition: opacity 0.35s ease; }
 .step:not(.phase-step).active .num, .step:not(.phase-step).active > div:not(.num) { opacity: 1; }
 .step.phase-step { align-items: center; }
@@ -294,14 +302,14 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .step[data-step="b0"] { padding-top: var(--space-6); }
 .step[data-step="r3"]::after, .step[data-step="p6"]::after, .step[data-step="b0"]::after { display: none; }
 .step.optional::before, .step.optional::after { width: 0; background: transparent; border-left: 2px dashed var(--text-tertiary); }
-.step .num { width: 30px; height: 30px; justify-self: center; border-radius: 50%; background: var(--bg-surface-elevated); color: var(--text-primary); border: 1.5px solid var(--text-primary); box-sizing: border-box; font-size: var(--fs-caption); font-weight: 600; display: flex; align-items: center; justify-content: center; position: relative; z-index: 1; }
+.step .num { width: 30px; height: 30px; justify-self: center; border-radius: 50%; background: var(--bg-surface); color: var(--text-primary); border: 1.5px solid var(--text-primary); box-sizing: border-box; font-size: var(--fs-caption); font-weight: 600; display: flex; align-items: center; justify-content: center; position: relative; z-index: 1; }
 .step .num svg { width: 16px; height: 16px; stroke-width: 1.75; }
-.step.phase-step .num { background: var(--text-primary); color: var(--bg-surface-elevated); border: none; font-size: var(--fs-body); }
+.step.phase-step .num { background: var(--accent); color: var(--text-on-accent); border: none; font-size: var(--fs-body); }
 .step.phase-step .heading { font-size: var(--fs-h3); font-weight: 600; }
-.step .heading { font-size: 16px; font-weight: 500; line-height: 1.35; margin: 0; }
+.step .heading { font-size: 16px; font-weight: 600; line-height: 1.35; margin: 0; }
 .step:not(.phase-step) .heading { padding-top: var(--space-1); }
-.step .opt { display: inline-block; background: var(--bg-surface); color: var(--text-secondary); font-size: var(--fs-caption); font-weight: 600; letter-spacing: 0.08em; padding: var(--space-0-5) var(--space-1-5); border-radius: 4px; margin-left: var(--space-2); vertical-align: 2px; text-transform: uppercase; }
-.step .desc { font-size: var(--fs-body); color: var(--text-secondary); line-height: 1.55; margin: 0; max-height: 0; opacity: 0; overflow: hidden; transition: max-height 0.4s ease, opacity 0.35s ease, padding-top 0.35s ease; }
+.step .desc em { font-family: var(--font-display); font-style: italic; }
+.step .desc { font-size: var(--fs-body); font-weight: 500; color: var(--text-secondary); line-height: 1.55; margin: 0; max-height: 0; opacity: 0; overflow: hidden; transition: max-height 0.4s ease, opacity 0.35s ease, padding-top 0.35s ease; }
 .step.active .desc { max-height: 240px; opacity: 1; padding-top: var(--space-2); }
 .step.optional .heading { color: var(--text-secondary); }
 
@@ -312,7 +320,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .phone-frame[data-layout="a"] .step:not(.phase-step) > div:not(.num) { opacity: calc(0.45 + 0.55 * var(--p)); transition: none; }
 .phone-frame[data-layout="a"] .step:not(.phase-step) .desc { max-height: calc(240px * var(--p)); opacity: var(--p); padding-top: calc(var(--space-2) * var(--p)); transition: none; }
 .phone-frame[data-layout="a"] .step:not(.phase-step).active { background: color-mix(in srgb, var(--bg-surface) calc(100% * var(--p)), transparent); }
-.separator { display: flex; align-items: center; gap: var(--space-3); margin: 0 -16px; padding: var(--space-2-5) var(--space-4) 0; font-size: var(--fs-small); color: var(--text-secondary); font-family: var(--font-display); font-style: italic; text-align: center; }
+.separator { display: flex; align-items: center; gap: var(--space-3); margin: 0 -16px; padding: var(--space-2-5) var(--space-4) 0; font-size: var(--fs-body); color: var(--text-secondary); font-family: var(--font-display); font-style: italic; text-align: center; }
 .separator::before, .separator::after { content: ''; flex: 1; height: 1px; background: var(--border-divider); }
 
 .who-section { padding: var(--space-7-5) var(--space-4-5) 0; text-align: center; }
@@ -325,14 +333,14 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .phone-frame[data-layout="a"] .who-section .project-overlay { right: 16px; bottom: 52px; text-align: left; }
 .phone-frame[data-layout="a"] .who-section .project-name { font-size: var(--fs-body); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .phone-frame[data-layout="a"] .project-gallery .project-overlay { bottom: 14px; right: 132px; text-align: left; }
-.section-eyebrow { display: inline-block; background: var(--bg-chip, var(--bg-surface)); color: var(--text-primary); font-size: var(--fs-caption); font-weight: 600; letter-spacing: 0.12em; padding: var(--space-1) var(--space-3); border-radius: 999px; text-transform: uppercase; margin: 0 0 var(--space-3); }
+.section-eyebrow { display: inline-block; background: var(--border-subtle); color: var(--text-secondary); font-size: var(--fs-caption); font-weight: 600; letter-spacing: 0.12em; padding: var(--space-1) var(--space-3); border-radius: 999px; text-transform: uppercase; margin: 0 0 var(--space-3); }
 .section-headline { font-size: var(--fs-display-2); font-weight: 500; line-height: 1.15; letter-spacing: -0.02em; margin: 0 0 var(--space-4-5); text-wrap: balance; color: var(--text-primary); }
 .section-headline .brand-navy { color: var(--accent); }
 .section-headline .strike { text-decoration: line-through; color: var(--text-tertiary); }
 
 /* Pull quotes — cards on a table with scroll-driven spread */
 .quotes { display: flex; flex-direction: column; align-items: center; margin: 0 -20px var(--space-6); padding: var(--space-6) 0; text-align: left; --spread: 0; }
-.quote { margin: 0; width: 96%; background: var(--bg-surface-elevated); border: 0.5px solid var(--border-subtle); border-radius: 10px; padding: var(--space-4) var(--space-4); box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 2px 14px rgba(0,0,0,0.07); position: relative; display: flex; gap: var(--space-3); align-items: flex-start; margin-top: calc(-120px + 134px * var(--spread)); }
+.quote { margin: 0; width: 96%; background: var(--bg-surface); border: 0.5px solid var(--border-subtle); border-radius: 10px; padding: var(--space-4) var(--space-4); box-shadow: var(--shadow-raised); position: relative; display: flex; gap: var(--space-3); align-items: flex-start; margin-top: calc(-120px + 134px * var(--spread)); }
 .quote:first-child { margin-top: 0; }
 .quote:nth-child(1) { transform: rotate(-1.5deg); z-index: 3; }
 .quote:nth-child(2) { transform: rotate(0.8deg); z-index: 2; }
@@ -491,7 +499,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
   margin: 0 var(--space-4) var(--space-5-5);
   border-radius: var(--radius-tile, 18px);
   overflow: hidden;
-  box-shadow: 0 18px 48px rgba(0,0,0,0.22), 0 2px 8px rgba(0,0,0,0.12);
+  box-shadow: var(--shadow-raised);
   color: var(--text-primary);
   transition: background-color 0.55s ease, box-shadow 0.55s ease;
 }
@@ -510,7 +518,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
   --border-subtle:     rgba(244,241,233,0.18);
   --border-divider:      rgba(244,241,233,0.12);
   background: var(--bg-dark);
-  box-shadow: 0 18px 48px rgba(0,0,0,0.30), 0 2px 8px rgba(0,0,0,0.18);
+  box-shadow: var(--shadow-raised);
 }
 /* Phases 2–3 — reveal + contact: light surface (the "lights on" reveal) */
 .rf-card.phase-reveal, .rf-card.phase-contact {
@@ -619,7 +627,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .phone-frame[data-layout="a"] .why-chart { width: 100%; padding: 0; margin: 0; box-sizing: border-box; }
 .phone-frame[data-layout="a"] .why-chart svg { width: 100%; height: auto; display: block; }
 /* Subhead — same scale as "Confidence, pictured" (.project-gallery-headline) for consistency */
-.phone-frame[data-layout="a"] .why-guides-subhead { font-size: 21px; font-weight: 500; letter-spacing: -0.015em; line-height: 1.2; color: var(--text-primary); text-align: center; text-wrap: balance; margin: 0 var(--space-4-5) var(--space-5); }
+.phone-frame[data-layout="a"] .why-guides-subhead { font-family: var(--font-display); font-size: 21px; font-weight: 500; letter-spacing: -0.015em; line-height: 1.2; color: var(--text-primary); text-align: center; text-wrap: balance; margin: 0 var(--space-4-5) var(--space-5); }
 
 /* Section 4 chart caption — matches the reveal sub-line below the hero carousel */
 .phone-frame[data-layout="a"] .why-chart-caption { font-size: var(--fs-body); color: var(--text-secondary); text-align: center; margin: var(--space-4) var(--space-4-5) var(--space-5); line-height: 1.5; }
@@ -631,7 +639,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
    Cards overlap only into each other's outer margin (not their padded content), so the tilt
    reads like two photos set down on a table without any text being covered. */
 .phone-frame[data-layout="a"] .why-founders { display: flex; flex-direction: column; align-items: center; gap: 0; overflow: visible; padding: var(--space-3-5) var(--space-4-5) var(--space-5); scroll-snap-type: none; }
-.phone-frame[data-layout="a"] .why-card.founder { flex: 0 0 auto; width: 84%; max-width: 320px; padding: var(--space-5) var(--space-5) var(--space-5); box-shadow: 0 6px 22px rgba(0,0,0,0.13), 0 1px 3px rgba(0,0,0,0.06); }
+.phone-frame[data-layout="a"] .why-card.founder { flex: 0 0 auto; width: 84%; max-width: 320px; padding: var(--space-5) var(--space-5) var(--space-5); box-shadow: var(--shadow-raised); }
 .phone-frame[data-layout="a"] .why-card.founder:nth-child(1) { transform: translateX(-7%) rotate(-2deg); z-index: 1; }
 .phone-frame[data-layout="a"] .why-card.founder:nth-child(2) { transform: translateX(7%) rotate(1.8deg); margin-top: -18px; z-index: 2; }
 /* Header: single row — portrait, then name/title beside it, LinkedIn at the end.
@@ -718,7 +726,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .cc-beat.active { opacity: 1; }
 /* Emotion lead-in: "Old way:" is plain bold ink; "Premodel:" gets an accent background highlight. */
 .cc-emotion { font-weight: 700; font-style: normal; color: var(--text-primary); }
-.cc-emotion--pm { color: var(--text-primary); background: color-mix(in srgb, var(--accent) 24%, transparent); padding: 0.05em 0.3em; border-radius: var(--radius-input); }
+.cc-emotion--pm { color: var(--text-primary); background: var(--accent-soft); padding: 0.05em 0.3em; border-radius: var(--radius-input); }
 /* Stats: bold for emphasis, no background highlight. */
 .cc-hl { font-style: normal; background: none; color: var(--text-primary); font-weight: 700; padding: 0; }
 
@@ -761,7 +769,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 
 .why-founders { grid-row: 1; grid-column: 1; z-index: 1; display: flex; gap: var(--space-2-5); overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-left: 70%; scrollbar-width: none; padding: 0 var(--space-4-5) var(--space-1) 70%; touch-action: pan-x pan-y; -webkit-overflow-scrolling: touch; background: transparent; }
 .why-founders::-webkit-scrollbar { display: none; }
-.why-card.founder { flex: 0 0 290px; scroll-snap-align: start; background: var(--bg-surface-elevated); border: 0.5px solid var(--border-subtle); border-radius: var(--radius-card); box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 2px 14px rgba(0,0,0,0.07); padding: var(--space-4) var(--space-4) var(--space-4); display: flex; flex-direction: column; }
+.why-card.founder { flex: 0 0 290px; scroll-snap-align: start; background: var(--bg-surface); border: 0.5px solid var(--border-subtle); border-radius: var(--radius-card); box-shadow: var(--shadow-raised); padding: var(--space-4) var(--space-4) var(--space-4); display: flex; flex-direction: column; }
 .why-founder-head { display: grid; grid-template-columns: 48px 1fr auto; gap: var(--space-3); align-items: center; margin: 0 0 var(--space-3); }
 .why-founder-portrait { width: 48px; height: 48px; border-radius: 50%; background: var(--bg-surface); display: flex; align-items: center; justify-content: center; font-size: var(--fs-small); font-weight: 600; color: var(--text-secondary); letter-spacing: 0.04em; overflow: hidden; flex-shrink: 0; }
 .why-founder-meta { min-width: 0; }
@@ -777,7 +785,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .why-founder-before strong { color: var(--text-primary); font-weight: 600; }
 
 /* Gallery: full-bleed IG-style square carousel; tap opens case-study modal */
-.project-gallery-headline { font-size: 21px; font-weight: 500; color: var(--text-primary); margin: 0 var(--space-4-5) var(--space-3-5); letter-spacing: -0.015em; line-height: 1.2; text-align: center; text-wrap: balance; }
+.project-gallery-headline { font-family: var(--font-display); font-size: 21px; font-weight: 500; color: var(--text-primary); margin: 0 var(--space-4-5) var(--space-3-5); letter-spacing: -0.015em; line-height: 1.2; text-align: center; text-wrap: balance; }
 .project-carousel { display: flex; overflow-x: scroll; scroll-snap-type: x mandatory; scrollbar-width: none; touch-action: pan-x pan-y; -webkit-overflow-scrolling: touch; }
 .project-carousel::-webkit-scrollbar { display: none; }
 .project-slide { flex: 0 0 100%; scroll-snap-align: center; position: relative; cursor: pointer; }
@@ -907,7 +915,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
   body { padding: 0; gap: 0; }
   .prototype-wrapper { gap: 0; }
   .prototype-toolbar { display: none; }
-  .palette-picker { display: none; }
+  .brand-guide-link { display: none; }
   .phone-frame { width: 100vw; max-width: none; height: 100vh; height: 100dvh; border: none; border-radius: 0; }
 }
 
@@ -960,6 +968,18 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .palette-picker-compare:focus-visible {
   outline: 2px solid var(--pp-text-strong);
   outline-offset: 2px;
+}
+.brand-guide-link {
+  --pp-text: #6b6a64;
+  --pp-text-strong: #1a1a18;
+  width: var(--frame-width);
+  max-width: 100%;
+  margin-top: var(--space-5);
+  text-align: center;
+  font-family: var(--font-body);
+}
+@media (prefers-color-scheme: dark) {
+  .brand-guide-link { --pp-text: #a8a7a1; --pp-text-strong: #f0eee5; }
 }
 .palette-picker-swatches {
   display: grid;
@@ -1073,7 +1093,6 @@ body.palette-active .case-modal-card h2,
 body.palette-active .info-modal-card h2 {
   font-family: var(--font-display);
   font-weight: var(--display-weight, 500);
-  letter-spacing: -0.01em;
 }
 
 /* CTAs become accent-colored pills with hover */
@@ -1091,11 +1110,7 @@ body.palette-active .rf-anchor-cta:hover:not(:disabled) {
   background: var(--accent-hover, var(--accent));
 }
 
-/* Section eyebrow picks up a soft accent tint */
-body.palette-active .section-eyebrow {
-  background: var(--accent-soft, var(--bg-chip, var(--bg-surface)));
-  color: var(--accent-hover, var(--text-primary));
-}
+/* Section eyebrows stay tonal (warm), not accent — see base .section-eyebrow. */
 
 /* Selected states in the refine flow take the accent */
 body.palette-active .rf-chip.sel,
@@ -1178,7 +1193,7 @@ body[data-palette="saffron"] .toggle-btn {
 }
 </style>
 </head>
-<body>
+<body class="palette-active" data-palette="oxblood">
 
 <h2 class="sr-only">Premodel homepage mobile prototype with hero, How to Premodel, and editorial pricing section.</h2>
 
@@ -1194,10 +1209,9 @@ body[data-palette="saffron"] .toggle-btn {
     </div>
     <div class="theme-control layout-control">
       <span class="layout-label">Theme</span>
-      <div class="theme-toggle layout-toggle" role="group" aria-label="Theme selector">
-        <button type="button" class="toggle-btn active" data-theme-choice="auto" aria-pressed="true">Auto</button>
-        <button type="button" class="toggle-btn" data-theme-choice="light" aria-pressed="false">Light</button>
-        <button type="button" class="toggle-btn" data-theme-choice="dark" aria-pressed="false">Dark</button>
+      <div class="theme-toggle layout-toggle" role="group" aria-label="Theme">
+        <button type="button" class="toggle-btn active" data-theme-choice="light" aria-pressed="true" aria-label="Light theme"><i data-lucide="sun"></i></button>
+        <button type="button" class="toggle-btn" data-theme-choice="dark" aria-pressed="false" aria-label="Dark theme"><i data-lucide="moon"></i></button>
       </div>
     </div>
     <div class="size-control">
@@ -1222,7 +1236,7 @@ body[data-palette="saffron"] .toggle-btn {
   <div class="phone-scroll" id="scroll">
 
     <div class="header">
-      <p class="logo-name">Premodel<span class="locale-bug">Seattle</span></p>
+      <p class="logo-name"><img class="logo-mark" src="premodel-wordmark-sand.png" alt="Premodel" width="1218" height="269"><span class="locale-bug">Seattle</span></p>
       <button type="button" class="header-link" data-modal-open="builders">For builders →</button>
     </div>
 
@@ -1281,7 +1295,7 @@ body[data-palette="saffron"] .toggle-btn {
 
     <div class="plan-block">
       <div class="plan-headline">
-        <span class="h">Turn your</span>
+        <span class="h">Turn a</span>
         <span class="h">Reveal</span>
         <span class="h">into a</span>
         <span class="h">Plan</span>
@@ -1378,16 +1392,16 @@ body[data-palette="saffron"] .toggle-btn {
       <div class="step optional" data-step="p2">
         <div class="num"><i data-lucide="user-plus"></i></div>
         <div>
-          <p class="heading">Engage an architect or designer<span class="opt">optional</span></p>
-          <p class="desc">Some projects need structural changes, permits, or help with material decisions. We vet and hire specialists, with their cost included in your Plan price.</p>
+          <p class="heading">Engage an architect or designer</p>
+          <p class="desc"><em>Optional.</em> Some projects need structural changes, permits, or help with material decisions. We vet and hire specialists, with their cost included in your Plan price.</p>
         </div>
       </div>
 
       <div class="step optional" data-step="p3">
         <div class="num"><i data-lucide="scan-eye"></i></div>
         <div>
-          <p class="heading">Walk it in VR<span class="opt">optional</span></p>
-          <p class="desc">Reveals show you the look. VR gives you the feel. If the shape of your space is changing, walk it in VR to find the "oh nos" before they cost you.</p>
+          <p class="heading">Walk it in VR</p>
+          <p class="desc"><em>Optional.</em> Reveals show you the look. VR gives you the feel. If the shape of your space is changing, walk it in VR to find the "oh nos" before they cost you.</p>
         </div>
       </div>
 
@@ -1410,8 +1424,8 @@ body[data-palette="saffron"] .toggle-btn {
       <div class="step optional" data-step="p6">
         <div class="num"><i data-lucide="hammer"></i></div>
         <div>
-          <p class="heading">Get up to 3 builder bids<span class="opt">optional</span></p>
-          <p class="desc">Skip the contractor search. Our trusted local network comes to you: they visit, they bid, you pick.</p>
+          <p class="heading">Get up to 3 builder bids</p>
+          <p class="desc"><em>Optional.</em> Skip the contractor search. Our trusted local network comes to you: they visit, they bid, you pick.</p>
         </div>
       </div>
 
@@ -1916,7 +1930,7 @@ body[data-palette="saffron"] .toggle-btn {
   <div class="phone-scroll" id="scroll-b">
 
     <div class="header">
-      <p class="logo-name">Premodel<span class="locale-bug">Seattle</span></p>
+      <p class="logo-name"><img class="logo-mark" src="premodel-wordmark-sand.png" alt="Premodel" width="1218" height="269"><span class="locale-bug">Seattle</span></p>
       <button type="button" class="header-link" data-modal-open="builders">For builders →</button>
     </div>
 
@@ -2055,7 +2069,7 @@ body[data-palette="saffron"] .toggle-btn {
 
     <div class="plan-block">
       <div class="plan-headline">
-        <span class="h">Turn Your</span>
+        <span class="h">Turn a</span>
         <span class="h">Reveal</span>
         <span class="h">into a</span>
         <span class="h">Plan</span>
@@ -2152,16 +2166,16 @@ body[data-palette="saffron"] .toggle-btn {
       <div class="step optional" data-step="p2">
         <div class="num"><i data-lucide="user-plus"></i></div>
         <div>
-          <p class="heading">Engage an architect or designer<span class="opt">optional</span></p>
-          <p class="desc">Some projects need structural changes, permits, or help with material decisions. We vet and hire specialists, with their cost included in your Plan price.</p>
+          <p class="heading">Engage an architect or designer</p>
+          <p class="desc"><em>Optional.</em> Some projects need structural changes, permits, or help with material decisions. We vet and hire specialists, with their cost included in your Plan price.</p>
         </div>
       </div>
 
       <div class="step optional" data-step="p3">
         <div class="num"><i data-lucide="scan-eye"></i></div>
         <div>
-          <p class="heading">Walk it in VR<span class="opt">optional</span></p>
-          <p class="desc">Reveals show you the look. VR gives you the feel. If the shape of your space is changing, walk it in VR to find the "oh nos" before they cost you.</p>
+          <p class="heading">Walk it in VR</p>
+          <p class="desc"><em>Optional.</em> Reveals show you the look. VR gives you the feel. If the shape of your space is changing, walk it in VR to find the "oh nos" before they cost you.</p>
         </div>
       </div>
 
@@ -2184,8 +2198,8 @@ body[data-palette="saffron"] .toggle-btn {
       <div class="step optional" data-step="p6">
         <div class="num"><i data-lucide="hammer"></i></div>
         <div>
-          <p class="heading">Get up to 3 builder bids<span class="opt">optional</span></p>
-          <p class="desc">Skip the contractor search. Our trusted local network comes to you: they visit, they bid, you pick.</p>
+          <p class="heading">Get up to 3 builder bids</p>
+          <p class="desc"><em>Optional.</em> Skip the contractor search. Our trusted local network comes to you: they visit, they bid, you pick.</p>
         </div>
       </div>
 
@@ -2638,39 +2652,8 @@ body[data-palette="saffron"] .toggle-btn {
   </div>
 </div>
 
-  <div class="palette-picker" role="radiogroup" aria-label="Color palette">
-    <div class="palette-picker-head">
-      <span class="palette-picker-label">Palette</span>
-      <a href="premodel_palette_v2.html" target="_blank" rel="noopener" class="palette-picker-compare">Compare all →</a>
-    </div>
-    <div class="palette-picker-swatches">
-      <div class="swatch-wrap active" data-palette-wrap="off">
-        <button type="button" class="swatch swatch-off active" data-palette="off" role="radio" aria-checked="true" aria-label="Off — restore default" tabindex="0">
-          <span aria-hidden="true">×</span>
-        </button>
-        <span class="swatch-caption">Off</span>
-      </div>
-      <div class="swatch-wrap" data-palette-wrap="oxblood">
-        <button type="button" class="swatch" data-palette="oxblood" role="radio" aria-checked="false" aria-label="Oxblood" tabindex="-1" style="--swatch-color: #5e2c2e;"></button>
-        <span class="swatch-caption">Oxblood</span>
-      </div>
-      <div class="swatch-wrap" data-palette-wrap="sage">
-        <button type="button" class="swatch" data-palette="sage" role="radio" aria-checked="false" aria-label="Sage" tabindex="-1" style="--swatch-color: #7d8a72;"></button>
-        <span class="swatch-caption">Sage</span>
-      </div>
-      <div class="swatch-wrap" data-palette-wrap="cyanotype">
-        <button type="button" class="swatch" data-palette="cyanotype" role="radio" aria-checked="false" aria-label="Cyanotype" tabindex="-1" style="--swatch-color: #2a5680;"></button>
-        <span class="swatch-caption">Cyanotype</span>
-      </div>
-      <div class="swatch-wrap" data-palette-wrap="aubergine">
-        <button type="button" class="swatch" data-palette="aubergine" role="radio" aria-checked="false" aria-label="Aubergine" tabindex="-1" style="--swatch-color: #4a2942;"></button>
-        <span class="swatch-caption">Aubergine</span>
-      </div>
-      <div class="swatch-wrap" data-palette-wrap="saffron">
-        <button type="button" class="swatch" data-palette="saffron" role="radio" aria-checked="false" aria-label="Saffron" tabindex="-1" style="--swatch-color: #c89028;"></button>
-        <span class="swatch-caption">Saffron</span>
-      </div>
-    </div>
+  <div class="brand-guide-link">
+    <a href="premodel_palette_v2.html" target="_blank" rel="noopener" class="palette-picker-compare">Brand and style guide →</a>
   </div>
 
 </div>
