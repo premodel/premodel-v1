@@ -66,14 +66,23 @@
   --lh-display: 1.1;
   --lh-heading: 1.2;
   --lh-body:    1.55;
-  /* Type scale (mobile defaults; @media bumps below) */
-  --fs-display-1: 44px;
-  --fs-display-2: 32px;
-  --fs-h1:        28px;
-  --fs-h2:        22px;
-  --fs-h3:        18px;
-  --fs-body-lg:   17px;
-  --fs-body:      15px;
+  /* Type scale — fixed mobile sizes. Responsive roles keep per-breakpoint
+     source tokens (-m/-t/-d) so the editor can drive them, but this fixed
+     phone frame always uses the mobile (-m) value. */
+  --fs-display-1-m: 44px; --fs-display-1-t: 56px; --fs-display-1-d: 64px;
+  --fs-display-2-m: 32px; --fs-display-2-t: 40px; --fs-display-2-d: 44px;
+  --fs-h1-m:        28px; --fs-h1-t:        32px; --fs-h1-d:        36px;
+  --fs-h2-m:        22px; --fs-h2-t:        24px; --fs-h2-d:        24px;
+  --fs-h3-m:        18px; --fs-h3-t:        19px; --fs-h3-d:        19px;
+  --fs-body-lg-m:   17px; --fs-body-lg-t:   18px; --fs-body-lg-d:   18px;
+  --fs-body-m:      15px; --fs-body-t:      16px; --fs-body-d:      16px;
+  --fs-display-1: var(--fs-display-1-m);
+  --fs-display-2: var(--fs-display-2-m);
+  --fs-h1:        var(--fs-h1-m);
+  --fs-h2:        var(--fs-h2-m);
+  --fs-h3:        var(--fs-h3-m);
+  --fs-body-lg:   var(--fs-body-lg-m);
+  --fs-body:      var(--fs-body-m);
   --fs-small:     13px;
   --fs-caption:   11px;
   --fs-micro:     10px;
