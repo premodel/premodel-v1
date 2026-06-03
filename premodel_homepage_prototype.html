@@ -489,12 +489,15 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 }
 /* Phase 1 — questions: dark surface */
 .rf-card.phase-questions {
-  --text-primary:         #f4f1e9;
-  --text-secondary:       #b9b3a6;
-  --text-tertiary:        #8c867a;
-  --bg-surface-elevated:   #181612;
-  --bg-surface: #2b2823;
-  --bg-pill:    #2b2823;
+  /* Dark request-flow island. Drives its dark look from the dark-family tokens
+     (locally remapping the semantic tokens) so the Dark-surface / Text-on-dark
+     swatches control it. Wells use --bg-dark (deepest); the card uses
+     --bg-dark-elevated. Border alphas stay tuned locally. */
+  --text-primary:         var(--text-on-dark);
+  --text-secondary:       var(--text-on-dark-2);
+  --text-tertiary:        var(--text-on-dark-3);
+  --bg-surface-elevated:  var(--bg-dark);
+  --bg-surface:           var(--bg-dark-elevated);
   --border-strong:       rgba(244,241,233,0.30);
   --border-subtle:     rgba(244,241,233,0.18);
   --border-divider:      rgba(244,241,233,0.12);
