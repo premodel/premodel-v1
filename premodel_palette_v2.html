@@ -801,9 +801,13 @@
       <div class="swatch-grid">
         <div class="swatch"><div class="chip" style="background:#f7f4eb"></div><div><div class="role">Page background</div><div class="var">--bg-page</div><div class="hex">#f7f4eb</div><div class="desc">Warm paper. Body bg of the entire site — never pure #fff.</div></div></div>
         <div class="swatch"><div class="chip" style="background:#fbf8ef"></div><div><div class="role">Card surface</div><div class="var">--bg-surface</div><div class="hex">#fbf8ef</div><div class="desc">Half-tone lighter than page. Tiles, quote cards, section frames.</div></div></div>
+        <div class="swatch"><div class="chip" style="background:#ffffff; border-color:#e4dccb"></div><div><div class="role">Elevated surface</div><div class="var">--bg-surface-elevated</div><div class="hex">#ffffff</div><div class="desc">Raised cards / pills above the page. Pure white. (Used heavily in the prototype.)</div></div></div>
         <div class="swatch"><div class="chip" style="background:#fbf8ef"></div><div><div class="role">Chip / eyebrow bg</div><div class="var">--bg-chip</div><div class="hex">#fbf8ef</div><div class="desc">Eyebrow tags, chips, small pills. Defaults to card surface until set.</div></div></div>
         <div class="swatch"><div class="chip" style="background:#ece4d1"></div><div><div class="role">Footer background</div><div class="var">--bg-footer</div><div class="hex">#ece4d1</div><div class="desc">Footer strip background (footer-only in the prototype).</div></div></div>
+        <div class="swatch"><div class="chip" style="background:#faeeda"></div><div><div class="role">Warning bg</div><div class="var">--bg-warning</div><div class="hex">#faeeda</div><div class="desc">Soft amber background for notices / disclaimers.</div></div></div>
         <div class="swatch"><div class="chip" style="background:#1a1816"></div><div><div class="role">Dark surface</div><div class="var">--bg-dark</div><div class="hex">#1a1816</div><div class="desc">Warm near-black for footer and dark hero overlays. Never pure #000.</div></div></div>
+        <div class="swatch"><div class="chip" style="background:#24221f"></div><div><div class="role">Dark elevated</div><div class="var">--bg-dark-elevated</div><div class="hex">#24221f</div><div class="desc">Raised surface on a dark section.</div></div></div>
+        <div class="swatch"><div class="chip" style="background:#f7f4eb"></div><div><div class="role">Card on dark</div><div class="var">--bg-dark-card</div><div class="hex">#f7f4eb</div><div class="desc">Paper card placed on a dark surface.</div></div></div>
       </div>
 
       <div class="subgroup-label">Text</div>
@@ -811,7 +815,10 @@
         <div class="swatch"><div class="chip" style="background:#2a2826"></div><div><div class="role">Primary text</div><div class="var">--text-primary</div><div class="hex">#2a2826</div><div class="desc">Headlines, body. Warm-toned near-black.</div></div></div>
         <div class="swatch"><div class="chip" style="background:#6a625a"></div><div><div class="role">Secondary text</div><div class="var">--text-secondary</div><div class="hex">#6a625a</div><div class="desc">Lede, descriptions, supporting copy.</div></div></div>
         <div class="swatch"><div class="chip" style="background:#998f80"></div><div><div class="role">Tertiary text</div><div class="var">--text-tertiary</div><div class="hex">#998f80</div><div class="desc">Eyebrow, captions, metadata, fine print.</div></div></div>
+        <div class="swatch"><div class="chip" style="background:#854f0b"></div><div><div class="role">Warning text</div><div class="var">--text-warning</div><div class="hex">#854f0b</div><div class="desc">Text / icons inside warning notices.</div></div></div>
         <div class="swatch"><div class="chip" style="background:#f3ede1; border-color:#444"></div><div><div class="role">Text on dark</div><div class="var">--text-on-dark</div><div class="hex">#f3ede1</div><div class="desc">Primary text when on dark surface.</div></div></div>
+        <div class="swatch"><div class="chip" style="background:#a89a82; border-color:#444"></div><div><div class="role">Text on dark (2)</div><div class="var">--text-on-dark-2</div><div class="hex">#a89a82</div><div class="desc">Secondary text on dark surfaces.</div></div></div>
+        <div class="swatch"><div class="chip" style="background:#6a625a; border-color:#444"></div><div><div class="role">Text on dark (3)</div><div class="var">--text-on-dark-3</div><div class="hex">#6a625a</div><div class="desc">Tertiary / muted text on dark.</div></div></div>
       </div>
 
       <div class="subgroup-label">Borders &amp; icons</div>
@@ -820,6 +827,7 @@
         <div class="swatch"><div class="chip" style="background:#d8cfc0"></div><div><div class="role">Subtle border</div><div class="var">--border-subtle</div><div class="hex">#d8cfc0</div></div></div>
         <div class="swatch"><div class="chip" style="background:#b8ae9c"></div><div><div class="role">Strong border</div><div class="var">--border-strong</div><div class="hex">#b8ae9c</div></div></div>
         <div class="swatch"><div class="chip" style="background:#2a2826"></div><div><div class="role">Icons (primary)</div><div class="var">--icon-primary</div><div class="hex">#2a2826</div></div></div>
+        <div class="swatch"><div class="chip" style="background:#998f80"></div><div><div class="role">Icons (muted)</div><div class="var">--icon-muted</div><div class="hex">#998f80</div></div></div>
       </div>
 
       <div class="subgroup-label">Accent <span style="color:var(--text-tertiary); font-weight:400; text-transform:none; letter-spacing:0; font-size:13px;">— currently: <span id="paletteAccentName">oxblood</span></span></div>
@@ -828,6 +836,14 @@
         <div class="swatch"><div class="chip" id="chipHover" style="background:#3f1c1d"></div><div><div class="role">Accent — hover</div><div class="var">--accent-hover</div><div class="hex" id="hexHover">#3f1c1d</div><div class="desc">Pressed / hover states on accent surfaces.</div></div></div>
         <div class="swatch"><div class="chip" id="chipSoft" style="background:#ecd0d0"></div><div><div class="role">Accent — soft tint</div><div class="var">--accent-soft</div><div class="hex" id="hexSoft">#ecd0d0</div><div class="desc">Pill backgrounds, callouts, focus rings.</div></div></div>
         <div class="swatch"><div class="chip" id="chipOnDark" style="background:#a4666a"></div><div><div class="role">Accent — on dark</div><div class="var">--accent-on-dark</div><div class="hex" id="hexOnDark">#a4666a</div><div class="desc">Lightened shade for accent on dark surface.</div></div></div>
+      </div>
+
+      <div class="subgroup-label">Chart &amp; illustration</div>
+      <div class="swatch-grid">
+        <div class="swatch"><div class="chip" style="background:#b9b8b1"></div><div><div class="role">Chart line / rule</div><div class="var">--chart-line</div><div class="hex">#b9b8b1</div><div class="desc">Axis lines, rules, sparkline strokes.</div></div></div>
+        <div class="swatch"><div class="chip" style="background:#c9c8c1"></div><div><div class="role">Chart hatch</div><div class="var">--chart-hatch</div><div class="hex">#c9c8c1</div><div class="desc">Hatch / pattern fills in illustrations.</div></div></div>
+        <div class="swatch"><div class="chip" style="background:#e4eef8"></div><div><div class="role">Chart soft fill</div><div class="var">--chart-fill-soft</div><div class="hex">#e4eef8</div><div class="desc">Soft area fill behind chart lines.</div></div></div>
+        <div class="swatch"><div class="chip" style="background:#3a3935"></div><div><div class="role">Image placeholder</div><div class="var">--media-placeholder</div><div class="hex">#3a3935</div><div class="desc">Fallback block where imagery loads.</div></div></div>
       </div>
     </section>
 
