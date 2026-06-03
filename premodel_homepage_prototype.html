@@ -606,20 +606,17 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .cc-pin--gray .cc-emoji { background-color: var(--color-text-secondary); }
 .cc-pin--accent .cc-emoji { background-color: var(--color-brand-navy); }
 
-/* Flip text as 1–2 large lines in the subhead area above the chart. Frames cross-fade in place
-   (absolute-stacked over a fixed min-height so the chart below never jumps). */
-.cc-caption { position: relative; min-height: 88px; margin: 8px 20px 14px; }
-.cc-beat { position: absolute; left: 0; right: 0; top: 0; margin: 0; font-family: var(--font-serif); font-size: 20px; line-height: 1.34; letter-spacing: -0.01em; text-align: left; text-wrap: balance; color: var(--color-text-secondary); opacity: 0; transition: opacity 0.4s ease; pointer-events: none; }
+/* Flip text: centered lines pushed down to overlap the top of the chart. Frames cross-fade in place
+   (absolute-stacked, so the chart below never jumps). A paper halo keeps them legible over the lines. */
+.cc-caption { position: relative; z-index: 3; min-height: 16px; margin: 8px 42px 0; transform: translateY(100px); pointer-events: none; }
+.cc-beat { position: absolute; left: 0; right: 0; top: 0; margin: 0; font-family: var(--font-serif); font-size: 18px; line-height: 1.34; letter-spacing: -0.01em; text-align: center; text-wrap: balance; color: var(--color-text-secondary); opacity: 0; transition: opacity 0.4s ease; pointer-events: none;
+  text-shadow: 0 0 4px var(--color-background-primary), 0 0 4px var(--color-background-primary), 0 0 8px var(--color-background-primary); }
 .cc-beat.active { opacity: 1; }
-/* Emotion lead-in: the only bold/highlight on the gray frames, with a hand-drawn marker swipe under it */
-.cc-emotion { font-weight: 700; font-style: italic; color: var(--color-text-primary);
-  background-image: linear-gradient(transparent 60%, color-mix(in srgb, var(--color-text-primary) 16%, transparent) 0);
-  background-repeat: no-repeat; padding: 0 0.06em; }
-.cc-emotion--pm { color: var(--color-brand-navy);
-  background-image: linear-gradient(transparent 60%, color-mix(in srgb, var(--color-brand-navy) 26%, transparent) 0); }
-/* Stat highlight: neutral ink on the gray frames; accent reserved for the Premodel (--pm) frame */
-.cc-hl { font-style: normal; background: color-mix(in srgb, var(--color-text-primary) 13%, transparent); color: var(--color-text-primary); font-weight: 700; padding: 0.05em 0.3em; border-radius: 4px; }
-.cc-hl--pm { background: color-mix(in srgb, var(--color-brand-navy) 24%, transparent); color: var(--color-text-primary); }
+/* Emotion lead-in: "Old way:" is plain bold ink; "Premodel:" gets a blue background highlight. */
+.cc-emotion { font-weight: 700; font-style: normal; color: var(--color-text-primary); }
+.cc-emotion--pm { color: var(--color-text-primary); background: color-mix(in srgb, var(--color-brand-navy) 24%, transparent); padding: 0.05em 0.3em; border-radius: 4px; }
+/* Stats: bold for emphasis, no background highlight. */
+.cc-hl { font-style: normal; background: none; color: var(--color-text-primary); font-weight: 700; padding: 0; }
 
 @media (prefers-reduced-motion: reduce) {
   .cc-track { display: none; }
@@ -637,9 +634,9 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .phone-frame[data-layout="a"] .cc-sticky .why-header { margin: 0 0 4px; }
 .phone-frame[data-layout="a"] .cc-sticky .section-headline { margin-top: 2px; }
 
-/* Flip text sits above the chart as the subhead, large and left-aligned for mobile reading. */
-.phone-frame[data-layout="a"] .cc-caption { min-height: 84px; margin: 6px 22px 10px; }
-.phone-frame[data-layout="a"] .cc-beat { font-size: 21px; line-height: 1.32; }
+/* Flip text overlaps the top of the chart: centered, 18px, pushed down 100px, with 42px side margins. */
+.phone-frame[data-layout="a"] .cc-caption { min-height: 16px; margin: 8px 42px 0; transform: translateY(100px); }
+.phone-frame[data-layout="a"] .cc-beat { font-size: 18px; line-height: 1.34; text-align: center; }
 
 /* Chart fills the locked frame; guides follow */
 .phone-frame[data-layout="a"] .cc-sticky .cc-stage { width: auto; margin: 0; }
@@ -1399,17 +1396,16 @@ body[data-palette="saffron"] .toggle-btn {
             <h2 class="section-headline">A new way to remodel.</h2>
           </div>
 
-          <!-- Flip text: 1–2 large lines in the subhead area above the chart. Each frame leads with a
-               bold emotion label; key stats are highlighted. Frames 6–7 (the Premodel path) use the
-               accent treatment. No path-name labels here yet. -->
+          <!-- Flip text: centered lines that overlap the top of the chart. The first five frames lead
+               with a bold "Old way:" label; the last two with a blue-highlighted "Premodel:" label. -->
           <div class="cc-caption">
-            <p class="cc-beat" data-beat="1"><strong class="cc-emotion">Unsure.</strong> You hire before you know what you’ll get.</p>
-            <p class="cc-beat" data-beat="2"><strong class="cc-emotion">Anxious.</strong> Exploring your ideas gets expensive fast.</p>
-            <p class="cc-beat" data-beat="3"><strong class="cc-emotion">Lost.</strong> Plans and samples leave a lot to your imagination.</p>
-            <p class="cc-beat" data-beat="4"><strong class="cc-emotion">Exhausted.</strong> Mid-build fixes can eat <mark class="cc-hl">10–15%</mark> of your budget.</p>
-            <p class="cc-beat" data-beat="5"><strong class="cc-emotion">Regretful.</strong> No wonder <mark class="cc-hl">74%</mark> reported regrets in 2024.</p>
-            <p class="cc-beat" data-beat="6"><strong class="cc-emotion cc-emotion--pm">Excited.</strong> Premodel puts pictures first, <mark class="cc-hl cc-hl--pm">1,200+</mark> and counting.</p>
-            <p class="cc-beat" data-beat="7"><strong class="cc-emotion cc-emotion--pm">Aligned.</strong> Everyone sees it the same way before building.</p>
+            <p class="cc-beat" data-beat="1"><strong class="cc-emotion">Old way:</strong> You hire before you know what you’ll get.</p>
+            <p class="cc-beat" data-beat="2"><strong class="cc-emotion">Old way:</strong> Exploring your ideas gets expensive fast.</p>
+            <p class="cc-beat" data-beat="3"><strong class="cc-emotion">Old way:</strong> Plans and samples leave a lot to your imagination.</p>
+            <p class="cc-beat" data-beat="4"><strong class="cc-emotion">Old way:</strong> Mid-build fixes can eat <mark class="cc-hl">10–15%</mark> of your budget.</p>
+            <p class="cc-beat" data-beat="5"><strong class="cc-emotion">Old way:</strong> No wonder <mark class="cc-hl">74%</mark> reported regrets in 2024.</p>
+            <p class="cc-beat" data-beat="6"><strong class="cc-emotion cc-emotion--pm">Premodel:</strong> Pictures first, <mark class="cc-hl">1,200+</mark> and counting.</p>
+            <p class="cc-beat" data-beat="7"><strong class="cc-emotion cc-emotion--pm">Premodel:</strong> Everyone sees it the same way before building.</p>
           </div>
 
           <div class="cc-stage">
@@ -1420,11 +1416,14 @@ body[data-palette="saffron"] .toggle-btn {
                 </pattern>
                 <!-- Reveal rect grows with the gray line (JS animates its width) so the hatch fill tracks the draw -->
                 <clipPath id="ghatch-clip"><rect x="0" y="0" width="0" height="300"/></clipPath>
-                <!-- Hand-drawn wobble: jitters the geometry so the chart reads as a sketched, emotional
-                     explanation rather than a precise plot. Visual only — JS still measures the true paths. -->
-                <filter id="cc-sketch" x="-8%" y="-8%" width="116%" height="116%" filterUnits="objectBoundingBox">
-                  <feTurbulence type="fractalNoise" baseFrequency="0.013 0.016" numOctaves="2" seed="7" result="n"/>
-                  <feDisplacementMap in="SourceGraphic" in2="n" scale="3.6" xChannelSelector="R" yChannelSelector="G"/>
+                <!-- Hand-drawn wobble: heavily jitters the geometry so the chart reads as a loose,
+                     hand-sketched emotional explanation rather than a precise plot. Two displacement
+                     passes (a long roll + a fine pencil chatter). Visual only — JS measures true paths. -->
+                <filter id="cc-sketch" x="-18%" y="-18%" width="136%" height="136%" filterUnits="objectBoundingBox">
+                  <feTurbulence type="fractalNoise" baseFrequency="0.008 0.011" numOctaves="2" seed="4" result="roll"/>
+                  <feDisplacementMap in="SourceGraphic" in2="roll" scale="11" xChannelSelector="R" yChannelSelector="G" result="d1"/>
+                  <feTurbulence type="fractalNoise" baseFrequency="0.04 0.05" numOctaves="3" seed="9" result="chatter"/>
+                  <feDisplacementMap in="d1" in2="chatter" scale="3.2" xChannelSelector="R" yChannelSelector="G"/>
                 </filter>
               </defs>
               <g filter="url(#cc-sketch)">
@@ -3165,15 +3164,16 @@ body[data-palette="saffron"] .toggle-btn {
     gline.style.strokeDasharray = gTotal;
     bline.style.strokeDasharray = bTotal;
 
-    // Gray draw stops (SVG x), one per frame 1-5: the line grows Imagine -> Hire -> rising -> Plan ->
-    // mid-Build -> high-stress end. gDrawX[0] is the frame-1 start so the line is seen drawing toward Hire.
-    var gDrawX = [60, 150, 210, 258, 330, 405];
+    // Gray draw stops (SVG x), one per frame 1-5: the line grows Imagine -> Hire -> Plan -> (Plan..Build)
+    // -> Build -> high-stress end, so its tip lands on each frame's emotion pin. gDrawX[0] is the frame-1
+    // start so the line is seen drawing toward Hire.
+    var gDrawX = [60, 150, 254, 307, 360, 405];
     var gFrac = gDrawX.map(function(x) { return lengthAtX(gline, gTotal, x) / gTotal; });
-    // Gray emotion pins sit at the tip the line reaches at the END of each frame (drawX[1..5]).
-    var gPinX = [150, 210, 258, 330, 405];
+    // Gray emotion pins: 1 at Hire, 2 at Plan, 3 between Plan and Build, 4 at Build, 5 at the end.
+    var gPinX = [150, 254, 307, 360, 405];
     var gPinLen = gPinX.map(function(x) { return lengthAtX(gline, gTotal, x); });
     // Accent (Premodel) line draws an early branch (frame 6) then the rest through Plan/Build (frame 7).
-    var bLenEarly = lengthAtX(bline, bTotal, 122);   // "before Hire" — the reveal/image marker point
+    var bLenEarly = lengthAtX(bline, bTotal, 149);   // halfway Imagine..Plan — the reveal/image marker
     var bFracEarly = bLenEarly / bTotal;
 
     // Pin positions (gray pins at each gray draw tip; image/end pins along the accent line)
@@ -3188,9 +3188,11 @@ body[data-palette="saffron"] .toggle-btn {
     place(pins.img, imgPos);
     place(pins.end, pctAtLength(bline, bTotal));
     pins.end.style.left = '96%';   // pull the final dot in so it isn't cropped by the right edge
-    // Park the image card up-and-right of the early accent point (clear of the y-axis label)
-    photo.style.left = clamp(imgPos.l - 4, 11, 55) + '%';
-    photo.style.top = clamp(imgPos.t - 52, 5, 52) + '%';
+    // Park the reveal card low in the open area under the rising curve, so the centered flip text
+    // (which now overlaps the chart's upper band) stays clear and legible over it.
+    photo.style.left = clamp(imgPos.l - 22, 8, 26) + '%';
+    photo.style.top = '55%';
+    photo.style.height = '31%';
 
     // Tap a dot to jump to that moment in the chart (each maps to the middle of its caption window)
     var pinTargetG = { g1: 0.5, g2: 1.5, g3: 2.5, g4: 3.5, g5: 4.5, img: 5.5, end: 6.5 };
@@ -3235,12 +3237,14 @@ body[data-palette="saffron"] .toggle-btn {
       // Dim the gray path slightly once the Premodel path starts (frame 6), so the accent reads first.
       var grayDim = clamp(1 - (g - 5) / 0.5 * 0.5, 0.5, 1);
       gline.style.opacity = grayDim;
-      // Gray emotion pins fade in just before the line reaches each tip, then stay (dimming with the path).
-      setPin(pins.g1, clamp((g - 0.55) / 0.35, 0, 1) * grayDim);
-      setPin(pins.g2, clamp((g - 1.55) / 0.35, 0, 1) * grayDim);
-      setPin(pins.g3, clamp((g - 2.55) / 0.35, 0, 1) * grayDim);
-      setPin(pins.g4, clamp((g - 3.55) / 0.35, 0, 1) * grayDim);
-      setPin(pins.g5, clamp((g - 4.55) / 0.35, 0, 1) * grayDim);
+      // Gray emotion pins fade in just before the line reaches each tip, accumulating, then fade out
+      // COMPLETELY as the Premodel line animates in (frame 6), leaving only the Premodel pins.
+      var grayPinFade = clamp(1 - (g - 5) / 0.5, 0, 1);
+      setPin(pins.g1, clamp((g - 0.55) / 0.35, 0, 1) * grayPinFade);
+      setPin(pins.g2, clamp((g - 1.55) / 0.35, 0, 1) * grayPinFade);
+      setPin(pins.g3, clamp((g - 2.55) / 0.35, 0, 1) * grayPinFade);
+      setPin(pins.g4, clamp((g - 3.55) / 0.35, 0, 1) * grayPinFade);
+      setPin(pins.g5, clamp((g - 4.55) / 0.35, 0, 1) * grayPinFade);
       // Frame 6: image/reveal marker + Excited pin appear as the accent line branches, and stay
       var imgShow = clamp((g - 5.15) / 0.5, 0, 1);
       setPin(pins.img, imgShow);
