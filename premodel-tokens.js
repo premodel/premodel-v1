@@ -102,14 +102,8 @@
     '--fs-body':            { value: '15px', type: 'length', group: 'Type', label: 'Body', responsive: { base: '15px', md: '16px', lg: '16px' } },
     '--fs-small':           { value: '13px', type: 'length', group: 'Type', label: 'Small', responsive: { base: '13px', md: '13px', lg: '13px' } },
     '--fs-caption':         { value: '11px', type: 'length', group: 'Type', label: 'Caption', responsive: { base: '11px', md: '11px', lg: '11px' } },
-    // Intermediate steps captured from the prototype's real usage.
-    '--fs-micro':           { value: '10px', type: 'length', group: 'Type', label: 'Micro', responsive: { base: '10px', md: '10px', lg: '10px' } },
-    '--fs-mini':            { value: '12px', type: 'length', group: 'Type', label: 'Mini', responsive: { base: '12px', md: '12px', lg: '12px' } },
-    '--fs-body-sm':         { value: '14px', type: 'length', group: 'Type', label: 'Body small', responsive: { base: '14px', md: '14px', lg: '14px' } },
-    '--fs-h2-sm':           { value: '20px', type: 'length', group: 'Type', label: 'H2 small', responsive: { base: '20px', md: '20px', lg: '20px' } },
-    '--fs-display-sm':      { value: '30px', type: 'length', group: 'Type', label: 'Display small', responsive: { base: '30px', md: '30px', lg: '30px' } },
 
-    // ── Spacing scale (4-based + intermediates captured from prototype) ─
+    // ── Spacing scale (4-based, captured from prototype) ────────────────
     '--space-0-5':          { value: '2px',  type: 'length', group: 'Space', label: 'space-0.5' },
     '--space-1':            { value: '4px',  type: 'length', group: 'Space', label: 'space-1' },
     '--space-1-5':          { value: '6px',  type: 'length', group: 'Space', label: 'space-1.5' },

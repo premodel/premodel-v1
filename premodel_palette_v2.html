@@ -113,12 +113,6 @@
     --fs-body:      var(--fs-body-m);
     --fs-small:      13px;
     --fs-caption:    11px;
-    /* Intermediate steps captured from the prototype's real usage */
-    --fs-micro:      10px;
-    --fs-mini:       12px;
-    --fs-body-sm:    14px;
-    --fs-h2-sm:      20px;
-    --fs-display-sm: 30px;
     --lh-display:    1.1;
     --lh-heading:    1.2;
     --lh-body:       1.55;
@@ -892,27 +886,12 @@
           <tr><td>Body</td><td class="mono">--fs-body</td><td class="mono">15px</td><td class="mono">16px</td><td class="mono">16px</td><td class="mono">1.55</td><td>Default body</td></tr>
           <tr><td>Small</td><td class="mono">--fs-small</td><td class="mono">13px</td><td class="mono">13px</td><td class="mono">13px</td><td class="mono">1.5</td><td>Caption, tile body</td></tr>
           <tr><td>Caption</td><td class="mono">--fs-caption</td><td class="mono">11px</td><td class="mono">11px</td><td class="mono">11px</td><td class="mono">1.4</td><td>Eyebrow, fine print</td></tr>
-          <tr><td colspan="7" style="padding-top:14px; color:var(--text-tertiary); font-size:11px; letter-spacing:0.12em; text-transform:uppercase; font-weight:600;">Intermediate steps — captured from the prototype (flat, non-responsive)</td></tr>
-          <tr><td>Display sm</td><td class="mono">--fs-display-sm</td><td class="mono">30px</td><td class="mono">30px</td><td class="mono">30px</td><td class="mono">1.1</td><td>Prototype section headlines</td></tr>
-          <tr><td>H2 sm</td><td class="mono">--fs-h2-sm</td><td class="mono">20px</td><td class="mono">20px</td><td class="mono">20px</td><td class="mono">1.2</td><td>Prototype subheads</td></tr>
-          <tr><td>Body sm</td><td class="mono">--fs-body-sm</td><td class="mono">14px</td><td class="mono">14px</td><td class="mono">14px</td><td class="mono">1.5</td><td>Dense body / captions</td></tr>
-          <tr><td>Mini</td><td class="mono">--fs-mini</td><td class="mono">12px</td><td class="mono">12px</td><td class="mono">12px</td><td class="mono">1.4</td><td>Notes, fine print</td></tr>
-          <tr><td>Micro</td><td class="mono">--fs-micro</td><td class="mono">10px</td><td class="mono">10px</td><td class="mono">10px</td><td class="mono">1.3</td><td>Image labels, tags</td></tr>
         </tbody>
       </table>
       </div>
       <p style="font-size:13px; color: var(--text-secondary); margin-top: 14px; max-width: 720px;">
       Mobile-readability principles enforced here: body never below 15px, line-height never tighter than 1.55 on body, and the display sizes use a fluid scale where the hero stays comfortably scannable at 44px on a 320px-wide iPhone SE.
       </p>
-
-      <div class="subgroup-label">Intermediate sizes <span style="color:var(--text-tertiary); font-weight:400; text-transform:none; letter-spacing:0; font-size:13px;">— captured from the prototype's real usage; editable, fold into the scale when simplifying</span></div>
-      <div class="space-scale">
-        <div class="space-row fs-row"><span class="name">--fs-micro</span><span class="px">10px</span><span></span></div>
-        <div class="space-row fs-row"><span class="name">--fs-mini</span><span class="px">12px</span><span></span></div>
-        <div class="space-row fs-row"><span class="name">--fs-body-sm</span><span class="px">14px</span><span></span></div>
-        <div class="space-row fs-row"><span class="name">--fs-h2-sm</span><span class="px">20px</span><span></span></div>
-        <div class="space-row fs-row"><span class="name">--fs-display-sm</span><span class="px">30px</span><span></span></div>
-      </div>
 
       <div class="subgroup-label">Sample paragraphs at each size</div>
       <div class="type-sample">
@@ -1678,20 +1657,13 @@
   }
 
   // Spacing scale rows
-  document.querySelectorAll('.space-row:not(.fs-row)').forEach(function (row) {
+  document.querySelectorAll('.space-row').forEach(function (row) {
     var nameEl = row.querySelector('.name'), pxEl = row.querySelector('.px'), bar = row.querySelector('.bar');
     if (!nameEl || !pxEl) return;
     var name = nameEl.textContent.trim();
     makeInput(pxEl, name, function (n) { if (bar) bar.style.width = Math.min(n, 240) + 'px'; });
   });
 
-  // Intermediate type sizes (captured from the prototype) — single-value tokens
-  // the prototype reads directly (var(--fs-mini) etc.), so edits propagate live.
-  document.querySelectorAll('.space-row.fs-row').forEach(function (row) {
-    var nameEl = row.querySelector('.name'), pxEl = row.querySelector('.px');
-    if (!nameEl || !pxEl) return;
-    makeInput(pxEl, nameEl.textContent.trim(), null);
-  });
 
   function refreshScales() {
     scaleInputs.forEach(function (s) {
