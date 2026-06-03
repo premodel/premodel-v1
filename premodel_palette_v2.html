@@ -884,6 +884,15 @@
       Mobile-readability principles enforced here: body never below 15px, line-height never tighter than 1.55 on body, and the display sizes use a fluid scale where the hero stays comfortably scannable at 44px on a 320px-wide iPhone SE.
       </p>
 
+      <div class="subgroup-label">Intermediate sizes <span style="color:var(--text-tertiary); font-weight:400; text-transform:none; letter-spacing:0; font-size:13px;">— captured from the prototype's real usage; editable, fold into the scale when simplifying</span></div>
+      <div class="space-scale">
+        <div class="space-row fs-row"><span class="name">--fs-micro</span><span class="px">10px</span><span></span></div>
+        <div class="space-row fs-row"><span class="name">--fs-mini</span><span class="px">12px</span><span></span></div>
+        <div class="space-row fs-row"><span class="name">--fs-body-sm</span><span class="px">14px</span><span></span></div>
+        <div class="space-row fs-row"><span class="name">--fs-h2-sm</span><span class="px">20px</span><span></span></div>
+        <div class="space-row fs-row"><span class="name">--fs-display-sm</span><span class="px">30px</span><span></span></div>
+      </div>
+
       <div class="subgroup-label">Sample paragraphs at each size</div>
       <div class="type-sample">
         <div class="label">
@@ -1648,11 +1657,19 @@
   }
 
   // Spacing scale rows
-  document.querySelectorAll('.space-row').forEach(function (row) {
+  document.querySelectorAll('.space-row:not(.fs-row)').forEach(function (row) {
     var nameEl = row.querySelector('.name'), pxEl = row.querySelector('.px'), bar = row.querySelector('.bar');
     if (!nameEl || !pxEl) return;
     var name = nameEl.textContent.trim();
     makeInput(pxEl, name, function (n) { if (bar) bar.style.width = Math.min(n, 240) + 'px'; });
+  });
+
+  // Intermediate type sizes (captured from the prototype) — single-value tokens
+  // the prototype reads directly (var(--fs-mini) etc.), so edits propagate live.
+  document.querySelectorAll('.space-row.fs-row').forEach(function (row) {
+    var nameEl = row.querySelector('.name'), pxEl = row.querySelector('.px');
+    if (!nameEl || !pxEl) return;
+    makeInput(pxEl, nameEl.textContent.trim(), null);
   });
 
   function refreshScales() {
