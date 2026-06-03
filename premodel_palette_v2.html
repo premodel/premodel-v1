@@ -490,6 +490,42 @@
   .modal-mockup p { color: var(--text-secondary); font-size: 14px; margin: 0 0 14px; }
   .modal-mockup .modal-actions { display: flex; gap: 10px; justify-content: flex-end; }
 
+  /* ── §04 primitives lifted from the mobile prototype ─────────────────────
+     Real component markup + the prototype's own token-driven CSS, scoped to a
+     mobile-width canvas so the accent / type / spacing controls re-skin the
+     actual UI. Primary & selected states use the accent (the prototype's
+     palette look). A later pass can widen these via the Screen picker. ── */
+  .mob-canvas { max-width: 360px; margin: 0 auto; background: var(--bg-page); border: 0.5px solid var(--border-subtle); border-radius: 24px; padding: 20px; display: flex; flex-direction: column; gap: 22px; font-family: var(--font-body); }
+  .mob-group { display: flex; flex-direction: column; gap: 10px; }
+  .mob-group > .pc-label { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-tertiary); font-weight: 600; }
+  .mob-canvas .rf-btn { width: 100%; padding: var(--space-3); background: var(--accent); color: var(--text-on-accent); border-radius: var(--radius-sm); font-size: var(--fs-body); font-weight: 500; font-family: inherit; border: 0; cursor: pointer; transition: background 0.2s; }
+  .mob-canvas .rf-btn:hover:not(:disabled) { background: var(--accent-hover); }
+  .mob-canvas .rf-btn:disabled { opacity: 0.32; cursor: default; }
+  .mob-canvas .cta-row { display: flex; gap: var(--space-2); }
+  .mob-canvas .cta-button { flex: 1; padding: var(--space-3); background: var(--accent); color: var(--text-on-accent); border-radius: var(--radius-sm); text-align: center; font-weight: 500; font-size: var(--fs-body); border: none; cursor: pointer; font-family: inherit; }
+  .mob-canvas .cta-button:hover { background: var(--accent-hover); }
+  .mob-canvas .cta-button.secondary { background: transparent; color: var(--text-primary); border: 1px solid var(--border-strong); }
+  .mob-canvas .cta-button.secondary:hover { background: var(--bg-surface); }
+  .mob-canvas .section-eyebrow { display: inline-block; align-self: flex-start; background: var(--accent-soft); color: var(--accent-hover); font-size: var(--fs-caption); font-weight: 600; letter-spacing: 0.12em; padding: var(--space-1) var(--space-3); border-radius: 999px; text-transform: uppercase; }
+  .mob-canvas .rf-chips { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+  .mob-canvas .rf-chip { appearance: none; -webkit-appearance: none; background: var(--bg-chip, var(--bg-surface)); border: 0.5px solid var(--border-divider); border-radius: 999px; padding: var(--space-2) var(--space-3-5); font-size: var(--fs-small); font-family: inherit; color: var(--text-primary); cursor: pointer; line-height: 1; transition: background 0.15s, border-color 0.15s, color 0.15s; }
+  .mob-canvas .rf-chip.sel { background: var(--accent); color: var(--text-on-accent); border-color: var(--accent); }
+  .mob-canvas .rf-field { display: flex; flex-direction: column; gap: var(--space-1); }
+  .mob-canvas .rf-label { font-size: var(--fs-caption); font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--text-secondary); }
+  .mob-canvas .rf-input { appearance: none; -webkit-appearance: none; background: var(--bg-surface); border: 0.5px solid var(--border-subtle); border-radius: var(--radius-sm); padding: var(--space-3); font-size: 16px; font-family: inherit; color: var(--text-primary); outline: none; width: 100%; box-sizing: border-box; transition: border-color 0.15s, box-shadow 0.15s; }
+  .mob-canvas .rf-input:focus { border-color: var(--accent); background: var(--bg-surface-elevated); box-shadow: 0 0 0 3px var(--accent-soft); }
+  .mob-canvas .rf-input::placeholder { color: var(--text-tertiary); }
+  .mob-canvas .tile { background: var(--bg-surface); border-radius: var(--radius-card); overflow: hidden; display: flex; flex-direction: column; }
+  .mob-canvas .tile-image { width: 100%; aspect-ratio: 4/3; background: var(--media-placeholder); display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.40); font-size: var(--fs-caption); letter-spacing: 0.05em; text-transform: uppercase; }
+  .mob-canvas .tile-body { padding: var(--space-2-5) var(--space-3) var(--space-3); }
+  .mob-canvas .tile-title { font-size: var(--fs-small); font-weight: 600; margin: 0 0 var(--space-1); color: var(--text-primary); }
+  .mob-canvas .tile-copy { font-size: var(--fs-small); color: var(--text-secondary); margin: 0; line-height: 1.45; }
+  .mob-canvas .quote { background: var(--bg-surface-elevated); border: 0.5px solid var(--border-subtle); border-radius: 10px; padding: var(--space-4); box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 2px 14px rgba(0,0,0,0.07); display: flex; gap: var(--space-3); align-items: flex-start; }
+  .mob-canvas .quote-avatar { flex: 0 0 40px; width: 40px; height: 40px; border-radius: 50%; background: var(--bg-surface); display: flex; align-items: center; justify-content: center; font-size: var(--fs-small); font-weight: 600; color: var(--text-secondary); letter-spacing: 0.04em; }
+  .mob-canvas .quote-content p { font-size: var(--fs-body); color: var(--text-secondary); font-family: var(--font-display); line-height: 1.5; margin: 0 0 var(--space-2-5); }
+  .mob-canvas .quote-content strong { font-weight: 700; color: var(--text-primary); }
+  .mob-canvas .quote-content cite { display: block; font-size: var(--fs-small); color: var(--text-secondary); font-style: normal; line-height: 1.4; }
+  .mob-canvas .quote-content cite strong { color: var(--text-primary); font-weight: 600; }
   /* ═══════════════════════════════════════════════════════════════════════
      ICONOGRAPHY
      ═══════════════════════════════════════════════════════════════════════ */
@@ -955,72 +991,59 @@
     <section class="style-section" id="components">
       <div class="section-head">
         <span class="eyebrow"><span class="num">04</span> Components</span>
-        <h2>UI primitives — default, hover, active, disabled.</h2>
-        <p class="lead">Every component below is wired to the same CSS variables as the rest of the page, so the accent toggle re-skins them in real time. Hover the buttons and focus the input to see state changes.</p>
+        <h2>UI primitives — lifted from the mobile prototype.</h2>
+        <p class="lead">These are the real components from <code>premodel_homepage_prototype.html</code> — same markup, same tokens — shown at mobile width so you can test palettes on the actual UI. Primary &amp; selected states use the accent, so the toggle above re-skins them live. (A later pass adds larger-screen variants via the Screen picker.)</p>
       </div>
 
-      <div class="comp-grid">
-
-        <div class="comp-card">
-          <div class="title">Buttons</div>
-          <div class="comp-row">
-            <button class="btn-primary">Book your Reveal</button>
-            <button class="btn-primary" disabled>Disabled</button>
-          </div>
-          <div class="comp-row">
-            <button class="btn-ghost">See how it works</button>
-            <button class="btn-link">Read pricing →</button>
-          </div>
-          <p class="comp-meta">Primary uses <code>--accent</code> / <code>--accent-hover</code>. Ghost uses <code>--border-strong</code>. Link uses <code>--accent</code> with a soft underline.</p>
+      <div class="mob-canvas">
+        <div class="mob-group">
+          <div class="pc-label">Section eyebrow</div>
+          <span class="section-eyebrow">How it works</span>
         </div>
-
-        <div class="comp-card">
-          <div class="title">Pills</div>
-          <div class="comp-row">
-            <span class="pill">Pre-remodel advisors</span>
-            <span class="pill pill-accent">How it works</span>
-            <span class="pill">Seattle &amp; Eastside</span>
+        <div class="mob-group">
+          <div class="pc-label">Buttons — primary, secondary, disabled</div>
+          <button class="rf-btn">Book your Reveal</button>
+          <div class="cta-row">
+            <button class="cta-button secondary">Maybe later</button>
+            <button class="cta-button">Got it</button>
           </div>
-          <p class="comp-meta">Default pill sits on <code>--bg-pill</code>. Accent-variant uses <code>--accent-soft</code> with <code>--accent-hover</code> text.</p>
+          <button class="rf-btn" disabled>Processing…</button>
         </div>
-
-        <div class="comp-card">
-          <div class="title">Inputs</div>
-          <label class="input-label" for="ex-input">Email address</label>
-          <input type="email" id="ex-input" class="input-field" placeholder="hello@example.com" style="margin-bottom:12px;">
-          <label class="input-label" for="ex-select">Project type</label>
-          <select class="input-field" id="ex-select" style="margin-bottom:12px;">
-            <option>Kitchen</option><option>Bathroom</option><option>Full home</option>
-          </select>
-          <label class="input-label">Disabled</label>
-          <input type="text" class="input-field" value="Confirmed value" disabled>
-          <p class="comp-meta" style="margin-top: 10px;">Focus ring uses <code>--accent</code> + <code>--accent-soft</code>. Click the field to see it live.</p>
-        </div>
-
-        <div class="comp-card">
-          <div class="title">Mini cards</div>
-          <div class="comp-row" style="gap:10px;">
-            <div class="mini-card" style="flex:1; min-width: 140px;"><div class="ph"></div><div class="t">Reveal</div><div class="s">Photoreal renders of your actual space.</div></div>
-            <div class="mini-card" style="flex:1; min-width: 140px;"><div class="ph"></div><div class="t">Refine</div><div class="s">Live sessions until your favorite is ready.</div></div>
+        <div class="mob-group">
+          <div class="pc-label">Selectable chips</div>
+          <div class="rf-chips">
+            <button class="rf-chip sel">Kitchen</button>
+            <button class="rf-chip">Bathroom</button>
+            <button class="rf-chip">Full home</button>
           </div>
-          <p class="comp-meta">Placeholder area uses <code>--bg-pill</code>. The full tile renders are richer in the prototype.</p>
         </div>
-
-        <div class="comp-card" style="grid-column: 1 / -1;">
-          <div class="title">Modal</div>
-          <div class="modal-mockup">
-            <div class="modal-head">
-              <h3>What's included in your Reveal</h3>
-              <button class="close" aria-label="Close">×</button>
-            </div>
-            <p>Three photoreal design directions for the room you submit, plus a 30-minute walkthrough call to align before we start. Refundable if you don't move forward.</p>
-            <div class="modal-actions">
-              <button class="btn-ghost">Maybe later</button>
-              <button class="btn-primary">Got it</button>
+        <div class="mob-group">
+          <div class="pc-label">Input — focus me</div>
+          <div class="rf-field">
+            <label class="rf-label">Email address</label>
+            <input class="rf-input" type="email" placeholder="hello@example.com">
+          </div>
+        </div>
+        <div class="mob-group">
+          <div class="pc-label">Tile card</div>
+          <div class="tile">
+            <div class="tile-image">Kitchen</div>
+            <div class="tile-body">
+              <div class="tile-title">The Reveal</div>
+              <p class="tile-copy">Three photoreal directions for your actual space, in about a week.</p>
             </div>
           </div>
         </div>
-
+        <div class="mob-group">
+          <div class="pc-label">Quote card</div>
+          <div class="quote">
+            <div class="quote-avatar">JM</div>
+            <div class="quote-content">
+              <p>The renders looked <strong>exactly</strong> like our finished kitchen.</p>
+              <cite><strong>Jordan M.</strong> · Capitol Hill</cite>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
