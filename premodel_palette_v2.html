@@ -6,7 +6,12 @@
 <title>Premodel — Style Guide</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;500;600&family=Inter:wght@400;500;600;700&family=Fraunces:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;500;600&family=Inter:wght@400;500;600;700&family=Fraunces:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=Roboto:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<!-- premodel-tokens: pre-paint bootstrap. Applies persisted token overrides before
+     first paint so there's no flash. Full engine (premodel-tokens.js) loads at body end. -->
+<script>
+(function(){try{var r=localStorage.getItem('premodel-tokens');if(!r)return;var p=JSON.parse(r);var t=p&&p.tokens;if(!t)return;var s=document.documentElement.style;for(var k in t){if(Object.prototype.hasOwnProperty.call(t,k))s.setProperty(k,t[k]);}}catch(e){}})();
+</script>
 <style>
   /* ═══════════════════════════════════════════════════════════════════════
      ROOT TOKENS — single source of truth
@@ -17,6 +22,9 @@
     --bg-surface:           #fbf8ef;
     --bg-surface-elevated:  #ffffff;
     --bg-pill:              #ece4d1;
+    --bg-footer:            #ece4d1;
+    /* --bg-chip intentionally unset: chips fall back to --bg-surface until set. */
+    --bg-warning:           #faeeda;
     --bg-dark:              #1a1816;
     --bg-dark-elevated:     #24221f;
     --bg-dark-card:         #f7f4eb;
@@ -25,9 +33,11 @@
     --text-primary:    #2a2826;
     --text-secondary:  #6a625a;
     --text-tertiary:   #998f80;
+    --text-warning:    #854f0b;
     --text-on-dark:    #f3ede1;
     --text-on-dark-2:  #a89a82;
     --text-on-dark-3:  #6a625a;
+    --text-on-accent:  #ffffff;
 
     /* ── Borders / dividers ── */
     --border-divider:  #e4dccb;
@@ -38,6 +48,12 @@
     /* ── Icons ── */
     --icon-primary:    #2a2826;
     --icon-muted:      #998f80;
+
+    /* ── Chart / illustration ── */
+    --chart-line:        #b9b8b1;
+    --chart-hatch:       #c9c8c1;
+    --chart-fill-soft:   #e4eef8;
+    --media-placeholder: #3a3935;
 
     /* ── Accent — driven by toggle. Default: oxblood ── */
     --accent:          #5e2c2e;
@@ -50,32 +66,51 @@
     --font-body:       'Inter', system-ui, sans-serif;
     --display-weight:  500;
 
-    /* ── Spacing scale (4-based) ── */
-    --space-1:  4px;
-    --space-2:  8px;
-    --space-3:  12px;
-    --space-4:  16px;
-    --space-5:  24px;
-    --space-6:  32px;
-    --space-7:  48px;
-    --space-8:  64px;
-    --space-9:  96px;
+    /* ── Spacing scale (4-based, with half-steps captured from the prototype) ── */
+    --space-0-5: 2px;
+    --space-1:   4px;
+    --space-1-5: 6px;
+    --space-2:   8px;
+    --space-2-5: 10px;
+    --space-3:   12px;
+    --space-3-5: 14px;
+    --space-4:   16px;
+    --space-4-5: 20px;
+    --space-5:   24px;
+    --space-5-5: 28px;
+    --space-6:   32px;
+    --space-6-5: 40px;
+    --space-7:   48px;
+    --space-7-5: 60px;
+    --space-8:   64px;
+    --space-9:   96px;
 
     /* ── Radii ── */
     --radius-pill:  999px;
     --radius-input: 6px;
+    --radius-sm:    8px;
     --radius-card: 14px;
     --radius-tile: 18px;
     --radius-modal: 22px;
 
-    /* ── Type scale (mobile defaults; override per breakpoint below) ── */
-    --fs-display-1:  44px;
-    --fs-display-2:  32px;
-    --fs-h1:         28px;
-    --fs-h2:         22px;
-    --fs-h3:         18px;
-    --fs-body-lg:    17px;
-    --fs-body:       15px;
+    /* ── Type scale ── Responsive roles expose per-breakpoint source tokens
+       (-m mobile / -t tablet / -d desktop). The effective --fs-* picks one via
+       the cascade + the screen preview, so each breakpoint is independently
+       editable. ── */
+    --fs-display-1-m: 44px; --fs-display-1-t: 56px; --fs-display-1-d: 64px;
+    --fs-display-2-m: 32px; --fs-display-2-t: 40px; --fs-display-2-d: 44px;
+    --fs-h1-m:        28px; --fs-h1-t:        32px; --fs-h1-d:        36px;
+    --fs-h2-m:        22px; --fs-h2-t:        24px; --fs-h2-d:        24px;
+    --fs-h3-m:        18px; --fs-h3-t:        19px; --fs-h3-d:        19px;
+    --fs-body-lg-m:   17px; --fs-body-lg-t:   18px; --fs-body-lg-d:   18px;
+    --fs-body-m:      15px; --fs-body-t:      16px; --fs-body-d:      16px;
+    --fs-display-1: var(--fs-display-1-m);
+    --fs-display-2: var(--fs-display-2-m);
+    --fs-h1:        var(--fs-h1-m);
+    --fs-h2:        var(--fs-h2-m);
+    --fs-h3:        var(--fs-h3-m);
+    --fs-body-lg:   var(--fs-body-lg-m);
+    --fs-body:      var(--fs-body-m);
     --fs-small:      13px;
     --fs-caption:    11px;
     --lh-display:    1.1;
@@ -84,22 +119,61 @@
   }
   @media (min-width: 768px) {
     :root {
-      --fs-display-1: 56px;
-      --fs-display-2: 40px;
-      --fs-h1:        32px;
-      --fs-h2:        24px;
-      --fs-h3:        19px;
-      --fs-body-lg:   18px;
-      --fs-body:      16px;
+      --fs-display-1: var(--fs-display-1-t);
+      --fs-display-2: var(--fs-display-2-t);
+      --fs-h1:        var(--fs-h1-t);
+      --fs-h2:        var(--fs-h2-t);
+      --fs-h3:        var(--fs-h3-t);
+      --fs-body-lg:   var(--fs-body-lg-t);
+      --fs-body:      var(--fs-body-t);
     }
   }
   @media (min-width: 1200px) {
     :root {
-      --fs-display-1: 64px;
-      --fs-display-2: 44px;
-      --fs-h1:        36px;
+      --fs-display-1: var(--fs-display-1-d);
+      --fs-display-2: var(--fs-display-2-d);
+      --fs-h1:        var(--fs-h1-d);
+      --fs-h2:        var(--fs-h2-d);
+      --fs-h3:        var(--fs-h3-d);
+      --fs-body-lg:   var(--fs-body-lg-d);
+      --fs-body:      var(--fs-body-d);
     }
   }
+
+  /* ── Screen-size preview ──────────────────────────────────────────────
+     The "Screen" picker sets data-preview on <html> to render the whole
+     guide's type at one breakpoint regardless of window width. Attribute
+     selectors (specificity 0,1,1) beat the plain :root @media rules (0,0,1),
+     so the chosen breakpoint wins at any viewport. ── */
+  :root[data-preview="mobile"] {
+    --fs-display-1: var(--fs-display-1-m); --fs-display-2: var(--fs-display-2-m);
+    --fs-h1: var(--fs-h1-m); --fs-h2: var(--fs-h2-m); --fs-h3: var(--fs-h3-m);
+    --fs-body-lg: var(--fs-body-lg-m); --fs-body: var(--fs-body-m);
+  }
+  :root[data-preview="tablet"] {
+    --fs-display-1: var(--fs-display-1-t); --fs-display-2: var(--fs-display-2-t);
+    --fs-h1: var(--fs-h1-t); --fs-h2: var(--fs-h2-t); --fs-h3: var(--fs-h3-t);
+    --fs-body-lg: var(--fs-body-lg-t); --fs-body: var(--fs-body-t);
+  }
+  :root[data-preview="desktop"] {
+    --fs-display-1: var(--fs-display-1-d); --fs-display-2: var(--fs-display-2-d);
+    --fs-h1: var(--fs-h1-d); --fs-h2: var(--fs-h2-d); --fs-h3: var(--fs-h3-d);
+    --fs-body-lg: var(--fs-body-lg-d); --fs-body: var(--fs-body-d);
+  }
+  /* Highlight the active breakpoint column in the rhythm table (cols 3/4/5). */
+  .rhythm-table[data-active="mobile"]  :is(th,td):nth-child(3),
+  .rhythm-table[data-active="tablet"]  :is(th,td):nth-child(4),
+  .rhythm-table[data-active="desktop"] :is(th,td):nth-child(5) {
+    background: var(--accent-soft); color: var(--text-primary); font-weight: 600;
+  }
+  /* Editable numeric input used in the type & spacing scales */
+  .scale-input {
+    width: 48px; font-family: ui-monospace, monospace; font-size: 12px;
+    color: var(--text-primary); background: var(--bg-surface-elevated);
+    border: 1px solid var(--border-subtle); border-radius: var(--radius-input);
+    padding: 2px 4px; -moz-appearance: textfield;
+  }
+  .scale-input:focus-visible { outline: 1px solid var(--text-primary); }
 
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; scroll-padding-top: 80px; }
@@ -214,6 +288,33 @@
     gap: 12px;
     align-items: center;
     flex-wrap: wrap;
+  }
+  .control-btn {
+    font-family: var(--font-body);
+    font-size: var(--fs-small);
+    font-weight: 600;
+    color: var(--text-secondary);
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-pill);
+    padding: 7px 16px;
+    cursor: pointer;
+    transition: border-color 120ms ease, color 120ms ease;
+  }
+  .control-btn:hover { border-color: var(--border-strong); color: var(--text-primary); }
+  .control-btn:focus-visible { outline: 2px solid var(--text-primary); outline-offset: 1px; }
+  /* Inline color editor: chip becomes a clickable color well */
+  .swatch .chip { position: relative; }
+  .swatch .chip:has(input[type="color"]) { cursor: pointer; }
+  .swatch .chip input[type="color"] {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    opacity: 0; cursor: pointer; border: 0; padding: 0;
+  }
+  .swatch .chip:has(input[type="color"])::after {
+    content: ""; position: absolute; right: 3px; bottom: 3px;
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--bg-surface-elevated); box-shadow: 0 0 0 1px var(--border-strong);
+    opacity: 0.7; pointer-events: none;
   }
   .control-dropdown {
     display: flex;
@@ -389,6 +490,42 @@
   .modal-mockup p { color: var(--text-secondary); font-size: 14px; margin: 0 0 14px; }
   .modal-mockup .modal-actions { display: flex; gap: 10px; justify-content: flex-end; }
 
+  /* ── §04 primitives lifted from the mobile prototype ─────────────────────
+     Real component markup + the prototype's own token-driven CSS, scoped to a
+     mobile-width canvas so the accent / type / spacing controls re-skin the
+     actual UI. Primary & selected states use the accent (the prototype's
+     palette look). A later pass can widen these via the Screen picker. ── */
+  .mob-canvas { max-width: 360px; margin: 0 auto; background: var(--bg-page); border: 0.5px solid var(--border-subtle); border-radius: 24px; padding: 20px; display: flex; flex-direction: column; gap: 22px; font-family: var(--font-body); }
+  .mob-group { display: flex; flex-direction: column; gap: 10px; }
+  .mob-group > .pc-label { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-tertiary); font-weight: 600; }
+  .mob-canvas .rf-btn { width: 100%; padding: var(--space-3); background: var(--accent); color: var(--text-on-accent); border-radius: var(--radius-sm); font-size: var(--fs-body); font-weight: 500; font-family: inherit; border: 0; cursor: pointer; transition: background 0.2s; }
+  .mob-canvas .rf-btn:hover:not(:disabled) { background: var(--accent-hover); }
+  .mob-canvas .rf-btn:disabled { opacity: 0.32; cursor: default; }
+  .mob-canvas .cta-row { display: flex; gap: var(--space-2); }
+  .mob-canvas .cta-button { flex: 1; padding: var(--space-3); background: var(--accent); color: var(--text-on-accent); border-radius: var(--radius-sm); text-align: center; font-weight: 500; font-size: var(--fs-body); border: none; cursor: pointer; font-family: inherit; }
+  .mob-canvas .cta-button:hover { background: var(--accent-hover); }
+  .mob-canvas .cta-button.secondary { background: transparent; color: var(--text-primary); border: 1px solid var(--border-strong); }
+  .mob-canvas .cta-button.secondary:hover { background: var(--bg-surface); }
+  .mob-canvas .section-eyebrow { display: inline-block; align-self: flex-start; background: var(--accent-soft); color: var(--accent-hover); font-size: var(--fs-caption); font-weight: 600; letter-spacing: 0.12em; padding: var(--space-1) var(--space-3); border-radius: 999px; text-transform: uppercase; }
+  .mob-canvas .rf-chips { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+  .mob-canvas .rf-chip { appearance: none; -webkit-appearance: none; background: var(--bg-chip, var(--bg-surface)); border: 0.5px solid var(--border-divider); border-radius: 999px; padding: var(--space-2) var(--space-3-5); font-size: var(--fs-small); font-family: inherit; color: var(--text-primary); cursor: pointer; line-height: 1; transition: background 0.15s, border-color 0.15s, color 0.15s; }
+  .mob-canvas .rf-chip.sel { background: var(--accent); color: var(--text-on-accent); border-color: var(--accent); }
+  .mob-canvas .rf-field { display: flex; flex-direction: column; gap: var(--space-1); }
+  .mob-canvas .rf-label { font-size: var(--fs-caption); font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--text-secondary); }
+  .mob-canvas .rf-input { appearance: none; -webkit-appearance: none; background: var(--bg-surface); border: 0.5px solid var(--border-subtle); border-radius: var(--radius-sm); padding: var(--space-3); font-size: 16px; font-family: inherit; color: var(--text-primary); outline: none; width: 100%; box-sizing: border-box; transition: border-color 0.15s, box-shadow 0.15s; }
+  .mob-canvas .rf-input:focus { border-color: var(--accent); background: var(--bg-surface-elevated); box-shadow: 0 0 0 3px var(--accent-soft); }
+  .mob-canvas .rf-input::placeholder { color: var(--text-tertiary); }
+  .mob-canvas .tile { background: var(--bg-surface); border-radius: var(--radius-card); overflow: hidden; display: flex; flex-direction: column; }
+  .mob-canvas .tile-image { width: 100%; aspect-ratio: 4/3; background: var(--media-placeholder); display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.40); font-size: var(--fs-caption); letter-spacing: 0.05em; text-transform: uppercase; }
+  .mob-canvas .tile-body { padding: var(--space-2-5) var(--space-3) var(--space-3); }
+  .mob-canvas .tile-title { font-size: var(--fs-small); font-weight: 600; margin: 0 0 var(--space-1); color: var(--text-primary); }
+  .mob-canvas .tile-copy { font-size: var(--fs-small); color: var(--text-secondary); margin: 0; line-height: 1.45; }
+  .mob-canvas .quote { background: var(--bg-surface-elevated); border: 0.5px solid var(--border-subtle); border-radius: 10px; padding: var(--space-4); box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 2px 14px rgba(0,0,0,0.07); display: flex; gap: var(--space-3); align-items: flex-start; }
+  .mob-canvas .quote-avatar { flex: 0 0 40px; width: 40px; height: 40px; border-radius: 50%; background: var(--bg-surface); display: flex; align-items: center; justify-content: center; font-size: var(--fs-small); font-weight: 600; color: var(--text-secondary); letter-spacing: 0.04em; }
+  .mob-canvas .quote-content p { font-size: var(--fs-body); color: var(--text-secondary); font-family: var(--font-display); line-height: 1.5; margin: 0 0 var(--space-2-5); }
+  .mob-canvas .quote-content strong { font-weight: 700; color: var(--text-primary); }
+  .mob-canvas .quote-content cite { display: block; font-size: var(--fs-small); color: var(--text-secondary); font-style: normal; line-height: 1.4; }
+  .mob-canvas .quote-content cite strong { color: var(--text-primary); font-weight: 600; }
   /* ═══════════════════════════════════════════════════════════════════════
      ICONOGRAPHY
      ═══════════════════════════════════════════════════════════════════════ */
@@ -423,17 +560,12 @@
      APPLIED EXAMPLES — light + dark
      ═══════════════════════════════════════════════════════════════════════ */
   .applied-grid { display: flex; flex-direction: column; gap: 32px; }
-  .applied-pair {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-  @media (min-width: 1024px) {
-    .applied-pair { grid-template-columns: 1fr 1fr; }
-  }
-  .applied-cell { border-radius: var(--radius-tile); overflow: hidden; border: 1px solid var(--border-divider); }
+  /* Each example renders as a real phone-width screen (390px, matching the
+     prototype frame), light + dark — so the layouts read as mobile. */
+  .applied-pair { display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start; }
+  .applied-cell { flex: 0 1 390px; max-width: 390px; border-radius: var(--radius-tile); overflow: hidden; border: 1px solid var(--border-divider); }
   .applied-cell .applied-label { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; color: var(--text-tertiary); padding: 10px 16px; background: var(--bg-surface); border-bottom: 1px solid var(--border-divider); }
-  .applied-cell .applied-body { padding: 28px; }
+  .applied-cell .applied-body { padding: 20px; }
 
   /* Dark variant — uses contrasting CSS vars */
   .applied-cell.dark { border: 0; background: var(--bg-dark); }
@@ -467,8 +599,9 @@
   /* Applied — hero */
   .a-hero h1.applied-display { font-family: var(--font-display); font-size: var(--fs-display-2); line-height: var(--lh-display); letter-spacing: -0.01em; font-weight: 500; margin: 14px 0 12px; }
   .accent-word { color: var(--accent); transition: color 200ms ease; }
-  .a-hero .lede { font-size: var(--fs-body-lg); color: var(--text-secondary); margin: 0 0 24px; max-width: 520px; }
-  .a-hero .cta-row { display: flex; flex-wrap: wrap; gap: 10px; }
+  .a-hero .lede { font-size: var(--fs-body-lg); color: var(--text-secondary); margin: 0 0 24px; }
+  .a-hero .cta-row { display: flex; flex-direction: column; gap: 10px; }
+  .a-hero .cta-row button { width: 100%; }
 
   /* Applied — how-it-works step */
   .step-list { padding: 0; margin: 16px 0 0; list-style: none; }
@@ -652,6 +785,17 @@
             <option value="modern">Modern sans</option>
           </select>
         </label>
+        <label class="control-dropdown">
+          <span class="control-label">Screen</span>
+          <select id="previewSize" aria-label="Screen size preview">
+            <option value="auto">Auto (window)</option>
+            <option value="mobile">Mobile ≤640</option>
+            <option value="tablet">Tablet 768</option>
+            <option value="desktop">Desktop 1200+</option>
+          </select>
+        </label>
+        <button type="button" id="tokensExport" class="control-btn" title="Copy current token overrides to the clipboard">Export</button>
+        <button type="button" id="tokensReset" class="control-btn" title="Clear all local token edits and revert to defaults">Reset</button>
       </div>
     </div>
   </div>
@@ -684,8 +828,13 @@
       <div class="swatch-grid">
         <div class="swatch"><div class="chip" style="background:#f7f4eb"></div><div><div class="role">Page background</div><div class="var">--bg-page</div><div class="hex">#f7f4eb</div><div class="desc">Warm paper. Body bg of the entire site — never pure #fff.</div></div></div>
         <div class="swatch"><div class="chip" style="background:#fbf8ef"></div><div><div class="role">Card surface</div><div class="var">--bg-surface</div><div class="hex">#fbf8ef</div><div class="desc">Half-tone lighter than page. Tiles, quote cards, section frames.</div></div></div>
-        <div class="swatch"><div class="chip" style="background:#ece4d1"></div><div><div class="role">Pill / chip bg</div><div class="var">--bg-pill</div><div class="hex">#ece4d1</div><div class="desc">Eyebrow tags, small avatars, key callouts.</div></div></div>
+        <div class="swatch"><div class="chip" style="background:#ffffff; border-color:#e4dccb"></div><div><div class="role">Elevated surface</div><div class="var">--bg-surface-elevated</div><div class="hex">#ffffff</div><div class="desc">Raised cards / pills above the page. Pure white. (Used heavily in the prototype.)</div></div></div>
+        <div class="swatch"><div class="chip" style="background:#fbf8ef"></div><div><div class="role">Chip / eyebrow bg</div><div class="var">--bg-chip</div><div class="hex">#fbf8ef</div><div class="desc">Eyebrow tags, chips, small pills. Defaults to card surface until set.</div></div></div>
+        <div class="swatch"><div class="chip" style="background:#ece4d1"></div><div><div class="role">Footer background</div><div class="var">--bg-footer</div><div class="hex">#ece4d1</div><div class="desc">Footer strip background (footer-only in the prototype).</div></div></div>
+        <div class="swatch"><div class="chip" style="background:#faeeda"></div><div><div class="role">Warning bg</div><div class="var">--bg-warning</div><div class="hex">#faeeda</div><div class="desc">Soft amber background for notices / disclaimers.</div></div></div>
         <div class="swatch"><div class="chip" style="background:#1a1816"></div><div><div class="role">Dark surface</div><div class="var">--bg-dark</div><div class="hex">#1a1816</div><div class="desc">Warm near-black for footer and dark hero overlays. Never pure #000.</div></div></div>
+        <div class="swatch"><div class="chip" style="background:#24221f"></div><div><div class="role">Dark elevated</div><div class="var">--bg-dark-elevated</div><div class="hex">#24221f</div><div class="desc">Raised surface on a dark section.</div></div></div>
+        <div class="swatch"><div class="chip" style="background:#f7f4eb"></div><div><div class="role">Card on dark</div><div class="var">--bg-dark-card</div><div class="hex">#f7f4eb</div><div class="desc">Paper card placed on a dark surface.</div></div></div>
       </div>
 
       <div class="subgroup-label">Text</div>
@@ -693,7 +842,11 @@
         <div class="swatch"><div class="chip" style="background:#2a2826"></div><div><div class="role">Primary text</div><div class="var">--text-primary</div><div class="hex">#2a2826</div><div class="desc">Headlines, body. Warm-toned near-black.</div></div></div>
         <div class="swatch"><div class="chip" style="background:#6a625a"></div><div><div class="role">Secondary text</div><div class="var">--text-secondary</div><div class="hex">#6a625a</div><div class="desc">Lede, descriptions, supporting copy.</div></div></div>
         <div class="swatch"><div class="chip" style="background:#998f80"></div><div><div class="role">Tertiary text</div><div class="var">--text-tertiary</div><div class="hex">#998f80</div><div class="desc">Eyebrow, captions, metadata, fine print.</div></div></div>
+        <div class="swatch"><div class="chip" style="background:#854f0b"></div><div><div class="role">Warning text</div><div class="var">--text-warning</div><div class="hex">#854f0b</div><div class="desc">Text / icons inside warning notices.</div></div></div>
         <div class="swatch"><div class="chip" style="background:#f3ede1; border-color:#444"></div><div><div class="role">Text on dark</div><div class="var">--text-on-dark</div><div class="hex">#f3ede1</div><div class="desc">Primary text when on dark surface.</div></div></div>
+        <div class="swatch"><div class="chip" style="background:#a89a82; border-color:#444"></div><div><div class="role">Text on dark (2)</div><div class="var">--text-on-dark-2</div><div class="hex">#a89a82</div><div class="desc">Secondary text on dark surfaces.</div></div></div>
+        <div class="swatch"><div class="chip" style="background:#6a625a; border-color:#444"></div><div><div class="role">Text on dark (3)</div><div class="var">--text-on-dark-3</div><div class="hex">#6a625a</div><div class="desc">Tertiary / muted text on dark.</div></div></div>
+        <div class="swatch"><div class="chip" style="background:#ffffff; border-color:#e4dccb"></div><div><div class="role">Text on accent</div><div class="var">--text-on-accent</div><div class="hex">#ffffff</div><div class="desc">Text / icons on an accent-filled button or selected chip.</div></div></div>
       </div>
 
       <div class="subgroup-label">Borders &amp; icons</div>
@@ -702,6 +855,7 @@
         <div class="swatch"><div class="chip" style="background:#d8cfc0"></div><div><div class="role">Subtle border</div><div class="var">--border-subtle</div><div class="hex">#d8cfc0</div></div></div>
         <div class="swatch"><div class="chip" style="background:#b8ae9c"></div><div><div class="role">Strong border</div><div class="var">--border-strong</div><div class="hex">#b8ae9c</div></div></div>
         <div class="swatch"><div class="chip" style="background:#2a2826"></div><div><div class="role">Icons (primary)</div><div class="var">--icon-primary</div><div class="hex">#2a2826</div></div></div>
+        <div class="swatch"><div class="chip" style="background:#998f80"></div><div><div class="role">Icons (muted)</div><div class="var">--icon-muted</div><div class="hex">#998f80</div></div></div>
       </div>
 
       <div class="subgroup-label">Accent <span style="color:var(--text-tertiary); font-weight:400; text-transform:none; letter-spacing:0; font-size:13px;">— currently: <span id="paletteAccentName">oxblood</span></span></div>
@@ -710,6 +864,14 @@
         <div class="swatch"><div class="chip" id="chipHover" style="background:#3f1c1d"></div><div><div class="role">Accent — hover</div><div class="var">--accent-hover</div><div class="hex" id="hexHover">#3f1c1d</div><div class="desc">Pressed / hover states on accent surfaces.</div></div></div>
         <div class="swatch"><div class="chip" id="chipSoft" style="background:#ecd0d0"></div><div><div class="role">Accent — soft tint</div><div class="var">--accent-soft</div><div class="hex" id="hexSoft">#ecd0d0</div><div class="desc">Pill backgrounds, callouts, focus rings.</div></div></div>
         <div class="swatch"><div class="chip" id="chipOnDark" style="background:#a4666a"></div><div><div class="role">Accent — on dark</div><div class="var">--accent-on-dark</div><div class="hex" id="hexOnDark">#a4666a</div><div class="desc">Lightened shade for accent on dark surface.</div></div></div>
+      </div>
+
+      <div class="subgroup-label">Chart &amp; illustration</div>
+      <div class="swatch-grid">
+        <div class="swatch"><div class="chip" style="background:#b9b8b1"></div><div><div class="role">Chart line / rule</div><div class="var">--chart-line</div><div class="hex">#b9b8b1</div><div class="desc">Axis lines, rules, sparkline strokes.</div></div></div>
+        <div class="swatch"><div class="chip" style="background:#c9c8c1"></div><div><div class="role">Chart hatch</div><div class="var">--chart-hatch</div><div class="hex">#c9c8c1</div><div class="desc">Hatch / pattern fills in illustrations.</div></div></div>
+        <div class="swatch"><div class="chip" style="background:#e4eef8"></div><div><div class="role">Chart soft fill</div><div class="var">--chart-fill-soft</div><div class="hex">#e4eef8</div><div class="desc">Soft area fill behind chart lines.</div></div></div>
+        <div class="swatch"><div class="chip" style="background:#3a3935"></div><div><div class="role">Image placeholder</div><div class="var">--media-placeholder</div><div class="hex">#3a3935</div><div class="desc">Fallback block where imagery loads.</div></div></div>
       </div>
     </section>
 
@@ -825,72 +987,59 @@
     <section class="style-section" id="components">
       <div class="section-head">
         <span class="eyebrow"><span class="num">04</span> Components</span>
-        <h2>UI primitives — default, hover, active, disabled.</h2>
-        <p class="lead">Every component below is wired to the same CSS variables as the rest of the page, so the accent toggle re-skins them in real time. Hover the buttons and focus the input to see state changes.</p>
+        <h2>UI primitives — lifted from the mobile prototype.</h2>
+        <p class="lead">These are the real components from <code>premodel_homepage_prototype.html</code> — same markup, same tokens — shown at mobile width so you can test palettes on the actual UI. Primary &amp; selected states use the accent, so the toggle above re-skins them live. (A later pass adds larger-screen variants via the Screen picker.)</p>
       </div>
 
-      <div class="comp-grid">
-
-        <div class="comp-card">
-          <div class="title">Buttons</div>
-          <div class="comp-row">
-            <button class="btn-primary">Book your Reveal</button>
-            <button class="btn-primary" disabled>Disabled</button>
-          </div>
-          <div class="comp-row">
-            <button class="btn-ghost">See how it works</button>
-            <button class="btn-link">Read pricing →</button>
-          </div>
-          <p class="comp-meta">Primary uses <code>--accent</code> / <code>--accent-hover</code>. Ghost uses <code>--border-strong</code>. Link uses <code>--accent</code> with a soft underline.</p>
+      <div class="mob-canvas">
+        <div class="mob-group">
+          <div class="pc-label">Section eyebrow</div>
+          <span class="section-eyebrow">How it works</span>
         </div>
-
-        <div class="comp-card">
-          <div class="title">Pills</div>
-          <div class="comp-row">
-            <span class="pill">Pre-remodel advisors</span>
-            <span class="pill pill-accent">How it works</span>
-            <span class="pill">Seattle &amp; Eastside</span>
+        <div class="mob-group">
+          <div class="pc-label">Buttons — primary, secondary, disabled</div>
+          <button class="rf-btn">Book your Reveal</button>
+          <div class="cta-row">
+            <button class="cta-button secondary">Maybe later</button>
+            <button class="cta-button">Got it</button>
           </div>
-          <p class="comp-meta">Default pill sits on <code>--bg-pill</code>. Accent-variant uses <code>--accent-soft</code> with <code>--accent-hover</code> text.</p>
+          <button class="rf-btn" disabled>Processing…</button>
         </div>
-
-        <div class="comp-card">
-          <div class="title">Inputs</div>
-          <label class="input-label" for="ex-input">Email address</label>
-          <input type="email" id="ex-input" class="input-field" placeholder="hello@example.com" style="margin-bottom:12px;">
-          <label class="input-label" for="ex-select">Project type</label>
-          <select class="input-field" id="ex-select" style="margin-bottom:12px;">
-            <option>Kitchen</option><option>Bathroom</option><option>Full home</option>
-          </select>
-          <label class="input-label">Disabled</label>
-          <input type="text" class="input-field" value="Confirmed value" disabled>
-          <p class="comp-meta" style="margin-top: 10px;">Focus ring uses <code>--accent</code> + <code>--accent-soft</code>. Click the field to see it live.</p>
-        </div>
-
-        <div class="comp-card">
-          <div class="title">Mini cards</div>
-          <div class="comp-row" style="gap:10px;">
-            <div class="mini-card" style="flex:1; min-width: 140px;"><div class="ph"></div><div class="t">Reveal</div><div class="s">Photoreal renders of your actual space.</div></div>
-            <div class="mini-card" style="flex:1; min-width: 140px;"><div class="ph"></div><div class="t">Refine</div><div class="s">Live sessions until your favorite is ready.</div></div>
+        <div class="mob-group">
+          <div class="pc-label">Selectable chips</div>
+          <div class="rf-chips">
+            <button class="rf-chip sel">Kitchen</button>
+            <button class="rf-chip">Bathroom</button>
+            <button class="rf-chip">Full home</button>
           </div>
-          <p class="comp-meta">Placeholder area uses <code>--bg-pill</code>. The full tile renders are richer in the prototype.</p>
         </div>
-
-        <div class="comp-card" style="grid-column: 1 / -1;">
-          <div class="title">Modal</div>
-          <div class="modal-mockup">
-            <div class="modal-head">
-              <h3>What's included in your Reveal</h3>
-              <button class="close" aria-label="Close">×</button>
-            </div>
-            <p>Three photoreal design directions for the room you submit, plus a 30-minute walkthrough call to align before we start. Refundable if you don't move forward.</p>
-            <div class="modal-actions">
-              <button class="btn-ghost">Maybe later</button>
-              <button class="btn-primary">Got it</button>
+        <div class="mob-group">
+          <div class="pc-label">Input — focus me</div>
+          <div class="rf-field">
+            <label class="rf-label">Email address</label>
+            <input class="rf-input" type="email" placeholder="hello@example.com">
+          </div>
+        </div>
+        <div class="mob-group">
+          <div class="pc-label">Tile card</div>
+          <div class="tile">
+            <div class="tile-image">Kitchen</div>
+            <div class="tile-body">
+              <div class="tile-title">The Reveal</div>
+              <p class="tile-copy">Three photoreal directions for your actual space, in about a week.</p>
             </div>
           </div>
         </div>
-
+        <div class="mob-group">
+          <div class="pc-label">Quote card</div>
+          <div class="quote">
+            <div class="quote-avatar">JM</div>
+            <div class="quote-content">
+              <p>The renders looked <strong>exactly</strong> like our finished kitchen.</p>
+              <cite><strong>Jordan M.</strong> · Capitol Hill</cite>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -1014,8 +1163,8 @@
     <section class="style-section" id="applied">
       <div class="section-head">
         <span class="eyebrow"><span class="num">07</span> Applied examples</span>
-        <h2>Layouts from the prototype, light + dark.</h2>
-        <p class="lead">Each layout pattern is shown twice — light surface and dark surface — using the same components and tokens. Switching accent at the top re-skins everything live.</p>
+        <h2>Layouts from the prototype, at mobile width — light + dark.</h2>
+        <p class="lead">Each pattern is shown as a phone-width screen (the prototype's 390px frame), on a light and a dark surface, using the same tokens. Switching accent at the top re-skins everything live.</p>
       </div>
 
       <div class="applied-grid">
@@ -1312,6 +1461,12 @@
 
   </div>
 
+<script src="premodel-tokens.js"></script>
+<script>
+  // Shared token engine: apply persisted overrides and attach live cross-tab sync.
+  PremodelTokens.load();
+  PremodelTokens.subscribe();
+</script>
 <script>
   // ═══════════════════════════════════════════════════════════════════════
   // ACCENT TOGGLE
@@ -1338,10 +1493,12 @@
 
   function applyAccent(key) {
     const a = ACCENTS[key]; if (!a) return;
-    root.style.setProperty('--accent',         a.primary);
-    root.style.setProperty('--accent-hover',   a.hover);
-    root.style.setProperty('--accent-soft',    a.soft);
-    root.style.setProperty('--accent-on-dark', a.onDark);
+    PremodelTokens.set({
+      '--accent':         a.primary,
+      '--accent-hover':   a.hover,
+      '--accent-soft':    a.soft,
+      '--accent-on-dark': a.onDark
+    });
     paletteName.textContent = a.name;
     if (accentDot) accentDot.style.background = a.primary;
     chips.accent.c.style.background = a.primary; chips.accent.h.textContent = a.primary;
@@ -1388,14 +1545,152 @@
   const metaBody = document.getElementById('metaBody');
   function applyType(key) {
     const t = TYPE_STACKS[key]; if (!t) return;
-    root.style.setProperty('--font-display', t.display);
-    root.style.setProperty('--font-body',    t.body);
-    root.style.setProperty('--display-weight', t.displayWeight);
+    PremodelTokens.set({
+      '--font-display':   t.display,
+      '--font-body':      t.body,
+      '--display-weight': t.displayWeight
+    });
     if (metaDisplay) metaDisplay.textContent = t.metaDisp;
     if (metaBody)    metaBody.textContent    = t.metaBody;
     if (typeSelect && typeSelect.value !== key) typeSelect.value = key;
   }
   if (typeSelect) typeSelect.addEventListener('change', e => applyType(e.target.value));
+
+  // ═══════════════════════════════════════════════════════════════════════
+  // SCREEN-SIZE PREVIEW — render the guide's type at one breakpoint regardless
+  // of actual window width, and highlight the matching rhythm-table column.
+  // ═══════════════════════════════════════════════════════════════════════
+  const previewSize = document.getElementById('previewSize');
+  const rhythmTable = document.querySelector('.rhythm-table');
+  function applyPreview(size) {
+    if (!size || size === 'auto') {
+      root.removeAttribute('data-preview');
+      if (rhythmTable) rhythmTable.removeAttribute('data-active');
+    } else {
+      root.setAttribute('data-preview', size);
+      if (rhythmTable) rhythmTable.setAttribute('data-active', size);
+    }
+    if (previewSize && previewSize.value !== size) previewSize.value = size;
+  }
+  if (previewSize) previewSize.addEventListener('change', e => applyPreview(e.target.value));
+
+  // ═══════════════════════════════════════════════════════════════════════
+  // INLINE COLOR EDITOR — turn each palette swatch into a live color well.
+  // Edits write through PremodelTokens (persist + broadcast to the prototype
+  // tab). External changes (e.g. the prototype's picker) refresh the displays.
+  // ═══════════════════════════════════════════════════════════════════════
+  function toHex6(v) {
+    if (!v) return null;
+    v = v.trim();
+    var m3 = /^#([0-9a-fA-F]{3})$/.exec(v);
+    if (m3) return '#' + m3[1].split('').map(function (c) { return c + c; }).join('').toLowerCase();
+    var m6 = /^#([0-9a-fA-F]{6})$/.exec(v);
+    if (m6) return ('#' + m6[1]).toLowerCase();
+    return null; // non-hex (e.g. rgba) — not editable via <input type=color>
+  }
+  var swatchControls = [];
+  document.querySelectorAll('.swatch').forEach(function (sw) {
+    var varEl = sw.querySelector('.var');
+    var chip = sw.querySelector('.chip');
+    var hexEl = sw.querySelector('.hex');
+    if (!varEl || !chip) return;
+    var name = varEl.textContent.trim();
+    if (name.indexOf('--') !== 0) return;
+    var cur = (hexEl && toHex6(hexEl.textContent)) || toHex6(getComputedStyle(root).getPropertyValue(name));
+    if (!cur) return; // skip rgba / non-hex swatches
+    var input = document.createElement('input');
+    input.type = 'color';
+    input.value = cur;
+    input.setAttribute('aria-label', 'Edit ' + name);
+    chip.appendChild(input);
+    input.addEventListener('input', function () {
+      var val = input.value;
+      PremodelTokens.set({ [name]: val });
+      chip.style.background = val;
+      if (hexEl) hexEl.textContent = val;
+    });
+    swatchControls.push({ name: name, chip: chip, hexEl: hexEl, input: input });
+  });
+  function refreshSwatches() {
+    swatchControls.forEach(function (c) {
+      var hx = toHex6(PremodelTokens.get(c.name));
+      if (hx) { c.chip.style.background = hx; c.input.value = hx; if (c.hexEl) c.hexEl.textContent = hx; }
+    });
+  }
+  PremodelTokens.onChange(refreshSwatches);
+
+  // ── Export / Reset ──────────────────────────────────────────────────────
+  var exportBtn = document.getElementById('tokensExport');
+  var resetBtn = document.getElementById('tokensReset');
+  if (exportBtn) exportBtn.addEventListener('click', function () {
+    var data = JSON.stringify(PremodelTokens.overrides(), null, 2);
+    var done = function () { var t = exportBtn.textContent; exportBtn.textContent = 'Copied!'; setTimeout(function () { exportBtn.textContent = t; }, 1200); };
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(data).then(done, function () { window.prompt('Token overrides:', data); });
+    else window.prompt('Token overrides:', data);
+  });
+  if (resetBtn) resetBtn.addEventListener('click', function () {
+    PremodelTokens.reset();
+    refreshSwatches();
+    refreshScales();
+  });
+
+  // ═══════════════════════════════════════════════════════════════════════
+  // TYPE & SPACING EDITORS — editable px inputs wired to PremodelTokens.
+  // Type: the rhythm table's Mobile/Tablet/Desktop columns edit the per-
+  // breakpoint source tokens (--fs-{role}-m/-t/-d). Spacing: each --space-N.
+  // ═══════════════════════════════════════════════════════════════════════
+  var scaleInputs = [];
+  function makeInput(cell, token, onBar) {
+    var cur = parseFloat(PremodelTokens.get(token)) || parseFloat(cell.textContent) || 0;
+    cell.textContent = '';
+    var inp = document.createElement('input');
+    inp.type = 'number'; inp.min = '0'; inp.step = '1'; inp.className = 'scale-input';
+    inp.value = cur; inp.setAttribute('aria-label', 'Edit ' + token);
+    cell.appendChild(inp);
+    var unit = document.createElement('span');
+    unit.textContent = 'px'; unit.style.marginLeft = '3px'; unit.style.color = 'var(--text-tertiary)';
+    cell.appendChild(unit);
+    inp.addEventListener('input', function () {
+      var o = {}; o[token] = inp.value === '' ? null : inp.value + 'px';
+      PremodelTokens.set(o);
+      if (onBar) onBar(parseFloat(inp.value) || 0);
+    });
+    scaleInputs.push({ token: token, inp: inp });
+  }
+
+  // Type rhythm table (cols 3/4/5 = mobile/tablet/desktop)
+  var typeBody = rhythmTable && rhythmTable.querySelector('tbody');
+  if (typeBody) {
+    var BP = ['-m', '-t', '-d'];
+    Array.prototype.forEach.call(typeBody.rows, function (tr) {
+      var varCell = tr.cells[1];
+      if (!varCell) return;
+      var base = varCell.textContent.trim();
+      if (base.indexOf('--fs-') !== 0) return;
+      var responsive = getComputedStyle(root).getPropertyValue(base + '-m').trim() !== '';
+      for (var ci = 2; ci <= 4; ci++) {
+        if (!tr.cells[ci]) continue;
+        makeInput(tr.cells[ci], responsive ? base + BP[ci - 2] : base, null);
+      }
+    });
+  }
+
+  // Spacing scale rows
+  document.querySelectorAll('.space-row').forEach(function (row) {
+    var nameEl = row.querySelector('.name'), pxEl = row.querySelector('.px'), bar = row.querySelector('.bar');
+    if (!nameEl || !pxEl) return;
+    var name = nameEl.textContent.trim();
+    makeInput(pxEl, name, function (n) { if (bar) bar.style.width = Math.min(n, 240) + 'px'; });
+  });
+
+
+  function refreshScales() {
+    scaleInputs.forEach(function (s) {
+      var v = parseFloat(PremodelTokens.get(s.token));
+      if (!isNaN(v) && document.activeElement !== s.inp) s.inp.value = v;
+    });
+  }
+  PremodelTokens.onChange(refreshScales);
 </script>
 </body>
 </html>
