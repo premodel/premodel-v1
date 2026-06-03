@@ -174,6 +174,30 @@
   }
 
   // ──────────────────────────────────────────────────────────────────────
+  // Migration: the split responsive type roles render via
+  // `--fs-{role}: var(--fs-{role}-m)`. A bare `--fs-{role}` override left in
+  // storage by an older build pins the resolved value and silently shadows the
+  // -m/-t/-d edits (the editor writes -m, but the bare override wins). Strip any
+  // such stale override on load — from storage AND the already-applied inline
+  // style — so the rhythm-table editing path works again without a manual Reset.
+  // ──────────────────────────────────────────────────────────────────────
+  var SPLIT_FS_ROLES = ['--fs-display-1', '--fs-display-2', '--fs-h1', '--fs-h2',
+                        '--fs-h3', '--fs-body-lg', '--fs-body'];
+  function migrateTokens(tokens) {
+    if (!tokens) return false;
+    var changed = false, root = document.documentElement;
+    for (var i = 0; i < SPLIT_FS_ROLES.length; i++) {
+      var k = SPLIT_FS_ROLES[i];
+      if (Object.prototype.hasOwnProperty.call(tokens, k)) {
+        delete tokens[k];
+        root.style.removeProperty(k);
+        changed = true;
+      }
+    }
+    return changed;
+  }
+
+  // ──────────────────────────────────────────────────────────────────────
   // State
   // ──────────────────────────────────────────────────────────────────────
   var current = readStore();          // { rev, tokens } — last known full override set
@@ -205,6 +229,7 @@
     // Load persisted overrides and apply them. Idempotent.
     load: function () {
       current = readStore();
+      if (migrateTokens(current.tokens)) writeStore(current.rev, current.tokens);
       lastRev = current.rev;
       apply(current.tokens);
       return current.tokens;
