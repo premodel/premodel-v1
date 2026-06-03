@@ -6,7 +6,7 @@
 <title>Premodel — homepage prototype</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Roboto:wght@300;400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
 <style>
 :root {
   --color-background-primary: #ffffff;
@@ -31,6 +31,7 @@
   --border-radius-xl: 16px;
   --font-sans: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Helvetica, Arial, sans-serif;
   --font-serif: "Iowan Old Style", "Palatino", Georgia, "Times New Roman", serif;
+  --font-hand: "Caveat", "Bradley Hand", "Comic Sans MS", cursive;
 }
 @media (prefers-color-scheme: dark) {
   :root {
@@ -558,13 +559,13 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 /* Key (top-left, stacked) */
 
 /* Axis labels */
-.cc-xlabel { position: absolute; bottom: -2%; transform: translateX(-50%); font-family: var(--font-serif); font-style: italic; font-size: 14px; color: var(--color-text-primary); white-space: nowrap; }
+.cc-xlabel { position: absolute; bottom: -3%; transform: translateX(-50%); font-family: var(--font-hand); font-weight: 600; font-size: 18px; color: var(--color-text-primary); white-space: nowrap; }
 /* Vertical axis label, reading bottom-to-top, centered on the axis. The up-arrow is a trailing
    character on the label itself (no separate SVG arrow). Pinned at least 10px from the left edge. */
-.cc-ylabel { position: absolute; left: 12px; top: 50%; transform: translateY(-50%) rotate(180deg); writing-mode: vertical-rl; font-family: var(--font-serif); font-style: italic; font-size: 14px; color: var(--color-text-primary); white-space: nowrap; }
+.cc-ylabel { position: absolute; left: 10px; top: 50%; transform: translateY(-50%) rotate(180deg); writing-mode: vertical-rl; font-family: var(--font-hand); font-weight: 600; font-size: 18px; color: var(--color-text-primary); white-space: nowrap; }
 
 /* Avoidable Risk label (sits over the hatch wedge; halo keeps it legible) */
-.cc-risk { position: absolute; left: 84%; top: 58.5%; transform: translate(-50%, -50%); width: 5em; text-align: center; font-family: var(--font-sans); font-weight: 700; font-size: 13px; line-height: 1.15; color: var(--color-text-primary); text-shadow: 0 0 3px var(--color-background-primary), 0 0 3px var(--color-background-primary), 0 0 3px var(--color-background-primary); }
+.cc-risk { position: absolute; left: 82%; top: 38%; transform: translate(-50%, -50%); width: 5em; text-align: center; font-family: var(--font-hand); font-weight: 700; font-size: 18px; line-height: 1.05; color: var(--color-text-primary); text-shadow: 0 0 3px var(--color-background-primary), 0 0 3px var(--color-background-primary), 0 0 3px var(--color-background-primary); }
 
 /* Typical-remodel callout (above the gray dot) */
 .cc-callout { position: absolute; left: 63%; top: 18.5%; transform: translate(-50%, -50%); width: 130px; text-align: center; font-family: var(--font-sans); font-size: 11px; line-height: 1.3; color: var(--color-text-secondary); }
@@ -575,7 +576,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .cc-dot--pm { left: 24.32%; top: 87.43%; background: var(--color-brand-navy); }
 
 /* Premodel image stack (three tilted cards; front carries the photo glyph) */
-.cc-photo { position: absolute; left: 14.6%; top: 33%; width: 36.8%; height: 40%; }
+.cc-photo { position: absolute; left: 15%; top: 25%; width: 47%; height: 45%; }
 .cc-photo-card { position: absolute; inset: 0; border-radius: 11px; }
 .cc-photo-card--back { background: #cdccc4; transform: rotate(-6deg); }
 .cc-photo-card--mid { background: #e7e6df; transform: rotate(-2.8deg); }
@@ -609,8 +610,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 /* Flip text: centered lines pushed down to overlap the top of the chart. Frames cross-fade in place
    (absolute-stacked, so the chart below never jumps). A paper halo keeps them legible over the lines. */
 .cc-caption { position: relative; z-index: 3; min-height: 16px; margin: 0 42px 0; transform: translateY(15px); pointer-events: none; }
-.cc-beat { position: absolute; left: 0; right: 0; top: 0; margin: 0; font-family: var(--font-serif); font-size: 18px; line-height: 1.34; letter-spacing: -0.01em; text-align: center; text-wrap: balance; color: var(--color-text-secondary); opacity: 0; transition: opacity 0.4s ease; pointer-events: none;
-  text-shadow: 0 0 4px var(--color-background-primary), 0 0 4px var(--color-background-primary), 0 0 8px var(--color-background-primary); }
+.cc-beat { position: absolute; left: 0; right: 0; top: 0; margin: 0; font-family: var(--font-serif); font-size: 18px; line-height: 1.34; letter-spacing: -0.01em; text-align: center; text-wrap: balance; color: var(--color-text-secondary); opacity: 0; transition: opacity 0.4s ease; pointer-events: none; }
 .cc-beat.active { opacity: 1; }
 /* Emotion lead-in: "Old way:" is plain bold ink; "Premodel:" gets a blue background highlight. */
 .cc-emotion { font-weight: 700; font-style: normal; color: var(--color-text-primary); }
@@ -1423,9 +1423,9 @@ body[data-palette="saffron"] .toggle-btn {
               </defs>
               <g filter="url(#cc-sketch)">
                 <!-- Soft fill under the Premodel line (revealed in the final beat) -->
-                <path class="cc-fill" d="M0 268.9C47 268.9 102.6 267.8 149.6 261.3C271 251.5 344.5 210.5 405 194V268.9H0Z" fill="var(--fill-soft)"/>
-                <!-- Avoid-regret gap between the two lines (revealed in the final beat), softly shaded -->
-                <path class="cc-wedge" d="M149.6 261.3C188 254.7 224.3 240.5 254.2 216.5C328 161.5 349.5 35.5 405 24V193C241 263 213.7 252.5 149.6 261.3Z" fill="color-mix(in srgb, var(--color-brand-navy) 15%, transparent)"/>
+                <path class="cc-fill" d="M0 268.9C47 268.9 102.6 267.8 149.6 261.3C271 251.5 344.5 210.5 405 194V268.9H0Z" fill="color-mix(in srgb, var(--gray-line) 22%, transparent)"/>
+                <!-- Avoid-regret gap between the two lines (revealed in the final beat), softly shaded light gray -->
+                <path class="cc-wedge" d="M149.6 261.3C188 254.7 224.3 240.5 254.2 216.5C328 161.5 349.5 35.5 405 24V193C241 263 213.7 252.5 149.6 261.3Z" fill="color-mix(in srgb, var(--gray-line) 50%, transparent)"/>
                 <!-- X axis (full width) -->
                 <line class="axis" x1="0" y1="268.9" x2="405" y2="268.9"/>
                 <!-- Gray (typical) line: drawn progressively across frames 1-5 -->
@@ -1437,7 +1437,7 @@ body[data-palette="saffron"] .toggle-btn {
 
             <div class="cc-overlay">
               <!-- Y axis label -->
-              <span class="cc-ylabel">Stress →</span>
+              <span class="cc-ylabel">Stress level →</span>
 
               <!-- Premodel image pin (revealed in beat 6) -->
               <div class="cc-photo" aria-hidden="true">
@@ -3177,15 +3177,7 @@ body[data-palette="saffron"] .toggle-btn {
     place(pins.img, imgPos);
     place(pins.end, pctAtLength(bline, bTotal));
     pins.end.style.left = '96%';   // pull the final dot in so it isn't cropped by the right edge
-    // Park the reveal card ABOVE the Premodel marker pin so it floats over (not resting on) the dot,
-    // keeping at least 20px between the card's bottom edge and the pin's top edge.
-    var ovH = (scrolly.querySelector('.cc-overlay') || photo).clientHeight || 248;
-    var cardHpct = 31;
-    photo.style.height = cardHpct + '%';
-    var pinTopPx = imgPos.t / 100 * ovH - 20;              // pin is 40px tall, centered on imgPos
-    var cardTopPct = clamp((pinTopPx - 20) / ovH * 100 - cardHpct, 3, 60);  // 20px gap above the pin
-    photo.style.top = cardTopPct + '%';
-    photo.style.left = clamp(imgPos.l - 6, 6, 30) + '%';
+    // Reveal card position/size is set in CSS (.cc-photo); JS only fades it in on frame 6.
 
     // Tap a dot to jump to that moment in the chart (each maps to the middle of its caption window)
     var pinTargetG = { g1: 0.5, g2: 1.5, g3: 2.5, g4: 3.5, g5: 4.5, img: 5.5, end: 6.5 };
