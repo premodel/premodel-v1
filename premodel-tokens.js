@@ -63,10 +63,10 @@
     '--icon-muted':         { value: '#998f80', type: 'color', group: 'Borders', label: 'Icon (muted)' },
 
     // ── Accent ────────────────────────────────────────────────────────
-    '--accent':             { value: '#5e2c2e', type: 'color', group: 'Accent', label: 'Accent — primary' },
-    '--accent-hover':       { value: '#3f1c1d', type: 'color', group: 'Accent', label: 'Accent — hover' },
-    '--accent-soft':        { value: '#ecd0d0', type: 'color', group: 'Accent', label: 'Accent — soft tint' },
-    '--accent-on-dark':     { value: '#a4666a', type: 'color', group: 'Accent', label: 'Accent — on dark' },
+    '--accent':             { value: '#2a5680', type: 'color', group: 'Accent', label: 'Accent — primary' },
+    '--accent-hover':       { value: '#16365a', type: 'color', group: 'Accent', label: 'Accent — hover' },
+    '--accent-soft':        { value: '#c8d8e8', type: 'color', group: 'Accent', label: 'Accent — soft tint' },
+    '--accent-on-dark':     { value: '#6993bd', type: 'color', group: 'Accent', label: 'Accent — on dark' },
 
     // ── Chart / illustration (renamed from --gray-line/--hatch/etc.) ──
     '--chart-line':         { value: '#6a625a', type: 'color', group: 'Chart', label: 'Chart line / rule' },

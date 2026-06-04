@@ -55,11 +55,11 @@
     --chart-fill-soft:   #e4eef8;
     --media-placeholder: #3a3935;
 
-    /* ── Accent — driven by toggle. Default: oxblood ── */
-    --accent:          #5e2c2e;
-    --accent-hover:    #3f1c1d;
-    --accent-soft:     #ecd0d0;
-    --accent-on-dark:  #a4666a;
+    /* ── Accent — driven by toggle. Default: cyanotype blue ── */
+    --accent:          #2a5680;
+    --accent-hover:    #16365a;
+    --accent-soft:     #c8d8e8;
+    --accent-on-dark:  #6993bd;
 
     /* ── Type stack — driven by switcher. Default: Warm contemporary ── */
     --font-display:    'Fraunces', Georgia, serif;
@@ -768,11 +768,11 @@
       <div class="control-dropdowns">
         <label class="control-dropdown">
           <span class="control-label">Accent</span>
-          <span class="swatch-dot" id="accentDot" style="background:#5e2c2e"></span>
+          <span class="swatch-dot" id="accentDot" style="background:#2a5680"></span>
           <select id="accentSelect" aria-label="Accent color">
             <option value="oxblood">Oxblood</option>
             <option value="sage">Sage</option>
-            <option value="cyanotype">Cyanotype</option>
+            <option value="cyanotype" selected>Cyanotype</option>
             <option value="aubergine">Aubergine</option>
             <option value="saffron">Saffron</option>
           </select>
@@ -856,16 +856,16 @@
         <div class="swatch"><div class="chip" style="background:#e4dccb"></div><div><div class="role">Hairline divider</div><div class="var">--border-divider</div><div class="hex">#e4dccb</div><div class="desc">Hairlines — header, table rows, the CTA bar, section dividers.</div></div></div>
         <div class="swatch"><div class="chip" style="background:#d8cfc0"></div><div><div class="role">Subtle border</div><div class="var">--border-subtle</div><div class="hex">#d8cfc0</div><div class="desc">Card &amp; input outlines, the phone frame.</div></div></div>
         <div class="swatch"><div class="chip" style="background:#b8ae9c"></div><div><div class="role">Strong border</div><div class="var">--border-strong</div><div class="hex">#b8ae9c</div><div class="desc">The step-list connector line.</div></div></div>
-        <div class="swatch"><div class="chip" style="background:#2a2826"></div><div><div class="role">Icons (primary)</div><div class="var">--icon-primary</div><div class="hex">#2a2826</div><div class="desc">—</div></div></div>
+        <div class="swatch"><div class="chip" style="background:#2a2826"></div><div><div class="role">Icons (primary)</div><div class="var">--icon-primary</div><div class="hex">#2a2826</div><div class="desc">Icon glyph + border in the how-it-works and cost-of-change icon circles</div></div></div>
         <div class="swatch"><div class="chip" style="background:#998f80"></div><div><div class="role">Icons (muted)</div><div class="var">--icon-muted</div><div class="hex">#998f80</div><div class="desc">—</div></div></div>
       </div>
 
-      <div class="subgroup-label">Accent <span style="color:var(--text-tertiary); font-weight:400; text-transform:none; letter-spacing:0; font-size:13px;">— currently: <span id="paletteAccentName">oxblood</span></span></div>
+      <div class="subgroup-label">Accent <span style="color:var(--text-tertiary); font-weight:400; text-transform:none; letter-spacing:0; font-size:13px;">— currently: <span id="paletteAccentName">cyanotype blue</span></span></div>
       <div class="swatch-grid">
-        <div class="swatch"><div class="chip" id="chipAccent" style="background:#5e2c2e"></div><div><div class="role">Accent — primary</div><div class="var">--accent</div><div class="hex" id="hexAccent">#5e2c2e</div><div class="desc">Rotating hero word, the "Premodel" brand word, step-number circles, chart highlights, active-palette CTAs.</div></div></div>
-        <div class="swatch"><div class="chip" id="chipHover" style="background:#3f1c1d"></div><div><div class="role">Accent — hover</div><div class="var">--accent-hover</div><div class="hex" id="hexHover">#3f1c1d</div><div class="desc">Hover / pressed accent states; the Seattle locale-tag text.</div></div></div>
-        <div class="swatch"><div class="chip" id="chipSoft" style="background:#ecd0d0"></div><div><div class="role">Accent — soft tint</div><div class="var">--accent-soft</div><div class="hex" id="hexSoft">#ecd0d0</div><div class="desc">Soft fills — the Seattle locale tag, the chart area, active-palette pills.</div></div></div>
-        <div class="swatch"><div class="chip" id="chipOnDark" style="background:#a4666a"></div><div><div class="role">Accent — on dark</div><div class="var">--accent-on-dark</div><div class="hex" id="hexOnDark">#a4666a</div><div class="desc">—</div></div></div>
+        <div class="swatch"><div class="chip" id="chipAccent" style="background:#2a5680"></div><div><div class="role">Accent — primary</div><div class="var">--accent</div><div class="hex" id="hexAccent">#2a5680</div><div class="desc">Rotating hero word, the "Premodel" brand word, step-number circles, chart highlights, active-palette CTAs.</div></div></div>
+        <div class="swatch"><div class="chip" id="chipHover" style="background:#16365a"></div><div><div class="role">Accent — hover</div><div class="var">--accent-hover</div><div class="hex" id="hexHover">#16365a</div><div class="desc">Hover / pressed accent states; the Seattle locale-tag text.</div></div></div>
+        <div class="swatch"><div class="chip" id="chipSoft" style="background:#c8d8e8"></div><div><div class="role">Accent — soft tint</div><div class="var">--accent-soft</div><div class="hex" id="hexSoft">#c8d8e8</div><div class="desc">Soft fills — the Seattle locale tag, the chart area, active-palette pills.</div></div></div>
+        <div class="swatch"><div class="chip" id="chipOnDark" style="background:#6993bd"></div><div><div class="role">Accent — on dark</div><div class="var">--accent-on-dark</div><div class="hex" id="hexOnDark">#6993bd</div><div class="desc">—</div></div></div>
       </div>
 
       <div class="subgroup-label">Chart &amp; illustration</div>
