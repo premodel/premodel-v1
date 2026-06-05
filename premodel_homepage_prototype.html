@@ -785,7 +785,10 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
    and only starts ramping it once the chart unlocks the sticky (after the freeze), eased out so
    the finish is nearly imperceptible. Resting horizontal offset + rotation are unchanged. */
 .phone-frame[data-layout="a"] .cc-sticky .why-founders { --spread: 0; }
-.phone-frame[data-layout="a"] .cc-sticky .why-card.founder { will-change: transform; }
+/* No will-change/layer promotion here: a permanent compositor layer bakes the card to a
+   texture and bilinear-filters it during the ~2deg rotation, softening the portraits on hi-DPI.
+   Letting Chrome rasterize the rotation directly into the page keeps them crisp; the --spread
+   drift is a tiny translate on two cards, so the per-frame repaint is negligible. */
 .phone-frame[data-layout="a"] .cc-sticky .why-card.founder:nth-child(1) { transform: translateX(-7%) translateY(calc(-6px * var(--spread))) rotate(-2deg); }
 .phone-frame[data-layout="a"] .cc-sticky .why-card.founder:nth-child(2) { transform: translateX(7%) translateY(calc(6px * var(--spread))) rotate(1.8deg); }
 
