@@ -217,6 +217,8 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 /* Top-left title — no pill; bold with a soft dark shadow so it stays legible over any image */
 /* Top-left location pill: dark translucent chip, white text — always readable without a scrim. */
 .hero-tag { position: absolute; top: 12px; left: 12px; z-index: 2; max-width: 62%; height: 22px; line-height: 22px; padding: 0 var(--space-2-5); border-radius: 999px; background: rgba(0,0,0,0.55); -webkit-backdrop-filter: blur(7px); backdrop-filter: blur(7px); color: #fff; font-size: var(--fs-caption); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+/* Layout A hero carousel: drop the top-left location pill for a cleaner card (Layout B keeps it). */
+#carousel .hero-tag { display: none; }
 /* Top-right pill — same height/top as the title so the two are vertically centre-aligned. Reveal stays dark; a Before pill is white (.is-before) */
 /* Top-right reveal/before pills: always white chip, dark text (a soft shadow keeps it defined over light images). */
 .hero-pill { position: absolute; top: 12px; right: 12px; z-index: 2; height: 22px; line-height: 22px; padding: 0 var(--space-2-5); border-radius: 999px; font-size: var(--fs-caption); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; background: rgba(255,255,255,0.94); -webkit-backdrop-filter: blur(7px); backdrop-filter: blur(7px); color: #1a1a1a; box-shadow: 0 1px 3px rgba(0,0,0,0.18); }
@@ -235,7 +237,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
    button radius (--radius-sm) so it reads as a control, not a status pill. Front shows "Before";
    once flipped the same button shows "Reveal" to return. */
 .hero-before-btn { position: absolute; bottom: 12px; right: 12px; z-index: 2; display: inline-flex; align-items: center; gap: var(--space-1); padding: var(--space-2) var(--space-3) var(--space-2) var(--space-2-5); border: 0; border-radius: var(--radius-sm); background: #ffffff; color: #1a1a18; font-family: inherit; cursor: pointer; appearance: none; -webkit-appearance: none; box-shadow: 0 2px 10px rgba(0,0,0,0.28); transition: background 0.15s, transform 0.12s ease; }
-.hero-before-btn::before { content: ''; width: 13px; height: 13px; flex: 0 0 13px; background-color: currentColor; -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 19H5c-1 0-2-1-2-2V7c0-1 1-2 2-2h3'/%3E%3Cpath d='M16 5h3c1 0 2 1 2 2v10c0 1-1 2-2 2h-3'/%3E%3Cpath d='M12 4v16'/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 19H5c-1 0-2-1-2-2V7c0-1 1-2 2-2h3'/%3E%3Cpath d='M16 5h3c1 0 2 1 2 2v10c0 1-1 2-2 2h-3'/%3E%3Cpath d='M12 4v16'/%3E%3C/svg%3E") center / contain no-repeat; }
+.hero-before-btn::before { content: ''; width: 13px; height: 13px; flex: 0 0 13px; background-color: currentColor; -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m3 7 5 5-5 5V7'/%3E%3Cpath d='m21 7-5 5 5 5V7'/%3E%3Cpath d='M12 20v2'/%3E%3Cpath d='M12 14v2'/%3E%3Cpath d='M12 8v2'/%3E%3Cpath d='M12 2v2'/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m3 7 5 5-5 5V7'/%3E%3Cpath d='m21 7-5 5 5 5V7'/%3E%3Cpath d='M12 20v2'/%3E%3Cpath d='M12 14v2'/%3E%3Cpath d='M12 8v2'/%3E%3Cpath d='M12 2v2'/%3E%3C/svg%3E") center / contain no-repeat; }
 .hero-before-label { font-size: 11.5px; font-weight: 600; letter-spacing: -0.005em; line-height: 1; }
 .hero-before-btn:hover { background: #f2efe7; }
 .hero-before-btn:active { transform: scale(0.96); }
@@ -285,6 +287,9 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .tile { flex: 0 0 180px; scroll-snap-align: start; background: var(--bg-surface); border-radius: var(--radius-card); overflow: hidden; display: flex; flex-direction: column; box-shadow: var(--shadow-raised); }
 .tile-image { width: 100%; aspect-ratio: 4/3; background: var(--media-placeholder); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--space-1-5); color: rgba(255,255,255,0.40); font-size: var(--fs-caption); letter-spacing: 0.05em; text-transform: uppercase; position: relative; }
 .tile-image::before { content: ''; width: 26px; height: 26px; background-color: rgba(255,255,255,0.36); -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'/%3E%3Ccircle cx='9' cy='9' r='2'/%3E%3Cpath d='m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21'/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'/%3E%3Ccircle cx='9' cy='9' r='2'/%3E%3Cpath d='m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21'/%3E%3C/svg%3E") center / contain no-repeat; }
+/* Tiles that carry a real photo: cover the placeholder, drop the camera glyph + caption text. */
+.tile-image.has-photo { background-color: transparent; background-size: cover; background-position: center; background-repeat: no-repeat; color: transparent; }
+.tile-image.has-photo::before { display: none; }
 .tile-body { padding: var(--space-2-5) var(--space-3) var(--space-3); }
 .tile-title { font-size: var(--fs-body); font-weight: 600; margin: 0 0 var(--space-1); }
 .tile-tagline { font-size: var(--fs-small); color: var(--text-secondary); margin: 0 0 var(--space-1-5); font-weight: 500; }
@@ -1274,13 +1279,13 @@ body[data-palette="saffron"] .toggle-btn {
 
     <div class="carousel" id="carousel">
       <div class="slide">
-        <div class="flip-card">
+        <div class="flip-card flipped">
           <div class="flip-card-inner">
             <div class="flip-card-front flip-face">
-              <div class="img hero-static"><video class="hero-frame active hero-frame--video" data-state="0" autoplay muted loop playsinline preload="auto" poster="images/pf-bath-reveal-A1.png"><source src="images/pf-bath-reveal.mp4" type="video/mp4"></video><span class="hero-tag">Shoreline</span><button type="button" class="hero-before-btn" aria-label="Show before" aria-pressed="false"><span class="hero-before-label">Before</span></button></div>
+              <div class="img hero-static"><video class="hero-frame active hero-frame--video" data-state="0" muted loop playsinline preload="auto" poster="images/pf-bath-reveal-A1.png"><source src="images/pf-bath-reveal.mp4" type="video/mp4"></video><span class="hero-tag">Shoreline</span><button type="button" class="hero-before-btn" aria-label="Show before" aria-pressed="true"><span class="hero-before-label">Before</span></button></div>
             </div>
             <div class="flip-card-back flip-face">
-              <div class="img hero-static"><div class="hero-frame active hero-frame--img" data-state="3" style="background-image:url('images/pf-bath-before-1.png')"></div><span class="hero-tag">Shoreline</span><button type="button" class="hero-before-btn" aria-label="Show reveal" aria-pressed="false"><span class="hero-before-label">Reveal</span></button></div>
+              <div class="img hero-static"><div class="hero-frame active hero-frame--img" data-state="3" style="background-image:url('images/pf-bath-before-1.png')"></div><span class="hero-tag">Shoreline</span><button type="button" class="hero-before-btn" aria-label="Show reveal" aria-pressed="true"><span class="hero-before-label">Reveal</span></button></div>
             </div>
           </div>
         </div>
@@ -1332,28 +1337,28 @@ body[data-palette="saffron"] .toggle-btn {
       </div>
       <div class="plan-gallery">
         <div class="tile">
-          <div class="tile-image">Tile image</div>
+          <div class="tile-image has-photo" style="background-image:url('images/hero-card1.png')"></div>
           <div class="tile-body">
             <p class="tile-title">Unmistakably yours</p>
             <p class="tile-copy">Refine one Reveal, or pull the best from all three, until it's exactly right.</p>
           </div>
         </div>
         <div class="tile">
-          <div class="tile-image">Tile image</div>
+          <div class="tile-image has-photo" style="background-image:url('images/hero-card2.jpg')"></div>
           <div class="tile-body">
             <p class="tile-title">Truly certain</p>
             <p class="tile-copy">For big changes, stand inside the space virtually and catch the costly surprises.</p>
           </div>
         </div>
         <div class="tile">
-          <div class="tile-image">Tile image</div>
+          <div class="tile-image has-photo" style="background-image:url('images/hero-card3.png')"></div>
           <div class="tile-body">
             <p class="tile-title">Within reach</p>
             <p class="tile-copy">Purchase everything in the pictures, at the prices pros pay.</p>
           </div>
         </div>
         <div class="tile">
-          <div class="tile-image">Tile image</div>
+          <div class="tile-image has-photo" style="background-image:url('images/hero-card4.png')"></div>
           <div class="tile-body">
             <p class="tile-title">Full control</p>
             <p class="tile-copy">We bring vetted builders to you. They compete for the job. Your project gets moving.</p>
@@ -2109,28 +2114,28 @@ body[data-palette="saffron"] .toggle-btn {
       </div>
       <div class="plan-gallery" id="plan-gallery-b">
         <div class="tile">
-          <div class="tile-image">Tile image</div>
+          <div class="tile-image has-photo" style="background-image:url('images/hero-card1.png')"></div>
           <div class="tile-body">
             <p class="tile-title">See it</p>
             <p class="tile-copy">Your space, designed until it feels inevitable.</p>
           </div>
         </div>
         <div class="tile">
-          <div class="tile-image">Tile image</div>
+          <div class="tile-image has-photo" style="background-image:url('images/hero-card2.jpg')"></div>
           <div class="tile-body">
             <p class="tile-title">Feel it</p>
             <p class="tile-copy">Walk inside it before you build it. Catch what floorplans miss.</p>
           </div>
         </div>
         <div class="tile">
-          <div class="tile-image">Tile image</div>
+          <div class="tile-image has-photo" style="background-image:url('images/hero-card3.png')"></div>
           <div class="tile-body">
             <p class="tile-title">Shop it</p>
             <p class="tile-copy">Curated materials at every budget. Trade pricing available.</p>
           </div>
         </div>
         <div class="tile">
-          <div class="tile-image">Tile image</div>
+          <div class="tile-image has-photo" style="background-image:url('images/hero-card4.png')"></div>
           <div class="tile-body">
             <p class="tile-title">Bid it</p>
             <p class="tile-copy">Three trusted contractors. They come to you. You choose.</p>
@@ -2751,35 +2756,38 @@ body[data-palette="saffron"] .toggle-btn {
   scrollEl.addEventListener('scroll', onStepScroll, { passive: true });
   updateSteps();
 
-  // Hero rotating word — Layout A
+  // Hero rotating word — Layout A. Starts frozen on "remodel"; the cycle only begins once the
+  // hero card flips to its reveal (startHeroRotator, called from the flip intro below). Every word
+  // — "remodel" included — holds the same 2s, slow enough to sit calmly under the video's cuts.
+  var startHeroRotator = function() {};
   (function initHeroRotator() {
     var rotator = document.getElementById('hero-rotator');
     if (!rotator) return;
     var wordEl = rotator.querySelector('.hero-rotator-word');
     if (!wordEl) return;
-    var words = ['guess', 'commit', 'spend', 'demo', 'remodel'];
-    var BASE_HOLD = 2000;
+    var words = ['remodel', 'guess', 'commit', 'spend', 'demo'];
+    var HOLD = 3000;
     var i = 0;
     function applyWord(w) {
       wordEl.textContent = w;
     }
+    applyWord(words[0]);
     var prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReduced) { applyWord(words[0]); return; }
-    function hold() {
-      // "remodel" lingers twice as long as the other words
-      return words[i] === 'remodel' ? BASE_HOLD * 2 : BASE_HOLD;
-    }
+    if (prefersReduced) return;
     function tick() {
       wordEl.classList.add('out');
       setTimeout(function() {
         i = (i + 1) % words.length;
         applyWord(words[i]);
         wordEl.classList.remove('out');
-        setTimeout(tick, hold());
+        setTimeout(tick, HOLD);
       }, 280);
     }
-    applyWord(words[0]);
-    setTimeout(tick, hold());
+    // "remodel" is already on screen; hold it 2s from the flip, then cycle endlessly. Run once.
+    startHeroRotator = function() {
+      startHeroRotator = function() {};
+      setTimeout(tick, HOLD);
+    };
   })();
 
   var carousel = document.getElementById('carousel');
@@ -2817,12 +2825,17 @@ body[data-palette="saffron"] .toggle-btn {
       carousel.scrollTo({ left: i * carousel.clientWidth, behavior: 'smooth' });
     });
   });
-  // One-time intro (same as Layout B): the first card paints on its Before, then flips to the
-  // reveal after 1s. Layout A is visible on load, so run it now — flipping before first paint
-  // shows the before with no flip-in; removing it 1s later animates the reveal. Card 1 only, once.
+  // One-time intro: the first card is rendered already flipped to its Before in the markup, so it
+  // paints on the before image with no flip-in (no double flip on reload). After a 3s hold it does
+  // its single flip to the reveal — and only then does the video start playing and the headline
+  // begin rotating, so the eye lands on one motion at a time. Card 1 only, once.
   if (heroFlipCards.length) {
-    setCardFlipped(heroFlipCards[0], true);
-    setTimeout(function() { setCardFlipped(heroFlipCards[0], false); }, 1000);
+    var firstReveal = heroFlipCards[0].querySelector('.flip-card-front video');
+    setTimeout(function() {
+      setCardFlipped(heroFlipCards[0], false);
+      if (firstReveal) { try { firstReveal.currentTime = 0; firstReveal.play(); } catch (e) {} }
+      startHeroRotator();
+    }, 3000);
   }
 
   // Hero carousel — Layout B: 9 static flip cards (3 projects × Reveal A/B/C). No auto-cycle;
