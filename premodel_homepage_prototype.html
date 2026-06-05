@@ -255,7 +255,11 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
    class beats the .hero-frame[data-state] color rule, whose `background` shorthand would otherwise
    reset background-size back to auto (leaving the photo at natural size). */
 .hero-frame.hero-frame--img { background-color: transparent; background-size: cover; background-position: center; background-repeat: no-repeat; }
+/* Video reveal frame: fill the card like a photo frame (inset:0 stretches it; object-fit crops to cover). */
+.hero-frame.hero-frame--video { background-color: transparent; object-fit: cover; width: 100%; height: 100%; }
 .hero-anim-alt .hero-frame--img { filter: none; }
+/* 1px hairline on the real photo/video frames in both hero carousels (offset inward to hug the rounded corners). */
+.hero-frame--img, .hero-frame--video { outline: 1px solid var(--border-strong); outline-offset: -1px; }
 @media (prefers-reduced-motion: reduce) { .flip-card-inner, .hero-frame { transition: none; } }
 
 .dots { display: flex; justify-content: center; gap: var(--space-1-5); padding: var(--space-3-5) 0 0; align-items: center; }
@@ -1273,10 +1277,10 @@ body[data-palette="saffron"] .toggle-btn {
         <div class="flip-card">
           <div class="flip-card-inner">
             <div class="flip-card-front flip-face">
-              <div class="img hero-anim" data-frames='["images/pf-bath-reveal-A1.png","images/pf-bath-reveal-B1.png","images/pf-bath-reveal-C1.png","images/pf-bath-before-1.png"]'><span class="hero-tag">Shoreline</span><span class="hero-pill">Reveal A</span><button type="button" class="hero-flip-btn" aria-label="Show alternate angle" aria-pressed="false"></button></div>
+              <div class="img hero-static"><video class="hero-frame active hero-frame--video" data-state="0" autoplay muted loop playsinline preload="auto" poster="images/pf-bath-reveal-A1.png"><source src="images/pf-bath-reveal.mp4" type="video/mp4"></video><span class="hero-tag">Shoreline</span><button type="button" class="hero-before-btn" aria-label="Show before" aria-pressed="false"><span class="hero-before-label">Before</span></button></div>
             </div>
             <div class="flip-card-back flip-face">
-              <div class="img hero-anim hero-anim-alt" data-frames='["images/pf-bath-reveal-A2.png","images/pf-bath-reveal-B2.png","images/pf-bath-reveal-C2.png","images/pf-bath-before-2.png"]'><span class="hero-tag">Shoreline</span><span class="hero-pill">Reveal A</span><button type="button" class="hero-flip-btn" aria-label="Show alternate angle" aria-pressed="false"></button></div>
+              <div class="img hero-static"><div class="hero-frame active hero-frame--img" data-state="3" style="background-image:url('images/pf-bath-before-1.png')"></div><span class="hero-tag">Shoreline</span><button type="button" class="hero-before-btn" aria-label="Show reveal" aria-pressed="false"><span class="hero-before-label">Reveal</span></button></div>
             </div>
           </div>
         </div>
@@ -1285,10 +1289,10 @@ body[data-palette="saffron"] .toggle-btn {
         <div class="flip-card">
           <div class="flip-card-inner">
             <div class="flip-card-front flip-face">
-              <div class="img hero-anim"><span class="hero-tag">Ballard</span><span class="hero-pill">Reveal A</span><button type="button" class="hero-flip-btn" aria-label="Show alternate angle" aria-pressed="false"></button></div>
+              <div class="img hero-static"><div class="hero-frame active" data-state="0"><span class="hero-frame-label">Reveal</span><span class="hero-frame-sub">after</span></div><span class="hero-tag">Ballard</span><button type="button" class="hero-before-btn" aria-label="Show before" aria-pressed="false"><span class="hero-before-label">Before</span></button></div>
             </div>
             <div class="flip-card-back flip-face">
-              <div class="img hero-anim hero-anim-alt"><span class="hero-tag">Ballard</span><span class="hero-pill">Reveal A</span><button type="button" class="hero-flip-btn" aria-label="Show alternate angle" aria-pressed="false"></button></div>
+              <div class="img hero-static"><div class="hero-frame active" data-state="3"><span class="hero-frame-label">Before</span><span class="hero-frame-sub">existing</span></div><span class="hero-tag">Ballard</span><button type="button" class="hero-before-btn" aria-label="Show reveal" aria-pressed="false"><span class="hero-before-label">Reveal</span></button></div>
             </div>
           </div>
         </div>
@@ -1297,10 +1301,10 @@ body[data-palette="saffron"] .toggle-btn {
         <div class="flip-card">
           <div class="flip-card-inner">
             <div class="flip-card-front flip-face">
-              <div class="img hero-anim"><span class="hero-tag">Queen Anne</span><span class="hero-pill">Reveal A</span><button type="button" class="hero-flip-btn" aria-label="Show alternate angle" aria-pressed="false"></button></div>
+              <div class="img hero-static"><div class="hero-frame active" data-state="0"><span class="hero-frame-label">Reveal</span><span class="hero-frame-sub">after</span></div><span class="hero-tag">Queen Anne</span><button type="button" class="hero-before-btn" aria-label="Show before" aria-pressed="false"><span class="hero-before-label">Before</span></button></div>
             </div>
             <div class="flip-card-back flip-face">
-              <div class="img hero-anim hero-anim-alt"><span class="hero-tag">Queen Anne</span><span class="hero-pill">Reveal A</span><button type="button" class="hero-flip-btn" aria-label="Show alternate angle" aria-pressed="false"></button></div>
+              <div class="img hero-static"><div class="hero-frame active" data-state="3"><span class="hero-frame-label">Before</span><span class="hero-frame-sub">existing</span></div><span class="hero-tag">Queen Anne</span><button type="button" class="hero-before-btn" aria-label="Show reveal" aria-pressed="false"><span class="hero-before-label">Reveal</span></button></div>
             </div>
           </div>
         </div>
@@ -1972,7 +1976,7 @@ body[data-palette="saffron"] .toggle-btn {
         <div class="flip-card">
           <div class="flip-card-inner">
             <div class="flip-card-front flip-face">
-              <div class="img hero-static"><div class="hero-frame active hero-frame--img" data-state="0" style="background-image:url('images/pf-bath-reveal-A1.png')"></div><span class="hero-tag">Shoreline</span><span class="hero-pill">Reveal A</span><button type="button" class="hero-before-btn" aria-label="Show before" aria-pressed="false"><span class="hero-before-label">Before</span></button></div>
+              <div class="img hero-static"><video class="hero-frame active hero-frame--video" data-state="0" autoplay muted loop playsinline preload="auto" poster="images/pf-bath-reveal-A1.png"><source src="images/pf-bath-reveal-A.mp4" type="video/mp4"></video><span class="hero-tag">Shoreline</span><span class="hero-pill">Reveal A</span><button type="button" class="hero-before-btn" aria-label="Show before" aria-pressed="false"><span class="hero-before-label">Before</span></button></div>
             </div>
             <div class="flip-card-back flip-face">
               <div class="img hero-static"><div class="hero-frame active hero-frame--img" data-state="3" style="background-image:url('images/pf-bath-before-1.png')"></div><span class="hero-tag">Shoreline</span><span class="hero-pill is-before">Before</span><button type="button" class="hero-before-btn" aria-label="Show reveal" aria-pressed="false"><span class="hero-before-label">Reveal</span></button></div>
@@ -1984,7 +1988,7 @@ body[data-palette="saffron"] .toggle-btn {
         <div class="flip-card">
           <div class="flip-card-inner">
             <div class="flip-card-front flip-face">
-              <div class="img hero-static"><div class="hero-frame active hero-frame--img" data-state="1" style="background-image:url('images/pf-bath-reveal-B1.png')"></div><span class="hero-tag">Shoreline</span><span class="hero-pill">Reveal B</span><button type="button" class="hero-before-btn" aria-label="Show before" aria-pressed="false"><span class="hero-before-label">Before</span></button></div>
+              <div class="img hero-static"><video class="hero-frame active hero-frame--video" data-state="1" autoplay muted loop playsinline preload="auto" poster="images/pf-bath-reveal-B1.png"><source src="images/pf-bath-reveal-B.mp4" type="video/mp4"></video><span class="hero-tag">Shoreline</span><span class="hero-pill">Reveal B</span><button type="button" class="hero-before-btn" aria-label="Show before" aria-pressed="false"><span class="hero-before-label">Before</span></button></div>
             </div>
             <div class="flip-card-back flip-face">
               <div class="img hero-static"><div class="hero-frame active hero-frame--img" data-state="3" style="background-image:url('images/pf-bath-before-1.png')"></div><span class="hero-tag">Shoreline</span><span class="hero-pill is-before">Before</span><button type="button" class="hero-before-btn" aria-label="Show reveal" aria-pressed="false"><span class="hero-before-label">Reveal</span></button></div>
@@ -1996,7 +2000,7 @@ body[data-palette="saffron"] .toggle-btn {
         <div class="flip-card">
           <div class="flip-card-inner">
             <div class="flip-card-front flip-face">
-              <div class="img hero-static"><div class="hero-frame active hero-frame--img" data-state="2" style="background-image:url('images/pf-bath-reveal-C1.png')"></div><span class="hero-tag">Shoreline</span><span class="hero-pill">Reveal C</span><button type="button" class="hero-before-btn" aria-label="Show before" aria-pressed="false"><span class="hero-before-label">Before</span></button></div>
+              <div class="img hero-static"><video class="hero-frame active hero-frame--video" data-state="2" autoplay muted loop playsinline preload="auto" poster="images/pf-bath-reveal-C1.png"><source src="images/pf-bath-reveal-C.mp4" type="video/mp4"></video><span class="hero-tag">Shoreline</span><span class="hero-pill">Reveal C</span><button type="button" class="hero-before-btn" aria-label="Show before" aria-pressed="false"><span class="hero-before-label">Before</span></button></div>
             </div>
             <div class="flip-card-back flip-face">
               <div class="img hero-static"><div class="hero-frame active hero-frame--img" data-state="3" style="background-image:url('images/pf-bath-before-1.png')"></div><span class="hero-tag">Shoreline</span><span class="hero-pill is-before">Before</span><button type="button" class="hero-before-btn" aria-label="Show reveal" aria-pressed="false"><span class="hero-before-label">Reveal</span></button></div>
@@ -2783,7 +2787,7 @@ body[data-palette="saffron"] .toggle-btn {
   var heroFlipCards = carousel.querySelectorAll('.flip-card');
   function setCardFlipped(card, flipped) {
     card.classList.toggle('flipped', flipped);
-    card.querySelectorAll('.hero-flip-btn').forEach(function(b) {
+    card.querySelectorAll('.hero-before-btn').forEach(function(b) {
       b.setAttribute('aria-pressed', flipped ? 'true' : 'false');
     });
   }
@@ -2794,71 +2798,18 @@ body[data-palette="saffron"] .toggle-btn {
     heroFlipCards.forEach(function(card, j) {
       if (j !== i && card.classList.contains('flipped')) setCardFlipped(card, false);
     });
-    startHeroCard(i); // only the centered card animates; previous stops + resets
   }
+  // Static reveal/before flip cards (same model as Layout B). The reveal face holds a looping
+  // muted video (Shoreline) or a color placeholder; tapping "Before" flips to the project's
+  // before. No auto-cycle — swipe to advance.
   heroFlipCards.forEach(function(card) {
-    card.querySelectorAll('.hero-flip-btn').forEach(function(btn) {
+    card.querySelectorAll('.hero-before-btn').forEach(function(btn) {
       btn.addEventListener('click', function(e) {
         e.stopPropagation();
         setCardFlipped(card, !card.classList.contains('flipped'));
       });
     });
   });
-  // Hero cards — cross-fade animation. Each card cycles Reveal A → B → C → Before (4s each: 3s hold + 1s fade);
-  // front + back run the same index in lockstep so flipping stays in sync. Only the centered card runs.
-  var HERO_STATES = [
-    { label: 'Reveal A', before: false },
-    { label: 'Reveal B', before: false },
-    { label: 'Reveal C', before: false },
-    { label: 'Before', before: true }
-  ];
-  carousel.querySelectorAll('.hero-anim').forEach(function(face) {
-    var isAlt = face.classList.contains('hero-anim-alt');
-    // Faces with data-frames cross-fade real photos (one per state); others use color placeholders.
-    var photos = face.dataset.frames ? JSON.parse(face.dataset.frames) : null;
-    HERO_STATES.forEach(function(st, s) {
-      var frame = document.createElement('div');
-      frame.className = 'hero-frame' + (s === 0 ? ' active' : '');
-      frame.setAttribute('data-state', s);
-      if (photos && photos[s]) {
-        frame.classList.add('hero-frame--img');
-        frame.style.backgroundImage = 'url("' + photos[s] + '")';
-      } else {
-        frame.innerHTML = '<span class="hero-frame-label">' + st.label + '</span>' +
-                          '<span class="hero-frame-sub">' + (isAlt ? 'alt angle' : 'front angle') + '</span>';
-      }
-      face.insertBefore(frame, face.firstChild);
-    });
-  });
-  function renderCardState(card, s) {
-    card.querySelectorAll('.hero-frame').forEach(function(f) {
-      f.classList.toggle('active', +f.getAttribute('data-state') === s);
-    });
-    var st = HERO_STATES[s];
-    card.querySelectorAll('.hero-pill').forEach(function(p) {
-      p.textContent = st.label;
-      p.classList.toggle('is-before', st.before);
-    });
-  }
-  var heroTimer = null;
-  var heroActiveCard = -1;
-  function startHeroCard(idx) {
-    if (idx === heroActiveCard) return;
-    if (heroTimer) { clearInterval(heroTimer); heroTimer = null; }
-    if (heroActiveCard >= 0 && heroFlipCards[heroActiveCard]) {
-      renderCardState(heroFlipCards[heroActiveCard], 0); // stop + reset the previous card to the beginning
-    }
-    heroActiveCard = idx;
-    var card = heroFlipCards[idx];
-    if (!card) return;
-    var s = 0;
-    renderCardState(card, 0); // new card starts from Reveal A
-    heroTimer = setInterval(function() {
-      s = (s + 1) % HERO_STATES.length;
-      renderCardState(card, s);
-    }, 4000); // 3s hold + 1s cross-fade (transition on .hero-frame)
-  }
-  startHeroCard(0);
 
   carousel.addEventListener('scroll', updateDots, { passive: true });
   dots.forEach(function(d, i) {
@@ -2866,6 +2817,13 @@ body[data-palette="saffron"] .toggle-btn {
       carousel.scrollTo({ left: i * carousel.clientWidth, behavior: 'smooth' });
     });
   });
+  // One-time intro (same as Layout B): the first card paints on its Before, then flips to the
+  // reveal after 1s. Layout A is visible on load, so run it now — flipping before first paint
+  // shows the before with no flip-in; removing it 1s later animates the reveal. Card 1 only, once.
+  if (heroFlipCards.length) {
+    setCardFlipped(heroFlipCards[0], true);
+    setTimeout(function() { setCardFlipped(heroFlipCards[0], false); }, 1000);
+  }
 
   // Hero carousel — Layout B: 9 static flip cards (3 projects × Reveal A/B/C). No auto-cycle;
   // swipe to advance, tap the Before/Reveal button to flip a card. Assigned below; the layout
