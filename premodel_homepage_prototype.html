@@ -1055,6 +1055,10 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .header-cta:hover { background: var(--accent-hover); }
 .header-cta:focus-visible { outline: 2px solid var(--text-primary); outline-offset: 2px; }
 
+/* Hero-loop edge clones (built by JS): hidden everywhere except the desktop circular
+   carousel, so mobile/tablet layout and swipe math are untouched. */
+.carousel .slide.is-clone { display: none; }
+
 /* ── Tablet (frame ≥ 768px) — Layout A only ──────────────────────────────
    The frame is a CSS container, so these fire from the FRAME width (the Size
    control or a real device), never the browser window. Layout B keeps its
@@ -1180,10 +1184,12 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
      is the opener, the Plan is the work). A shallower carousel + tighter rhythm keep
      "Turn a Reveal into a Plan" near the first screen. */
   .phone-frame[data-layout="a"] .reveal-hero { padding-top: var(--space-6); }
-  /* 16:9 hero cards on desktop: wider presence without the height cost — screen depth
-     varies more than width, and the shallow ratio keeps the Plan headline on screen 1. */
-  .phone-frame[data-layout="a"] .carousel { --slide-w: min(760px, 60cqw); gap: var(--space-5); }
-  .phone-frame[data-layout="a"] .carousel .slide .img { aspect-ratio: 16/9; }
+  /* Hero carousel is CIRCULAR on desktop: the JS-built edge clones (.is-clone) become
+     visible, so the last card peeks left of the centered first card, and scrolling
+     wraps seamlessly in both directions. Cards stay 3:2, kept shallow so the Plan
+     headline lands on screen 1. */
+  .phone-frame[data-layout="a"] .carousel { --slide-w: min(620px, 50cqw); gap: var(--space-5); }
+  .phone-frame[data-layout="a"] .carousel .slide.is-clone { display: block; }
 
   /* Plan: the rail becomes a centered headline + one calm row of four tiles */
   .phone-frame[data-layout="a"] .plan-block { display: block; max-width: 1140px; margin: var(--space-7) auto 0; padding: 0 var(--space-7); }
@@ -1550,7 +1556,7 @@ body[data-palette="saffron"] .toggle-btn {
       </div>
     </div>
     <div class="version-pill">
-      v12.2
+      v12.3
       <button type="button" class="refresh-btn" onclick="location.reload()" aria-label="Refresh prototype">
         <i data-lucide="refresh-cw"></i>
       </button>
@@ -3100,9 +3106,10 @@ body[data-palette="saffron"] .toggle-btn {
 
   // Slide stride = distance between adjacent slide origins. On mobile slides are
   // full-width (stride = clientWidth); at tablet/desktop they're narrower with a
-  // gap, so index math must use the real stride, not the track width.
+  // gap, so index math must use the real stride, not the track width. Skips
+  // display:none children (the hero loop's edge clones below desktop).
   function slideStride(track) {
-    var kids = track.children;
+    var kids = Array.prototype.filter.call(track.children, function(k) { return k.offsetWidth > 0; });
     return kids.length > 1 ? (kids[1].offsetLeft - kids[0].offsetLeft) : track.clientWidth;
   }
 
@@ -3115,8 +3122,62 @@ body[data-palette="saffron"] .toggle-btn {
       b.setAttribute('aria-pressed', flipped ? 'true' : 'false');
     });
   }
-  function updateDots() {
+  // ── Circular hero (desktop only) ──────────────────────────────────────────
+  // Edge clones of the last + first slides flank the real set: [cloneLast, 1..n,
+  // cloneFirst]. CSS shows them only at the desktop breakpoint; when a scroll
+  // settles on a clone, we teleport (instant, on a snap point) to its real twin.
+  var heroRealCount = carousel.children.length;
+  (function buildHeroLoopClones() {
+    var slides = Array.prototype.slice.call(carousel.children);
+    if (slides.length < 2) return;
+    var cloneLast = slides[slides.length - 1].cloneNode(true);
+    var cloneFirst = slides[0].cloneNode(true);
+    [cloneLast, cloneFirst].forEach(function(c) {
+      c.classList.add('is-clone');
+      c.setAttribute('aria-hidden', 'true');
+      // Clones are scenery, not UI: no buttons, no autoplay (videos show their poster),
+      // and never the flipped/before face.
+      c.querySelectorAll('button').forEach(function(b) { b.remove(); });
+      c.querySelectorAll('video').forEach(function(v) { v.removeAttribute('autoplay'); v.preload = 'none'; });
+      c.querySelectorAll('.flip-card.flipped').forEach(function(f) { f.classList.remove('flipped'); });
+    });
+    carousel.insertBefore(cloneLast, carousel.firstElementChild);
+    carousel.appendChild(cloneFirst);
+  })();
+  function heroLoopActive() {
+    var c = carousel.querySelector('.slide.is-clone');
+    return !!(c && c.offsetWidth > 0);
+  }
+  function heroIndex() {
     var i = Math.round(carousel.scrollLeft / slideStride(carousel));
+    if (heroLoopActive()) i = ((i - 1) % heroRealCount + heroRealCount) % heroRealCount;
+    return Math.max(0, Math.min(i, heroRealCount - 1));
+  }
+  // After a swipe/scroll settles on a clone, jump to the matching real slide.
+  function heroLoopSettle() {
+    if (!heroLoopActive()) return;
+    var stride = slideStride(carousel);
+    var visI = Math.round(carousel.scrollLeft / stride);
+    if (visI === 0) carousel.scrollLeft = heroRealCount * stride;
+    else if (visI === heroRealCount + 1) carousel.scrollLeft = stride;
+  }
+  // Both paths registered (teleport is idempotent): scrollend is precise where
+  // supported; the debounce covers browsers/contexts where it never fires.
+  if ('onscrollend' in window) carousel.addEventListener('scrollend', heroLoopSettle);
+  var heroSettleTimer;
+  carousel.addEventListener('scroll', function() {
+    clearTimeout(heroSettleTimer);
+    heroSettleTimer = setTimeout(heroLoopSettle, 140);
+  }, { passive: true });
+  // Entering/leaving the desktop breakpoint: rest on the first REAL slide (centered,
+  // with the last slide peeking on its left when the loop is live).
+  function syncHeroLoop() {
+    carousel.scrollLeft = heroLoopActive() ? slideStride(carousel) : 0;
+    updateDots();
+  }
+
+  function updateDots() {
+    var i = heroIndex();
     dots.forEach(function(d, j) { d.classList.toggle('active', j === i); });
     // Reset any flipped card that scrolls out of view, so re-visiting a slide is predictable
     heroFlipCards.forEach(function(card, j) {
@@ -3138,7 +3199,8 @@ body[data-palette="saffron"] .toggle-btn {
   carousel.addEventListener('scroll', updateDots, { passive: true });
   dots.forEach(function(d, i) {
     d.addEventListener('click', function() {
-      carousel.scrollTo({ left: i * slideStride(carousel), behavior: 'smooth' });
+      var offset = heroLoopActive() ? 1 : 0;
+      carousel.scrollTo({ left: (i + offset) * slideStride(carousel), behavior: 'smooth' });
     });
   });
   // One-time intro: the first card is rendered already flipped to its Before in the markup, so it
@@ -3934,9 +3996,16 @@ body[data-palette="saffron"] .toggle-btn {
     wrapper.style.setProperty('--frame-height', opt.getAttribute('data-h') + 'px');
     wrapper.setAttribute('data-bp', opt.getAttribute('data-bp') || 'mobile');
     fitFrames();
+    syncHeroLoop();
   }
   sizeSelect.addEventListener('change', applySize);
   window.addEventListener('resize', fitFrames);
+  // The frame's width animates (0.2s), so the container query — and with it the hero
+  // loop's clone visibility — can flip mid-transition. Re-sync once the width settles.
+  var frameA = document.querySelector('.phone-frame[data-layout="a"]');
+  if (frameA) frameA.addEventListener('transitionend', function(e) {
+    if (e.propertyName === 'width') syncHeroLoop();
+  });
   applySize();
 
 })();
