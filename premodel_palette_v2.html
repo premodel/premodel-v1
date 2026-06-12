@@ -1002,26 +1002,26 @@
           <tr><td><b>Reading column</b> (steps, FAQ)</td><td class="mono">full width</td><td class="mono">680–720px</td><td class="mono">720–760px</td></tr>
           <tr><td><b>Content column</b> (gallery, why)</td><td class="mono">full width</td><td class="mono">full width</td><td class="mono">1140–1240px</td></tr>
           <tr><td><b>Section gap (top padding)</b></td><td class="mono">60px</td><td class="mono">64px (--space-8)</td><td class="mono">96px (--space-9)</td></tr>
-          <tr><td><b>Hero headline role</b></td><td class="mono">Display 2</td><td class="mono">Display 2 (-t)</td><td class="mono">Display 1 (-d)</td></tr>
+          <tr><td><b>Hero headline role</b></td><td class="mono" colspan="3">Display 2 at every width — the hero never outranks the section headlines (the Reveal opens; the Plan is the work)</td></tr>
         </tbody>
       </table>
 
       <div class="subgroup-label" style="margin-top: 28px;">Header</div>
       <ul style="margin:0; padding-left: 18px; font-size: 14px; color: var(--text-secondary); line-height: 1.7;">
         <li><b>Mobile:</b> wordmark + locale tag on the left, a single "For builders →" text link on the right. No nav.</li>
-        <li><b>Tablet / desktop:</b> wordmark · anchor-link nav (How it works · Projects · Why Premodel · FAQ) · "For builders →" + a pill CTA ("Get your Reveal") in the accent color. Links are 14px / 600, secondary ink, primary on hover. The header scrolls away — the floating CTA persists instead.</li>
+        <li><b>Tablet / desktop:</b> wordmark · anchor-link nav (How it works · Projects · About · FAQ · For builders →) · a pill CTA ("Get your Reveal") in the accent color. Links are 14px / 600, secondary ink, primary on hover; "For builders" sits with the nav items at the same size but in the accent color to set it apart. The header scrolls away — the floating CTA persists instead.</li>
       </ul>
 
       <div class="subgroup-label" style="margin-top: 28px;">Section recomposition</div>
       <table class="rhythm-table">
         <thead><tr><th>Section</th><th>Mobile</th><th>Tablet</th><th>Desktop</th></tr></thead>
         <tbody>
-          <tr><td><b>Hero carousel</b></td><td>Full-width slides, edge to edge</td><td>Centered ~720px card, neighbors peeking</td><td>Centered ~840px card, neighbors peeking</td></tr>
+          <tr><td><b>Hero carousel</b></td><td>Full-width slides, edge to edge</td><td>Centered ~720px card, neighbors peeking</td><td>Centered ~620px card — kept shallow so "Turn a Reveal into a Plan" lands on the first screen</td></tr>
           <tr><td><b>Plan ("Reveal → Plan")</b></td><td>Pinned headline + horizontal tile rail</td><td>Same rail, wider pinned column + bigger tiles</td><td>Centered one-line headline + static 4-up tile grid (no scroll)</td></tr>
           <tr><td><b>How it works</b></td><td>Full-width scroll-scrubbed timeline</td><td colspan="2">Same timeline, centered reading column — the scrub is the identity, keep it at every width</td></tr>
           <tr><td><b>Quote cards</b></td><td>Stacked, overlapping, scroll-spread</td><td colspan="2">Three across, avatar above text, ±1° resting tilt kept</td></tr>
-          <tr><td><b>Project gallery</b></td><td>Full-bleed square slides</td><td>Center-snap carousel, ~480px cards w/ corners + shadow, full bleed</td><td>Same carousel, ~520px cards, inside the content column</td></tr>
-          <tr><td><b>Why (scrolly chart)</b></td><td>Stacked: headline, beats, chart, guides — all pinned</td><td>Same stack, chart capped at 520px, founder cards side by side</td><td>Two-column pin: headline + beats left, chart right, guides + founders across the bottom. Beats left-aligned at H2.</td></tr>
+          <tr><td><b>Project gallery</b></td><td>Full-bleed square slides</td><td colspan="2">Start-aligned full-bleed rail: card 1 at the content's left margin (card 2 peeks), cards clip at the window edge, last card rests at the right margin. ~480px cards tablet / ~520px desktop, corners + shadow.</td></tr>
+          <tr><td><b>Why (scrolly chart)</b></td><td>Stacked: headline, beats, chart, guides — all pinned</td><td colspan="2">Same stack at every width — the beat text only reads when it sits on top of the chart. Narrow beat container (~460–500px, wraps to two lines) overlapping the chart's top; chart capped at 520px tablet / 660px desktop; founder cards side by side. Scroll unlocks the moment the blue line completes — guides/founders may dip below the fold during the pin and slide up immediately after.</td></tr>
           <tr><td><b>Reveal card</b></td><td>Full width</td><td>Centered, 600px max</td><td>Centered, 640px max</td></tr>
           <tr><td><b>Floating CTA</b></td><td>Full-width bottom bar</td><td colspan="2">Bottom-right pill, min 220px</td></tr>
           <tr><td><b>Case-study modal</b></td><td>Full-frame reel + bottom card</td><td colspan="2">Reel + card contained to a centered 760px column over the dark backdrop</td></tr>
@@ -1033,8 +1033,8 @@
       <div class="subgroup-label" style="margin-top: 28px;">Rules of thumb</div>
       <ul style="margin:0; padding-left: 18px; font-size: 14px; color: var(--text-secondary); line-height: 1.7;">
         <li><b>Motion survives translation.</b> Scroll-driven set pieces (step scrub, scrolly chart, card spread) keep their behavior at every width — only the composition around them changes.</li>
-        <li><b>Carousels become "centered card + peek"</b> above mobile, never edge-to-edge. If everything fits without scrolling (plan tiles on desktop), drop the carousel for a grid.</li>
-        <li><b>Pinned compositions must fit the viewport.</b> The why-section sticky stack is budgeted to ≤ ~780px tall on a 800px-tall desktop frame — trim card copy or chart width before letting it clip.</li>
+        <li><b>The hero carousel centers with peek;</b> content rails (project gallery, plan tiles) are start-aligned from the left margin so the next card always peeks. If everything fits without scrolling (plan tiles on desktop), drop the carousel for a grid.</li>
+        <li><b>The pinned "show" must fit the viewport</b> — headline, beats, and chart. The tail of the composition (guides, founder cards) may dip below the fold during the pin, because scroll unlocks the moment the chart completes and reveals it immediately.</li>
         <li><b>Text blocks cap at a reading column</b> (≤ 760px); imagery and cards may use the full content column (≤ 1240px).</li>
         <li><b>Layout B has no tablet/desktop treatment yet</b> — it previews phone-width at every size.</li>
       </ul>

@@ -1048,6 +1048,9 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .header .header-nav .header-nav-link { font-size: 14px; font-weight: 600; color: var(--text-secondary); text-decoration: none; letter-spacing: 0.005em; transition: color 0.15s ease; }
 .header .header-nav .header-nav-link:hover { color: var(--text-primary); }
 .header .header-nav .header-nav-link:focus-visible { outline: 2px solid var(--text-primary); outline-offset: 2px; border-radius: 2px; }
+/* "For builders" lives WITH the nav items (same size), set apart by the accent color. */
+.header .header-nav .header-nav-builders { appearance: none; -webkit-appearance: none; background: transparent; border: 0; padding: 0; font-family: inherit; cursor: pointer; color: var(--accent); }
+.header .header-nav .header-nav-builders:hover { color: var(--accent-hover); }
 .header-cta { display: none; appearance: none; -webkit-appearance: none; background: var(--accent); color: var(--text-on-accent); border: 0; border-radius: 999px; padding: var(--space-2-5) var(--space-4-5); font-family: inherit; font-size: 14px; font-weight: 600; letter-spacing: 0.005em; cursor: pointer; transition: background 0.18s ease; }
 .header-cta:hover { background: var(--accent-hover); }
 .header-cta:focus-visible { outline: 2px solid var(--text-primary); outline-offset: 2px; }
@@ -1069,13 +1072,14 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
     --fs-body: var(--fs-body-t);
   }
 
-  /* Header becomes a real marketing nav: wordmark · anchor links · builders + CTA */
+  /* Header becomes a real marketing nav: wordmark · anchor links (incl. For builders) · CTA.
+     The mobile-only "For builders" text link on the right hides — its nav twin takes over. */
   .phone-frame[data-layout="a"] .header { padding: var(--space-4) var(--space-5); gap: var(--space-4); }
   .phone-frame[data-layout="a"] .header-nav { display: inline-flex; gap: var(--space-4); flex: none; }
   .phone-frame[data-layout="a"] .header-cta { display: inline-flex; }
+  .phone-frame[data-layout="a"] .header-actions .header-link { display: none; }
   .phone-frame[data-layout="a"] .header .logo-mark { height: 26px; }
   .phone-frame[data-layout="a"] .header .header-nav-link,
-  .phone-frame[data-layout="a"] .header .header-link,
   .phone-frame[data-layout="a"] .header-cta { white-space: nowrap; }
   .phone-frame[data-layout="a"] .header-actions { gap: var(--space-4); flex: none; }
 
@@ -1105,14 +1109,18 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
   .phone-frame[data-layout="a"] .quote:nth-child(2) { transform: rotate(0.7deg) translateY(6px); }
   .phone-frame[data-layout="a"] .quote:nth-child(3) { transform: rotate(-0.6deg); }
 
-  /* Project gallery: full-bleed center-snap carousel with peeking neighbors + card corners */
-  .phone-frame[data-layout="a"] .who-section .project-gallery { margin-left: calc(-1 * var(--space-6)); margin-right: calc(-1 * var(--space-6)); }
-  .phone-frame[data-layout="a"] .project-carousel { --pslide-w: min(480px, 58cqw); gap: var(--space-3-5); padding-left: calc((100% - var(--pslide-w)) / 2); padding-right: calc((100% - var(--pslide-w)) / 2); padding-top: var(--space-2); padding-bottom: var(--space-2); }
-  .phone-frame[data-layout="a"] .project-slide { flex: 0 0 var(--pslide-w); border-radius: var(--radius-card); overflow: hidden; box-shadow: var(--shadow-raised); }
+  /* Project gallery: full-bleed start-aligned rail. Card 1 sits at the left margin
+     (more of card 2 peeks by default); scrolled fully right, the last card rests at
+     the right margin. Only the rail itself bleeds — headline + dots stay in column. */
+  .phone-frame[data-layout="a"] .who-section .project-gallery { margin-left: 0; margin-right: 0; }
+  .phone-frame[data-layout="a"] .project-carousel { --gallery-edge: var(--space-6); --pslide-w: min(480px, 58cqw); gap: var(--space-3-5); margin-left: calc(-1 * var(--gallery-edge)); margin-right: calc(-1 * var(--gallery-edge)); padding: var(--space-2) var(--gallery-edge); scroll-padding-left: var(--gallery-edge); }
+  .phone-frame[data-layout="a"] .project-slide { flex: 0 0 var(--pslide-w); scroll-snap-align: start; border-radius: var(--radius-card); overflow: hidden; box-shadow: var(--shadow-raised); }
 
-  /* Why Premodel: chart caps its width; founder cards sit side by side */
+  /* Why Premodel: chart caps its width; founder cards sit side by side.
+     Beat text container stays narrow so the lines wrap to two — reads as a caption,
+     not a paragraph. */
   .phone-frame[data-layout="a"] .cc-sticky .cc-stage { width: 520px; max-width: 100%; margin: 0 auto; }
-  .phone-frame[data-layout="a"] .cc-caption { margin: 0 15%; }
+  .phone-frame[data-layout="a"] .cc-caption { margin: 0 auto; max-width: 460px; min-height: 56px; }
   .phone-frame[data-layout="a"] .cc-sticky .why-founders { flex-direction: row; justify-content: center; align-items: stretch; gap: var(--space-4); }
   .phone-frame[data-layout="a"] .cc-sticky .why-card.founder { width: 320px; max-width: 44%; }
   .phone-frame[data-layout="a"] .cc-sticky .why-card.founder:nth-child(1) { transform: translateX(calc(-6px * var(--spread))) rotate(-1.6deg); }
@@ -1158,12 +1166,14 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
   .phone-frame[data-layout="a"] .header-nav { gap: var(--space-6); }
   .phone-frame[data-layout="a"] .header .logo-mark { height: 28px; }
 
-  /* Hero headline steps up to Display 1; the reveal card grows with it */
-  .phone-frame[data-layout="a"] .reveal-hero .h1-large { font-size: var(--fs-display-1); }
-  .phone-frame[data-layout="a"] .carousel { --slide-w: min(840px, 66cqw); gap: var(--space-5); }
+  /* Hero stays at Display 2 — same rank as the section headlines below it (the Reveal
+     is the opener, the Plan is the work). A shallower carousel + tighter rhythm keep
+     "Turn a Reveal into a Plan" near the first screen. */
+  .phone-frame[data-layout="a"] .reveal-hero { padding-top: var(--space-6); }
+  .phone-frame[data-layout="a"] .carousel { --slide-w: min(620px, 50cqw); gap: var(--space-5); }
 
   /* Plan: the rail becomes a centered headline + one calm row of four tiles */
-  .phone-frame[data-layout="a"] .plan-block { display: block; max-width: 1140px; margin: var(--space-9) auto 0; padding: 0 var(--space-7); }
+  .phone-frame[data-layout="a"] .plan-block { display: block; max-width: 1140px; margin: var(--space-7) auto 0; padding: 0 var(--space-7); }
   /* place-self: start would shrink-wrap these now that the block isn't a grid
      (Chrome applies justify-self to block-level boxes) — reset it. */
   /* font-size on the wrapper so the whitespace between the inline .h spans renders at headline size */
@@ -1177,39 +1187,20 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 
   .phone-frame[data-layout="a"] .who-section { max-width: 1240px; margin-inline: auto; padding: var(--space-9) var(--space-7) 0; }
   .phone-frame[data-layout="a"] .quotes { gap: var(--space-4-5); max-width: 1040px; margin-inline: auto; }
-  /* Gallery sits inside the content column on desktop (no full bleed) */
-  .phone-frame[data-layout="a"] .who-section .project-gallery { margin-left: 0; margin-right: 0; }
-  .phone-frame[data-layout="a"] .project-carousel { --pslide-w: min(520px, 42cqw); }
+  /* Gallery rail bleeds to the window edges: card 1 aligns with the content column's
+     left margin, the scrollable area is the full window, and cards clip at the real
+     window edge (no invisible inner margin). Last card rests at the right margin. */
+  .phone-frame[data-layout="a"] .project-carousel { --gallery-edge: calc((100cqw - min(1240px, 100cqw)) / 2 + var(--space-7)); --pslide-w: min(520px, 42cqw); }
 
-  /* Why Premodel: the pinned composition becomes editorial two-column —
-     headline + rotating beats on the left, the sketch chart on the right,
-     guides + founder cards across the bottom. Everything still pins and
-     scrubs exactly as on mobile. */
-  .phone-frame[data-layout="a"] .cc-sticky {
-    display: grid;
-    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
-    grid-template-rows: auto 1fr auto auto auto;
-    grid-template-areas:
-      "ccheader chart"
-      "cccaption chart"
-      "ccguides ccguides"
-      "ccnote ccnote"
-      "ccfounders ccfounders";
-    column-gap: var(--space-7);
-    max-width: 1180px;
-    margin-inline: auto;
-    padding: var(--space-2) var(--space-7) var(--space-4);
-  }
-  .phone-frame[data-layout="a"] .cc-sticky .why-header { grid-area: ccheader; text-align: left; align-self: end; margin: 0 0 var(--space-3); }
-  .phone-frame[data-layout="a"] .cc-sticky .why-header .section-headline { margin-bottom: 0; }
-  .phone-frame[data-layout="a"] .cc-caption { grid-area: cccaption; margin: 0; transform: none; align-self: start; min-height: 130px; }
-  .phone-frame[data-layout="a"] .cc-beat { text-align: left; font-size: var(--fs-h2); line-height: 1.4; }
-  .phone-frame[data-layout="a"] .cc-sticky .cc-stage { grid-area: chart; width: 100%; max-width: 540px; margin: 0 auto; align-self: center; }
-  .phone-frame[data-layout="a"] .cc-sticky .why-guides-subhead { grid-area: ccguides; margin: var(--space-5) 0 var(--space-1); }
-  .phone-frame[data-layout="a"] .cc-sticky .why-founders-note { grid-area: ccnote; margin: 0 0 var(--space-4); }
-  .phone-frame[data-layout="a"] .cc-sticky .why-founders { grid-area: ccfounders; padding: 0; }
-  /* Wider cards → the long quote wraps fewer lines, keeping the pinned stack inside the frame */
-  .phone-frame[data-layout="a"] .cc-sticky .why-card.founder { width: 390px; max-width: 46%; }
+  /* Why Premodel: same stacked composition as mobile/tablet — the beat text reads
+     best sitting right on top of the chart, where the eye already is. The chart goes
+     wider; guides + founder cards may dip below the fold during the pin and slide up
+     the moment the blue line completes (scroll unlocks at completion). */
+  .phone-frame[data-layout="a"] .cc-sticky .cc-stage { width: 660px; }
+  .phone-frame[data-layout="a"] .cc-caption { max-width: 500px; }
+  .phone-frame[data-layout="a"] .cc-sticky .why-guides-subhead { margin-top: var(--space-6); }
+  /* Wider cards → the long quote wraps fewer lines, so less of the pair hides below the fold */
+  .phone-frame[data-layout="a"] .cc-sticky .why-card.founder { width: 410px; max-width: 46%; }
 
   .phone-frame[data-layout="a"] .faq-section { max-width: 760px; padding-top: var(--space-9); }
   .phone-frame[data-layout="a"] .rf-card-intro { padding-top: var(--space-9); }
@@ -1543,7 +1534,7 @@ body[data-palette="saffron"] .toggle-btn {
       </div>
     </div>
     <div class="version-pill">
-      v12.0
+      v12.1
       <button type="button" class="refresh-btn" onclick="location.reload()" aria-label="Refresh prototype">
         <i data-lucide="refresh-cw"></i>
       </button>
@@ -1560,8 +1551,9 @@ body[data-palette="saffron"] .toggle-btn {
       <nav class="header-nav" aria-label="Primary">
         <a class="header-nav-link" href="#howto" data-nav-target="howto">How it works</a>
         <a class="header-nav-link" href="#projects" data-nav-target="projects">Projects</a>
-        <a class="header-nav-link" href="#why" data-nav-target="why">Why Premodel</a>
+        <a class="header-nav-link" href="#why" data-nav-target="why">About</a>
         <a class="header-nav-link" href="#faq" data-nav-target="faq">FAQ</a>
+        <button type="button" class="header-nav-link header-nav-builders" data-modal-open="builders">For builders →</button>
       </nav>
       <div class="header-actions">
         <button type="button" class="header-link" data-modal-open="builders">For builders →</button>
@@ -3206,7 +3198,12 @@ body[data-palette="saffron"] .toggle-btn {
   if (igCarousel) {
     var igDots = document.querySelectorAll('#project-dots .project-dot');
     function updateIgDots() {
-      var i = Math.round(igCarousel.scrollLeft / slideStride(igCarousel));
+      // Start-aligned rail: the last slides can't reach scrollLeft = i * stride, so
+      // treat the end of the scroll range as the last dot.
+      var maxScroll = igCarousel.scrollWidth - igCarousel.clientWidth;
+      var i = (maxScroll - igCarousel.scrollLeft < 2)
+        ? igDots.length - 1
+        : Math.min(Math.round(igCarousel.scrollLeft / slideStride(igCarousel)), igDots.length - 1);
       igDots.forEach(function(d, j) { d.classList.toggle('active', j === i); });
     }
     igCarousel.addEventListener('scroll', updateIgDots, { passive: true });
@@ -3854,11 +3851,12 @@ body[data-palette="saffron"] .toggle-btn {
       return (host.top - box.top) / runway;
     }
     var ticking = false;
-    // Finish the 7 frames by 88% of the runway, then HOLD the completed chart for the last 12% so the
-    // Premodel line reaches point 7 well before the sticky section unlocks.
+    // The 7 frames span the FULL runway: the blue Premodel line reaches point 7 exactly
+    // as the sticky unlocks, so the page starts moving the moment the chart completes
+    // (no dead scroll at the end).
     function update() {
       var p = progress();
-      render(clamp(p / 0.88 * 7, 0, 7));
+      render(clamp(p * 7, 0, 7));
       // Founder cards drift vertically apart only AFTER the sticky unlocks (p > 1 = freeze ends),
       // eased out (quart) over the next stretch of scroll so the finish is barely perceptible.
       if (founders) {
