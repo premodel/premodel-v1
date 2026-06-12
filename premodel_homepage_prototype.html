@@ -1120,7 +1120,10 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
      Beat text container stays narrow so the lines wrap to two — reads as a caption,
      not a paragraph. */
   .phone-frame[data-layout="a"] .cc-sticky .cc-stage { width: 520px; max-width: 100%; margin: 0 auto; }
-  .phone-frame[data-layout="a"] .cc-caption { margin: 0 auto; max-width: 460px; min-height: 56px; }
+  /* Beats sit low, hugging the chart's empty top band. The 36px drop + 400px cap are
+     collision-budgeted: the gray line / end pin / "typical remodel" callout never rise
+     into the text's box at any beat (line is ≥69px down at the text's right edge). */
+  .phone-frame[data-layout="a"] .cc-caption { margin: 0 auto; max-width: 400px; min-height: 52px; transform: translateY(36px); }
   .phone-frame[data-layout="a"] .cc-sticky .why-founders { flex-direction: row; justify-content: center; align-items: stretch; gap: var(--space-4); }
   .phone-frame[data-layout="a"] .cc-sticky .why-card.founder { width: 320px; max-width: 44%; }
   .phone-frame[data-layout="a"] .cc-sticky .why-card.founder:nth-child(1) { transform: translateX(calc(-6px * var(--spread))) rotate(-1.6deg); }
@@ -1141,9 +1144,16 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
   .phone-frame[data-layout="a"] .footer-legal { max-width: 880px; margin-inline: auto; }
   .phone-frame[data-layout="a"] .footer-divider { max-width: 880px; margin-left: auto; margin-right: auto; }
 
-  /* Case-study modal: contained reel + card column over the dark backdrop */
-  .phone-frame[data-layout="a"] .case-modal-image-reel { width: min(760px, 92%); margin: 0 auto; }
-  .phone-frame[data-layout="a"] .case-modal-card { left: 50%; transform: translateX(-50%); width: min(760px, 92%); border-radius: 20px 20px 0 0; }
+  /* Case-study modal: a centered two-column dialog over a dim (not black) backdrop —
+     pictures scroll on the left, the case study reads/scrolls on the right. No
+     tap-to-expand: both columns are plainly scrollable, which is desktop behavior.
+     (The expand/sheet JS detects this layout via display:grid and stands down.) */
+  .phone-frame[data-layout="a"] .case-modal { background: rgba(26, 24, 22, 0.62); grid-template-columns: minmax(0, calc(min(1040px, 100%) * 0.58)) minmax(0, calc(min(1040px, 100%) * 0.42)); grid-template-rows: min(720px, 86%); place-content: center; padding: var(--space-6); }
+  .phone-frame[data-layout="a"] .case-modal.open { display: grid; }
+  .phone-frame[data-layout="a"] .case-modal-image-reel { flex: none; border-radius: var(--radius-tile) 0 0 var(--radius-tile); background: var(--bg-dark); box-shadow: var(--shadow-raised); }
+  .phone-frame[data-layout="a"] .case-modal-card { position: static; height: 100%; max-height: none; transform: none; border-radius: 0 var(--radius-tile) var(--radius-tile) 0; overflow-y: auto; cursor: default; transition: none; box-shadow: var(--shadow-raised); padding: var(--space-5) var(--space-5-5) var(--space-6); }
+  .phone-frame[data-layout="a"] .case-modal-card.expanded { height: 100%; }
+  .phone-frame[data-layout="a"] .case-modal-drag-handle { display: none; }
 
   /* Info modals: centered dialog instead of a bottom sheet */
   .phone-frame[data-layout="a"] .info-modal { align-items: center; padding: var(--space-6); }
@@ -1170,7 +1180,10 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
      is the opener, the Plan is the work). A shallower carousel + tighter rhythm keep
      "Turn a Reveal into a Plan" near the first screen. */
   .phone-frame[data-layout="a"] .reveal-hero { padding-top: var(--space-6); }
-  .phone-frame[data-layout="a"] .carousel { --slide-w: min(620px, 50cqw); gap: var(--space-5); }
+  /* 16:9 hero cards on desktop: wider presence without the height cost — screen depth
+     varies more than width, and the shallow ratio keeps the Plan headline on screen 1. */
+  .phone-frame[data-layout="a"] .carousel { --slide-w: min(760px, 60cqw); gap: var(--space-5); }
+  .phone-frame[data-layout="a"] .carousel .slide .img { aspect-ratio: 16/9; }
 
   /* Plan: the rail becomes a centered headline + one calm row of four tiles */
   .phone-frame[data-layout="a"] .plan-block { display: block; max-width: 1140px; margin: var(--space-7) auto 0; padding: 0 var(--space-7); }
@@ -1197,7 +1210,10 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
      wider; guides + founder cards may dip below the fold during the pin and slide up
      the moment the blue line completes (scroll unlocks at completion). */
   .phone-frame[data-layout="a"] .cc-sticky .cc-stage { width: 660px; }
-  .phone-frame[data-layout="a"] .cc-caption { max-width: 500px; }
+  /* Larger beats (H2), always two lines, dropped 48px into the chart's empty top band —
+     still clear of the line (≥90px down at the text's right edge), callout, and pins. */
+  .phone-frame[data-layout="a"] .cc-caption { max-width: 460px; min-height: 68px; transform: translateY(48px); }
+  .phone-frame[data-layout="a"] .cc-beat { font-size: var(--fs-h2); }
   .phone-frame[data-layout="a"] .cc-sticky .why-guides-subhead { margin-top: var(--space-6); }
   /* Wider cards → the long quote wraps fewer lines, so less of the pair hides below the fold */
   .phone-frame[data-layout="a"] .cc-sticky .why-card.founder { width: 410px; max-width: 46%; }
@@ -1534,7 +1550,7 @@ body[data-palette="saffron"] .toggle-btn {
       </div>
     </div>
     <div class="version-pill">
-      v12.1
+      v12.2
       <button type="button" class="refresh-btn" onclick="location.reload()" aria-label="Refresh prototype">
         <i data-lucide="refresh-cw"></i>
       </button>
@@ -1553,7 +1569,7 @@ body[data-palette="saffron"] .toggle-btn {
         <a class="header-nav-link" href="#projects" data-nav-target="projects">Projects</a>
         <a class="header-nav-link" href="#why" data-nav-target="why">About</a>
         <a class="header-nav-link" href="#faq" data-nav-target="faq">FAQ</a>
-        <button type="button" class="header-nav-link header-nav-builders" data-modal-open="builders">For builders →</button>
+        <button type="button" class="header-nav-link header-nav-builders" data-modal-open="builders">For builders</button>
       </nav>
       <div class="header-actions">
         <button type="button" class="header-link" data-modal-open="builders">For builders →</button>
@@ -1844,14 +1860,15 @@ body[data-palette="saffron"] .toggle-btn {
 
           <!-- Flip text: centered lines that overlap the top of the chart. The first five frames lead
                with a bold "Old way:" label; the last two with a blue-highlighted "Premodel:" label. -->
+          <!-- Explicit <br> break points keep every beat exactly two balanced lines at every breakpoint. -->
           <div class="cc-caption">
-            <p class="cc-beat" data-beat="1"><strong class="cc-emotion">Old way:</strong> You hire before you know what you’ll get.</p>
-            <p class="cc-beat" data-beat="2"><strong class="cc-emotion">Old way:</strong> Exploring your ideas gets expensive fast.</p>
-            <p class="cc-beat" data-beat="3"><strong class="cc-emotion">Old way:</strong> Plans and samples leave a lot to your imagination.</p>
-            <p class="cc-beat" data-beat="4"><strong class="cc-emotion">Old way:</strong> Mid-build fixes can eat <mark class="cc-hl">10–15%</mark> of your budget.</p>
-            <p class="cc-beat" data-beat="5"><strong class="cc-emotion">Old way:</strong> No wonder <mark class="cc-hl">74%</mark> reported regrets in 2024.</p>
-            <p class="cc-beat" data-beat="6"><strong class="cc-emotion cc-emotion--pm">Premodel:</strong> Pictures first, <mark class="cc-hl">1,200+</mark> and counting.</p>
-            <p class="cc-beat" data-beat="7"><strong class="cc-emotion cc-emotion--pm">Premodel:</strong> Everyone sees it the same way before building.</p>
+            <p class="cc-beat" data-beat="1"><strong class="cc-emotion">Old way:</strong> You hire before<br>you know what you’ll get.</p>
+            <p class="cc-beat" data-beat="2"><strong class="cc-emotion">Old way:</strong> Exploring your ideas<br>gets expensive fast.</p>
+            <p class="cc-beat" data-beat="3"><strong class="cc-emotion">Old way:</strong> Plans and samples<br>leave a lot to your imagination.</p>
+            <p class="cc-beat" data-beat="4"><strong class="cc-emotion">Old way:</strong> Mid-build fixes can eat<br><mark class="cc-hl">10–15%</mark> of your budget.</p>
+            <p class="cc-beat" data-beat="5"><strong class="cc-emotion">Old way:</strong> No wonder <mark class="cc-hl">74%</mark><br>reported regrets in 2024.</p>
+            <p class="cc-beat" data-beat="6"><strong class="cc-emotion cc-emotion--pm">Premodel:</strong> Pictures first,<br><mark class="cc-hl">1,200+</mark> and counting.</p>
+            <p class="cc-beat" data-beat="7"><strong class="cc-emotion cc-emotion--pm">Premodel:</strong> Everyone sees it<br>the same way before building.</p>
           </div>
 
           <div class="cc-stage">
@@ -3248,6 +3265,11 @@ body[data-palette="saffron"] .toggle-btn {
   var caseModalDelivered = document.getElementById('case-modal-delivered');
   var caseModalDeliveredList = document.getElementById('case-modal-delivered-list');
   var caseModalClose = document.getElementById('case-modal-close');
+  // Tablet/desktop render the modal as a two-column dialog (display:grid) — the
+  // bottom-sheet behaviors (reel padding, tap/swipe expand) only apply when stacked.
+  function caseModalColumns() {
+    return caseModal && getComputedStyle(caseModal).display === 'grid';
+  }
   function buildCaseModalReel(slide, reel) {
     if (!reel) return;
     reel.innerHTML = '';
@@ -3325,7 +3347,7 @@ body[data-palette="saffron"] .toggle-btn {
       var card = document.getElementById('case-modal-card');
       if (reel) reel.scrollTop = 0;
       if (card) card.scrollTop = 0;
-      if (reel && card) reel.style.paddingBottom = card.offsetHeight + 'px';
+      if (reel && card) reel.style.paddingBottom = caseModalColumns() ? '' : card.offsetHeight + 'px';
     });
   }
   function closeCaseModal() {
@@ -3353,7 +3375,7 @@ body[data-palette="saffron"] .toggle-btn {
     var caseModalImageReel = document.getElementById('case-modal-images');
 
     function syncReelPadding() {
-      if (caseModalImageReel) caseModalImageReel.style.paddingBottom = caseModalCard.offsetHeight + 'px';
+      if (caseModalImageReel) caseModalImageReel.style.paddingBottom = caseModalColumns() ? '' : caseModalCard.offsetHeight + 'px';
     }
     caseModalCard.addEventListener('transitionend', function(e) {
       if (e.propertyName === 'height') syncReelPadding();
@@ -3364,15 +3386,18 @@ body[data-palette="saffron"] .toggle-btn {
       touchStartY = e.touches[0].clientY;
     }, { passive: true });
     caseModalCard.addEventListener('touchend', function(e) {
+      if (caseModalColumns()) return;
       var delta = touchStartY - e.changedTouches[0].clientY;
       if (delta > 20) caseModalCard.classList.add('expanded');
       else if (delta < -20) caseModalCard.classList.remove('expanded');
     }, { passive: true });
     caseModalCard.addEventListener('click', function() {
+      if (caseModalColumns()) return;
       if (!caseModalCard.classList.contains('expanded')) caseModalCard.classList.add('expanded');
     });
     if (caseModalImageReel) {
       caseModalImageReel.addEventListener('click', function() {
+        if (caseModalColumns()) return;
         caseModalCard.classList.remove('expanded');
       });
     }
