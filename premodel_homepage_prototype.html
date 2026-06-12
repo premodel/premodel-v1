@@ -2,15 +2,105 @@
 <html lang="en" data-theme="light">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-<title>Premodel — homepage prototype</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Premodel — See Your Remodel Before You Commit | Seattle</title>
+<meta name="description" content="Premodel turns your remodel ideas into photorealistic Reveals of your actual home — three design directions, an optional VR walkthrough, and a plan you can take to any builder. Serving the greater Seattle area." />
+<link rel="canonical" href="https://premodel.design/" />
+
+<!-- Social cards. og:image is a stable hero render — swap freely as content evolves
+     (1200×630 crop recommended once a dedicated share image exists). -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Premodel" />
+<meta property="og:title" content="Premodel — See your remodel before you commit" />
+<meta property="og:description" content="Photorealistic Reveals of your actual home: three design directions, an optional VR walkthrough, and a plan you can take to any builder. Greater Seattle." />
+<meta property="og:url" content="https://premodel.design/" />
+<meta property="og:image" content="https://premodel.design/images/pf-bath-reveal-A1.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Premodel — See your remodel before you commit" />
+<meta name="twitter:description" content="Photorealistic Reveals of your actual home, before you hire anyone. Greater Seattle." />
+<meta name="twitter:image" content="https://premodel.design/images/pf-bath-reveal-A1.png" />
+
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+<link rel="icon" type="image/png" sizes="512x512" href="assets/icon-512.png" />
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
+
+<!-- LCP candidates: the hero card paints its Before image first, then flips to the video poster. -->
+<link rel="preload" as="image" href="images/pf-bath-before-1.png" />
+<link rel="preload" as="image" href="images/pf-bath-reveal-A1.png" />
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Inter:wght@400;500;600;700&family=Roboto:wght@300;400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&family=Fraunces:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Cormorant+Garamond:wght@500;600;700&family=Lora:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- Shipping font set only: Fraunces (display), Manrope (body), Caveat (chart),
+     Roboto + Source Serif 4 (saffron palette variant). The style guide's alternate
+     type stacks (Newsreader / Cormorant Garamond / Lora) are loaded on demand by the
+     bootstrap below ONLY when a persisted token actually references them. -->
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Roboto:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&family=Fraunces:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
 <!-- premodel-tokens: pre-paint bootstrap. Applies persisted token overrides before
      first paint so there's no flash. Full engine (premodel-tokens.js) loads at body end. -->
 <script>
 (function(){try{var r=localStorage.getItem('premodel-tokens');if(!r)return;var p=JSON.parse(r);var t=p&&p.tokens;if(!t)return;var s=document.documentElement.style;for(var k in t){if(Object.prototype.hasOwnProperty.call(t,k))s.setProperty(k,t[k]);}}catch(e){}})();
+// Alternate-stack fonts (style-guide type switcher) load on demand only. The static
+// link above carries just the shipping set; if a persisted/broadcast token points
+// --font-display/--font-body at one of these families, fetch it then.
+window.__pmEnsureFonts = function(){try{
+  var ALT = {
+    'Newsreader': 'family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600',
+    'Cormorant Garamond': 'family=Cormorant+Garamond:wght@500;600;700',
+    'Lora': 'family=Lora:wght@400;500;600;700'
+  };
+  var cs = getComputedStyle(document.documentElement);
+  var inUse = (cs.getPropertyValue('--font-display') + ' ' + cs.getPropertyValue('--font-body'));
+  var need = Object.keys(ALT).filter(function(f){
+    return inUse.indexOf(f) > -1 && !document.getElementById('pm-altfont-' + f.replace(/ /g,'-'));
+  });
+  need.forEach(function(f){
+    var l = document.createElement('link');
+    l.rel = 'stylesheet'; l.id = 'pm-altfont-' + f.replace(/ /g,'-');
+    l.href = 'https://fonts.googleapis.com/css2?' + ALT[f] + '&display=swap';
+    document.head.appendChild(l);
+  });
+}catch(e){}};
+document.addEventListener('DOMContentLoaded', window.__pmEnsureFonts);
+window.addEventListener('storage', function(e){ if (e.key === 'premodel-tokens') window.__pmEnsureFonts(); });
+</script>
+
+<!-- Structured data: local service business + the FAQ section. Keep the FAQ JSON in
+     sync with the visible FAQ copy when it changes. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "Premodel",
+  "legalName": "West & Wells LLC",
+  "slogan": "Before You Remodel",
+  "description": "Premodel turns your remodel ideas into photorealistic Reveals of your actual home — three design directions, an optional VR walkthrough, and a plan you can take to any builder.",
+  "url": "https://premodel.design/",
+  "logo": "https://premodel.design/premodel-logo-full.png",
+  "image": "https://premodel.design/images/pf-bath-reveal-A1.png",
+  "telephone": "+1-206-203-4009",
+  "email": "hello@premodel.design",
+  "priceRange": "$$",
+  "address": { "@type": "PostalAddress", "addressLocality": "Seattle", "addressRegion": "WA", "addressCountry": "US" },
+  "areaServed": [
+    { "@type": "AdministrativeArea", "name": "King County, WA" },
+    { "@type": "AdministrativeArea", "name": "Snohomish County, WA" }
+  ],
+  "sameAs": ["https://instagram.com/premodel"]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    { "@type": "Question", "name": "What should I expect from a Reveal?", "acceptedAnswer": { "@type": "Answer", "text": "Three photorealistic images of your room reimagined three different ways, based on what we hear from you at your home visit. They're a starting point: enough to know which direction excites you. A Plan is where we refine the details into a finished design." } },
+    { "@type": "Question", "name": "Can I see more Reveal directions?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Beyond your three, we can create additional Reveals for a modest fee." } },
+    { "@type": "Question", "name": "Where do you work?", "acceptedAnswer": { "@type": "Answer", "text": "We serve homeowners in the greater Seattle area today (King and Snohomish counties), and we're expanding region by region. Worth asking even if you're just outside." } },
+    { "@type": "Question", "name": "How long does this take?", "acceptedAnswer": { "@type": "Answer", "text": "You get your Reveals in as little as 2 days after your home visit. New deliverables follow within 2 to 4 days of your feedback, so you lead the pace. We'll propose a full timeline alongside your Reveal, so you know what to expect before deciding whether to keep going." } },
+    { "@type": "Question", "name": "How is Premodel different from a designer, architect, or design-build firm?", "acceptedAnswer": { "@type": "Answer", "text": "We're your first hire, and a lower-cost, lower-effort way to figure out what you want before you commit to anyone else. We help you determine what your project actually needs, then assemble the team (designer, architect, contractor) as part of your Plan." } },
+    { "@type": "Question", "name": "Do I have to use your contractors?", "acceptedAnswer": { "@type": "Answer", "text": "No. Your Reveal and your Plan are yours to keep, and to take to whichever builder you choose. The three-bid intro is the optional last step of a Plan, never a requirement." } }
+  ]
+}
 </script>
 <style>
 /* ── ROOT TOKENS — unified with the style guide (premodel_palette_v2.html).
@@ -294,9 +384,11 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .tile { flex: 0 0 180px; scroll-snap-align: start; background: var(--bg-surface); border-radius: var(--radius-card); overflow: hidden; display: flex; flex-direction: column; box-shadow: var(--shadow-raised); }
 .tile-image { width: 100%; aspect-ratio: 4/3; background: var(--media-placeholder); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--space-1-5); color: rgba(255,255,255,0.40); font-size: var(--fs-caption); letter-spacing: 0.05em; text-transform: uppercase; position: relative; }
 .tile-image::before { content: ''; width: 26px; height: 26px; background-color: rgba(255,255,255,0.36); -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'/%3E%3Ccircle cx='9' cy='9' r='2'/%3E%3Cpath d='m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21'/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'/%3E%3Ccircle cx='9' cy='9' r='2'/%3E%3Cpath d='m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21'/%3E%3C/svg%3E") center / contain no-repeat; }
-/* Tiles that carry a real photo: cover the placeholder, drop the camera glyph + caption text. */
-.tile-image.has-photo { background-color: transparent; background-size: cover; background-position: center; background-repeat: no-repeat; color: transparent; }
+/* Tiles that carry a real photo: cover the placeholder, drop the camera glyph + caption text.
+   Photos are <img> children (lazy-loadable) rather than background-images. */
+.tile-image.has-photo { background-color: transparent; color: transparent; }
 .tile-image.has-photo::before { display: none; }
+.tile-image img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .tile-body { padding: var(--space-2-5) var(--space-3) var(--space-3); }
 .tile-title { font-size: var(--fs-body); font-weight: 600; margin: 0 0 var(--space-1); }
 .tile-tagline { font-size: var(--fs-small); color: var(--text-secondary); margin: 0 0 var(--space-1-5); font-weight: 500; }
@@ -654,7 +746,9 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 
 /* Section 4 (Layout A): full-width subheader, unboxed chart, side-by-side tilted founders, stacked static stats */
 .phone-frame[data-layout="a"] .why-chart { width: 100%; padding: 0; margin: 0; box-sizing: border-box; }
-.phone-frame[data-layout="a"] .why-chart svg { width: 100%; height: auto; display: block; }
+/* Scoped to .cc-svg: a bare `svg` here would also catch inline icons inside the
+   pinned composition (e.g. the founder cards' LinkedIn glyph). */
+.phone-frame[data-layout="a"] .why-chart .cc-svg { width: 100%; height: auto; display: block; }
 /* Subhead — same scale as "Confidence, pictured" (.project-gallery-headline) for consistency */
 .phone-frame[data-layout="a"] .why-guides-subhead { font-family: var(--font-display); font-size: 21px; font-weight: 500; letter-spacing: -0.015em; line-height: 1.2; color: var(--text-primary); text-align: center; text-wrap: balance; margin: 0 var(--space-4-5) var(--space-5); }
 
@@ -1416,7 +1510,7 @@ body[data-palette="saffron"] .toggle-btn {
 </head>
 <body class="palette-active" data-palette="oxblood">
 
-<h2 class="sr-only">Premodel homepage mobile prototype with hero, How to Premodel, and editorial pricing section.</h2>
+<p class="sr-only">Premodel homepage with hero, How to Premodel, project gallery, and pricing sections.</p>
 
 <div class="prototype-wrapper">
 
@@ -1477,7 +1571,7 @@ body[data-palette="saffron"] .toggle-btn {
 
     <div class="reveal-hero">
       <p class="h1-small">Before you <span class="hero-rotator" id="hero-rotator"><span class="hero-rotator-sizer" aria-hidden="true">remodel</span><span class="hero-rotator-word" aria-live="polite">guess</span></span></p>
-      <p class="h1-large">Start with a Reveal</p>
+      <h1 class="h1-large">Start with a Reveal</h1>
     </div>
 
     <div class="carousel" id="carousel">
@@ -1485,7 +1579,7 @@ body[data-palette="saffron"] .toggle-btn {
         <div class="flip-card flipped">
           <div class="flip-card-inner">
             <div class="flip-card-front flip-face">
-              <div class="img hero-static"><video class="hero-frame active hero-frame--video" data-state="0" muted loop playsinline preload="auto" poster="images/pf-bath-reveal-A1.png"><source src="images/pf-bath-reveal.mp4" type="video/mp4"></video><span class="hero-tag">Shoreline</span><button type="button" class="hero-before-btn" aria-label="Show before" aria-pressed="true"><span class="hero-before-label">Before</span></button></div>
+              <div class="img hero-static"><video class="hero-frame active hero-frame--video" data-state="0" muted loop playsinline preload="metadata" poster="images/pf-bath-reveal-A1.png"><source src="images/pf-bath-reveal.mp4" type="video/mp4"></video><span class="hero-tag">Shoreline</span><button type="button" class="hero-before-btn" aria-label="Show before" aria-pressed="true"><span class="hero-before-label">Before</span></button></div>
             </div>
             <div class="flip-card-back flip-face">
               <div class="img hero-static"><div class="hero-frame active hero-frame--img" data-state="3" style="background-image:url('images/pf-bath-before-1.png')"></div><span class="hero-tag">Shoreline</span><button type="button" class="hero-before-btn" aria-label="Show reveal" aria-pressed="true"><span class="hero-before-label">Reveal</span></button></div>
@@ -1540,28 +1634,28 @@ body[data-palette="saffron"] .toggle-btn {
       </div>
       <div class="plan-gallery">
         <div class="tile">
-          <div class="tile-image has-photo" style="background-image:url('images/hero-card1.png')"></div>
+          <div class="tile-image has-photo"><img src="images/hero-card1.png" alt="Reveal renders pinned like photos, one marked with a heart" loading="lazy" decoding="async"></div>
           <div class="tile-body">
             <p class="tile-title">Unmistakably yours</p>
             <p class="tile-copy">Refine one Reveal, or pull the best from all three, until it's exactly right.</p>
           </div>
         </div>
         <div class="tile">
-          <div class="tile-image has-photo" style="background-image:url('images/hero-card2.jpg')"></div>
+          <div class="tile-image has-photo"><img src="images/hero-card2.jpg" alt="Standing in a virtual room wearing a VR headset" loading="lazy" decoding="async"></div>
           <div class="tile-body">
             <p class="tile-title">Truly certain</p>
             <p class="tile-copy">For big changes, stand inside the space virtually and catch the costly surprises.</p>
           </div>
         </div>
         <div class="tile">
-          <div class="tile-image has-photo" style="background-image:url('images/hero-card3.png')"></div>
+          <div class="tile-image has-photo"><img src="images/hero-card3.png" alt="Tile and material samples laid out on a desk" loading="lazy" decoding="async"></div>
           <div class="tile-body">
             <p class="tile-title">Within reach</p>
             <p class="tile-copy">Purchase everything in the pictures, at the prices pros pay.</p>
           </div>
         </div>
         <div class="tile">
-          <div class="tile-image has-photo" style="background-image:url('images/hero-card4.png')"></div>
+          <div class="tile-image has-photo"><img src="images/hero-card4.png" alt="Builder business cards fanned out on a wood table" loading="lazy" decoding="async"></div>
           <div class="tile-body">
             <p class="tile-title">Full control</p>
             <p class="tile-copy">We bring vetted builders to you. They compete for the job. Your project gets moving.</p>
@@ -1699,7 +1793,7 @@ body[data-palette="saffron"] .toggle-btn {
         <h3 class="project-gallery-headline">What Confidence Looks Like.</h3>
         <div class="project-carousel" id="project-carousel">
           <div class="project-slide" data-name="Anna G." data-meta="Master bath · Edmonds" data-images='[{"src": "images/ag-before.jpeg", "alt": "Before"}, {"src": "images/ag-layout-all.mp4", "alt": "Floor plan options", "type": "video"}, {"src": "https://www.premodel.design/hero-video.mp4", "alt": "VR Walkthrough", "type": "video"}, {"src": "images/ag-s1l1.png", "alt": "Style Option 1"}, {"src": "images/ag-s1l2.png", "alt": "Style Option 2"}, {"src": "images/ag-s1l3.png", "alt": "Style Option 3"}, {"src": "images/ag-master-bathWest-render.png", "alt": "Final 1"}, {"src": "images/ag-master-bathSouth-render.png", "alt": "Final 2"}, {"src": "images/ag-master-bathNorth-render.png", "alt": "Final 3"}]' data-image-labels="Before · Floor plan options · VR Walkthrough · Style Option 1 · Style Option 2 · Style Option 3 · Final 1 · Final 2 · Final 3" data-quote="Every idea I had sounded right on its own. It wasn't until I could walk through the space that I understood how each decision affected everything around it." data-body="&lt;p&gt;Anna's master bath remodel started with fragments, not a plan. Shower by the picture window? Or maybe under the skylight, with the tub tucked behind it? She also knew she wanted more storage, a door on the water closet, and to get rid of the glass block wall that had been bothering her since she moved in. Each idea lived on its own, disconnected from what it would mean for everything else.&lt;/p&gt;&lt;p&gt;Three layout options gave her real choices to react to rather than a blank page. What looked workable in the floor plans felt different at real scale — walking through the space in VR, she found that the configuration she'd been drawn to felt more confining than the 2D image suggested. The layout she landed on resolved everything: storage, privacy, flow. She never looked back.&lt;/p&gt;&lt;p&gt;From there, seeing three distinctly different style directions in her actual space — the flooring, the tile, the cabinets and countertops — made the decision feel intuitive rather than overwhelming. The final design started as one of those options and became something more personal over time. She got exactly the bathroom she'd seen in the renders. For most remodels, that's a dream. For Anna, it was The Plan.&lt;/p&gt;" data-delivered="Layout options · VR walkthrough · Style options · Styled renders · Material schedule" data-ig="https://instagram.com/premodel">
-            <div class="project-slide-img"><img src="images/ag-carousel.png" alt="Anna G. — Master bath, Edmonds" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+            <div class="project-slide-img"><img loading="lazy" decoding="async" src="images/ag-carousel.png" alt="Anna G. — Master bath, Edmonds" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
             <div class="project-overlay">
               <p class="project-name">Master bath</p>
               <p class="project-meta">Edmonds</p>
@@ -1708,7 +1802,7 @@ body[data-palette="saffron"] .toggle-btn {
             <div class="project-cta">See the project <i data-lucide="arrow-right"></i></div>
           </div>
           <div class="project-slide" data-name="Sasha A." data-meta="Full home renovation · Edmonds" data-quote="We finally stopped debating and started deciding. Our contractor finished on time, on budget, with no surprises — because there was nothing left to figure out." data-body="A full-home renovation with a fixed budget, a hard move-in deadline, and strong opinions that didn't always point the same way. VR gave everyone the same reference point — the tradeoffs that had been abstract became visible, and the decisions that had felt contentious became easy. The contractor finished on time and on budget. That's what happens when everyone goes into construction looking at the same thing." data-delivered="Whole-home spatial model · VR walkthrough · style options · styled renders" data-images='[{"src": "images/af-layout-all.mp4", "alt": "Floor Plan Options", "type": "video"}, {"src": "", "alt": "VR Walkthrough"}, {"src": "images/af-before-foyer.jpg", "alt": "Entry — Before"}, {"src": "images/af-opt1-entry.png", "alt": "Option 1 — Entry"}, {"src": "images/af-opt2-entry.png", "alt": "Option 2 — Entry"}, {"src": "images/af-opt3-entry.png", "alt": "Option 3 — Entry"}, {"src": "images/af-final-entry-e.png", "alt": "Final — Entry"}, {"src": "images/af-before-bath.jpg", "alt": "Bath — Before"}, {"src": "images/af-opt1-bath.png", "alt": "Option 1 — Bath"}, {"src": "images/af-opt2-bath.png", "alt": "Option 2 — Bath"}, {"src": "images/af-opt3-bath.png", "alt": "Option 3 — Bath"}, {"src": "images/af-final-bath.png", "alt": "Final — Bath"}, {"src": "images/af-before-liv.jpg", "alt": "Living — Before"}, {"src": "images/af-opt1-liv.png", "alt": "Option 1 — Living Room"}, {"src": "images/af-opt2-liv.png", "alt": "Option 2 — Living Room"}, {"src": "images/af-opt3-liv.png", "alt": "Option 3 — Living Room"}, {"src": "images/af-final-liv.png", "alt": "Final — Living Room"}, {"src": "images/af-before-kit.jpg", "alt": "Kitchen — Before"}, {"src": "images/af-opt1-kit.png", "alt": "Option 1 — Kitchen"}, {"src": "images/af-opt2-kit.png", "alt": "Option 2 — Kitchen"}, {"src": "images/af-opt3-kit.png", "alt": "Option 3 — Kitchen"}, {"src": "images/af-final-kit.png", "alt": "Final — Kitchen"}]' data-image-labels="Floor Plan Options · VR Walkthrough · Entry — Before · Entry — Option 1 · Entry — Option 2 · Entry — Option 3 · Entry — Final · Bath — Before · Bath — Option 1 · Bath — Option 2 · Bath — Option 3 · Bath — Final · Living — Before · Living — Option 1 · Living — Option 2 · Living — Option 3 · Living — Final · Kitchen — Before · Kitchen — Option 1 · Kitchen — Option 2 · Kitchen — Option 3 · Kitchen — Final" data-ig="https://instagram.com/premodel">
-            <div class="project-slide-img"><img src="images/af-carousel.png" alt="Sasha A. — Full home renovation, Edmonds" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+            <div class="project-slide-img"><img loading="lazy" decoding="async" src="images/af-carousel.png" alt="Sasha A. — Full home renovation, Edmonds" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
             <div class="project-overlay">
               <p class="project-name">Full home renovation, Edmonds</p>
             </div>
@@ -1716,7 +1810,7 @@ body[data-palette="saffron"] .toggle-btn {
             <div class="project-cta">See the project <i data-lucide="arrow-right"></i></div>
           </div>
           <div class="project-slide" data-name="Kainaz B." data-meta="Kitchen remodel · Seattle" data-quote="I didn't think I needed the VR walkthrough. I had no idea what I was missing until I was standing in my virtual kitchen looking up at the ceiling height." data-body="K.B. had done everything right — inspiration images, material samples, a floor plan she understood. She still couldn't land on something she was confident in. VR gave her something the floor plan never could: scale. Standing in her virtual kitchen, looking up at the ceiling height, she understood the space in a way drawings hadn't prepared her for. The right material pairings followed from there." data-delivered="3D spatial model · VR walkthrough · interactive style options · styled renders" data-images='[{"src":"images/kb-layout-reveal.mp4","alt":"Floor Plan Options","type":"video"},{"src":"","alt":"VR Walkthrough"},{"src":"images/kb-opt1-kit.png","alt":"Option 1"},{"src":"images/kb-opt2-kit.png","alt":"Option 2"},{"src":"images/kb-opt3-kit.png","alt":"Option 3"},{"src":"images/kb-final-kit.png","alt":"Final"}]' data-image-labels="Floor Plan Options · VR Walkthrough · Option 1 · Option 2 · Option 3 · Final" data-ig="https://instagram.com/premodel">
-            <div class="project-slide-img"><img src="images/kb-carousel.png" alt="Kainaz B. — Kitchen remodel, Seattle" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+            <div class="project-slide-img"><img loading="lazy" decoding="async" src="images/kb-carousel.png" alt="Kainaz B. — Kitchen remodel, Seattle" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
             <div class="project-overlay">
               <p class="project-name">Kitchen remodel, Seattle</p>
             </div>
@@ -1724,7 +1818,7 @@ body[data-palette="saffron"] .toggle-btn {
             <div class="project-cta">See the project <i data-lucide="arrow-right"></i></div>
           </div>
           <div class="project-slide" data-name="Jenn S." data-meta="ADU · Bellevue" data-quote="Premodel saved me from making an expensive mistake that would have bothered me every time I used the space." data-body="Jenn had her basement layout figured out — or thought she did. Every room had a place, and it made sense on paper. Walking through it in VR, the space told a different story. The rooms felt smaller than the numbers suggested, the flow was wrong, and the layout she'd been certain about wasn't the one she could live with. Starting over from scratch led her somewhere better." data-delivered="3D spatial model · VR walkthrough · style options · styled renders" data-images='[{"src": "images/js-before.jpg", "alt": "Before"}, {"src": "images/js-layout-all.mp4", "alt": "Floor plan options", "type": "video"}, {"src": "", "alt": "VR Walkthrough"}, {"src": "images/js-opt1-liv.png", "alt": "Option 1 Living"}, {"src": "images/js-opt1-kit2.png", "alt": "Option 1 Kitchen"}, {"src": "images/js-opt1-kit4.png", "alt": "Option 1 Kitchen"}, {"src": "images/js-opt1-bedr.png", "alt": "Option 1 Bedroom"}, {"src": "images/js-opt1-bath.png", "alt": "Option 1 Bath"}, {"src": "images/js-opt2-liv.png", "alt": "Option 2 Living"}, {"src": "images/js-opt2-kit2.png", "alt": "Option 2 Kitchen"}, {"src": "images/js-opt2-kit4.png", "alt": "Option 2 Kitchen"}, {"src": "images/js-opt2-bedr.png", "alt": "Option 2 Bedroom"}, {"src": "images/js-opt2-bath.png", "alt": "Option 2 Bath"}, {"src": "images/js-final-liv.png", "alt": "Final Living"}, {"src": "images/js-final-kit2.png", "alt": "Final Kitchen"}, {"src": "images/js-final-kit4.png", "alt": "Final Kitchen"}, {"src": "images/js-final-bedr.png", "alt": "Final Bedroom"}, {"src": "images/js-final-bath.png", "alt": "Final Bath"}]' data-image-labels="Before · Floor plan options · VR Walkthrough · Option 1 — Living Room · Option 1 — Kitchen · Option 1 — Kitchen · Option 1 — Bedroom · Option 1 — Bath · Option 2 — Living Room · Option 2 — Kitchen · Option 2 — Kitchen · Option 2 — Bedroom · Option 2 — Bath · Final — Living Room · Final — Kitchen · Final — Kitchen · Final — Bedroom · Final — Bath" data-ig="https://instagram.com/premodel">
-            <div class="project-slide-img"><img src="images/js-carousel.png" alt="Jenn S. — ADU, Bellevue" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+            <div class="project-slide-img"><img loading="lazy" decoding="async" src="images/js-carousel.png" alt="Jenn S. — ADU, Bellevue" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
             <div class="project-overlay">
               <p class="project-name">ADU, Bellevue</p>
             </div>
@@ -1843,14 +1937,14 @@ body[data-palette="saffron"] .toggle-btn {
           <div class="why-founders">
         <article class="why-card founder">
           <div class="why-founder-head">
-            <div class="why-founder-portrait"><img src="images/founder-aw.png" alt="Ashley Wells"></div>
+            <div class="why-founder-portrait"><img loading="lazy" decoding="async" src="images/founder-aw.png" alt="Ashley Wells"></div>
             <div class="why-founder-meta">
               <p class="why-founder-name">Ashley Wells</p>
               <p class="why-founder-role">Premodel guide<br>Co-founder</p>
             </div>
             <!-- TODO: confirm founder LinkedIn URL -->
             <a class="why-founder-linkedin" href="#" target="_blank" rel="noopener" aria-label="Ashley Wells on LinkedIn">
-              <i data-lucide="linkedin"></i>
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/></svg>
             </a>
           </div>
           <p class="why-founder-quote">"Let's get what's in your head into pictures. I'll help fill in what's missing and shape it into a plan."</p>
@@ -1859,7 +1953,7 @@ body[data-palette="saffron"] .toggle-btn {
 
         <article class="why-card founder">
           <div class="why-founder-head">
-            <div class="why-founder-portrait"><img src="images/founder-ps.png" alt="Paige Shaw"></div>
+            <div class="why-founder-portrait"><img loading="lazy" decoding="async" src="images/founder-ps.png" alt="Paige Shaw"></div>
             <div class="why-founder-meta">
               <!-- TODO: confirm Paige's surname -->
               <p class="why-founder-name">Paige Shaw</p>
@@ -1867,7 +1961,7 @@ body[data-palette="saffron"] .toggle-btn {
             </div>
             <!-- TODO: confirm founder LinkedIn URL -->
             <a class="why-founder-linkedin" href="#" target="_blank" rel="noopener" aria-label="Paige Shaw on LinkedIn">
-              <i data-lucide="linkedin"></i>
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/></svg>
             </a>
           </div>
           <p class="why-founder-quote">"I've been in your shoes. I've learned a lot over the multiple remodels I've done. With my background in design and technology, I knew there was a better way to tackle some of the most expensive decisions you'll ever make."</p>
@@ -2184,7 +2278,7 @@ body[data-palette="saffron"] .toggle-btn {
         <div class="flip-card">
           <div class="flip-card-inner">
             <div class="flip-card-front flip-face">
-              <div class="img hero-static"><video class="hero-frame active hero-frame--video" data-state="0" autoplay muted loop playsinline preload="auto" poster="images/pf-bath-reveal-A1.png"><source src="images/pf-bath-reveal-A.mp4" type="video/mp4"></video><span class="hero-tag">Shoreline</span><span class="hero-pill">Reveal A</span><button type="button" class="hero-before-btn" aria-label="Show before" aria-pressed="false"><span class="hero-before-label">Before</span></button></div>
+              <div class="img hero-static"><video class="hero-frame active hero-frame--video" data-state="0" muted loop playsinline preload="none" data-poster="images/pf-bath-reveal-A1.png"><source src="images/pf-bath-reveal-A.mp4" type="video/mp4"></video><span class="hero-tag">Shoreline</span><span class="hero-pill">Reveal A</span><button type="button" class="hero-before-btn" aria-label="Show before" aria-pressed="false"><span class="hero-before-label">Before</span></button></div>
             </div>
             <div class="flip-card-back flip-face">
               <div class="img hero-static"><div class="hero-frame active hero-frame--img" data-state="3" style="background-image:url('images/pf-bath-before-1.png')"></div><span class="hero-tag">Shoreline</span><span class="hero-pill is-before">Before</span><button type="button" class="hero-before-btn" aria-label="Show reveal" aria-pressed="false"><span class="hero-before-label">Reveal</span></button></div>
@@ -2196,7 +2290,7 @@ body[data-palette="saffron"] .toggle-btn {
         <div class="flip-card">
           <div class="flip-card-inner">
             <div class="flip-card-front flip-face">
-              <div class="img hero-static"><video class="hero-frame active hero-frame--video" data-state="1" autoplay muted loop playsinline preload="auto" poster="images/pf-bath-reveal-B1.png"><source src="images/pf-bath-reveal-B.mp4" type="video/mp4"></video><span class="hero-tag">Shoreline</span><span class="hero-pill">Reveal B</span><button type="button" class="hero-before-btn" aria-label="Show before" aria-pressed="false"><span class="hero-before-label">Before</span></button></div>
+              <div class="img hero-static"><video class="hero-frame active hero-frame--video" data-state="1" muted loop playsinline preload="none" data-poster="images/pf-bath-reveal-B1.png"><source src="images/pf-bath-reveal-B.mp4" type="video/mp4"></video><span class="hero-tag">Shoreline</span><span class="hero-pill">Reveal B</span><button type="button" class="hero-before-btn" aria-label="Show before" aria-pressed="false"><span class="hero-before-label">Before</span></button></div>
             </div>
             <div class="flip-card-back flip-face">
               <div class="img hero-static"><div class="hero-frame active hero-frame--img" data-state="3" style="background-image:url('images/pf-bath-before-1.png')"></div><span class="hero-tag">Shoreline</span><span class="hero-pill is-before">Before</span><button type="button" class="hero-before-btn" aria-label="Show reveal" aria-pressed="false"><span class="hero-before-label">Reveal</span></button></div>
@@ -2208,7 +2302,7 @@ body[data-palette="saffron"] .toggle-btn {
         <div class="flip-card">
           <div class="flip-card-inner">
             <div class="flip-card-front flip-face">
-              <div class="img hero-static"><video class="hero-frame active hero-frame--video" data-state="2" autoplay muted loop playsinline preload="auto" poster="images/pf-bath-reveal-C1.png"><source src="images/pf-bath-reveal-C.mp4" type="video/mp4"></video><span class="hero-tag">Shoreline</span><span class="hero-pill">Reveal C</span><button type="button" class="hero-before-btn" aria-label="Show before" aria-pressed="false"><span class="hero-before-label">Before</span></button></div>
+              <div class="img hero-static"><video class="hero-frame active hero-frame--video" data-state="2" muted loop playsinline preload="none" data-poster="images/pf-bath-reveal-C1.png"><source src="images/pf-bath-reveal-C.mp4" type="video/mp4"></video><span class="hero-tag">Shoreline</span><span class="hero-pill">Reveal C</span><button type="button" class="hero-before-btn" aria-label="Show before" aria-pressed="false"><span class="hero-before-label">Before</span></button></div>
             </div>
             <div class="flip-card-back flip-face">
               <div class="img hero-static"><div class="hero-frame active hero-frame--img" data-state="3" style="background-image:url('images/pf-bath-before-1.png')"></div><span class="hero-tag">Shoreline</span><span class="hero-pill is-before">Before</span><button type="button" class="hero-before-btn" aria-label="Show reveal" aria-pressed="false"><span class="hero-before-label">Reveal</span></button></div>
@@ -2512,13 +2606,13 @@ body[data-palette="saffron"] .toggle-btn {
         <div class="why-founders">
           <article class="why-card founder">
             <div class="why-founder-head">
-              <div class="why-founder-portrait"><img src="images/founder-aw.png" alt="Ashley Wells"></div>
+              <div class="why-founder-portrait"><img loading="lazy" decoding="async" src="images/founder-aw.png" alt="Ashley Wells"></div>
               <div class="why-founder-meta">
                 <p class="why-founder-name">Ashley Wells</p>
                 <p class="why-founder-role">Co-founder · Pre-remodel advisor</p>
               </div>
               <a class="why-founder-linkedin" href="#" target="_blank" rel="noopener" aria-label="Ashley Wells on LinkedIn">
-                <i data-lucide="linkedin"></i>
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/></svg>
               </a>
             </div>
             <p class="why-founder-quote">"I walk your space with you, ask the questions you haven't thought to ask, and help you decide what's worth doing — before anyone swings a hammer."</p>
@@ -2526,13 +2620,13 @@ body[data-palette="saffron"] .toggle-btn {
 
           <article class="why-card founder">
             <div class="why-founder-head">
-              <div class="why-founder-portrait"><img src="images/founder-ps.png" alt="Paige Shaw"></div>
+              <div class="why-founder-portrait"><img loading="lazy" decoding="async" src="images/founder-ps.png" alt="Paige Shaw"></div>
               <div class="why-founder-meta">
                 <p class="why-founder-name">Paige West Shaw</p>
                 <p class="why-founder-role">Co-founder · Pre-remodel advisor</p>
               </div>
               <a class="why-founder-linkedin" href="#" target="_blank" rel="noopener" aria-label="Paige West Shaw on LinkedIn">
-                <i data-lucide="linkedin"></i>
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/></svg>
               </a>
             </div>
             <p class="why-founder-quote">"Every remodel I've lived through taught me what to ask early. I bring those questions to your home, so you don't learn them the painful way."</p>
@@ -2544,7 +2638,7 @@ body[data-palette="saffron"] .toggle-btn {
         <h3 class="project-gallery-headline">This Is What Confidence Looks Like.</h3>
         <div class="project-carousel" id="project-carousel-b" data-layout="b">
           <div class="project-slide" data-name="Anna G." data-meta="Master bath · Edmonds" data-quote="Every idea I had sounded right on its own. It wasn't until I could walk through the space that I understood how each decision affected everything around it." data-body="&lt;p&gt;Anna's master bath remodel started with fragments, not a plan. Shower by the picture window? Or maybe under the skylight, with the tub tucked behind it? She also knew she wanted more storage, a door on the water closet, and to get rid of the glass block wall that had been bothering her since she moved in. Each idea lived on its own, disconnected from what it would mean for everything else.&lt;/p&gt;&lt;p&gt;Three layout options gave her real choices to react to rather than a blank page. What looked workable in the floor plans felt different at real scale — walking through the space in VR, she found that the configuration she'd been drawn to felt more confining than the 2D image suggested. The layout she landed on resolved everything: storage, privacy, flow. She never looked back.&lt;/p&gt;&lt;p&gt;From there, seeing three distinctly different style directions in her actual space — the flooring, the tile, the cabinets and countertops — made the decision feel intuitive rather than overwhelming. The final design started as one of those options and became something more personal over time. She got exactly the bathroom she'd seen in the renders. For most remodels, that's a dream. For Anna, it was The Plan.&lt;/p&gt;" data-delivered="Layout options · VR walkthrough · Style options · Styled renders · Material schedule" data-images='[{"src": "images/ag-before.jpeg", "alt": "Before"}, {"src": "images/ag-layout-all.mp4", "alt": "Floor Plan Options", "type": "video"}, {"src": "https://www.premodel.design/hero-video.mp4", "alt": "VR Walkthrough", "type": "video"}, {"src": "images/ag-s1l1.png", "alt": "Style Option 1"}, {"src": "images/ag-s1l2.png", "alt": "Style Option 2"}, {"src": "images/ag-s1l3.png", "alt": "Style Option 3"}, {"src": "images/ag-master-bathWest-render.png", "alt": "Final 1"}, {"src": "images/ag-master-bathSouth-render.png", "alt": "Final 2"}, {"src": "images/ag-master-bathNorth-render.png", "alt": "Final 3"}]' data-image-labels="Before · Floor Plan Options · VR Walkthrough · Style Option 1 · Style Option 2 · Style Option 3 · Final 1 · Final 2 · Final 3" data-ig="https://instagram.com/premodel">
-            <div class="project-slide-img"><img src="images/ag-carousel.png" alt="Anna G. — Master bath, Edmonds" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+            <div class="project-slide-img"><img loading="lazy" decoding="async" src="images/ag-carousel.png" alt="Anna G. — Master bath, Edmonds" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
             <div class="project-overlay">
               <p class="project-name">Master bath</p>
               <p class="project-meta">Edmonds</p>
@@ -2896,7 +2990,9 @@ body[data-palette="saffron"] .toggle-btn {
 
 </div>
 
-<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<!-- Vendored lucide v1.17.0 (was unpkg @latest — unpinned + a CDN point of failure for
+     content icons). Icons are injected by createIcons() calls in the scripts below. -->
+<script src="assets/lucide.min.js"></script>
 <script src="premodel-tokens.js"></script>
 <script>
   // Shared token engine: apply persisted overrides and attach live cross-tab sync.
@@ -3093,6 +3189,13 @@ body[data-palette="saffron"] .toggle-btn {
     playLayoutBIntro = function() {
       if (bIntroPlayed || !bFlipCards.length) return;
       bIntroPlayed = true;
+      // B's hero videos ship inert (no autoplay/preload/poster) so the hidden frame
+      // costs nothing on page load — wake them the first time B becomes visible.
+      carouselB.querySelectorAll('video[data-poster]').forEach(function(v) {
+        v.poster = v.getAttribute('data-poster');
+        v.preload = 'auto';
+        try { v.play(); } catch (e) {}
+      });
       setBCardFlipped(bFlipCards[0], true);
       setTimeout(function() { setBCardFlipped(bFlipCards[0], false); }, 1000);
     };
@@ -3178,6 +3281,8 @@ body[data-palette="saffron"] .toggle-btn {
             el.style.cssText = 'width:100%;height:auto;display:block;';
           } else {
             el = document.createElement('img');
+            el.loading = 'lazy';        // the reel can be 20+ full-res renders — fetch as scrolled
+            el.decoding = 'async';
             el.src = img.src;
             el.alt = img.alt || '';
             el.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block;';
