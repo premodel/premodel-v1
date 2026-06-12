@@ -758,6 +758,7 @@
         <a href="#palette">Palette</a>
         <a href="#type">Typography</a>
         <a href="#spacing">Spacing</a>
+        <a href="#layout">Layout</a>
         <a href="#components">Components</a>
         <a href="#icons">Icons &amp; imagery</a>
         <a href="#voice">Voice</a>
@@ -979,7 +980,63 @@
         <li><b>Between cards:</b> always <code>--space-4</code> (16px) on mobile, <code>--space-5</code> (24px) on desktop.</li>
         <li><b>Between sections:</b> <code>--space-8</code> (64px) on mobile, <code>--space-9</code> (96px) on desktop.</li>
         <li><b>Inside form fields:</b> always <code>--space-3</code> (12px) padding.</li>
-        <li><b>Page edge padding (gutter):</b> <code>--space-5</code> (24px) on mobile, <code>--space-6</code> (32px) on desktop.</li>
+        <li><b>Page edge padding (gutter):</b> <code>--space-4</code>–<code>--space-4-5</code> (16–20px) on mobile, <code>--space-6</code> (32px) on tablet, <code>--space-7</code> (48px) on desktop (inside max-width columns).</li>
+      </ul>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         §03b LAYOUT & BREAKPOINTS
+         ═══════════════════════════════════════════════════════════════════ -->
+    <section class="style-section" id="layout">
+      <div class="section-head">
+        <span class="eyebrow"><span class="num">03b</span> Layout &amp; breakpoints</span>
+        <h2>One page, three widths.</h2>
+        <p class="lead">How the homepage (Layout A) recomposes at each breakpoint. The prototype implements these as container queries keyed to the frame width, so its Size picker (or a real device) triggers them — type ramps via the <code>-m/-t/-d</code> tokens in §02. Mobile is the source design; tablet widens it; desktop recomposes it.</p>
+      </div>
+
+      <div class="subgroup-label">Breakpoints &amp; content widths</div>
+      <table class="rhythm-table">
+        <thead><tr><th>Role</th><th>Mobile (&lt; 768)</th><th>Tablet (≥ 768)</th><th>Desktop (≥ 1200)</th></tr></thead>
+        <tbody>
+          <tr><td><b>Gutter</b></td><td class="mono">16–20px</td><td class="mono">32px (--space-6)</td><td class="mono">48px (--space-7)</td></tr>
+          <tr><td><b>Reading column</b> (steps, FAQ)</td><td class="mono">full width</td><td class="mono">680–720px</td><td class="mono">720–760px</td></tr>
+          <tr><td><b>Content column</b> (gallery, why)</td><td class="mono">full width</td><td class="mono">full width</td><td class="mono">1140–1240px</td></tr>
+          <tr><td><b>Section gap (top padding)</b></td><td class="mono">60px</td><td class="mono">64px (--space-8)</td><td class="mono">96px (--space-9)</td></tr>
+          <tr><td><b>Hero headline role</b></td><td class="mono">Display 2</td><td class="mono">Display 2 (-t)</td><td class="mono">Display 1 (-d)</td></tr>
+        </tbody>
+      </table>
+
+      <div class="subgroup-label" style="margin-top: 28px;">Header</div>
+      <ul style="margin:0; padding-left: 18px; font-size: 14px; color: var(--text-secondary); line-height: 1.7;">
+        <li><b>Mobile:</b> wordmark + locale tag on the left, a single "For builders →" text link on the right. No nav.</li>
+        <li><b>Tablet / desktop:</b> wordmark · anchor-link nav (How it works · Projects · Why Premodel · FAQ) · "For builders →" + a pill CTA ("Get your Reveal") in the accent color. Links are 14px / 600, secondary ink, primary on hover. The header scrolls away — the floating CTA persists instead.</li>
+      </ul>
+
+      <div class="subgroup-label" style="margin-top: 28px;">Section recomposition</div>
+      <table class="rhythm-table">
+        <thead><tr><th>Section</th><th>Mobile</th><th>Tablet</th><th>Desktop</th></tr></thead>
+        <tbody>
+          <tr><td><b>Hero carousel</b></td><td>Full-width slides, edge to edge</td><td>Centered ~720px card, neighbors peeking</td><td>Centered ~840px card, neighbors peeking</td></tr>
+          <tr><td><b>Plan ("Reveal → Plan")</b></td><td>Pinned headline + horizontal tile rail</td><td>Same rail, wider pinned column + bigger tiles</td><td>Centered one-line headline + static 4-up tile grid (no scroll)</td></tr>
+          <tr><td><b>How it works</b></td><td>Full-width scroll-scrubbed timeline</td><td colspan="2">Same timeline, centered reading column — the scrub is the identity, keep it at every width</td></tr>
+          <tr><td><b>Quote cards</b></td><td>Stacked, overlapping, scroll-spread</td><td colspan="2">Three across, avatar above text, ±1° resting tilt kept</td></tr>
+          <tr><td><b>Project gallery</b></td><td>Full-bleed square slides</td><td>Center-snap carousel, ~480px cards w/ corners + shadow, full bleed</td><td>Same carousel, ~520px cards, inside the content column</td></tr>
+          <tr><td><b>Why (scrolly chart)</b></td><td>Stacked: headline, beats, chart, guides — all pinned</td><td>Same stack, chart capped at 520px, founder cards side by side</td><td>Two-column pin: headline + beats left, chart right, guides + founders across the bottom. Beats left-aligned at H2.</td></tr>
+          <tr><td><b>Reveal card</b></td><td>Full width</td><td>Centered, 600px max</td><td>Centered, 640px max</td></tr>
+          <tr><td><b>Floating CTA</b></td><td>Full-width bottom bar</td><td colspan="2">Bottom-right pill, min 220px</td></tr>
+          <tr><td><b>Case-study modal</b></td><td>Full-frame reel + bottom card</td><td colspan="2">Reel + card contained to a centered 760px column over the dark backdrop</td></tr>
+          <tr><td><b>Info modals</b></td><td>Bottom sheet</td><td colspan="2">Centered dialog, 560px max, full corner radius</td></tr>
+          <tr><td><b>Footer</b></td><td>Stacked columns</td><td>3 columns, 880px content</td><td>3 columns, 1040px content</td></tr>
+        </tbody>
+      </table>
+
+      <div class="subgroup-label" style="margin-top: 28px;">Rules of thumb</div>
+      <ul style="margin:0; padding-left: 18px; font-size: 14px; color: var(--text-secondary); line-height: 1.7;">
+        <li><b>Motion survives translation.</b> Scroll-driven set pieces (step scrub, scrolly chart, card spread) keep their behavior at every width — only the composition around them changes.</li>
+        <li><b>Carousels become "centered card + peek"</b> above mobile, never edge-to-edge. If everything fits without scrolling (plan tiles on desktop), drop the carousel for a grid.</li>
+        <li><b>Pinned compositions must fit the viewport.</b> The why-section sticky stack is budgeted to ≤ ~780px tall on a 800px-tall desktop frame — trim card copy or chart width before letting it clip.</li>
+        <li><b>Text blocks cap at a reading column</b> (≤ 760px); imagery and cards may use the full content column (≤ 1240px).</li>
+        <li><b>Layout B has no tablet/desktop treatment yet</b> — it previews phone-width at every size.</li>
       </ul>
     </section>
 

@@ -176,7 +176,14 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .layout-b-label { font-size: var(--fs-caption); font-weight: 500; color: var(--text-secondary); letter-spacing: 0.08em; text-transform: uppercase; margin: 0 0 var(--space-2-5); }
 .layout-b-hint { font-family: var(--font-display); font-style: italic; font-size: 16px; color: var(--text-tertiary); margin: 0; line-height: 1.5; max-width: 240px; }
 
-.phone-frame { width: var(--frame-width); max-width: 100%; height: var(--frame-height); background: var(--bg-page); border: 0.5px solid var(--border-subtle); border-radius: 28px; overflow: hidden; position: relative; display: flex; flex-direction: column; transition: width 0.2s ease, height 0.2s ease; }
+.phone-frame { width: var(--frame-width); max-width: 100%; height: var(--frame-height); background: var(--bg-page); border: 0.5px solid var(--border-subtle); border-radius: 28px; overflow: hidden; position: relative; display: flex; flex-direction: column; transition: width 0.2s ease, height 0.2s ease; container-type: inline-size; container-name: frame; }
+/* Tablet/desktop frames keep their true layout width (JS scales them to fit visually);
+   max-width:100% would shrink the layout width and silently kill the breakpoint. */
+.prototype-wrapper[data-bp="tablet"] .phone-frame,
+.prototype-wrapper[data-bp="desktop"] .phone-frame { max-width: none; }
+.prototype-wrapper[data-bp="desktop"] .phone-frame { border-radius: 12px; }
+/* Layout B has no tablet/desktop treatment yet — it always previews at phone size. */
+.phone-frame[data-layout="b"] { width: min(var(--frame-width), 430px); height: min(var(--frame-height), 932px); }
 .phone-scroll { flex: 1; overflow-y: scroll; overflow-x: hidden; scrollbar-width: thin; }
 
 .header { display: flex; align-items: center; justify-content: space-between; padding: var(--space-3-5) var(--space-4); border-bottom: 0.5px solid var(--border-divider); }
@@ -941,6 +948,185 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .info-modal-placeholder { font-family: var(--font-display); font-style: italic; font-size: 12.5px; color: var(--text-tertiary); margin: 0; line-height: 1.55; padding: var(--space-3) var(--space-3-5); background: var(--bg-page); border-radius: var(--radius-sm); border: 0.5px dashed var(--border-divider); }
 .info-modal-placeholder + .info-modal-placeholder { margin-top: var(--space-2); }
 
+/* ── Desktop/tablet header nav (Layout A) — hidden on mobile ─────────── */
+.header-nav { display: none; }
+.header-actions { display: inline-flex; align-items: center; gap: var(--space-4-5); }
+.header .header-nav .header-nav-link { font-size: 14px; font-weight: 600; color: var(--text-secondary); text-decoration: none; letter-spacing: 0.005em; transition: color 0.15s ease; }
+.header .header-nav .header-nav-link:hover { color: var(--text-primary); }
+.header .header-nav .header-nav-link:focus-visible { outline: 2px solid var(--text-primary); outline-offset: 2px; border-radius: 2px; }
+.header-cta { display: none; appearance: none; -webkit-appearance: none; background: var(--accent); color: var(--text-on-accent); border: 0; border-radius: 999px; padding: var(--space-2-5) var(--space-4-5); font-family: inherit; font-size: 14px; font-weight: 600; letter-spacing: 0.005em; cursor: pointer; transition: background 0.18s ease; }
+.header-cta:hover { background: var(--accent-hover); }
+.header-cta:focus-visible { outline: 2px solid var(--text-primary); outline-offset: 2px; }
+
+/* ── Tablet (frame ≥ 768px) — Layout A only ──────────────────────────────
+   The frame is a CSS container, so these fire from the FRAME width (the Size
+   control or a real device), never the browser window. Layout B keeps its
+   phone-width clamp and never reaches this breakpoint. ── */
+@container frame (min-width: 768px) {
+  /* Type ramps to the style guide's tablet column (-t tokens). Set on the
+     frame's direct children (scroller, CTA bar, modals) so everything inherits. */
+  .phone-frame[data-layout="a"] > * {
+    --fs-display-1: var(--fs-display-1-t);
+    --fs-display-2: var(--fs-display-2-t);
+    --fs-h1: var(--fs-h1-t);
+    --fs-h2: var(--fs-h2-t);
+    --fs-h3: var(--fs-h3-t);
+    --fs-body-lg: var(--fs-body-lg-t);
+    --fs-body: var(--fs-body-t);
+  }
+
+  /* Header becomes a real marketing nav: wordmark · anchor links · builders + CTA */
+  .phone-frame[data-layout="a"] .header { padding: var(--space-4) var(--space-5); gap: var(--space-4); }
+  .phone-frame[data-layout="a"] .header-nav { display: inline-flex; gap: var(--space-4); flex: none; }
+  .phone-frame[data-layout="a"] .header-cta { display: inline-flex; }
+  .phone-frame[data-layout="a"] .header .logo-mark { height: 26px; }
+  .phone-frame[data-layout="a"] .header .header-nav-link,
+  .phone-frame[data-layout="a"] .header .header-link,
+  .phone-frame[data-layout="a"] .header-cta { white-space: nowrap; }
+  .phone-frame[data-layout="a"] .header-actions { gap: var(--space-4); flex: none; }
+
+  /* Hero: bigger type (via tokens) + a centered carousel card with neighbors peeking */
+  .phone-frame[data-layout="a"] .reveal-hero { padding-top: var(--space-7); }
+  /* Slide widths use cqw (1% of frame width): flex-basis percentages would
+     resolve against the carousel's own content box minus this padding — circular. */
+  .phone-frame[data-layout="a"] .carousel { --slide-w: min(720px, 82cqw); gap: var(--space-4); padding-left: calc((100% - var(--slide-w)) / 2); padding-right: calc((100% - var(--slide-w)) / 2); }
+  .phone-frame[data-layout="a"] .carousel .slide { flex: 0 0 var(--slide-w); padding: 0; }
+  .phone-frame[data-layout="a"] .reveal-sub { max-width: 560px; margin-inline: auto; }
+
+  /* Plan rail: keep the pinned-headline + scrolling tiles identity, just roomier */
+  .phone-frame[data-layout="a"] .plan-block { margin-top: var(--space-8); }
+  .phone-frame[data-layout="a"] .plan-headline { width: 230px; padding-left: var(--space-6); }
+  .phone-frame[data-layout="a"] .plan-sub { width: 230px; padding: 0 var(--space-2) var(--space-1) var(--space-6); }
+  .phone-frame[data-layout="a"] .plan-gallery { scroll-padding-left: 230px; padding: 16px var(--space-6) 24px 230px; }
+  .phone-frame[data-layout="a"] .plan-gallery .tile { flex: 0 0 216px; }
+
+  /* How it works: centered reading column, same scroll-scrubbed steps */
+  .phone-frame[data-layout="a"] .howto-section { max-width: 680px; margin-inline: auto; padding: var(--space-8) var(--space-6) 0; }
+
+  /* Homeowners: quotes fan out side by side instead of stacking */
+  .phone-frame[data-layout="a"] .who-section { padding: var(--space-8) var(--space-6) 0; }
+  .phone-frame[data-layout="a"] .quotes { flex-direction: row; align-items: stretch; gap: var(--space-4); margin: 0 0 var(--space-6); padding: var(--space-5) 0; }
+  .phone-frame[data-layout="a"] .quote { width: auto; flex: 1 1 0; min-width: 0; margin-top: 0; flex-direction: column; gap: var(--space-3); }
+  .phone-frame[data-layout="a"] .quote:nth-child(1) { transform: rotate(-1.2deg); }
+  .phone-frame[data-layout="a"] .quote:nth-child(2) { transform: rotate(0.7deg) translateY(6px); }
+  .phone-frame[data-layout="a"] .quote:nth-child(3) { transform: rotate(-0.6deg); }
+
+  /* Project gallery: full-bleed center-snap carousel with peeking neighbors + card corners */
+  .phone-frame[data-layout="a"] .who-section .project-gallery { margin-left: calc(-1 * var(--space-6)); margin-right: calc(-1 * var(--space-6)); }
+  .phone-frame[data-layout="a"] .project-carousel { --pslide-w: min(480px, 58cqw); gap: var(--space-3-5); padding-left: calc((100% - var(--pslide-w)) / 2); padding-right: calc((100% - var(--pslide-w)) / 2); padding-top: var(--space-2); padding-bottom: var(--space-2); }
+  .phone-frame[data-layout="a"] .project-slide { flex: 0 0 var(--pslide-w); border-radius: var(--radius-card); overflow: hidden; box-shadow: var(--shadow-raised); }
+
+  /* Why Premodel: chart caps its width; founder cards sit side by side */
+  .phone-frame[data-layout="a"] .cc-sticky .cc-stage { width: 520px; max-width: 100%; margin: 0 auto; }
+  .phone-frame[data-layout="a"] .cc-caption { margin: 0 15%; }
+  .phone-frame[data-layout="a"] .cc-sticky .why-founders { flex-direction: row; justify-content: center; align-items: stretch; gap: var(--space-4); }
+  .phone-frame[data-layout="a"] .cc-sticky .why-card.founder { width: 320px; max-width: 44%; }
+  .phone-frame[data-layout="a"] .cc-sticky .why-card.founder:nth-child(1) { transform: translateX(calc(-6px * var(--spread))) rotate(-1.6deg); }
+  .phone-frame[data-layout="a"] .cc-sticky .why-card.founder:nth-child(2) { margin-top: 0; transform: translateX(calc(6px * var(--spread))) rotate(1.4deg); }
+
+  /* FAQ + reveal card: centered columns */
+  .phone-frame[data-layout="a"] .faq-section { max-width: 720px; margin-inline: auto; padding: var(--space-8) var(--space-6) 0; }
+  .phone-frame[data-layout="a"] .rf-card-intro { padding-top: var(--space-8); }
+  .phone-frame[data-layout="a"] .rf-card { max-width: 600px; margin-inline: auto; }
+
+  /* Floating CTA: a pill in the bottom-right corner instead of a full-width bar */
+  .phone-frame[data-layout="a"] .cta-bar { justify-content: flex-end; padding: var(--space-4) var(--space-5-5); }
+  .phone-frame[data-layout="a"] .cta-button { flex: 0 0 auto; min-width: 220px; padding: var(--space-3) var(--space-6); }
+
+  /* Footer: contained content width (its own container query already does 3 columns) */
+  .phone-frame[data-layout="a"] .footer-top,
+  .phone-frame[data-layout="a"] .footer-middle,
+  .phone-frame[data-layout="a"] .footer-legal { max-width: 880px; margin-inline: auto; }
+  .phone-frame[data-layout="a"] .footer-divider { max-width: 880px; margin-left: auto; margin-right: auto; }
+
+  /* Case-study modal: contained reel + card column over the dark backdrop */
+  .phone-frame[data-layout="a"] .case-modal-image-reel { width: min(760px, 92%); margin: 0 auto; }
+  .phone-frame[data-layout="a"] .case-modal-card { left: 50%; transform: translateX(-50%); width: min(760px, 92%); border-radius: 20px 20px 0 0; }
+
+  /* Info modals: centered dialog instead of a bottom sheet */
+  .phone-frame[data-layout="a"] .info-modal { align-items: center; padding: var(--space-6); }
+  .phone-frame[data-layout="a"] .info-modal-card { max-width: 560px; border-radius: var(--radius-modal); }
+}
+
+/* ── Desktop (frame ≥ 1200px) — Layout A only ───────────────────────────── */
+@container frame (min-width: 1200px) {
+  .phone-frame[data-layout="a"] > * {
+    --fs-display-1: var(--fs-display-1-d);
+    --fs-display-2: var(--fs-display-2-d);
+    --fs-h1: var(--fs-h1-d);
+    --fs-h2: var(--fs-h2-d);
+    --fs-h3: var(--fs-h3-d);
+    --fs-body-lg: var(--fs-body-lg-d);
+    --fs-body: var(--fs-body-d);
+  }
+
+  .phone-frame[data-layout="a"] .header { padding: var(--space-4-5) var(--space-7); }
+  .phone-frame[data-layout="a"] .header-nav { gap: var(--space-6); }
+  .phone-frame[data-layout="a"] .header .logo-mark { height: 28px; }
+
+  /* Hero headline steps up to Display 1; the reveal card grows with it */
+  .phone-frame[data-layout="a"] .reveal-hero .h1-large { font-size: var(--fs-display-1); }
+  .phone-frame[data-layout="a"] .carousel { --slide-w: min(840px, 66cqw); gap: var(--space-5); }
+
+  /* Plan: the rail becomes a centered headline + one calm row of four tiles */
+  .phone-frame[data-layout="a"] .plan-block { display: block; max-width: 1140px; margin: var(--space-9) auto 0; padding: 0 var(--space-7); }
+  /* place-self: start would shrink-wrap these now that the block isn't a grid
+     (Chrome applies justify-self to block-level boxes) — reset it. */
+  /* font-size on the wrapper so the whitespace between the inline .h spans renders at headline size */
+  .phone-frame[data-layout="a"] .plan-headline { width: auto; padding: 0; text-align: center; pointer-events: auto; place-self: auto; font-size: var(--fs-display-2); }
+  .phone-frame[data-layout="a"] .plan-headline .h { display: inline; }
+  .phone-frame[data-layout="a"] .plan-sub { width: auto; padding: var(--space-2) 0 0; text-align: center; pointer-events: auto; place-self: auto; }
+  .phone-frame[data-layout="a"] .plan-gallery { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-4-5); padding: var(--space-6) 0 0; margin: 0; overflow: visible; scroll-padding-left: 0; }
+  .phone-frame[data-layout="a"] .plan-gallery .tile { flex: none; }
+
+  .phone-frame[data-layout="a"] .howto-section { max-width: 720px; padding-top: var(--space-9); }
+
+  .phone-frame[data-layout="a"] .who-section { max-width: 1240px; margin-inline: auto; padding: var(--space-9) var(--space-7) 0; }
+  .phone-frame[data-layout="a"] .quotes { gap: var(--space-4-5); max-width: 1040px; margin-inline: auto; }
+  /* Gallery sits inside the content column on desktop (no full bleed) */
+  .phone-frame[data-layout="a"] .who-section .project-gallery { margin-left: 0; margin-right: 0; }
+  .phone-frame[data-layout="a"] .project-carousel { --pslide-w: min(520px, 42cqw); }
+
+  /* Why Premodel: the pinned composition becomes editorial two-column —
+     headline + rotating beats on the left, the sketch chart on the right,
+     guides + founder cards across the bottom. Everything still pins and
+     scrubs exactly as on mobile. */
+  .phone-frame[data-layout="a"] .cc-sticky {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    grid-template-rows: auto 1fr auto auto auto;
+    grid-template-areas:
+      "ccheader chart"
+      "cccaption chart"
+      "ccguides ccguides"
+      "ccnote ccnote"
+      "ccfounders ccfounders";
+    column-gap: var(--space-7);
+    max-width: 1180px;
+    margin-inline: auto;
+    padding: var(--space-2) var(--space-7) var(--space-4);
+  }
+  .phone-frame[data-layout="a"] .cc-sticky .why-header { grid-area: ccheader; text-align: left; align-self: end; margin: 0 0 var(--space-3); }
+  .phone-frame[data-layout="a"] .cc-sticky .why-header .section-headline { margin-bottom: 0; }
+  .phone-frame[data-layout="a"] .cc-caption { grid-area: cccaption; margin: 0; transform: none; align-self: start; min-height: 130px; }
+  .phone-frame[data-layout="a"] .cc-beat { text-align: left; font-size: var(--fs-h2); line-height: 1.4; }
+  .phone-frame[data-layout="a"] .cc-sticky .cc-stage { grid-area: chart; width: 100%; max-width: 540px; margin: 0 auto; align-self: center; }
+  .phone-frame[data-layout="a"] .cc-sticky .why-guides-subhead { grid-area: ccguides; margin: var(--space-5) 0 var(--space-1); }
+  .phone-frame[data-layout="a"] .cc-sticky .why-founders-note { grid-area: ccnote; margin: 0 0 var(--space-4); }
+  .phone-frame[data-layout="a"] .cc-sticky .why-founders { grid-area: ccfounders; padding: 0; }
+  /* Wider cards → the long quote wraps fewer lines, keeping the pinned stack inside the frame */
+  .phone-frame[data-layout="a"] .cc-sticky .why-card.founder { width: 390px; max-width: 46%; }
+
+  .phone-frame[data-layout="a"] .faq-section { max-width: 760px; padding-top: var(--space-9); }
+  .phone-frame[data-layout="a"] .rf-card-intro { padding-top: var(--space-9); }
+  .phone-frame[data-layout="a"] .rf-card { max-width: 640px; }
+
+  .phone-frame[data-layout="a"] .footer-top,
+  .phone-frame[data-layout="a"] .footer-middle,
+  .phone-frame[data-layout="a"] .footer-legal,
+  .phone-frame[data-layout="a"] .footer-divider { max-width: 1040px; }
+}
+
 /* ── Responsive overrides: full-bleed prototype on touch devices only ─
    Targets real phones/tablets via pointer capabilities, not viewport
    width — so chrome stays visible in desktop browsers (incl. preview
@@ -1253,14 +1439,17 @@ body[data-palette="saffron"] .toggle-btn {
       <label for="size-select" class="size-label">Size</label>
       <div class="size-select-wrap">
         <select id="size-select" class="size-select">
-          <option value="s" data-w="320" data-h="568" title="iPhone SE — 320 × 568">Mobile S</option>
-          <option value="m" data-w="390" data-h="844" title="iPhone 14 — 390 × 844" selected>Mobile M</option>
-          <option value="l" data-w="430" data-h="932" title="iPhone 15 Pro Max — 430 × 932">Mobile L</option>
+          <option value="s" data-w="320" data-h="568" data-bp="mobile" title="iPhone SE — 320 × 568">Mobile S</option>
+          <option value="m" data-w="390" data-h="844" data-bp="mobile" title="iPhone 14 — 390 × 844" selected>Mobile M</option>
+          <option value="l" data-w="430" data-h="932" data-bp="mobile" title="iPhone 15 Pro Max — 430 × 932">Mobile L</option>
+          <option value="t" data-w="834" data-h="1194" data-bp="tablet" title="iPad Pro 11″ — 834 × 1194">Tablet</option>
+          <option value="d" data-w="1280" data-h="800" data-bp="desktop" title="Laptop — 1280 × 800">Desktop S</option>
+          <option value="xl" data-w="1440" data-h="900" data-bp="desktop" title="Desktop — 1440 × 900">Desktop L</option>
         </select>
       </div>
     </div>
     <div class="version-pill">
-      v11.35
+      v12.0
       <button type="button" class="refresh-btn" onclick="location.reload()" aria-label="Refresh prototype">
         <i data-lucide="refresh-cw"></i>
       </button>
@@ -1272,7 +1461,18 @@ body[data-palette="saffron"] .toggle-btn {
 
     <div class="header">
       <p class="logo-name"><img class="logo-mark" src="premodel-wordmark-cyanotype.png" alt="Premodel" width="1218" height="269"><span class="locale-bug">Seattle</span></p>
-      <button type="button" class="header-link" data-modal-open="builders">For builders →</button>
+      <!-- Tablet/desktop only: real marketing nav (anchor links into the page) + primary CTA.
+           Hidden on mobile, where the header stays wordmark + "For builders". -->
+      <nav class="header-nav" aria-label="Primary">
+        <a class="header-nav-link" href="#howto" data-nav-target="howto">How it works</a>
+        <a class="header-nav-link" href="#projects" data-nav-target="projects">Projects</a>
+        <a class="header-nav-link" href="#why" data-nav-target="why">Why Premodel</a>
+        <a class="header-nav-link" href="#faq" data-nav-target="faq">FAQ</a>
+      </nav>
+      <div class="header-actions">
+        <button type="button" class="header-link" data-modal-open="builders">For builders →</button>
+        <button type="button" class="header-cta" data-nav-target="start">Get your Reveal</button>
+      </div>
     </div>
 
     <div class="reveal-hero">
@@ -1370,7 +1570,7 @@ body[data-palette="saffron"] .toggle-btn {
       </div>
     </div>
 
-    <div class="howto-section">
+    <div class="howto-section" id="howto">
       <div class="howto-header">
         <p class="section-eyebrow">How it works</p>
         <h2 class="section-headline">Don't guess. <span class="brand-navy">Premodel</span></h2>
@@ -1467,7 +1667,7 @@ body[data-palette="saffron"] .toggle-btn {
       <div class="separator">Your contractor takes it from here.</div>
     </div>
 
-    <div class="who-section">
+    <div class="who-section" id="projects">
       <p class="section-eyebrow">For homeowners</p>
       <h2 class="section-headline">Planning buys confidence</h2>
 
@@ -1542,7 +1742,7 @@ body[data-palette="saffron"] .toggle-btn {
     </div>
 
     <!-- ── Why Premodel ──────────────────────────────────────────────── -->
-    <section class="why-section">
+    <section class="why-section" id="why">
       <div class="why-chart why-chart--scrolly" id="cc-scrolly">
         <!-- Scrollytelling cost-of-change chart. The whole composition pins in .cc-sticky —
              eyebrow + headline, the chart with the rotating beat caption overlaid on its open
@@ -1682,7 +1882,7 @@ body[data-palette="saffron"] .toggle-btn {
     </section>
 
     <!-- ── FAQ ──────────────────────────────────────────────────────── -->
-    <section class="faq-section">
+    <section class="faq-section" id="faq">
       <div class="faq-header">
         <p class="section-eyebrow">FAQs</p>
         <h2 class="section-headline">It really is that simple.</h2>
@@ -1734,7 +1934,7 @@ body[data-palette="saffron"] .toggle-btn {
     </section>
 
     <!-- Get started: headline lifted out of the card, matching the other section headers -->
-    <div class="rf-card-intro">
+    <div class="rf-card-intro" id="start">
       <p class="section-eyebrow">Start here</p>
       <h2 class="section-headline">Ready for your reveal?</h2>
     </div>
@@ -2793,6 +2993,14 @@ body[data-palette="saffron"] .toggle-btn {
     };
   })();
 
+  // Slide stride = distance between adjacent slide origins. On mobile slides are
+  // full-width (stride = clientWidth); at tablet/desktop they're narrower with a
+  // gap, so index math must use the real stride, not the track width.
+  function slideStride(track) {
+    var kids = track.children;
+    return kids.length > 1 ? (kids[1].offsetLeft - kids[0].offsetLeft) : track.clientWidth;
+  }
+
   var carousel = document.getElementById('carousel');
   var dots = document.querySelectorAll('#dots .dot');
   var heroFlipCards = carousel.querySelectorAll('.flip-card');
@@ -2803,7 +3011,7 @@ body[data-palette="saffron"] .toggle-btn {
     });
   }
   function updateDots() {
-    var i = Math.round(carousel.scrollLeft / carousel.clientWidth);
+    var i = Math.round(carousel.scrollLeft / slideStride(carousel));
     dots.forEach(function(d, j) { d.classList.toggle('active', j === i); });
     // Reset any flipped card that scrolls out of view, so re-visiting a slide is predictable
     heroFlipCards.forEach(function(card, j) {
@@ -2825,7 +3033,7 @@ body[data-palette="saffron"] .toggle-btn {
   carousel.addEventListener('scroll', updateDots, { passive: true });
   dots.forEach(function(d, i) {
     d.addEventListener('click', function() {
-      carousel.scrollTo({ left: i * carousel.clientWidth, behavior: 'smooth' });
+      carousel.scrollTo({ left: i * slideStride(carousel), behavior: 'smooth' });
     });
   });
   // One-time intro: the first card is rendered already flipped to its Before in the markup, so it
@@ -2895,16 +3103,26 @@ body[data-palette="saffron"] .toggle-btn {
   if (igCarousel) {
     var igDots = document.querySelectorAll('#project-dots .project-dot');
     function updateIgDots() {
-      var i = Math.round(igCarousel.scrollLeft / igCarousel.clientWidth);
+      var i = Math.round(igCarousel.scrollLeft / slideStride(igCarousel));
       igDots.forEach(function(d, j) { d.classList.toggle('active', j === i); });
     }
     igCarousel.addEventListener('scroll', updateIgDots, { passive: true });
     igDots.forEach(function(d, i) {
       d.addEventListener('click', function() {
-        igCarousel.scrollTo({ left: i * igCarousel.clientWidth, behavior: 'smooth' });
+        igCarousel.scrollTo({ left: i * slideStride(igCarousel), behavior: 'smooth' });
       });
     });
   }
+
+  // Desktop/tablet header nav: smooth-scroll the phone scroller to the section,
+  // without dirtying the URL hash.
+  document.querySelectorAll('[data-nav-target]').forEach(function(el) {
+    el.addEventListener('click', function(e) {
+      e.preventDefault();
+      var t = document.getElementById(el.getAttribute('data-nav-target'));
+      if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
 
   // Why Premodel — IG-style carousel + dots (Layout B)
   var igCarouselB = document.getElementById('project-carousel-b');
@@ -3557,12 +3775,40 @@ body[data-palette="saffron"] .toggle-btn {
 
   var sizeSelect = document.getElementById('size-select');
   var wrapper = document.querySelector('.prototype-wrapper');
+  // Scale-to-fit: tablet/desktop frames keep their true LAYOUT width (so the
+  // container-query breakpoints fire correctly) and shrink only visually via
+  // transform when wider than the window. Negative margins give back the
+  // layout space the transform doesn't, so the page never side-scrolls.
+  function fitFrames() {
+    var opt = sizeSelect.options[sizeSelect.selectedIndex];
+    var w = parseFloat(opt.getAttribute('data-w'));
+    var h = parseFloat(opt.getAttribute('data-h'));
+    var avail = document.documentElement.clientWidth - 40;
+    var s = Math.min(1, avail / w);
+    phoneFrames.forEach(function(f) {
+      if (f.getAttribute('data-layout') === 'b') return; // B stays phone-width
+      if (s < 1) {
+        f.style.transform = 'scale(' + s + ')';
+        f.style.transformOrigin = 'top center';
+        f.style.marginLeft = f.style.marginRight = ((w * s - w) / 2) + 'px';
+        f.style.marginBottom = (h * s - h) + 'px';
+      } else {
+        f.style.transform = '';
+        f.style.transformOrigin = '';
+        f.style.marginLeft = f.style.marginRight = '';
+        f.style.marginBottom = '';
+      }
+    });
+  }
   function applySize() {
     var opt = sizeSelect.options[sizeSelect.selectedIndex];
     wrapper.style.setProperty('--frame-width', opt.getAttribute('data-w') + 'px');
     wrapper.style.setProperty('--frame-height', opt.getAttribute('data-h') + 'px');
+    wrapper.setAttribute('data-bp', opt.getAttribute('data-bp') || 'mobile');
+    fitFrames();
   }
   sizeSelect.addEventListener('change', applySize);
+  window.addEventListener('resize', fitFrames);
   applySize();
 
 })();
