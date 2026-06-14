@@ -1,3 +1,7 @@
 .DS_Store
 **/.DS_Store
 images-opt/
+
+# Old standalone exports, kept locally but not tracked
+original_v10.html
+original_v10_with_toolbar.html
