@@ -944,30 +944,47 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 /* Case-study modal (sheet-style, contained inside the phone frame) */
 .case-modal { position: absolute; inset: 0; background: var(--bg-dark); display: none; flex-direction: column; z-index: 50; }
 .case-modal.open { display: flex; }
-.case-modal-image-reel { flex: 1; overflow-y: scroll; scrollbar-width: none; -webkit-overflow-scrolling: touch; display: flex; flex-direction: column; }
+/* The panel holds the dark background; the reel inside scrolls (and elastically bounces)
+   over it transparently, so over-scroll reveals the panel's own colour, not the page. */
+.case-modal-image-panel { flex: 1; min-height: 0; display: flex; overflow: hidden; background: var(--text-secondary); }
+.case-modal-image-reel { flex: 1; min-width: 0; min-height: 0; overflow-y: scroll; overscroll-behavior: contain; scrollbar-width: none; -webkit-overflow-scrolling: touch; display: flex; flex-direction: column; padding: 5px; }
 .case-modal-image-reel::-webkit-scrollbar { display: none; }
-.case-modal-card { position: absolute; bottom: 0; left: 0; right: 0; background: var(--bg-surface-elevated); border-radius: 20px 20px 0 0; padding: var(--space-2-5) var(--space-5) var(--space-6); overflow-y: hidden; scrollbar-width: none; box-shadow: 0 -8px 24px rgba(0,0,0,0.12); height: 42%; transition: height 0.38s cubic-bezier(0.32,0.72,0,1); cursor: pointer; z-index: 10; }
+.case-modal-card { position: absolute; bottom: 0; left: 0; right: 0; background: #fbfaef; border-radius: 20px 20px 0 0; padding: var(--space-2-5) var(--space-5) var(--space-6); overflow-y: hidden; scrollbar-width: none; box-shadow: 0 -8px 24px rgba(0,0,0,0.12); height: 52%; transition: height 0.38s cubic-bezier(0.32,0.72,0,1); cursor: pointer; z-index: 10; }
 .case-modal-card::-webkit-scrollbar { display: none; }
 .case-modal-card.expanded { height: calc(100% - 60px); overflow-y: auto; cursor: default; }
+/* Layout A card: the card holds the #fbfaef background; an inner element does the scrolling,
+   so the over-scroll bounce reveals the card's own colour instead of the page behind it. */
+.phone-frame[data-layout="a"] .case-modal-card { display: flex; flex-direction: column; overflow: hidden; padding: var(--space-2-5) 0 0; }
+.phone-frame[data-layout="a"] .case-modal-card.expanded { overflow: hidden; }
+.case-modal-card-scroll { flex: 1; min-height: 0; overflow-y: hidden; overscroll-behavior: contain; scrollbar-width: none; padding: 0 var(--space-5) var(--space-6); }
+.case-modal-card-scroll::-webkit-scrollbar { display: none; }
+.phone-frame[data-layout="a"] .case-modal-card.expanded .case-modal-card-scroll { overflow-y: auto; }
 .case-modal-drag-handle { width: 36px; height: 4px; background: var(--border-subtle); border-radius: 2px; margin: 0 auto var(--space-3-5); }
-.case-modal-close { position: absolute; top: 14px; right: 14px; width: 32px; height: 32px; border-radius: 50%; background: #ffffff; border: 0; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #1a1a18; z-index: 10; }
+.case-modal-close { position: absolute; top: 14px; right: 14px; width: 32px; height: 32px; border-radius: 50%; background: #ffffff; border: 0; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #1a1a18; z-index: 10; box-shadow: 0 2px 8px rgba(0,0,0,0.28); }
 .case-modal-close svg { width: 15px; height: 15px; stroke-width: 2; }
-.case-modal-eyebrow { font-size: var(--fs-caption); letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-tertiary); margin: var(--space-0-5) 0 var(--space-1-5); font-weight: 600; }
-.case-modal-name { font-size: var(--fs-h2); font-weight: 500; letter-spacing: -0.015em; color: var(--text-primary); margin: 0 0 var(--space-1); }
-.case-modal-meta { font-size: var(--fs-small); color: var(--text-secondary); margin: 0 0 var(--space-4); }
-.case-modal-placeholder { font-family: var(--font-display); font-style: italic; font-size: 13.5px; color: var(--text-tertiary); margin: var(--space-2) 0 0; line-height: 1.6; padding: var(--space-4); background: var(--bg-page); border-radius: var(--radius-sm); }
-.case-modal-body { font-size: var(--fs-body); color: var(--text-secondary); line-height: 1.6; margin: var(--space-4) 0 0; }
+/* "Case study" reads as a pill, matching .section-eyebrow from the style guide */
+.case-modal-eyebrow { display: inline-block; background: var(--border-subtle); color: var(--text-secondary); font-size: var(--fs-caption); font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; padding: var(--space-1) var(--space-3); border-radius: 999px; margin: 0 0 var(--space-1-5); }
+/* Larger avatar so the pill, name, and meta all sit beside the portrait */
+.case-modal-head { display: flex; align-items: flex-start; gap: var(--space-3-5); margin: 0 0 var(--space-4); }
+.case-modal-avatar { flex: 0 0 auto; width: 66px; height: 66px; border-radius: 999px; background: var(--accent-soft); color: var(--accent-hover); font-family: var(--font-body); font-weight: 600; font-size: var(--fs-h3); letter-spacing: 0.02em; display: flex; align-items: center; justify-content: center; }
+.case-modal-head-text { min-width: 0; }
+.case-modal-name { font-family: var(--font-display); font-size: var(--fs-h2); font-weight: var(--display-weight); letter-spacing: -0.01em; color: var(--text-primary); margin: 0; }
+.case-modal-meta { font-size: var(--fs-small); color: var(--text-secondary); margin: var(--space-0-5) 0 0; }
+/* Quote gets the main-page .quote card treatment (white card + hairline + raised shadow), no byline */
+.case-modal-placeholder { font-family: var(--font-display); font-style: italic; font-size: var(--fs-body); color: var(--text-secondary); margin: var(--space-2) 0 0; line-height: 1.5; padding: var(--space-4); background: var(--bg-surface); border: 0.5px solid var(--border-subtle); border-radius: 10px; box-shadow: var(--shadow-raised); }
+.case-modal-body { font-size: var(--fs-body); color: var(--text-secondary); line-height: 1.55; margin: var(--space-4) 0 0; }
 .case-modal-body:empty { display: none; }
 .case-modal-delivered { margin: var(--space-4-5) 0 0; }
 .case-modal-delivered:empty { display: none; }
-.case-modal-delivered-label { font-size: var(--fs-caption); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-tertiary); margin: 0 0 var(--space-2); }
+.case-modal-delivered-label { font-size: var(--fs-caption); font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-tertiary); margin: 0 0 var(--space-2); }
 .case-modal-delivered-list { display: flex; flex-wrap: wrap; gap: var(--space-1-5); margin: 0; padding: 0; list-style: none; }
-.case-modal-delivered-item { font-size: var(--fs-small); font-weight: 500; color: var(--text-secondary); background: var(--bg-chip, var(--bg-surface)); border: 0.5px solid var(--border-divider); border-radius: 999px; padding: var(--space-1) var(--space-3); }
-.case-modal-image-reel .case-modal-img { width: 100%; aspect-ratio: 4/3; background: var(--media-placeholder); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--space-2); color: rgba(255,255,255,0.40); font-size: var(--fs-caption); letter-spacing: 0.08em; text-transform: uppercase; flex-shrink: 0; position: relative; }
+.case-modal-delivered-item { font-size: var(--fs-small); font-weight: 500; color: var(--text-secondary); background: var(--bg-pill); border: 0; border-radius: 999px; padding: var(--space-1-5) var(--space-3-5); }
+.case-modal-image-reel .case-modal-img { width: 100%; aspect-ratio: 4/3; background: var(--media-placeholder); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--space-2); color: rgba(255,255,255,0.40); font-size: var(--fs-caption); letter-spacing: 0.08em; text-transform: uppercase; flex-shrink: 0; position: relative; border-radius: var(--radius-sm); box-shadow: var(--shadow-raised); overflow: hidden; margin-bottom: 5px; }
+.case-modal-image-reel .case-modal-img:last-child { margin-bottom: 0; }
 .case-modal-image-reel .case-modal-img:has(img)::before,
 .case-modal-image-reel .case-modal-img:has(video)::before { display: none; }
-.case-modal-image-reel .case-modal-img--video { aspect-ratio: unset; height: auto; background: transparent; display: block; }
-.case-modal-image-reel .case-modal-img--video video { width: 100%; height: auto; display: block; object-fit: unset; }
+/* Videos size to the same 4:3 cell as photos (cover), instead of stretching to natural height */
+.case-modal-image-reel .case-modal-img--video video { width: 100%; height: 100%; display: block; object-fit: cover; }
 .case-modal-img-label { position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.45); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); color: #fff; font-size: var(--fs-caption); font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; padding: var(--space-1) var(--space-2); border-radius: 999px; pointer-events: none; z-index: 2; }
 .case-modal-image-reel .case-modal-img::before { content: ''; width: 32px; height: 32px; background-color: rgba(255,255,255,0.34); -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'/%3E%3Ccircle cx='9' cy='9' r='2'/%3E%3Cpath d='m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21'/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'/%3E%3Ccircle cx='9' cy='9' r='2'/%3E%3Cpath d='m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21'/%3E%3C/svg%3E") center / contain no-repeat; }
 /* Bottom-sheet variant (Layout B modal — no image reel): dim backdrop, card auto-heights from content */
@@ -1152,12 +1169,26 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
      pictures scroll on the left, the case study reads/scrolls on the right. No
      tap-to-expand: both columns are plainly scrollable, which is desktop behavior.
      (The expand/sheet JS detects this layout via display:grid and stands down.) */
-  .phone-frame[data-layout="a"] .case-modal { background: rgba(26, 24, 22, 0.62); grid-template-columns: minmax(0, calc(min(1040px, 100%) * 0.58)) minmax(0, calc(min(1040px, 100%) * 0.42)); grid-template-rows: min(720px, 86%); place-content: center; padding: var(--space-6); }
+  /* Stacked dialog floats centered; the .case-modal element stays full-frame so its dim
+     backdrop covers everything (the dialog size is set by the grid tracks, NOT a max-height
+     on the backdrop — capping the backdrop is what let the page show through below it). */
+  .phone-frame[data-layout="a"] .case-modal { background: rgba(26, 24, 22, 0.62); grid-template-columns: minmax(0, min(900px, 92%)); grid-template-rows: minmax(0, 44%) minmax(0, 42%); place-content: center; padding: var(--space-6); }
   .phone-frame[data-layout="a"] .case-modal.open { display: grid; }
-  .phone-frame[data-layout="a"] .case-modal-image-reel { flex: none; border-radius: var(--radius-tile) 0 0 var(--radius-tile); background: var(--bg-dark); box-shadow: var(--shadow-raised); }
-  .phone-frame[data-layout="a"] .case-modal-card { position: static; height: 100%; max-height: none; transform: none; border-radius: 0 var(--radius-tile) var(--radius-tile) 0; overflow-y: auto; cursor: default; transition: none; box-shadow: var(--shadow-raised); padding: var(--space-5) var(--space-5-5) var(--space-6); }
+  /* Top row: horizontal swipeable gallery, same floating treatment as mobile */
+  .phone-frame[data-layout="a"] .case-modal-image-panel { grid-area: 1 / 1; border-radius: var(--radius-tile) var(--radius-tile) 0 0; box-shadow: var(--shadow-raised); }
+  .phone-frame[data-layout="a"] .case-modal-image-reel { flex: 1; flex-direction: row; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; padding: 10px; }
+  .phone-frame[data-layout="a"] .case-modal-image-reel .case-modal-img { width: auto; height: 100%; aspect-ratio: 4/3; flex: 0 0 auto; scroll-snap-align: center; margin: 0 10px 0 0; }
+  .phone-frame[data-layout="a"] .case-modal-image-reel .case-modal-img:last-child { margin-right: 0; }
+  /* Tablet keeps the previous avatar size + vertical centering */
+  .phone-frame[data-layout="a"] .case-modal-head { align-items: center; }
+  .phone-frame[data-layout="a"] .case-modal-avatar { width: 56px; height: 56px; }
+  /* Bottom row: scrollable text card */
+  .phone-frame[data-layout="a"] .case-modal-card { grid-area: 2 / 1; position: static; height: 100%; max-height: none; transform: none; border-radius: 0 0 var(--radius-tile) var(--radius-tile); overflow: hidden; cursor: default; transition: none; box-shadow: var(--shadow-raised); padding: 0; }
+  .phone-frame[data-layout="a"] .case-modal-card-scroll { overflow-y: auto; padding: var(--space-5) var(--space-5-5) var(--space-6); }
   .phone-frame[data-layout="a"] .case-modal-card.expanded { height: 100%; }
   .phone-frame[data-layout="a"] .case-modal-drag-handle { display: none; }
+  /* Close button anchored to the dialog's own top-right (overlapping the gallery cell), not the screen corner */
+  .phone-frame[data-layout="a"] .case-modal-close { position: static; grid-area: 1 / 1; justify-self: end; align-self: start; margin: var(--space-3); z-index: 20; }
 
   /* Info modals: centered dialog instead of a bottom sheet */
   .phone-frame[data-layout="a"] .info-modal { align-items: center; padding: var(--space-6); }
@@ -1175,6 +1206,21 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
     --fs-body-lg: var(--fs-body-lg-d);
     --fs-body: var(--fs-body-d);
   }
+
+  /* Desktop: the frame is wider than it is tall, so the case-study modal reverts to a
+     side-by-side dialog — bigger pictures scroll on the left, the case study reads on the
+     right. Both columns scroll vertically (one direction), and the narrower text column
+     keeps line length comfortable. (Tablet keeps the stacked layout from the 768 block.) */
+  .phone-frame[data-layout="a"] .case-modal { grid-template-columns: minmax(0, calc(min(1120px, 94%) * 0.62)) minmax(0, calc(min(1120px, 94%) * 0.38)); grid-template-rows: minmax(0, 86%); }
+  .phone-frame[data-layout="a"] .case-modal-image-panel { border-radius: var(--radius-tile) 0 0 var(--radius-tile); }
+  .phone-frame[data-layout="a"] .case-modal-image-reel { flex-direction: column; overflow-x: hidden; overflow-y: auto; scroll-snap-type: none; }
+  .phone-frame[data-layout="a"] .case-modal-image-reel .case-modal-img { width: 100%; height: auto; aspect-ratio: 4 / 3; margin: 0 0 10px 0; }
+  .phone-frame[data-layout="a"] .case-modal-image-reel .case-modal-img:last-child { margin-bottom: 0; }
+  .phone-frame[data-layout="a"] .case-modal-card { grid-area: 1 / 2; border-radius: 0 var(--radius-tile) var(--radius-tile) 0; }
+  .phone-frame[data-layout="a"] .case-modal-close { grid-area: 1 / 2; }
+  /* Desktop matches mobile: larger avatar, top-aligned in its container */
+  .phone-frame[data-layout="a"] .case-modal-head { align-items: flex-start; }
+  .phone-frame[data-layout="a"] .case-modal-avatar { width: 66px; height: 66px; }
 
   .phone-frame[data-layout="a"] .header { padding: var(--space-4-5) var(--space-7); }
   .phone-frame[data-layout="a"] .header-nav { gap: var(--space-6); }
@@ -2222,17 +2268,25 @@ body[data-palette="saffron"] .toggle-btn {
     <button type="button" class="case-modal-close" id="case-modal-close" aria-label="Close case study">
       <i data-lucide="x"></i>
     </button>
-    <div class="case-modal-image-reel" id="case-modal-images"></div>
+    <div class="case-modal-image-panel">
+      <div class="case-modal-image-reel" id="case-modal-images"></div>
+    </div>
     <div class="case-modal-card" id="case-modal-card">
       <div class="case-modal-drag-handle"></div>
-      <p class="case-modal-eyebrow">Case study</p>
-      <h3 class="case-modal-name" id="case-modal-name">—</h3>
-      <p class="case-modal-meta" id="case-modal-meta">—</p>
-      <p class="case-modal-placeholder" id="case-modal-quote"></p>
-      <p class="case-modal-body" id="case-modal-body"></p>
-      <div class="case-modal-delivered" id="case-modal-delivered">
-        <p class="case-modal-delivered-label">Premodel Delivered:</p>
-        <ul class="case-modal-delivered-list" id="case-modal-delivered-list"></ul>
+      <div class="case-modal-card-scroll" id="case-modal-card-scroll">
+        <div class="case-modal-head">
+          <span class="case-modal-avatar" id="case-modal-avatar" aria-hidden="true"></span>
+          <div class="case-modal-head-text">
+            <h3 class="case-modal-name" id="case-modal-name">—</h3>
+            <p class="case-modal-meta" id="case-modal-meta">—</p>
+          </div>
+        </div>
+        <p class="case-modal-placeholder" id="case-modal-quote"></p>
+        <p class="case-modal-body" id="case-modal-body"></p>
+        <div class="case-modal-delivered" id="case-modal-delivered">
+          <p class="case-modal-delivered-label">Premodel Delivered:</p>
+          <ul class="case-modal-delivered-list" id="case-modal-delivered-list"></ul>
+        </div>
       </div>
     </div>
   </div>
@@ -3321,6 +3375,7 @@ body[data-palette="saffron"] .toggle-btn {
 
   var caseModal = document.getElementById('case-modal');
   var caseModalName = document.getElementById('case-modal-name');
+  var caseModalAvatar = document.getElementById('case-modal-avatar');
   var caseModalMeta = document.getElementById('case-modal-meta');
   var caseModalQuote = document.getElementById('case-modal-quote');
   var caseModalBody = document.getElementById('case-modal-body');
@@ -3359,7 +3414,7 @@ body[data-palette="saffron"] .toggle-btn {
             el.loop = true;
             el.muted = true;
             el.playsInline = true;
-            el.style.cssText = 'width:100%;height:auto;display:block;';
+            el.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block;';
           } else {
             el = document.createElement('img');
             el.loading = 'lazy';        // the reel can be 20+ full-res renders — fetch as scrolled
@@ -3383,10 +3438,30 @@ body[data-palette="saffron"] .toggle-btn {
       }
     }
   }
+  // Headline reads "<Name>'s <room> premodel"; the smaller line is just the location with
+  // state (visitors come from outside the area). Room words are lowercased except acronyms
+  // like "ADU". Meta is authored as "Room · City".
+  function caseStudyTitle(name, meta) {
+    var room = (meta || '').split('·')[0].trim();
+    var roomLc = room.split(' ').map(function(w) {
+      return (w === w.toUpperCase() && /[A-Z]/.test(w)) ? w : w.toLowerCase();
+    }).join(' ');
+    return name ? (name + "'s " + roomLc + ' premodel') : roomLc;
+  }
+  function caseStudyLocation(meta) {
+    var parts = (meta || '').split('·').map(function(s) { return s.trim(); });
+    var city = parts[1] || '';
+    return city ? (city + ', WA') : '';
+  }
   function openCaseModal(slide) {
     if (!caseModal) return;
-    caseModalName.textContent = slide.dataset.name || '';
-    caseModalMeta.textContent = slide.dataset.meta || '';
+    caseModalName.textContent = caseStudyTitle(slide.dataset.name, slide.dataset.meta);
+    if (caseModalAvatar) {
+      var initials = (slide.dataset.name || '').replace(/[^a-zA-Z\s]/g, ' ').trim().split(/\s+/)
+        .map(function(w) { return w.charAt(0); }).join('').slice(0, 2).toUpperCase();
+      caseModalAvatar.textContent = initials;
+    }
+    caseModalMeta.textContent = caseStudyLocation(slide.dataset.meta);
     if (caseModalQuote) caseModalQuote.textContent = slide.dataset.quote || '';
     if (caseModalBody) caseModalBody.innerHTML = slide.dataset.body || '';
     if (caseModalDeliveredList) {
@@ -3407,8 +3482,9 @@ body[data-palette="saffron"] .toggle-btn {
     requestAnimationFrame(function() {
       var reel = document.getElementById('case-modal-images');
       var card = document.getElementById('case-modal-card');
+      var cardScroll = document.getElementById('case-modal-card-scroll');
       if (reel) reel.scrollTop = 0;
-      if (card) card.scrollTop = 0;
+      if (cardScroll) cardScroll.scrollTop = 0;
       if (reel && card) reel.style.paddingBottom = caseModalColumns() ? '' : card.offsetHeight + 'px';
     });
   }
@@ -3974,9 +4050,15 @@ body[data-palette="saffron"] .toggle-btn {
     var w = parseFloat(opt.getAttribute('data-w'));
     var h = parseFloat(opt.getAttribute('data-h'));
     var avail = document.documentElement.clientWidth - 40;
-    var s = Math.min(1, avail / w);
     phoneFrames.forEach(function(f) {
       if (f.getAttribute('data-layout') === 'b') return; // B stays phone-width
+      // Fit to height as well as width so the whole device frame stays within the window —
+      // otherwise a frame taller than the viewport scrolls and the page shows below an open
+      // modal (the modal is absolutely positioned inside the frame, not the viewport).
+      var topY = 0, el = f;
+      while (el) { topY += el.offsetTop; el = el.offsetParent; }
+      var availH = document.documentElement.clientHeight - topY - 20;
+      var s = Math.min(1, avail / w, availH / h);
       if (s < 1) {
         f.style.transform = 'scale(' + s + ')';
         f.style.transformOrigin = 'top center';
