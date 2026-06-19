@@ -308,6 +308,10 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .flip-card { position: relative; perspective: 1200px; }
 .flip-card-inner { position: relative; transition: transform 0.6s cubic-bezier(0.22, 0.61, 0.36, 1); transform-style: preserve-3d; }
 .flip-card.flipped .flip-card-inner { transform: rotateY(180deg); }
+/* Off-center reset: drop the flip animation so a card going out of focus snaps to its Before face
+   (it's "ready to flip" next time it's centered) instead of doing a distracting flip in place. */
+.flip-card.no-flip-anim .flip-card-inner { transition: none; }
+.carousel { --deck: 0; }
 .flip-face { backface-visibility: hidden; -webkit-backface-visibility: hidden; }
 .flip-card-front { position: relative; }
 .flip-card-back { position: absolute; inset: 0; transform: rotateY(180deg); }
@@ -359,6 +363,10 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .hero-frame.hero-frame--img { background-color: transparent; background-size: cover; background-position: center; background-repeat: no-repeat; }
 /* Video reveal frame: fill the card like a photo frame (inset:0 stretches it; object-fit crops to cover). */
 .hero-frame.hero-frame--video { background-color: transparent; object-fit: cover; width: 100%; height: 100%; }
+/* The video sits on top of an under-layer Before image on the same (front) face. Fading the video's
+   opacity (toggling .active) crossfades it to that Before image — used when a playing reveal leaves
+   focus. A gentle duration keeps the crossfade subtle. */
+.hero-frame--video { transition: opacity 0.6s ease; }
 .hero-anim-alt .hero-frame--img { filter: none; }
 /* 1px hairline on the real photo/video frames in both hero carousels (offset inward to hug the rounded corners). */
 .hero-frame--img, .hero-frame--video { outline: 1px solid var(--border-strong); outline-offset: -1px; }
@@ -453,7 +461,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 /* Gallery slide labels: single line, left-aligned, sitting just above the bottom-right pill */
 .phone-frame[data-layout="a"] .who-section .project-overlay { right: 16px; bottom: 52px; text-align: left; }
 .phone-frame[data-layout="a"] .who-section .project-name { font-size: var(--fs-body); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.phone-frame[data-layout="a"] .project-gallery .project-overlay { bottom: 14px; right: 132px; text-align: left; }
+.phone-frame[data-layout="a"] .project-gallery .project-overlay { bottom: 14px; right: 110px; text-align: left; }
 .section-eyebrow { display: inline-block; background: var(--border-subtle); color: var(--text-secondary); font-size: var(--fs-caption); font-weight: 600; letter-spacing: 0.12em; padding: var(--space-1) var(--space-3); border-radius: 999px; text-transform: uppercase; margin: 0 0 var(--space-3); }
 .section-headline { font-size: var(--fs-display-2); font-weight: 500; line-height: 1.15; letter-spacing: -0.02em; margin: 0 0 var(--space-4-5); text-wrap: balance; color: var(--text-primary); }
 .section-headline .brand-navy { color: var(--accent); }
@@ -461,17 +469,20 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 
 /* Pull quotes — cards on a table with scroll-driven spread */
 .quotes { display: flex; flex-direction: column; align-items: center; margin: 0 -20px var(--space-6); padding: var(--space-6) 0; text-align: left; --spread: 0; }
-.quote { margin: 0; width: 96%; background: var(--bg-surface); border: 0.5px solid var(--border-subtle); border-radius: 10px; padding: var(--space-4) var(--space-4); box-shadow: var(--shadow-raised); position: relative; display: flex; gap: var(--space-3); align-items: flex-start; margin-top: calc(-120px + 134px * var(--spread)); }
+.quote { margin: 0; width: 96%; background: var(--bg-surface); border: 0.5px solid var(--border-subtle); border-radius: 10px; padding: var(--space-4) var(--space-4); box-shadow: var(--shadow-raised); position: relative; display: flex; flex-direction: column; gap: var(--space-3-5); margin-top: calc(-120px + 134px * var(--spread)); }
 .quote:first-child { margin-top: 0; }
 .quote:nth-child(1) { transform: rotate(-1.5deg); z-index: 3; }
 .quote:nth-child(2) { transform: rotate(0.8deg); z-index: 2; }
 .quote:nth-child(3) { transform: rotate(-0.6deg); z-index: 1; }
-.quote-avatar { flex: 0 0 40px; width: 40px; height: 40px; border-radius: 50%; background: var(--bg-surface); display: flex; align-items: center; justify-content: center; font-size: var(--fs-small); font-weight: 600; color: var(--text-secondary); letter-spacing: 0.04em; }
-.quote-content { flex: 1; min-width: 0; }
-.quote-content p { font-size: var(--fs-body); color: var(--text-secondary); font-family: var(--font-display); line-height: 1.5; margin: 0 0 var(--space-2-5); }
+.quote-content { min-width: 0; }
+.quote-content p { font-size: var(--fs-body); color: var(--text-secondary); font-family: var(--font-display); line-height: 1.5; margin: 0; }
 .quote-content strong { font-weight: 700; color: var(--text-primary); }
-.quote-content cite { display: block; font-size: var(--fs-small); color: var(--text-secondary); font-style: normal; line-height: 1.4; }
-.quote-content cite strong { color: var(--text-primary); font-weight: 600; }
+/* Attribution row — mirrors the founder-card head (avatar + name + role), placed BELOW the quote. */
+.quote-head { display: flex; align-items: center; gap: var(--space-3); margin-top: auto; }
+.quote-avatar { flex: 0 0 44px; width: 44px; height: 44px; border-radius: 50%; background: var(--bg-page); border: 0.5px solid var(--border-subtle); display: flex; align-items: center; justify-content: center; font-size: var(--fs-small); font-weight: 600; color: var(--text-secondary); letter-spacing: 0.04em; }
+.quote-meta { min-width: 0; }
+.quote-name { font-size: var(--fs-body); font-weight: 600; letter-spacing: -0.01em; color: var(--text-primary); margin: 0 0 var(--space-0-5); line-height: 1.2; }
+.quote-role { font-size: var(--fs-small); font-weight: 500; color: var(--text-secondary); letter-spacing: 0.005em; margin: 0; line-height: 1.3; }
 
 .pricing-headline { font-size: var(--fs-h2); font-weight: 500; color: var(--text-primary); margin: 0 0 var(--space-1); letter-spacing: -0.01em; line-height: 1.15; }
 .pricing-subhead { font-size: var(--fs-body); color: var(--text-secondary); margin: 0 0 var(--space-3-5); line-height: 1.5; }
@@ -956,8 +967,9 @@ body.palette-active .rf-card .rf-tier.sel .rf-tier-name { color: #16365a; }
 .cc-photo-card { position: absolute; inset: 0; border-radius: 11px; }
 .cc-photo-card--back { background: #cdccc4; transform: rotate(-6deg); }
 .cc-photo-card--mid { background: #e7e6df; transform: rotate(-2.8deg); }
-.cc-photo-card--front { background: var(--media-placeholder); display: flex; align-items: center; justify-content: center; }
-.cc-photo-card--front::before { content: ''; width: 38px; height: 38px; background-color: rgba(255,255,255,0.36); -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'/%3E%3Ccircle cx='9' cy='9' r='2'/%3E%3Cpath d='m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21'/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'/%3E%3Ccircle cx='9' cy='9' r='2'/%3E%3Cpath d='m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21'/%3E%3C/svg%3E") center / contain no-repeat; }
+.cc-photo-card--front { background-color: var(--media-placeholder); background-image: url('images/af-final-entry-e-sm.png'); background-size: cover; background-position: center; }
+/* Placeholder camera glyph is replaced by the render above. */
+.cc-photo-card--front::before { display: none; }
 
 /* ── Scrollytelling chart (Layout A): chart + caption pin while .cc-track scrolls; JS scrubs 7 beats ── */
 .why-chart--scrolly { position: relative; }
@@ -1015,6 +1027,9 @@ body.palette-active .rf-card .rf-tier.sel .rf-tier-name { color: #16365a; }
 /* Flip text sits just below the headline, centered, nudged down 15px, with 42px side margins. */
 .phone-frame[data-layout="a"] .cc-caption { min-height: 16px; margin: 0 42px 0; transform: translateY(15px); }
 .phone-frame[data-layout="a"] .cc-beat { font-size: var(--fs-h3); line-height: 1.34; text-align: center; }
+/* Chart caption sizing: shrink to body at Mobile S so beats don't collide with the chart; grow to H2 from tablet up. */
+@container frame (max-width: 359px) { .phone-frame[data-layout="a"] .cc-beat { font-size: var(--fs-body); } }
+@container frame (min-width: 768px) { .phone-frame[data-layout="a"] .cc-beat { font-size: var(--fs-h2); } }
 
 /* Chart fills the locked frame; guides follow */
 .phone-frame[data-layout="a"] .cc-sticky .cc-stage { width: auto; margin: 0; }
@@ -1046,16 +1061,17 @@ body.palette-active .rf-card .rf-tier.sel .rf-tier-name { color: #16365a; }
 
 .why-founders { grid-row: 1; grid-column: 1; z-index: 1; display: flex; gap: var(--space-2-5); overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-left: 70%; scrollbar-width: none; padding: 0 var(--space-4-5) var(--space-1) 70%; touch-action: pan-x pan-y; -webkit-overflow-scrolling: touch; background: transparent; }
 .why-founders::-webkit-scrollbar { display: none; }
-.why-card.founder { flex: 0 0 290px; scroll-snap-align: start; background: var(--bg-surface); border: 0.5px solid var(--border-subtle); border-radius: var(--radius-card); box-shadow: var(--shadow-raised); padding: var(--space-4) var(--space-4) var(--space-4); display: flex; flex-direction: column; }
+.why-card.founder { position: relative; flex: 0 0 290px; scroll-snap-align: start; background: var(--bg-surface); border: 0.5px solid var(--border-subtle); border-radius: var(--radius-card); box-shadow: var(--shadow-raised); padding: var(--space-4) var(--space-4) var(--space-4); display: flex; flex-direction: column; }
 .why-founder-head { display: grid; grid-template-columns: 64px 1fr auto; gap: var(--space-3); align-items: center; margin: 0 0 var(--space-3); }
 .why-founder-portrait { width: 64px; height: 64px; border-radius: 50%; background: var(--bg-surface); display: flex; align-items: center; justify-content: center; font-size: var(--fs-small); font-weight: 600; color: var(--text-secondary); letter-spacing: 0.04em; overflow: hidden; flex-shrink: 0; }
 .why-founder-portrait img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .why-founder-meta { min-width: 0; }
 .why-founder-name { font-size: var(--fs-body); font-weight: 600; letter-spacing: -0.01em; color: var(--text-primary); margin: 0 0 var(--space-0-5); line-height: 1.2; }
 .why-founder-role { font-size: var(--fs-small); font-weight: 500; color: var(--text-secondary); letter-spacing: 0.005em; margin: 0; line-height: 1.3; }
-.why-founder-linkedin { color: var(--text-secondary); display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 6px; text-decoration: none; transition: background 0.15s, color 0.15s; flex-shrink: 0; }
-.why-founder-linkedin:hover { background: var(--bg-surface); color: var(--text-primary); }
-.why-founder-linkedin svg { width: 14px; height: 14px; stroke-width: 1.75; }
+/* Anchored to the card's top-right corner, larger than the in-row glyph it replaced. */
+.why-founder-linkedin { position: absolute; top: var(--space-3); right: var(--space-3); z-index: 2; color: var(--text-secondary); display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 8px; text-decoration: none; transition: background 0.15s, color 0.15s; flex-shrink: 0; }
+.why-founder-linkedin:hover { background: var(--bg-page); color: var(--text-primary); }
+.why-founder-linkedin svg { width: 20px; height: 20px; stroke-width: 1.75; }
 /* Founder quote + Background line mirror the homeowner quote cards' <p> and <cite> styles */
 .why-founder-quote { font-family: var(--font-display); font-style: normal; font-size: var(--fs-body); line-height: 1.5; color: var(--text-secondary); margin: 0 0 var(--space-2-5); }
 .why-founder-quote strong { font-weight: 700; color: var(--text-primary); }
@@ -1071,10 +1087,11 @@ body.palette-active .rf-card .rf-tier.sel .rf-tier-name { color: #16365a; }
 .project-slide-img { width: 100%; aspect-ratio: 1/1; background: var(--media-placeholder); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--space-3); color: rgba(255,255,255,0.36); font-size: var(--fs-caption); letter-spacing: 0.1em; text-transform: uppercase; position: relative; overflow: hidden; }
 .project-slide-img:has(img)::before { display: none; }
 .project-slide-img::before { content: ''; width: 44px; height: 44px; background-color: rgba(255,255,255,0.34); -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'/%3E%3Ccircle cx='9' cy='9' r='2'/%3E%3Cpath d='m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21'/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'/%3E%3Ccircle cx='9' cy='9' r='2'/%3E%3Cpath d='m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21'/%3E%3C/svg%3E") center / contain no-repeat; }
-.project-overlay { position: absolute; left: 16px; right: 132px; bottom: 14px; color: #fff; pointer-events: none; text-shadow: 0 1px 10px rgba(0,0,0,0.45); z-index: 2; }
+.project-overlay { position: absolute; left: 16px; right: 110px; bottom: 14px; color: #fff; pointer-events: none; text-shadow: 0 1px 10px rgba(0,0,0,0.45); z-index: 2; }
 .project-name { font-size: 16px; font-weight: 600; margin: 0 0 var(--space-0-5); letter-spacing: -0.01em; }
 .project-meta { font-size: var(--fs-small); font-weight: 500; margin: 0; opacity: 0.95; letter-spacing: 0.01em; }
-.project-cta { position: absolute; bottom: 12px; right: 12px; background: #ffffff; color: #1a1a18; border-radius: 999px; padding: var(--space-2) var(--space-3) var(--space-2) var(--space-3-5); font-size: 11.5px; font-weight: 600; letter-spacing: -0.005em; display: inline-flex; align-items: center; gap: var(--space-1); pointer-events: none; z-index: 2; box-shadow: 0 2px 10px rgba(0,0,0,0.28); }
+/* Matches the hero carousel's Before/Reveal button: white, radius-sm rounded rect, 11.5px label, icon at the left. */
+.project-cta { position: absolute; bottom: 12px; right: 12px; background: #ffffff; color: #1a1a18; border-radius: var(--radius-sm); padding: var(--space-2) var(--space-3) var(--space-2) var(--space-2-5); font-size: 11.5px; font-weight: 600; letter-spacing: -0.005em; display: inline-flex; align-items: center; gap: var(--space-1); pointer-events: none; z-index: 2; box-shadow: 0 2px 10px rgba(0,0,0,0.28); }
 .project-cta svg { width: 13px; height: 13px; stroke-width: 2; color: #1a1a18; }
 .project-link { position: absolute; top: 12px; right: 12px; width: 32px; height: 32px; border-radius: 8px; background: rgba(0,0,0,0.32); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); display: flex; align-items: center; justify-content: center; color: #fff; text-decoration: none; transition: background 0.15s; z-index: 2; }
 .project-link:hover { background: rgba(0,0,0,0.5); }
@@ -1154,6 +1171,7 @@ body.palette-active .rf-card .rf-tier.sel .rf-tier-name { color: #16365a; }
 /* ── Footer ─────────────────────────────────────────────────────────── */
 .footer { background: var(--bg-footer); border-top: 1px solid var(--border-subtle); padding: var(--space-6) var(--space-4-5) var(--space-5-5); color: var(--text-secondary); container-type: inline-size; }
 .footer-top { text-align: center; margin: 0 0 var(--space-5); }
+.footer-lockup { display: block; width: 172px; max-width: 66%; height: auto; margin: 0 auto var(--space-2); }
 .footer-wordmark { font-size: var(--fs-h3); font-weight: 500; letter-spacing: -0.005em; color: var(--text-primary); margin: 0 0 var(--space-1); }
 .footer-tagline { font-family: var(--font-display); font-style: italic; font-size: 13.5px; color: var(--text-secondary); margin: 0 0 var(--space-4); line-height: 1.4; }
 .footer-divider { border: 0; border-top: 0.5px solid var(--border-divider); margin: var(--space-4-5) 0; }
@@ -1175,12 +1193,16 @@ body.palette-active .rf-card .rf-tier.sel .rf-tier-name { color: #16365a; }
 .footer-social-link:focus-visible { outline: 2px solid var(--text-primary); outline-offset: 2px; }
 .footer-social-link svg { width: 22px; height: 22px; stroke-width: 1.6; }
 .footer-legal { display: flex; flex-direction: column; align-items: center; gap: var(--space-2); text-align: center; font-size: var(--fs-caption); color: var(--text-tertiary); line-height: 1.5; }
-.footer-legal .footer-trigger { font-size: var(--fs-small); color: var(--text-secondary); }
+.footer-legal .footer-trigger { font-size: var(--fs-caption); color: var(--text-secondary); }
 .footer-copyright { margin: 0; }
+/* Mobile M and up: copyright left, Privacy right, on one line. (Mobile S keeps the stacked base.) */
+@container (min-width: 330px) {
+  .footer-legal { flex-direction: row; justify-content: space-between; align-items: center; }
+}
 @container (min-width: 540px) {
   .footer { padding: var(--space-7) var(--space-6) var(--space-6); }
   .footer-middle { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-5-5); }
-  .footer-legal { flex-direction: row; justify-content: center; gap: var(--space-3-5); }
+  .footer-legal { gap: var(--space-3-5); }
 }
 
 /* ── Info modal (Privacy, For builders) ─────────────────────────────── */
@@ -1246,12 +1268,20 @@ body.palette-active .rf-card .rf-tier.sel .rf-tier-name { color: #16365a; }
   .phone-frame[data-layout="a"] .header-cta { white-space: nowrap; }
   .phone-frame[data-layout="a"] .header-actions { gap: var(--space-4); flex: none; }
 
-  /* Hero: bigger type (via tokens) + a centered carousel card with neighbors peeking */
+  /* Hero: bigger type (via tokens) + the stacked-deck carousel */
   .phone-frame[data-layout="a"] .reveal-hero { padding-top: var(--space-7); }
-  /* Slide widths use cqw (1% of frame width): flex-basis percentages would
-     resolve against the carousel's own content box minus this padding — circular. */
-  .phone-frame[data-layout="a"] .carousel { --slide-w: min(720px, 82cqw); gap: var(--space-4); padding-left: calc((100% - var(--slide-w)) / 2); padding-right: calc((100% - var(--slide-w)) / 2); }
-  .phone-frame[data-layout="a"] .carousel .slide { flex: 0 0 var(--slide-w); padding: 0; }
+  /* Hero carousel is a STACKED DECK from tablet up: the front slide sits centered on top; the others
+     tuck behind it, peeking on each side at 20% opacity (faded back). Swiping/clicking shuffles which
+     slide is in front. JS reads --deck:1, adds .deck, and positions each slide via --dx/--sc/--z/--op.
+     Below 768px the carousel stays a scroll-snap row (these rules don't apply). */
+  .phone-frame[data-layout="a"] .carousel { --deck: 1; --slide-w: min(720px, calc((100cqw - 48px) / 1.28)); }
+  .phone-frame[data-layout="a"] .carousel.deck { display: block; position: relative; overflow: visible; scroll-snap-type: none; touch-action: pan-y; user-select: none; -webkit-user-select: none; padding: 0; height: calc(var(--slide-w) * 2 / 3 + 88px); cursor: grab; }
+  .phone-frame[data-layout="a"] .carousel.deck:active { cursor: grabbing; }
+  .phone-frame[data-layout="a"] .carousel.deck .slide { position: absolute; top: 44px; left: 50%; width: var(--slide-w); margin: 0; padding: 0; transform-origin: center center; transform: translateX(-50%) translateX(var(--dx, 0px)) scale(var(--sc, 1)); z-index: var(--z, 1); opacity: var(--op, 1); transition: transform 0.5s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 0.5s ease; }
+  .phone-frame[data-layout="a"] .carousel.deck .slide.is-clone { display: none; }
+  .phone-frame[data-layout="a"] .carousel.deck .slide:not(.is-front) { cursor: pointer; }
+  /* Peeking side cards are backdrop, not UI: hide their Before/Reveal control. */
+  .phone-frame[data-layout="a"] .carousel.deck .slide:not(.is-front) .hero-before-btn { opacity: 0; pointer-events: none; }
   .phone-frame[data-layout="a"] .reveal-sub { max-width: 560px; margin-inline: auto; }
 
   /* Plan rail: keep the pinned-headline + scrolling tiles identity, just roomier */
@@ -1372,12 +1402,10 @@ body.palette-active .rf-card .rf-tier.sel .rf-tier-name { color: #16365a; }
      is the opener, the Plan is the work). A shallower carousel + tighter rhythm keep
      "Turn a Reveal into a Plan" near the first screen. */
   .phone-frame[data-layout="a"] .reveal-hero { padding-top: var(--space-6); }
-  /* Hero carousel is CIRCULAR on desktop: the JS-built edge clones (.is-clone) become
-     visible, so the last card peeks left of the centered first card, and scrolling
-     wraps seamlessly in both directions. Cards stay 3:2, kept shallow so the Plan
-     headline lands on screen 1. */
-  .phone-frame[data-layout="a"] .carousel { --slide-w: min(620px, 50cqw); gap: var(--space-5); }
-  .phone-frame[data-layout="a"] .carousel .slide.is-clone { display: block; }
+  /* The deck (.deck rules) comes from the tablet breakpoint; desktop sizes the cards up but only to
+     80% of a margin-filling width, so the 3:2 card stays comfortable vertically. (1.6 = 1.28 / 0.8;
+     704 = 880 * 0.8.) */
+  .phone-frame[data-layout="a"] .carousel { --slide-w: min(704px, calc((100cqw - 48px) / 1.6)); }
 
   /* Plan: the rail becomes a centered headline + one calm row of four tiles */
   .phone-frame[data-layout="a"] .plan-block { display: block; max-width: 1140px; margin: var(--space-7) auto 0; padding: 0 var(--space-7); }
@@ -1767,7 +1795,7 @@ body[data-palette="saffron"] .toggle-btn {
       </nav>
       <div class="header-actions">
         <button type="button" class="header-link" data-modal-open="builders">For builders →</button>
-        <button type="button" class="header-cta" data-nav-target="start">Get your Reveal</button>
+        <button type="button" class="header-cta" data-nav-target="start">Get started</button>
       </div>
     </div>
 
@@ -1781,7 +1809,19 @@ body[data-palette="saffron"] .toggle-btn {
         <div class="flip-card flipped">
           <div class="flip-card-inner">
             <div class="flip-card-front flip-face">
-              <div class="img hero-static"><video class="hero-frame active hero-frame--video" data-state="0" muted loop playsinline preload="metadata" poster="images/pf-bath-reveal-A1.png"><source src="images/pf-bath-reveal.mp4" type="video/mp4"></video><span class="hero-tag">Shoreline</span><button type="button" class="hero-before-btn" aria-label="Show before" aria-pressed="true"><span class="hero-before-label">Before</span></button></div>
+              <div class="img hero-static"><div class="hero-frame active hero-frame--img hero-frame--under" data-state="3" style="background-image:url('images/bf-2f-before.png')"></div><video class="hero-frame active hero-frame--video" data-state="0" muted loop playsinline preload="metadata" poster="images/bf-2f-reveal-poster.png"><source src="images/bf-2f-reveal.mp4" type="video/mp4"></video><span class="hero-tag">Seattle</span><button type="button" class="hero-before-btn" aria-label="Show before" aria-pressed="true"><span class="hero-before-label">Before</span></button></div>
+            </div>
+            <div class="flip-card-back flip-face">
+              <div class="img hero-static"><div class="hero-frame active hero-frame--img" data-state="3" style="background-image:url('images/bf-2f-before.png')"></div><span class="hero-tag">Seattle</span><button type="button" class="hero-before-btn" aria-label="Show reveal" aria-pressed="true"><span class="hero-before-label">Reveal</span></button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slide">
+        <div class="flip-card flipped">
+          <div class="flip-card-inner">
+            <div class="flip-card-front flip-face">
+              <div class="img hero-static"><div class="hero-frame active hero-frame--img hero-frame--under" data-state="3" style="background-image:url('images/pf-bath-before-1.png')"></div><video class="hero-frame active hero-frame--video" data-state="0" muted loop playsinline preload="metadata" poster="images/pf-bath-reveal-A1.png"><source src="images/pf-bath-reveal.mp4" type="video/mp4"></video><span class="hero-tag">Shoreline</span><button type="button" class="hero-before-btn" aria-label="Show before" aria-pressed="true"><span class="hero-before-label">Before</span></button></div>
             </div>
             <div class="flip-card-back flip-face">
               <div class="img hero-static"><div class="hero-frame active hero-frame--img" data-state="3" style="background-image:url('images/pf-bath-before-1.png')"></div><span class="hero-tag">Shoreline</span><button type="button" class="hero-before-btn" aria-label="Show reveal" aria-pressed="true"><span class="hero-before-label">Reveal</span></button></div>
@@ -1790,25 +1830,13 @@ body[data-palette="saffron"] .toggle-btn {
         </div>
       </div>
       <div class="slide">
-        <div class="flip-card">
+        <div class="flip-card flipped">
           <div class="flip-card-inner">
             <div class="flip-card-front flip-face">
-              <div class="img hero-static"><div class="hero-frame active" data-state="0"><span class="hero-frame-label">Reveal</span><span class="hero-frame-sub">after</span></div><span class="hero-tag">Ballard</span><button type="button" class="hero-before-btn" aria-label="Show before" aria-pressed="false"><span class="hero-before-label">Before</span></button></div>
+              <div class="img hero-static"><div class="hero-frame active" data-state="0"><span class="hero-frame-label">Reveal</span><span class="hero-frame-sub">after</span></div><span class="hero-tag">Ballard</span><button type="button" class="hero-before-btn" aria-label="Show before" aria-pressed="true"><span class="hero-before-label">Before</span></button></div>
             </div>
             <div class="flip-card-back flip-face">
-              <div class="img hero-static"><div class="hero-frame active" data-state="3"><span class="hero-frame-label">Before</span><span class="hero-frame-sub">existing</span></div><span class="hero-tag">Ballard</span><button type="button" class="hero-before-btn" aria-label="Show reveal" aria-pressed="false"><span class="hero-before-label">Reveal</span></button></div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="slide">
-        <div class="flip-card">
-          <div class="flip-card-inner">
-            <div class="flip-card-front flip-face">
-              <div class="img hero-static"><div class="hero-frame active" data-state="0"><span class="hero-frame-label">Reveal</span><span class="hero-frame-sub">after</span></div><span class="hero-tag">Queen Anne</span><button type="button" class="hero-before-btn" aria-label="Show before" aria-pressed="false"><span class="hero-before-label">Before</span></button></div>
-            </div>
-            <div class="flip-card-back flip-face">
-              <div class="img hero-static"><div class="hero-frame active" data-state="3"><span class="hero-frame-label">Before</span><span class="hero-frame-sub">existing</span></div><span class="hero-tag">Queen Anne</span><button type="button" class="hero-before-btn" aria-label="Show reveal" aria-pressed="false"><span class="hero-before-label">Reveal</span></button></div>
+              <div class="img hero-static"><div class="hero-frame active" data-state="3"><span class="hero-frame-label">Before</span><span class="hero-frame-sub">existing</span></div><span class="hero-tag">Ballard</span><button type="button" class="hero-before-btn" aria-label="Show reveal" aria-pressed="true"><span class="hero-before-label">Reveal</span></button></div>
             </div>
           </div>
         </div>
@@ -1969,24 +1997,39 @@ body[data-palette="saffron"] .toggle-btn {
 
       <div class="quotes">
         <blockquote class="quote">
-          <div class="quote-avatar">AG</div>
           <div class="quote-content">
             <p>"<strong>Without Premodel, I honestly wouldn't have started this project</strong> because I don't have time to agonize over possibilities I can't picture."</p>
-            <cite>—<strong>Anna G.</strong>, Edmonds · Master bath, pull-and-replace</cite>
+          </div>
+          <div class="quote-head">
+            <div class="quote-avatar">AG</div>
+            <div class="quote-meta">
+              <p class="quote-name">Anna G.</p>
+              <p class="quote-role">Master bath reconfigure, Edmonds</p>
+            </div>
           </div>
         </blockquote>
         <blockquote class="quote">
-          <div class="quote-avatar">SA</div>
           <div class="quote-content">
             <p>"We got a <strong>preview</strong> <strong>before committing to a big construction budget.</strong> It's crazy that it's the opposite for most remodels: commit first, see it months later."</p>
-            <cite>—<strong>Sasha A.</strong>, Seattle · Full home renovation</cite>
+          </div>
+          <div class="quote-head">
+            <div class="quote-avatar">SA</div>
+            <div class="quote-meta">
+              <p class="quote-name">Sasha A.</p>
+              <p class="quote-role">Full floor reconfigure, Seattle</p>
+            </div>
           </div>
         </blockquote>
         <blockquote class="quote">
-          <div class="quote-avatar">KB</div>
           <div class="quote-content">
             <p>"I had floor plans, Pinterest boards, and tons of tile samples, but <strong>putting it all together was a puzzle.</strong> Premodel eliminated the guesswork."</p>
-            <cite>—<strong>K.B.</strong>, Seattle · Multi-room, new build</cite>
+          </div>
+          <div class="quote-head">
+            <div class="quote-avatar">KB</div>
+            <div class="quote-meta">
+              <p class="quote-name">K.B.</p>
+              <p class="quote-role">Multi-room new build, Seattle</p>
+            </div>
           </div>
         </blockquote>
       </div>
@@ -2001,7 +2044,7 @@ body[data-palette="saffron"] .toggle-btn {
               <p class="project-meta">Edmonds</p>
             </div>
             <a class="project-link" href="https://instagram.com/premodel" target="_blank" rel="noopener" aria-label="View on Instagram"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
-            <div class="project-cta">See the project <i data-lucide="arrow-right"></i></div>
+            <div class="project-cta"><i data-lucide="layout-grid"></i> Gallery</div>
           </div>
           <div class="project-slide" data-name="Sasha A." data-meta="Full home renovation · Edmonds" data-quote="We finally stopped debating and started deciding. Our contractor finished on time, on budget, with no surprises because there was nothing left to figure out." data-body="&lt;p&gt;Sasha and her family had inherited a house, a fixed budget, and a hard move-in deadline, and they were drowning! Every day brought new ideas from Instagram, Pinterest, and Houzz, but none of it added up to a plan. The whole main floor needed to work for how a modern family actually lives: an entry and drop zone for the kids' gear, brighter rooms, sightlines that connected the space instead of carving it up. The style they kept coming back to had arches, exposed beams, mullioned windows — none of which their house had. They couldn't see how to get there without blowing the budget, and the pressure got bad enough that they seriously considered abandoning the whole thing and selling the house.&lt;/p&gt;&lt;p&gt;VR was where it finally came together. Walking the structural options, they could feel how much an arch or a run of beams actually mattered to them — which elements were worth investing in and which they could let go. The abstract debates that had been spinning for weeks turned into decisions they could stand inside and judge. Choosing materials worked the same way: instead of drowning in disconnected options, they paired everything interactively until the look resolved.&lt;/p&gt;&lt;p&gt;By the time construction started, there was nothing left to debate. Their contractor finished on time and on budget, which almost never happens for a full-home renovation. It happened here because every decision had already been made, and everyone had already seen it.&lt;/p&gt;" data-delivered="Whole-home spatial model · VR walkthrough · style options · styled renders" data-images='[{"src": "images/af-layout-all.mp4", "alt": "Floor Plan Options", "type": "video"}, {"src": "", "alt": "VR Walkthrough"}, {"src": "images/af-before-foyer.jpg", "alt": "Entry — Before"}, {"src": "images/af-opt1-entry.png", "alt": "Option 1 — Entry"}, {"src": "images/af-opt2-entry.png", "alt": "Option 2 — Entry"}, {"src": "images/af-opt3-entry.png", "alt": "Option 3 — Entry"}, {"src": "images/af-final-entry-e.png", "alt": "Final — Entry"}, {"src": "images/af-before-bath.jpg", "alt": "Bath — Before"}, {"src": "images/af-opt1-bath.png", "alt": "Option 1 — Bath"}, {"src": "images/af-opt2-bath.png", "alt": "Option 2 — Bath"}, {"src": "images/af-opt3-bath.png", "alt": "Option 3 — Bath"}, {"src": "images/af-final-bath.png", "alt": "Final — Bath"}, {"src": "images/af-before-liv.jpg", "alt": "Living — Before"}, {"src": "images/af-opt1-liv.png", "alt": "Option 1 — Living Room"}, {"src": "images/af-opt2-liv.png", "alt": "Option 2 — Living Room"}, {"src": "images/af-opt3-liv.png", "alt": "Option 3 — Living Room"}, {"src": "images/af-final-liv.png", "alt": "Final — Living Room"}, {"src": "images/af-before-kit.jpg", "alt": "Kitchen — Before"}, {"src": "images/af-opt1-kit.png", "alt": "Option 1 — Kitchen"}, {"src": "images/af-opt2-kit.png", "alt": "Option 2 — Kitchen"}, {"src": "images/af-opt3-kit.png", "alt": "Option 3 — Kitchen"}, {"src": "images/af-final-kit.png", "alt": "Final — Kitchen"}]' data-image-labels="Floor Plan Options · VR Walkthrough · Entry — Before · Entry — Option 1 · Entry — Option 2 · Entry — Option 3 · Entry — Final · Bath — Before · Bath — Option 1 · Bath — Option 2 · Bath — Option 3 · Bath — Final · Living — Before · Living — Option 1 · Living — Option 2 · Living — Option 3 · Living — Final · Kitchen — Before · Kitchen — Option 1 · Kitchen — Option 2 · Kitchen — Option 3 · Kitchen — Final" data-ig="https://instagram.com/premodel">
             <div class="project-slide-img"><img loading="lazy" decoding="async" src="images/af-carousel.png" alt="Sasha A. — Full home renovation, Edmonds" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
@@ -2009,7 +2052,7 @@ body[data-palette="saffron"] .toggle-btn {
               <p class="project-name">Full home renovation, Edmonds</p>
             </div>
             <a class="project-link" href="https://instagram.com/premodel" target="_blank" rel="noopener" aria-label="View on Instagram"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
-            <div class="project-cta">See the project <i data-lucide="arrow-right"></i></div>
+            <div class="project-cta"><i data-lucide="layout-grid"></i> Gallery</div>
           </div>
           <div class="project-slide" data-name="K.B." data-meta="New-build kitchen · Seattle" data-quote="I didn't think I needed the VR walkthrough. I had no idea what I was missing until I was standing in my virtual kitchen looking up at the ceiling height." data-body="&lt;p&gt;K.B. was building new, which sounds like the clean-slate scenario until you realize a floor plan only tells half the story. She had the footprint, but no elevations — the vertical dimension where so many decisions actually live. She'd been collecting materials she loved with no clear way to bring them together, and figured what she needed was help picking finishes.&lt;/p&gt;&lt;p&gt;VR showed her the decisions she didn't know she was missing. In a ten-foot space, how high should the cabinets go? How should they be configured? What happens to the ceiling and lighting above the island? Standing in the room made these impossible to ignore — and surfaced one she'd never have caught on paper: a cabinet layout that wasn't quite symmetrical, exactly the kind of thing that would have quietly bothered her forever. All of it resolved before the contractor was ready to build.&lt;/p&gt;&lt;p&gt;Then came the materials she'd actually come for. Configuring her finishes interactively, she could finally see what worked together: dark chocolate flooring versus red undertones, solid panel cabinets versus reeded glass, black countertops versus white. She wanted clean and modern with a little visual interest, and could test exactly where that line was. When a few of her first picks turned out to be unavailable, she could see the alternatives looked just as good — no leap of faith required.&lt;/p&gt;" data-delivered="3D spatial model · VR walkthrough · interactive style options · styled renders" data-images='[{"src":"images/kb-layout-reveal.mp4","alt":"Floor Plan Options","type":"video"},{"src":"","alt":"VR Walkthrough"},{"src":"images/kb-opt1-kit.png","alt":"Option 1"},{"src":"images/kb-opt2-kit.png","alt":"Option 2"},{"src":"images/kb-opt3-kit.png","alt":"Option 3"},{"src":"images/kb-final-kit.png","alt":"Final"}]' data-image-labels="Floor Plan Options · VR Walkthrough · Option 1 · Option 2 · Option 3 · Final" data-ig="https://instagram.com/premodel">
             <div class="project-slide-img"><img loading="lazy" decoding="async" src="images/kb-carousel.png" alt="K.B. — New-build kitchen, Seattle" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
@@ -2017,7 +2060,7 @@ body[data-palette="saffron"] .toggle-btn {
               <p class="project-name">New-build kitchen, Seattle</p>
             </div>
             <a class="project-link" href="https://instagram.com/premodel" target="_blank" rel="noopener" aria-label="View on Instagram"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
-            <div class="project-cta">See the project <i data-lucide="arrow-right"></i></div>
+            <div class="project-cta"><i data-lucide="layout-grid"></i> Gallery</div>
           </div>
           <div class="project-slide" data-name="Jenn S." data-meta="ADU · Bellevue" data-quote="Premodel saved me from making an expensive mistake that would have bothered me every time I used the space." data-body="&lt;p&gt;Jenn's basement had been collecting storage for years. The plan was to convert it into a self-contained ADU. She had the rooms placed and a clear vision for the kitchen: a U-shape that maximized counter space. She was confident. She thought she was ready to build.&lt;/p&gt;&lt;p&gt;VR changed everything. The U-shaped kitchen felt immediately wrong the moment she was standing in it. It felt claustrophobic. Two people in the kitchen at the same time wasn't really an option. The open dishwasher door trapped whoever was at the sink. The pantry was only accessible if you walked around the peninsula to get to it. And anyone sitting at the counter would have their back to the windows with the nice view. In the bathroom, a shower with a 45-degree angled entry looked fine on a floor plan but felt too small to actually turn around in comfortably. The original design also put a desk in the bedroom which was logical on paper. But standing in the virtual layout, it was obvious the dining table by the windows was where anyone would actually want to sit and work.&lt;/p&gt;&lt;p&gt;The finishes also got changed after seeing them in VR. Darker cabinets and wood tones that matched the rest of the house made the space feel like a cave; lighter finishes kept it open.&lt;/p&gt;&lt;p&gt;Jenn had been ready to build the wrong thing with total confidence. Instead, she built the right thing with the same confidence, but no unpleasant surprises.&lt;/p&gt;" data-delivered="3D spatial model · VR walkthrough · style options · styled renders" data-images='[{"src": "images/js-before.jpg", "alt": "Before"}, {"src": "images/js-layout-all.mp4", "alt": "Floor plan options", "type": "video"}, {"src": "", "alt": "VR Walkthrough"}, {"src": "images/js-opt1-liv.png", "alt": "Option 1 Living"}, {"src": "images/js-opt1-kit2.png", "alt": "Option 1 Kitchen"}, {"src": "images/js-opt1-kit4.png", "alt": "Option 1 Kitchen"}, {"src": "images/js-opt1-bedr.png", "alt": "Option 1 Bedroom"}, {"src": "images/js-opt1-bath.png", "alt": "Option 1 Bath"}, {"src": "images/js-opt2-liv.png", "alt": "Option 2 Living"}, {"src": "images/js-opt2-kit2.png", "alt": "Option 2 Kitchen"}, {"src": "images/js-opt2-kit4.png", "alt": "Option 2 Kitchen"}, {"src": "images/js-opt2-bedr.png", "alt": "Option 2 Bedroom"}, {"src": "images/js-opt2-bath.png", "alt": "Option 2 Bath"}, {"src": "images/js-final-liv.png", "alt": "Final Living"}, {"src": "images/js-final-kit2.png", "alt": "Final Kitchen"}, {"src": "images/js-final-kit4.png", "alt": "Final Kitchen"}, {"src": "images/js-final-bedr.png", "alt": "Final Bedroom"}, {"src": "images/js-final-bath.png", "alt": "Final Bath"}]' data-image-labels="Before · Floor plan options · VR Walkthrough · Option 1 — Living Room · Option 1 — Kitchen · Option 1 — Kitchen · Option 1 — Bedroom · Option 1 — Bath · Option 2 — Living Room · Option 2 — Kitchen · Option 2 — Kitchen · Option 2 — Bedroom · Option 2 — Bath · Final — Living Room · Final — Kitchen · Final — Kitchen · Final — Bedroom · Final — Bath" data-ig="https://instagram.com/premodel">
             <div class="project-slide-img"><img loading="lazy" decoding="async" src="images/js-carousel.png" alt="Jenn S. — ADU, Bellevue" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
@@ -2025,7 +2068,7 @@ body[data-palette="saffron"] .toggle-btn {
               <p class="project-name">ADU, Bellevue</p>
             </div>
             <a class="project-link" href="https://instagram.com/premodel" target="_blank" rel="noopener" aria-label="View on Instagram"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
-            <div class="project-cta">See the project <i data-lucide="arrow-right"></i></div>
+            <div class="project-cta"><i data-lucide="layout-grid"></i> Gallery</div>
           </div>
         </div>
         <div class="project-dots" id="project-dots">
@@ -2143,7 +2186,7 @@ body[data-palette="saffron"] .toggle-btn {
             <div class="why-founder-portrait"><img loading="lazy" decoding="async" src="images/founder-aw.png" alt="Ashley Wells"></div>
             <div class="why-founder-meta">
               <p class="why-founder-name">Ashley Wells</p>
-              <p class="why-founder-role">Premodel guide<br>Co-founder</p>
+              <p class="why-founder-role">Premodel guide,<br>Co-founder</p>
             </div>
             <!-- TODO: confirm founder LinkedIn URL -->
             <a class="why-founder-linkedin" href="#" target="_blank" rel="noopener" aria-label="Ashley Wells on LinkedIn">
@@ -2160,7 +2203,7 @@ body[data-palette="saffron"] .toggle-btn {
             <div class="why-founder-meta">
               <!-- TODO: confirm Paige's surname -->
               <p class="why-founder-name">Paige Shaw</p>
-              <p class="why-founder-role">Premodel guide<br>Co-founder</p>
+              <p class="why-founder-role">Premodel guide,<br>Co-founder</p>
             </div>
             <!-- TODO: confirm founder LinkedIn URL -->
             <a class="why-founder-linkedin" href="#" target="_blank" rel="noopener" aria-label="Paige Shaw on LinkedIn">
@@ -2437,8 +2480,7 @@ body[data-palette="saffron"] .toggle-btn {
     <!-- ── Footer ─────────────────────────────────────────────────────── -->
     <footer class="footer" role="contentinfo">
       <div class="footer-top">
-        <p class="footer-wordmark">Premodel</p>
-        <p class="footer-tagline">Before You Remodel</p>
+        <img class="footer-lockup" src="premodel-wordmark-tagline-cyanotype.png" alt="Premodel — Before You Remodel" width="1048" height="269" decoding="async">
         <div class="footer-social">
           <a class="footer-social-link" href="https://instagram.com/premodel" target="_blank" rel="noopener" aria-label="Premodel on Instagram"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
           <a class="footer-social-link" href="#" target="_blank" rel="noopener" aria-label="Premodel on Facebook" data-todo="confirm Facebook page URL"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
@@ -2469,15 +2511,15 @@ body[data-palette="saffron"] .toggle-btn {
       <hr class="footer-divider" />
 
       <div class="footer-legal">
-        <button type="button" class="footer-trigger" data-modal-open="privacy">Privacy</button>
         <p class="footer-copyright">© 2026 West &amp; Wells LLC dba Premodel</p>
+        <button type="button" class="footer-trigger" data-modal-open="privacy">Privacy policy</button>
       </div>
     </footer>
 
   </div>
 
   <div class="cta-bar">
-    <button class="cta-button" type="button">Ready for your reveal?</button>
+    <button class="cta-button" type="button">Ready for your Reveal?</button>
   </div>
 
   <!-- Case-study modal (sheet-style; mounted inside phone frame for absolute containment) -->
@@ -2837,24 +2879,39 @@ body[data-palette="saffron"] .toggle-btn {
 
       <div class="quotes">
         <blockquote class="quote">
-          <div class="quote-avatar">AG</div>
           <div class="quote-content">
             <p>"Without Premodel, I honestly wouldn't have started this project because <strong>I didn't have time to agonize</strong> <strong>over possibilities</strong> I can't picture."</p>
-            <cite>—<strong>Anna G.</strong>, Edmonds · Master bath, pull-and-replace</cite>
+          </div>
+          <div class="quote-head">
+            <div class="quote-avatar">AG</div>
+            <div class="quote-meta">
+              <p class="quote-name">Anna G.</p>
+              <p class="quote-role">Master bath reconfigure, Edmonds</p>
+            </div>
           </div>
         </blockquote>
         <blockquote class="quote">
-          <div class="quote-avatar">SA</div>
           <div class="quote-content">
             <p>"We got a <strong>preview</strong> <strong>before committing to a big construction budget.</strong> It's crazy that it's the opposite for most remodels: commit first, see it months later."</p>
-            <cite>—<strong>Sasha A.</strong>, Seattle · Full home renovation</cite>
+          </div>
+          <div class="quote-head">
+            <div class="quote-avatar">SA</div>
+            <div class="quote-meta">
+              <p class="quote-name">Sasha A.</p>
+              <p class="quote-role">Full floor reconfigure, Seattle</p>
+            </div>
           </div>
         </blockquote>
         <blockquote class="quote">
-          <div class="quote-avatar">KB</div>
           <div class="quote-content">
             <p>"I had floor plans, Pinterest boards, and tons of tile samples, but <strong>putting it all together was a puzzle.</strong> Premodel eliminated the guesswork."</p>
-            <cite>—<strong>K.B.</strong>, Seattle · Multi-room, new build</cite>
+          </div>
+          <div class="quote-head">
+            <div class="quote-avatar">KB</div>
+            <div class="quote-meta">
+              <p class="quote-name">K.B.</p>
+              <p class="quote-role">Multi-room new build, Seattle</p>
+            </div>
           </div>
         </blockquote>
       </div>
@@ -2930,7 +2987,7 @@ body[data-palette="saffron"] .toggle-btn {
               <p class="project-meta">Edmonds</p>
             </div>
             <a class="project-link" href="https://instagram.com/premodel" target="_blank" rel="noopener" aria-label="View on Instagram"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
-            <div class="project-cta">See the project <i data-lucide="arrow-right"></i></div>
+            <div class="project-cta"><i data-lucide="layout-grid"></i> Gallery</div>
           </div>
           <div class="project-slide" data-image-count="5" data-name="Sasha A." data-meta="Full home renovation · Seattle" data-ig="https://instagram.com/premodel">
             <div class="project-img">Project image 2</div>
@@ -2939,7 +2996,7 @@ body[data-palette="saffron"] .toggle-btn {
               <p class="project-meta">Seattle</p>
             </div>
             <a class="project-link" href="https://instagram.com/premodel" target="_blank" rel="noopener" aria-label="View on Instagram"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
-            <div class="project-cta">See the project <i data-lucide="arrow-right"></i></div>
+            <div class="project-cta"><i data-lucide="layout-grid"></i> Gallery</div>
           </div>
           <div class="project-slide" data-image-count="5" data-name="K.B." data-meta="Multi-room, new build · Seattle" data-ig="https://instagram.com/premodel">
             <div class="project-img">Project image 3</div>
@@ -2948,7 +3005,7 @@ body[data-palette="saffron"] .toggle-btn {
               <p class="project-meta">Seattle</p>
             </div>
             <a class="project-link" href="https://instagram.com/premodel" target="_blank" rel="noopener" aria-label="View on Instagram"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
-            <div class="project-cta">See the project <i data-lucide="arrow-right"></i></div>
+            <div class="project-cta"><i data-lucide="layout-grid"></i> Gallery</div>
           </div>
           <div class="project-slide" data-name="Jenna R." data-meta="Powder bath · Kirkland" data-ig="https://instagram.com/premodel">
             <div class="project-img">Project image 4</div>
@@ -2957,7 +3014,7 @@ body[data-palette="saffron"] .toggle-btn {
               <p class="project-meta">Kirkland</p>
             </div>
             <a class="project-link" href="https://instagram.com/premodel" target="_blank" rel="noopener" aria-label="View on Instagram"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
-            <div class="project-cta">See the project <i data-lucide="arrow-right"></i></div>
+            <div class="project-cta"><i data-lucide="layout-grid"></i> Gallery</div>
           </div>
         </div>
         <div class="project-dots" id="project-dots-b">
@@ -3070,8 +3127,7 @@ body[data-palette="saffron"] .toggle-btn {
     <!-- ── Footer ─────────────────────────────────────────────────────── -->
     <footer class="footer" role="contentinfo">
       <div class="footer-top">
-        <p class="footer-wordmark">Premodel</p>
-        <p class="footer-tagline">Before You Remodel</p>
+        <img class="footer-lockup" src="premodel-wordmark-tagline-cyanotype.png" alt="Premodel — Before You Remodel" width="1048" height="269" decoding="async">
         <div class="footer-social">
           <a class="footer-social-link" href="https://instagram.com/premodel" target="_blank" rel="noopener" aria-label="Premodel on Instagram"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
           <a class="footer-social-link" href="#" target="_blank" rel="noopener" aria-label="Premodel on Facebook" data-todo="confirm Facebook page URL"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
@@ -3102,8 +3158,8 @@ body[data-palette="saffron"] .toggle-btn {
       <hr class="footer-divider" />
 
       <div class="footer-legal">
-        <button type="button" class="footer-trigger" data-modal-open="privacy">Privacy</button>
         <p class="footer-copyright">© 2026 West &amp; Wells LLC dba Premodel</p>
+        <button type="button" class="footer-trigger" data-modal-open="privacy">Privacy policy</button>
       </div>
     </footer>
 
@@ -3406,11 +3462,11 @@ body[data-palette="saffron"] .toggle-btn {
     [cloneLast, cloneFirst].forEach(function(c) {
       c.classList.add('is-clone');
       c.setAttribute('aria-hidden', 'true');
-      // Clones are scenery, not UI: no buttons, no autoplay (videos show their poster),
-      // and never the flipped/before face.
+      // Clones are scenery, not UI: no buttons, no playing video, and — since they only ever peek as
+      // off-center neighbors — always resting on the Before face.
       c.querySelectorAll('button').forEach(function(b) { b.remove(); });
       c.querySelectorAll('video').forEach(function(v) { v.removeAttribute('autoplay'); v.preload = 'none'; });
-      c.querySelectorAll('.flip-card.flipped').forEach(function(f) { f.classList.remove('flipped'); });
+      c.querySelectorAll('.flip-card').forEach(function(f) { f.classList.add('flipped'); });
     });
     carousel.insertBefore(cloneLast, carousel.firstElementChild);
     carousel.appendChild(cloneFirst);
@@ -3440,29 +3496,156 @@ body[data-palette="saffron"] .toggle-btn {
     clearTimeout(heroSettleTimer);
     heroSettleTimer = setTimeout(heroLoopSettle, 140);
   }, { passive: true });
-  // Entering/leaving the desktop breakpoint: rest on the first REAL slide (centered,
-  // with the last slide peeking on its left when the loop is live).
-  function syncHeroLoop() {
-    carousel.scrollLeft = heroLoopActive() ? slideStride(carousel) : 0;
+  // ── Desktop "deck" ────────────────────────────────────────────────────────
+  // At the desktop breakpoint the @container query sets --deck:1, and the carousel becomes a stacked
+  // deck instead of a scroll-snap row: the front slide is centered on top, the others tuck behind it
+  // peeking on each side. Swiping/clicking shuffles which slide is in front. Below desktop, --deck:0
+  // and the scroll-snap row is used unchanged.
+  var realHeroSlides = function() {
+    return Array.prototype.filter.call(carousel.children, function(s) { return !s.classList.contains('is-clone'); });
+  };
+  function isDeck() { return getComputedStyle(carousel).getPropertyValue('--deck').trim() === '1'; }
+  var deckIndex = 0;
+  function currentIndex() { return isDeck() ? deckIndex : heroIndex(); }
+  function layoutDeck() {
+    var slides = realHeroSlides();
+    var n = slides.length;
+    if (!n) return;
+    var w = (slides[deckIndex] || slides[0]).offsetWidth || 0;
+    slides.forEach(function(s, k) {
+      var raw = ((k - deckIndex) % n + n) % n;     // 0..n-1
+      var d = raw > n / 2 ? raw - n : raw;          // shortest signed distance; front = 0
+      var front = d === 0;
+      s.classList.toggle('is-front', front);
+      var dx = front ? 0 : (d > 0 ? 1 : -1) * w * 0.19;
+      s.style.setProperty('--dx', dx + 'px');
+      s.style.setProperty('--sc', front ? '1' : '0.86');
+      s.style.setProperty('--z', front ? '30' : String(20 - Math.abs(d)));
+      s.style.setProperty('--op', front ? '1' : '0.5');
+    });
+  }
+  function setDeck(i) {
+    var n = realHeroSlides().length || 1;
+    deckIndex = ((i % n) + n) % n;
+    layoutDeck();
     updateDots();
+  }
+  // Enter/leave deck mode on breakpoint changes. Entering carries the current card to the front;
+  // leaving restores the scroll-snap row resting on that same card.
+  function syncHeroLoop() {
+    if (isDeck()) {
+      if (!carousel.classList.contains('deck')) {
+        if (activeHeroIndex >= 0) deckIndex = activeHeroIndex;
+        carousel.classList.add('deck');
+      }
+      layoutDeck();
+      updateDots();
+    } else {
+      if (carousel.classList.contains('deck')) {
+        carousel.classList.remove('deck');
+        carousel.scrollLeft = deckIndex * slideStride(carousel);
+      } else {
+        carousel.scrollLeft = 0;
+      }
+      updateDots();
+    }
   }
 
   function updateDots() {
-    var i = heroIndex();
+    var i = currentIndex();
     dots.forEach(function(d, j) { d.classList.toggle('active', j === i); });
-    // Reset any flipped card that scrolls out of view, so re-visiting a slide is predictable
-    heroFlipCards.forEach(function(card, j) {
-      if (j !== i && card.classList.contains('flipped')) setCardFlipped(card, false);
-    });
+    focusHeroCard(i);
   }
-  // Static reveal/before flip cards (same model as Layout B). The reveal face holds a looping
-  // muted video (Shoreline) or a color placeholder; tapping "Before" flips to the project's
-  // before. No auto-cycle — swipe to advance.
+
+  // Focus behavior: whichever reveal is centered starts on its Before face, holds 2s, then flips to
+  // the Reveal and plays its video from the top. The 2s clock starts the moment a card becomes the
+  // centered one. Any card that isn't centered defaults back to Before with its video paused and
+  // rewound, so returning to center always replays the full before → reveal beat from the start.
+  var heroVideoOf = function(card) { return card.querySelector('.flip-card-front video'); };
+  var SWIPE_MS = 500;   // matches the deck's position transition — wait for the swipe to finish
+  var XFADE_MS = 600;   // matches the video frame's opacity transition (the subtle video→before fade)
+  var FLIP_MS  = 600;   // matches the .flip-card-inner rotate — hold the video until the flip lands
+  function heroClearTimers(card) {
+    clearTimeout(card._leaveT); clearTimeout(card._xfT); clearTimeout(card._flipT);
+  }
+  // Snap to Before with no flip rotation (off-focus reset for cards without a playing reveal). Re-opaques
+  // the video frame so it once again covers the under-layer Before image, ready for the next reveal.
+  function heroShowBefore(card, animate) {
+    heroClearTimers(card);
+    var v = heroVideoOf(card);
+    if (v) v.classList.add('active');
+    if (animate === false) card.classList.add('no-flip-anim');
+    setCardFlipped(card, true);
+    if (v) { try { v.pause(); v.currentTime = 0; } catch (e) {} }
+    if (animate === false) { void card.offsetWidth; card.classList.remove('no-flip-anim'); }
+  }
+  // A card leaving focus while its reveal video is showing: keep playing through the swipe, then do a
+  // subtle crossfade from the video to the under-layer Before image (fade the video out), and only then
+  // pause/rewind and settle into the standard flipped Before state. No video (placeholder) → just snap.
+  function heroLeaveReveal(card) {
+    var v = heroVideoOf(card);
+    if (!v || card.classList.contains('flipped')) { heroShowBefore(card, false); return; }
+    heroClearTimers(card);
+    card._leaveT = setTimeout(function() {
+      v.classList.remove('active');                  // crossfade: video fades out, Before shows through
+      card._xfT = setTimeout(function() {
+        try { v.pause(); v.currentTime = 0; } catch (e) {}
+        card.classList.add('no-flip-anim');
+        setCardFlipped(card, true);                  // settle onto the back Before face (seamless: same image)
+        void card.offsetWidth;
+        card.classList.remove('no-flip-anim');
+        v.classList.add('active');                   // restore the video frame behind the now-flipped card
+      }, XFADE_MS);
+    }, SWIPE_MS);
+  }
+  function heroShowReveal(card) {
+    heroClearTimers(card);
+    var v = heroVideoOf(card);
+    if (v) v.classList.add('active');
+    setCardFlipped(card, false);
+    if (v) { try { v.currentTime = 0; var p = v.play(); if (p && p.catch) p.catch(function() {}); } catch (e) {} }
+  }
+  // Manual "Before": flip with animation but keep the video playing through the flip; pause/rewind only
+  // once the flip has landed.
+  function heroFlipToBefore(card) {
+    heroClearTimers(card);
+    var v = heroVideoOf(card);
+    if (v) v.classList.add('active');
+    setCardFlipped(card, true);                       // animated flip; the video keeps playing on the front
+    card._flipT = setTimeout(function() {
+      if (v) { try { v.pause(); v.currentTime = 0; } catch (e) {} }
+    }, FLIP_MS);
+  }
+  var activeHeroIndex = -1, heroFlipTimer = null, heroRotatorStarted = false;
+  var HERO_HOLD = 2000; // ms a centered card sits on its Before face before flipping to the Reveal
+  function focusHeroCard(i) {
+    if (i === activeHeroIndex) return;
+    var prev = activeHeroIndex;
+    activeHeroIndex = i;
+    clearTimeout(heroFlipTimer);
+    heroFlipCards.forEach(function(card, j) {
+      if (j === i) return;
+      if (j === prev) heroLeaveReveal(card);          // the card leaving focus crossfades (if it's revealing)
+      else heroShowBefore(card, false);               // everyone else just rests on Before
+    });
+    var active = heroFlipCards[i];
+    if (!active) return;
+    heroShowBefore(active, false);
+    heroFlipTimer = setTimeout(function() {
+      heroShowReveal(active);
+      if (!heroRotatorStarted) { heroRotatorStarted = true; startHeroRotator(); }
+    }, HERO_HOLD);
+  }
+  // Manual Before/Reveal toggle. A tap takes over from the auto-flip timer for that card: flipping to
+  // the Reveal plays its video from the top; flipping to Before keeps the video playing through the
+  // flip, then pauses and rewinds it once the flip lands.
   heroFlipCards.forEach(function(card) {
     card.querySelectorAll('.hero-before-btn').forEach(function(btn) {
       btn.addEventListener('click', function(e) {
         e.stopPropagation();
-        setCardFlipped(card, !card.classList.contains('flipped'));
+        clearTimeout(heroFlipTimer);
+        if (card.classList.contains('flipped')) heroShowReveal(card);
+        else heroFlipToBefore(card);
       });
     });
   });
@@ -3470,22 +3653,44 @@ body[data-palette="saffron"] .toggle-btn {
   carousel.addEventListener('scroll', updateDots, { passive: true });
   dots.forEach(function(d, i) {
     d.addEventListener('click', function() {
+      if (isDeck()) { setDeck(i); return; }
       var offset = heroLoopActive() ? 1 : 0;
       carousel.scrollTo({ left: (i + offset) * slideStride(carousel), behavior: 'smooth' });
     });
   });
-  // One-time intro: the first card is rendered already flipped to its Before in the markup, so it
-  // paints on the before image with no flip-in (no double flip on reload). After a 3s hold it does
-  // its single flip to the reveal — and only then does the video start playing and the headline
-  // begin rotating, so the eye lands on one motion at a time. Card 1 only, once.
-  if (heroFlipCards.length) {
-    var firstReveal = heroFlipCards[0].querySelector('.flip-card-front video');
-    setTimeout(function() {
-      setCardFlipped(heroFlipCards[0], false);
-      if (firstReveal) { try { firstReveal.currentTime = 0; firstReveal.play(); } catch (e) {} }
-      startHeroRotator();
-    }, 3000);
-  }
+  // Deck navigation: drag (pointer), horizontal trackpad swipe (wheel), or click a peeking side card.
+  var deckDownX = null, deckDragging = false;
+  carousel.addEventListener('pointerdown', function(e) {
+    if (!isDeck()) return;
+    deckDownX = e.clientX; deckDragging = true;
+  });
+  window.addEventListener('pointerup', function(e) {
+    if (!deckDragging) return;
+    deckDragging = false;
+    if (!isDeck() || deckDownX === null) return;
+    var dx = e.clientX - deckDownX; deckDownX = null;
+    if (Math.abs(dx) > 50) setDeck(deckIndex + (dx < 0 ? 1 : -1));
+  });
+  var deckWheelLock = false;
+  carousel.addEventListener('wheel', function(e) {
+    if (!isDeck()) return;
+    if (Math.abs(e.deltaX) <= Math.abs(e.deltaY) || Math.abs(e.deltaX) < 18) return;
+    e.preventDefault();
+    if (deckWheelLock) return;
+    deckWheelLock = true;
+    setDeck(deckIndex + (e.deltaX > 0 ? 1 : -1));
+    setTimeout(function() { deckWheelLock = false; }, 420);
+  }, { passive: false });
+  realHeroSlides().forEach(function(s, idx) {
+    s.addEventListener('click', function() {
+      if (!isDeck() || idx === deckIndex) return;
+      setDeck(idx);
+    });
+  });
+  // Every card (the first included) runs the same beat through focusHeroCard: it paints on its
+  // Before face in the markup, then — once it's the centered card — holds 2s, flips to the Reveal,
+  // and plays. The first beat (and the one-time headline-rotator kickoff on that first reveal) is
+  // triggered by syncHeroLoop → updateDots on load, after the carousel rests on the first slide.
 
   // Hero carousel — Layout B: 9 static flip cards (3 projects × Reveal A/B/C). No auto-cycle;
   // swipe to advance, tap the Before/Reveal button to flip a card. Assigned below; the layout
@@ -3658,7 +3863,16 @@ body[data-palette="saffron"] .toggle-btn {
   // Headline reads "<Name>'s <room> premodel"; the smaller line is just the location with
   // state (visitors come from outside the area). Room words are lowercased except acronyms
   // like "ADU". Meta is authored as "Room · City".
+  // Custom case-study headlines, shared by the gallery caption and the modal. Falls back to the
+  // generated "<Name>'s <room> premodel" for anything not listed.
+  var CASE_TITLES = {
+    'Anna G.': "Anna G.'s master bath reconfigure",
+    'Sasha A.': "Sasha A.'s full floor reconfigure",
+    'K.B.': "K.B.'s new-build kitchen",
+    'Jenn S.': "Jenn S.'s basement reconfigure"
+  };
   function caseStudyTitle(name, meta) {
+    if (name && CASE_TITLES[name]) return CASE_TITLES[name];
     var room = (meta || '').split('·')[0].trim();
     var roomLc = room.split(' ').map(function(w) {
       return (w === w.toUpperCase() && /[A-Z]/.test(w)) ? w : w.toLowerCase();
@@ -3670,6 +3884,18 @@ body[data-palette="saffron"] .toggle-btn {
     var city = parts[1] || '';
     return city ? (city + ', WA') : '';
   }
+  // Each gallery card's lower-left caption mirrors the case-study modal headline it opens
+  // ("<Name>'s <room> premodel"), collapsed to a single line.
+  (function syncGalleryCaptions() {
+    var gallery = document.getElementById('project-carousel');
+    if (!gallery) return;
+    gallery.querySelectorAll('.project-slide').forEach(function(slide) {
+      var ov = slide.querySelector('.project-overlay');
+      if (!ov) return;
+      ov.innerHTML = '<p class="project-name"></p>';
+      ov.querySelector('.project-name').textContent = caseStudyTitle(slide.dataset.name, slide.dataset.meta);
+    });
+  })();
   function openCaseModal(slide) {
     if (!caseModal) return;
     caseModalName.textContent = caseStudyTitle(slide.dataset.name, slide.dataset.meta);
@@ -4644,7 +4870,11 @@ body[data-palette="saffron"] .toggle-btn {
         var io = new IntersectionObserver(function(entries) {
           entries.forEach(function(e) {
             if (frame && frame.hidden) { ctaBar.style.display = ''; return; }
-            ctaBar.style.display = e.isIntersecting ? 'none' : '';
+            if (e.isIntersecting) { ctaBar.style.display = 'none'; return; }
+            // Not intersecting: re-show only while the anchor is still BELOW the viewport (not yet
+            // reached). Once it's scrolled above (you're at/past it — e.g. the footer), stay hidden.
+            var below = !e.rootBounds || (e.boundingClientRect.top >= e.rootBounds.bottom);
+            ctaBar.style.display = below ? '' : 'none';
           });
         }, { root: scrollEl, threshold: 0.05 });
         io.observe(anchorEl);
@@ -5083,7 +5313,11 @@ body[data-palette="saffron"] .toggle-btn {
         var io = new IntersectionObserver(function(entries) {
           entries.forEach(function(e) {
             if (frame && frame.hidden) { ctaBarWrap.style.display = ''; return; }
-            ctaBarWrap.style.display = e.isIntersecting ? 'none' : '';
+            if (e.isIntersecting) { ctaBarWrap.style.display = 'none'; return; }
+            // Stay hidden once the card has scrolled above the viewport (you're at/past it — the
+            // footer). Only re-show while it's still below (not yet reached).
+            var below = !e.rootBounds || (e.boundingClientRect.top >= e.rootBounds.bottom);
+            ctaBarWrap.style.display = below ? '' : 'none';
           });
         }, { root: scrollEl, threshold: 0.04 });
         io.observe(card);
