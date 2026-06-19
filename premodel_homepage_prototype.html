@@ -275,6 +275,9 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 /* Layout B has no tablet/desktop treatment yet — it always previews at phone size. */
 .phone-frame[data-layout="b"] { width: min(var(--frame-width), 430px); height: min(var(--frame-height), 932px); }
 .phone-scroll { flex: 1; overflow-y: scroll; overflow-x: hidden; scrollbar-width: thin; }
+/* Trailing scroll room (layout A) so the CTA can lift #start to the top with the
+   full reveal card in view; the card sits near the page end otherwise. */
+.phone-frame[data-layout="a"] .phone-scroll { scroll-padding-top: var(--space-4); }
 
 .header { display: flex; align-items: center; justify-content: space-between; padding: var(--space-3-5) var(--space-4); border-bottom: 0.5px solid var(--border-divider); }
 .header .logo-name { font-size: 16px; font-weight: 500; margin: 0; letter-spacing: -0.005em; display: inline-flex; align-items: center; }
@@ -518,10 +521,22 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .rf-chip.sel { background: var(--text-primary); color: var(--bg-surface-elevated); border-color: var(--text-primary); }
 .rf-tiers { display: flex; flex-direction: column; gap: var(--space-2); }
 .rf-tier { appearance: none; -webkit-appearance: none; background: var(--bg-surface); border: 0.5px solid var(--border-divider); border-radius: var(--radius-sm); padding: var(--space-3) var(--space-3-5); text-align: left; cursor: pointer; font-family: inherit; transition: background 0.15s, border-color 0.15s; width: 100%; }
-.rf-tier.sel { background: var(--text-primary); border-color: var(--text-primary); }
-.rf-tier-name { font-size: var(--fs-body); font-weight: 500; color: var(--text-primary); display: block; margin: 0 0 var(--space-0-5); }
-.rf-tier.sel .rf-tier-name { color: var(--bg-surface-elevated); }
-.rf-tier-desc { font-size: var(--fs-small); color: var(--text-secondary); display: block; margin: 0; }
+.rf-tier.sel { background: var(--accent-soft); border-color: var(--accent-soft); }
+.rf-tier-name { font-size: var(--fs-body); font-weight: 600; color: var(--text-primary); display: block; margin: 0 0 var(--space-0-5); }
+.rf-tier.sel .rf-tier-name { color: #16365a; }
+
+/* Q1 rooms — 2-column grid of icon tiles (multi-select); selected = accent-soft */
+.rf-rooms-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-2); }
+.rf-room { display: flex; align-items: center; gap: var(--space-2); padding: var(--space-2-5) var(--space-3); background: var(--bg-chip); border: 0.5px solid var(--border-divider); border-radius: var(--radius-sm); color: var(--text-primary); font-size: var(--fs-small); font-weight: 500; font-family: inherit; cursor: pointer; text-align: left; line-height: 1.2; transition: background 0.15s, border-color 0.15s, color 0.15s; }
+.rf-room svg { width: 17px; height: 17px; flex-shrink: 0; stroke-width: 1.75; }
+.rf-room.sel { background: var(--accent-soft); border-color: var(--accent-soft); color: #16365a; }
+/* Q3 presets selected = accent-soft (card only; layout B keeps its own) */
+.rf-card .rf-budget-chip.sel { background: var(--accent-soft); border-color: var(--accent-soft); color: #16365a; }
+/* Win over the style-guide palette-active rules, which force selected = --accent */
+body.palette-active .rf-card .rf-tier.sel,
+body.palette-active .rf-card .rf-budget-chip.sel { background: var(--accent-soft); border-color: var(--accent-soft); color: #16365a; }
+body.palette-active .rf-card .rf-tier.sel .rf-tier-name { color: #16365a; }
+.rf-tier-desc { font-size: var(--fs-small); font-weight: 600; color: var(--text-secondary); display: block; margin: 0; }
 .rf-tier.sel .rf-tier-desc { color: rgba(240,238,229,0.6); }
 .rf-budgets { display: flex; flex-direction: column; border: 0.5px solid var(--border-divider); border-radius: var(--radius-sm); overflow: hidden; }
 .rf-budget { appearance: none; -webkit-appearance: none; background: var(--bg-surface); border: 0; border-bottom: 0.5px solid var(--border-divider); padding: var(--space-3) var(--space-3-5); text-align: left; cursor: pointer; font-family: inherit; font-size: var(--fs-body); color: var(--text-primary); display: flex; align-items: center; justify-content: space-between; transition: background 0.12s; }
@@ -566,6 +581,9 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .rf-proc-desc { font-size: var(--fs-body); color: var(--text-secondary); margin: 0; line-height: 1.5; }
 .rf-proc-meta { font-size: var(--fs-caption); color: var(--text-tertiary); margin: var(--space-1) 0 0; }
 .rf-fields { display: flex; flex-direction: column; gap: var(--space-3-5); }
+.rf-card .rf-fields { gap: var(--space-2); }
+.rf-card .rfc-form-title { font-size: var(--fs-h3); margin-bottom: var(--space-3); }
+.rf-card .rfc-form-eyebrow { margin-bottom: var(--space-1-5); }
 .rf-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-2-5); }
 .rf-field { display: flex; flex-direction: column; gap: var(--space-1); }
 .rf-label { font-size: var(--fs-caption); font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--text-secondary); }
@@ -574,7 +592,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .rf-input::placeholder { color: var(--text-tertiary); }
 .rf-field.err .rf-input { border-color: #c0392b; }
 .rf-field.err .rf-err-msg { display: block; }
-.rf-err-msg { font-size: var(--fs-small); color: #c0392b; margin: 0; display: none; }
+.rf-err-msg { font-size: var(--fs-small); font-weight: 500; color: #c0392b; margin: 0; display: none; }
 .rf-ack { display: flex; gap: var(--space-3); align-items: flex-start; margin-top: var(--space-4-5); padding: var(--space-4); background: var(--bg-surface); border-radius: var(--radius-sm); border: 0.5px solid var(--border-divider); cursor: pointer; }
 .rf-ack input[type=checkbox] { flex-shrink: 0; width: 18px; height: 18px; accent-color: var(--text-primary); margin-top: var(--space-0-5); cursor: pointer; }
 .rf-ack-text { font-size: var(--fs-body); color: var(--text-secondary); line-height: 1.55; margin: 0; }
@@ -613,107 +631,231 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .rf-card-intro { padding: var(--space-7) var(--space-4-5) 0; text-align: center; }
 
 .rf-card {
-  --rf-card-h: 472px;
-  display: flex;
-  flex-direction: column;
+  --rf-card-h: 452px;
+  /* Navy tokens — the FRONT face inherits these; the BACK face overrides to light. */
+  --text-primary:        #f4eee2;
+  --text-secondary:      #c8d2df;
+  --text-tertiary:       #93a2b6;
+  --bg-surface:          rgba(255,255,255,0.08);
+  --bg-surface-elevated: #16365a;
+  --bg-chip:             rgba(255,255,255,0.07);
+  --bg-pill:             rgba(255,255,255,0.08);
+  --border-strong:       rgba(255,255,255,0.34);
+  --border-subtle:       rgba(255,255,255,0.22);
+  --border-divider:      rgba(255,255,255,0.16);
   height: var(--rf-card-h);
-  margin: 0 var(--space-4) var(--space-5-5);
-  border-radius: var(--radius-tile, 18px);
-  overflow: hidden;
-  box-shadow: var(--shadow-raised);
-  color: var(--text-primary);
-  transition: background-color 0.55s ease, box-shadow 0.55s ease;
+  margin: 0 var(--space-4) var(--space-3);
+  perspective: 1600px;
 }
-/* Phase 1 — questions: dark surface */
-.rf-card.phase-questions {
-  /* Dark request-flow island. Drives its dark look from the dark-family tokens
-     (locally remapping the semantic tokens) so the Dark-surface / Text-on-dark
-     swatches control it. Wells use --bg-dark (deepest); the card uses
-     --bg-dark-elevated. Border alphas stay tuned locally. */
-  --text-primary:         var(--text-on-dark);
-  --text-secondary:       var(--text-on-dark-2);
-  --text-tertiary:        var(--text-on-dark-3);
-  --bg-surface-elevated:  var(--bg-dark);
-  --bg-surface:           var(--bg-dark-elevated);
-  --border-strong:       rgba(244,241,233,0.30);
-  --border-subtle:     rgba(244,241,233,0.18);
-  --border-divider:      rgba(244,241,233,0.12);
-  background: var(--bg-dark);
-  box-shadow: var(--shadow-raised);
+/* 3D flip: navy front (questions) → light back (contact) */
+.rf-card-inner { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform 0.6s cubic-bezier(0.22,0.61,0.36,1); }
+.rf-card.flipped .rf-card-inner { transform: rotateY(180deg); }
+.rf-card-front, .rf-card-back { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; display: flex; flex-direction: column; border-radius: var(--radius-tile, 18px); overflow: hidden; box-shadow: var(--shadow-raised); color: var(--text-primary); }
+.rf-card-front { background: #16365a; }
+.rf-card-back {
+  transform: rotateY(180deg);
+  background: #ffffff;  /* white contact side (distinct from the paper page) */
+  border: 0.5px solid var(--border-subtle);
+  /* Light tokens for the contact side */
+  --text-primary: #2a2826; --text-secondary: #6a625a; --text-tertiary: #998f80;
+  --bg-surface: #faf8f2; --bg-surface-elevated: #ffffff; --bg-chip: #fbf8ef; --bg-pill: #ece4d1;
+  --border-strong: #b8ae9c; --border-subtle: #e4dccb; --border-divider: #e4dccb;
 }
-/* Phases 2–3 — reveal + contact: light surface (the "lights on" reveal) */
-.rf-card.phase-reveal, .rf-card.phase-contact {
-  --text-primary:         #2a2826;
-  --text-secondary:       #6a625a;
-  --text-tertiary:        #998f80;
-  --bg-surface-elevated:   #ffffff;
-  --bg-surface: #f2ede1;
-  --bg-pill:    #f2ede1;
-  --border-strong:       rgba(42,40,38,0.22);
-  --border-subtle:     rgba(42,40,38,0.16);
-  --border-divider:      rgba(42,40,38,0.10);
-  background: #fbf8f1;
-}
+.rf-card.flipped .rf-card-front { pointer-events: none; }
+.rf-card:not(.flipped) .rf-card-back { pointer-events: none; }
+@media (prefers-reduced-motion: reduce) { .rf-card-inner { transition: none; } }
 
-/* 3-segment progress — questions phase only */
-.rf-card-steps { display: flex; gap: var(--space-1-5); padding: var(--space-4-5) var(--space-5) 0; }
-.rf-card.phase-reveal .rf-card-steps, .rf-card.phase-contact .rf-card-steps { display: none; }
-.rf-card-seg { flex: 1; height: 3px; border-radius: 2px; background: rgba(244,241,233,0.16); transition: background 0.35s ease; }
-.rf-card-seg.on { background: var(--text-primary); }
+/* ── Q3 budget: slider + quick presets ──────────────────────────────────────── */
+.rf-slider-wrap { display: flex; flex-direction: column; align-items: stretch; gap: var(--space-1-5); margin-bottom: var(--space-3); }
+.rf-slider-val { font-size: 25px; font-weight: 500; letter-spacing: -0.02em; color: var(--text-primary); text-align: center; font-variant-numeric: tabular-nums; line-height: 1; }
+.rf-budget-slider { -webkit-appearance: none; appearance: none; width: 100%; height: 4px; border-radius: 999px; background: var(--bg-surface); outline: none; cursor: pointer; }
+.rf-budget-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 26px; height: 26px; border-radius: 50%; background: var(--text-primary); border: 3px solid var(--bg-surface-elevated); box-shadow: 0 1px 4px rgba(0,0,0,0.35); cursor: pointer; }
+.rf-budget-slider::-moz-range-thumb { width: 22px; height: 22px; border-radius: 50%; background: var(--text-primary); border: 3px solid var(--bg-surface-elevated); cursor: pointer; }
+.rf-slider-scale { display: flex; justify-content: space-between; font-size: var(--fs-caption); font-weight: 500; color: var(--text-tertiary); font-variant-numeric: tabular-nums; }
+/* Six amount presets: 3-across (2 rows) on mobile + tablet, all six in one row on desktop */
+.rf-budget-presets { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-2); }
+.rf-budget-presets .rf-budget-chip { text-align: center; min-width: 0; }
+.rf-budget-unsure { grid-column: 1 / -1; }
+/* Desktop frames (≥1000px wide): all six amounts in one row */
+@container frame (min-width: 1000px) {
+  .rf-budget-presets { grid-template-columns: repeat(6, 1fr); }
+  .rf-budget-unsure { grid-column: 1 / -1; }
+}
+.rf-card-help, .rf-help { font-family: var(--font-display); font-style: italic; font-size: var(--fs-small); font-weight: 500; color: var(--text-secondary); line-height: 1.4; margin: var(--space-2-5) 0 0; }
+
+/* ── Estimate strip — BELOW the card, on the light page. 2-col / 3-row ──────────
+   Rows: Reveal · Plan · Build. Left cell = label (larger) + sub (smaller); right
+   cell = number/range, right-aligned. Plan + Build fill once scope is known. */
+.rf-estimate { margin: var(--space-4) var(--space-4) var(--space-5); }
+.rf-estimate[hidden] { display: none; }
+/* "Your estimate" label centered on a hairline rule (mirrors .separator) */
+.rf-meter-title { display: flex; align-items: center; gap: var(--space-3); margin: 0 0 var(--space-2); font-family: var(--font-display); font-style: italic; font-size: var(--fs-body); color: var(--text-secondary); }
+.rf-meter-title::before, .rf-meter-title::after { content: ''; flex: 1; height: 1px; background: var(--border-divider); }
+.rf-meter-rows { display: flex; flex-direction: column; max-width: 440px; margin: 0 auto; }
+/* Compact, no divider lines: [index] [label + sub] [value].
+   Row baseline-aligns the number with the top label line; the value drops to the
+   bottom of the sub line. */
+.rf-meter-row { display: flex; align-items: baseline; gap: var(--space-3); padding: var(--space-1-5) 0; }
+.rf-meter-num { flex: 0 0 auto; font-size: var(--fs-small); font-weight: 600; font-variant-numeric: tabular-nums; color: var(--text-tertiary); }
+.rf-meter-reveal .rf-meter-num { color: var(--accent); }   /* start pops; the rest recede */
+.rf-meter-cell-l { display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1 1 auto; }
+.rf-meter-label { font-size: var(--fs-body-lg); font-weight: 600; letter-spacing: 0; color: var(--text-primary); }
+.rf-meter-sub { font-size: var(--fs-small); font-weight: 500; color: var(--text-secondary); line-height: 1.3; }
+.rf-meter-val { align-self: flex-end; font-size: var(--fs-h3); font-weight: 500; letter-spacing: -0.02em; line-height: 1; font-variant-numeric: tabular-nums; white-space: nowrap; text-align: right; flex: 0 0 auto; }
+@container frame (min-width: 360px) { .rf-meter-val { font-size: var(--fs-h2); } }
+/* No rule below the estimate (drop the footer's top border on layout A) */
+.phone-frame[data-layout="a"] .footer { border-top: 0; }
+/* Reveal $0 = accent (where you start); Plan + Build recede in muted tone (where it goes) */
+.rf-meter-reveal .rf-meter-val { color: var(--accent); }
+.rf-meter-plan   .rf-meter-val { color: var(--text-tertiary); }
+.rf-meter-build  .rf-meter-val { color: var(--text-tertiary); }
+/* Plan sub stays the same muted tone as the others; only a subtle fade on the norm→% swap */
+.rf-meter-plan-pct--pm { animation: rf-pm-reveal 0.4s ease; }
+@keyframes rf-pm-reveal { from { opacity: 0.4; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .rf-meter-plan-pct--pm { animation: none; } }
+
+/* ── Below-card project context (script note) ───────────────────────────────── */
+/* (Below-card context note removed — the construction context now lives in the interstitial.) */
+
+/* ── Contact: optional-field tag + what-happens-next recap ──────────────────── */
+.rf-label-opt { font-weight: 500; text-transform: none; letter-spacing: 0; color: var(--text-tertiary); margin-left: var(--space-1); }
+.rf-whatsnext-line { font-size: var(--fs-small); font-weight: 500; color: var(--text-secondary); line-height: 1.45; text-align: center; margin: var(--space-3-5) 0 0; padding-top: var(--space-3-5); border-top: 0.5px solid var(--border-divider); }
+/* SMS opt-in: compact checkbox + fine-print disclosure that fits the fixed card */
+/* Contact panel fills the card so the consent can sit at the bottom and the slack
+   between fields and consent grows on taller frames (spread) but collapses on Mobile M. */
+.rfc-contact { display: flex; flex-direction: column; flex: 1 1 auto; }
+.rfc-contact[hidden] { display: none; }
+.rf-consent { display: flex; align-items: flex-start; gap: var(--space-2-5); margin-top: auto; padding-top: var(--space-3); cursor: pointer; text-align: left; }
+.rf-consent-box { flex: 0 0 auto; width: 18px; height: 18px; margin: 2px 0 0; accent-color: var(--accent); cursor: pointer; }
+/* One flowing paragraph, single color; only the agreement clause is bolder */
+.rf-consent-text { min-width: 0; font-size: var(--fs-caption); color: var(--text-secondary); line-height: 1.4; }
+.rf-consent-text strong { font-weight: 700; color: var(--text-secondary); }
+.rf-consent-text a { color: var(--text-secondary); text-decoration: underline; }
+/* Full 3-step recap lives on the success screen (.rfc-success-steps) */
 
 /* Body — flex, top-aligned, never scrolls */
 .rf-card-body { flex: 1; min-height: 0; overflow: hidden; padding: var(--space-5); display: flex; flex-direction: column; }
+/* Inner padding scales up with screen size (S → M/L → tablet+) */
+@container frame (min-width: 360px) { .rf-card-body { padding: var(--space-6); } }
+@container frame (min-width: 768px) {
+  .rf-card-body { padding: var(--space-7); }
+  /* Roomier option buttons on tablet+ */
+  .rf-room { padding: var(--space-3-5) var(--space-4); }
+  .rf-card .rf-tier { padding: var(--space-4) var(--space-4-5); }
+  .rf-budget-chip { padding: var(--space-3-5) var(--space-3-5); }
+}
 .rf-card-panel { animation: rf-card-fade 0.4s ease; }
 @keyframes rf-card-fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
-.rf-card-q { font-size: var(--fs-body-lg); font-weight: 500; letter-spacing: -0.01em; color: var(--text-primary); margin: 0 0 var(--space-4); line-height: 1.3; }
+.rf-card-q { font-family: var(--font-body); font-size: var(--fs-h3); font-weight: 800; letter-spacing: 0; color: var(--text-primary); margin: 0 0 var(--space-4); line-height: 1.25; text-wrap: balance; text-align: center; }
 
-/* Back / Next footer */
-.rf-card-nav { display: flex; gap: var(--space-2-5); padding: var(--space-3) var(--space-5) var(--space-4-5); }
+/* Nav footer — round arrow buttons on the corners + step dots between */
+.rf-card-nav { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-3) var(--space-5) var(--space-4-5); }
 .rf-card-nav[hidden] { display: none; }
-.rf-card-back { flex: 0 0 auto; min-width: 88px; padding: var(--space-3) var(--space-4); background: transparent; border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); color: var(--text-secondary); font-size: var(--fs-body); font-weight: 500; font-family: inherit; cursor: pointer; transition: opacity 0.2s, border-color 0.2s; }
-.rf-card-back:disabled { opacity: 0.32; cursor: default; }
-.rf-card-next { flex: 1; padding: var(--space-3); background: var(--text-primary); color: var(--bg-surface-elevated); border-radius: var(--radius-sm); font-size: var(--fs-body); font-weight: 600; font-family: inherit; border: 0; cursor: pointer; transition: opacity 0.2s; }
-.rf-card-next:disabled { opacity: 0.32; cursor: default; }
+.rf-nav-arrow { flex: 0 0 auto; width: 44px; height: 44px; border-radius: 50%; background: transparent; border: 1px solid var(--border-strong); color: var(--text-primary); font-family: inherit; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: opacity 0.2s, background 0.2s, border-color 0.2s; }
+.rf-nav-arrow svg { width: 18px; height: 18px; }
+.rf-nav-arrow:disabled { opacity: 0.3; cursor: default; }
+/* Filled "next" affordance (accent-soft on the navy front) */
+.rf-nav-next { background: var(--accent-soft); border-color: var(--accent-soft); color: #16365a; }
+.rf-nav-next:disabled { background: transparent; border-color: var(--border-strong); color: var(--text-primary); }
+/* Step dots (mirror .project-dot) */
+.rf-dots { display: flex; flex: 1; justify-content: center; align-items: center; gap: var(--space-1-5); }
+.rf-dot { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,0.28); transition: background 0.2s ease; }
+.rf-dot.active { background: var(--accent-soft); }
+/* Back face: circle back arrow (flips back) + a pill submit spanning the rest */
+.rf-back-nav[hidden] { display: none; }
+.rf-submit { flex: 1; padding: var(--space-3); background: var(--accent); color: var(--text-on-accent); border: 0; border-radius: 999px; font-size: var(--fs-body); font-weight: 600; font-family: inherit; cursor: pointer; transition: opacity 0.2s, background 0.2s; }
+.rf-submit:hover { background: var(--accent-hover); }
+.rf-submit:disabled { opacity: 0.4; cursor: default; }
 
 /* Dark-phase polish */
-.rf-card.phase-questions .rf-input:focus { background: #34302a; }
-.rf-card .rf-tier { padding: var(--space-3-5) var(--space-4); }
-.rf-card .rf-tier-desc { margin-top: var(--space-1); line-height: 1.4; }
+.rf-card .rf-input { background: var(--bg-surface); color: var(--text-primary); border-color: var(--border-subtle); padding: var(--space-2) var(--space-3); }
+.rf-card .rf-input::placeholder { color: var(--text-tertiary); }
+.rf-card .rf-input:focus { background: rgba(255,255,255,0.14); border-color: var(--text-primary); }
+.rf-card .rf-tier { padding: var(--space-2-5) var(--space-4); }
+.rf-card .rf-tier-desc { margin-top: var(--space-0-5); line-height: 1.3; }
+.rf-card .rf-tiers { gap: var(--space-1-5); }
 /* Fix: selected tier's description was light-on-light — force dark text on the light fill */
 .rf-card .rf-tier.sel .rf-tier-desc { color: rgba(24,22,18,0.62); }
 
-/* ── Reveal panel (condensed estimate) ─────────────────────────────────────── */
-.rfc-reveal-eyebrow { font-size: var(--fs-caption); font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-tertiary); margin: 0 0 var(--space-3); }
-.rfc-reveal-label { font-size: var(--fs-small); color: var(--text-secondary); margin: 0 0 var(--space-0-5); }
-.rfc-reveal-price { font-size: 42px; font-weight: 500; letter-spacing: -0.03em; line-height: 1; color: var(--text-primary); margin: 0; }
-.rfc-reveal-savings { font-size: var(--fs-small); color: var(--text-secondary); margin: var(--space-2) 0 0; }
-.rfc-reveal-savings[hidden] { display: none; }
-.rfc-reveal-row { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-3); margin: var(--space-4) 0 0; padding-top: var(--space-3-5); border-top: 0.5px solid var(--border-divider); }
-.rfc-reveal-row-label { font-size: var(--fs-small); color: var(--text-secondary); }
-.rfc-reveal-row-val { font-size: 16px; font-weight: 600; letter-spacing: -0.01em; color: var(--text-primary); font-variant-numeric: tabular-nums; white-space: nowrap; }
-.rfc-verdict { margin-top: var(--space-3-5); }
-.rfc-verdict-pill { display: flex; align-items: flex-start; gap: var(--space-2); padding: var(--space-2-5) var(--space-3); border-radius: 10px; font-size: var(--fs-small); line-height: 1.4; }
-.rfc-verdict-pill svg { flex-shrink: 0; margin-top: var(--space-0-5); }
-.rfc-verdict-pill.aligned { background: #edf7ed; color: #1b5e20; }
-.rfc-verdict-pill.tight,
-.rfc-verdict-pill.too_low { background: #fff8e1; color: #7a4500; }
-.rfc-verdict-pill.has_room { background: #eaf2fb; color: #2a5490; }
-.rfc-verdict-pill.not_sure { background: var(--bg-surface); color: var(--text-secondary); }
-.rfc-reveal-nudge { font-family: var(--font-display); font-style: italic; font-size: var(--fs-small); color: var(--text-secondary); line-height: 1.5; margin: var(--space-4) 0 0; }
+/* ── Q2 scope tiles: icon + text ───────────────────────────────────────────────── */
+.rf-card .rf-tier { display: flex; align-items: flex-start; gap: var(--space-3); }
+.rf-tier-icon { flex: 0 0 auto; width: 22px; height: 22px; margin-top: 1px; color: var(--accent-on-dark); stroke-width: 1.75; }
+.rf-tier-icon svg { width: 22px; height: 22px; }
+.rf-tier.sel .rf-tier-icon { color: #16365a; }
+.rf-tier-text { display: flex; flex-direction: column; min-width: 0; }
+
+/* ── Q2 optional note: quiet trigger + full-bleed in-card note view ───────────── */
+.rf-note-trigger { align-self: flex-start; margin: var(--space-3-5) 0 0; padding: 0; background: none; border: 0; color: var(--text-secondary); font-family: inherit; font-size: var(--fs-small); font-weight: 500; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; transition: color 0.15s; }
+.rf-note-trigger:hover { color: var(--text-primary); }
+.rf-note-trigger.has-note { text-decoration: none; color: var(--accent-on-dark); font-weight: 600; }
+.rf-note-opt { text-decoration: none; color: var(--text-tertiary); font-weight: 500; }
+/* Full-bleed view over the whole front face — reads as its own screen, not a modal.
+   Same navy + padding as the card body so it never looks like a card-in-a-card. */
+.rf-note-view { position: absolute; inset: 0; z-index: 5; background: #16365a; display: flex; flex-direction: column; padding: var(--space-5); }
+.rf-note-view[hidden] { display: none; }
+@container frame (min-width: 360px) { .rf-note-view { padding: var(--space-6); } }
+@container frame (min-width: 768px) { .rf-note-view { padding: var(--space-7); } }
+.rf-note-prompt { margin: 0 0 var(--space-3); }
+.rf-note-input { flex: 1 1 auto; width: 100%; box-sizing: border-box; background: #ffffff; color: #2a2826; border: 0.5px solid var(--border-subtle); border-radius: var(--radius-sm); padding: var(--space-3); font-family: inherit; font-size: var(--fs-body); line-height: 1.5; resize: none; }
+.rf-note-input::placeholder { color: var(--text-tertiary); }
+.rf-note-input:focus { outline: none; border-color: var(--text-primary); }
+/* Cancel / Done sit where the nav arrows do, but wider (two equal pills) */
+.rf-note-actions { display: flex; gap: var(--space-3); margin-top: var(--space-4); }
+.rf-note-btn { flex: 1 1 0; padding: var(--space-3); border-radius: 999px; font-family: inherit; font-size: var(--fs-body); font-weight: 600; cursor: pointer; transition: opacity 0.15s, background 0.15s; }
+.rf-note-cancel { background: transparent; border: 1px solid rgba(255,255,255,0.3); color: var(--text-primary); }
+.rf-note-cancel:hover { background: rgba(255,255,255,0.08); }
+.rf-note-done { border: 0; background: var(--accent-soft); color: #16365a; }
+.rf-note-done:hover { opacity: 0.9; }
+
+/* ── Interstitial removed — budget now flips straight to contact (no step-4 screen) ── */
 
 /* ── Contact panels ────────────────────────────────────────────────────────── */
-.rfc-form-eyebrow { font-size: var(--fs-caption); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-tertiary); margin: 0 0 var(--space-2); }
-.rfc-form-title { font-size: var(--fs-h2); font-weight: 500; letter-spacing: -0.015em; line-height: 1.15; margin: 0 0 var(--space-4); color: var(--text-primary); }
+.rfc-form-eyebrow { font-size: var(--fs-small); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-secondary); margin: 0 0 var(--space-2); }
+/* Match the question type on the front (no unique serif on the flipped side) */
+.rfc-form-title { font-family: var(--font-body); font-size: var(--fs-h3); font-weight: 800; letter-spacing: 0; line-height: 1.25; margin: 0 0 var(--space-3); color: var(--text-primary); text-align: center; text-wrap: balance; }
 .rfc-form-sub { font-size: var(--fs-small); color: var(--text-secondary); line-height: 1.55; margin: -8px 0 var(--space-4); }
 
-/* ── Success (condensed) ───────────────────────────────────────────────────── */
+/* ── Success (condensed; brand-conformant type + accent marks) ────────────────── */
 .rfc-success { display: flex; flex-direction: column; align-items: center; text-align: center; }
-.rfc-success .rf-success-icon { margin-bottom: var(--space-3-5); }
-.rfc-success .rf-success-title { margin: 0 0 var(--space-2); }
-.rfc-success .rf-success-sub { margin: 0 0 var(--space-4-5); max-width: 280px; }
+/* Check icon matches the page's process-step mark (.step .num accent variant) */
+.rfc-success .rf-success-icon { width: 44px; height: 44px; background: var(--accent); color: var(--text-on-accent); border: none; margin-bottom: var(--space-3); }
+.rfc-success .rf-success-icon svg { width: 20px; height: 20px; stroke-width: 1.75; }
+/* Match the card's question/title type (font-body, fs-h3, 800) */
+.rfc-success .rf-success-title { font-family: var(--font-body); font-size: var(--fs-h3); font-weight: 800; letter-spacing: 0; line-height: 1.25; margin: 0 0 var(--space-2-5); }
+.rfc-success .rf-success-sub { font-size: var(--fs-body); color: var(--text-secondary); margin: 0 0 var(--space-3); max-width: 280px; }
+/* Recap of what they submitted (rooms · scope · budget) — sits right under the title */
+.rfc-success-recap { font-size: var(--fs-small); font-weight: 600; color: var(--text-primary); line-height: 1.4; text-align: center; margin: 0 0 var(--space-3); padding: var(--space-2-5) var(--space-3-5); background: var(--bg-page); border-radius: var(--radius-sm); }
+.rfc-success-recap:empty { display: none; }
 .rfc-success-steps { display: flex; flex-direction: column; gap: var(--space-3); width: 100%; text-align: left; }
-.rfc-success-step { display: flex; align-items: center; gap: var(--space-3); font-size: var(--fs-small); color: var(--text-secondary); line-height: 1.35; }
-.rfc-success-dot { flex-shrink: 0; width: 22px; height: 22px; border-radius: 50%; background: var(--text-primary); color: var(--bg-surface-elevated); display: flex; align-items: center; justify-content: center; font-size: var(--fs-caption); font-weight: 600; }
+.rfc-success-step { display: flex; align-items: flex-start; gap: var(--space-3); font-size: var(--fs-small); color: var(--text-secondary); line-height: 1.4; }
+.rfc-success-dot { flex-shrink: 0; width: 22px; height: 22px; border-radius: 50%; background: var(--accent-soft); color: var(--accent); display: flex; align-items: center; justify-content: center; font-size: var(--fs-caption); font-weight: 700; }
+
+/* ── Confirmation flow timeline (mirrors the How-it-works step style) ──────────── */
+/* Headline stays pinned at top; the flow content vertically centers in the space left. */
+.rfc-success-panel { text-align: left; display: flex; flex-direction: column; flex: 1 1 auto; }
+.rfc-success-panel[hidden] { display: none; }
+.rfc-flow-wrap { flex: 1 1 auto; display: flex; flex-direction: column; justify-content: center; }
+.rfc-flow { position: relative; width: 100%; }
+.rfc-flow-step { display: grid; grid-template-columns: 34px 1fr; gap: var(--space-3); align-items: start; position: relative; padding-bottom: var(--space-2-5); }
+.rfc-flow-step:last-child { padding-bottom: 0; }
+/* Soft connecting line from one circle down to the next */
+.rfc-flow-step::after { content: ''; position: absolute; left: 16px; top: 34px; bottom: 0; width: 2px; background: var(--border-divider); z-index: 0; }
+.rfc-flow-end::after { display: none; }
+/* Refined neutral circle: white fill, soft tan stroke, muted glyph (blue node overrides) */
+.rfc-flow-num { width: 34px; height: 34px; border-radius: 50%; background: var(--bg-surface-elevated); color: var(--text-secondary); border: 1.5px solid var(--border-strong); box-sizing: border-box; display: flex; align-items: center; justify-content: center; position: relative; z-index: 1; }
+.rfc-flow-num svg { width: 17px; height: 17px; stroke-width: 1.75; }
+.rfc-flow-num.is-accent { background: var(--accent); color: var(--text-on-accent); border: none; }
+/* Plan-estimate node sits in the same muted tone as the strip's Plan figure */
+.rfc-flow-muted .rfc-flow-num { color: var(--text-tertiary); border-color: var(--text-tertiary); }
+.rfc-flow-muted .rfc-flow-head { color: var(--text-tertiary); }
+/* Heads vertically centered with the 34px circle (single line via align-self; multi-line
+   via the body's top padding so the title line sits on the circle's centre) */
+.rfc-flow-step > .rfc-flow-head { align-self: center; }
+.rfc-flow-head { font-size: var(--fs-body); font-weight: 600; color: var(--text-primary); line-height: 1.3; margin: 0; }
+.rfc-flow-body { min-width: 0; padding-top: var(--space-2); }
+.rfc-flow-desc { font-size: var(--fs-small); font-weight: 500; color: var(--text-secondary); line-height: 1.45; margin: var(--space-1) 0 0; }
+.rfc-flow-sep { display: flex; align-items: center; gap: var(--space-2-5); margin: var(--space-5) 0; font-family: var(--font-display); font-style: italic; font-size: var(--fs-small); color: var(--text-secondary); text-align: center; white-space: nowrap; }
+.rfc-flow-sep::before, .rfc-flow-sep::after { content: ''; flex: 1 1 auto; height: 1px; background: var(--border-divider); }
 
 /* ── Design fees section ────────────────────────────────────────────────────── */
 .rf-df-eyebrow { font-size: var(--fs-caption); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-tertiary); margin: 0 0 var(--space-2); }
@@ -2094,83 +2236,105 @@ body[data-palette="saffron"] .toggle-btn {
       <h2 class="section-headline">Ready for your reveal?</h2>
     </div>
 
-    <!-- Reveal card: fixed height, three phases (questions → reveal → contact) -->
-    <div class="rf-card phase-questions" id="rf-card-a">
-      <!-- 3-segment progress (questions phase only) -->
-      <div class="rf-card-steps" id="rf-card-steps-a">
-        <span class="rf-card-seg"></span>
-        <span class="rf-card-seg"></span>
-        <span class="rf-card-seg"></span>
-      </div>
+    <!-- Reveal card: flips from navy (questions) to light (contact) -->
+    <div class="rf-card" id="rf-card-a">
+      <div class="rf-card-inner" id="rf-card-inner-a">
 
+      <!-- ░░ FRONT (navy): Q1–Q3 + interstitial ░░ -->
+      <div class="rf-card-front flip-face">
       <div class="rf-card-body" id="rf-card-body-a">
 
-        <!-- Q1: Rooms (multi-select; Next gated on ≥1) -->
+        <!-- Q1: Rooms (multi-select grid of icon tiles; Next gated on ≥1) -->
         <div class="rf-card-panel" id="rfc-rooms-a">
-          <p class="rf-card-q">Which rooms are you planning to remodel?</p>
-          <div class="rf-chips" id="rf-card-chips-a">
-            <button class="rf-chip" type="button" data-room="kitchen">Kitchen</button>
-            <button class="rf-chip" type="button" data-room="primary_bath">Primary bath</button>
-            <button class="rf-chip" type="button" data-room="secondary_bath">Secondary bath</button>
-            <button class="rf-chip" type="button" data-room="living">Living room</button>
-            <button class="rf-chip" type="button" data-room="dining">Dining room</button>
-            <button class="rf-chip" type="button" data-room="office">Home office</button>
-            <button class="rf-chip" type="button" data-room="bedroom">Bedroom</button>
-            <button class="rf-chip" type="button" data-room="entry_mudroom">Entry / mudroom</button>
-            <button class="rf-chip" type="button" data-room="basement_adu">ADU</button>
+          <p class="rf-card-q">Which rooms are you remodeling?</p>
+          <div class="rf-rooms-grid" id="rf-card-chips-a">
+            <button class="rf-room" type="button" data-room="kitchen"><i data-lucide="cooking-pot"></i><span>Kitchen</span></button>
+            <button class="rf-room" type="button" data-room="primary_bath"><i data-lucide="bath"></i><span>Primary bath</span></button>
+            <button class="rf-room" type="button" data-room="secondary_bath"><i data-lucide="shower-head"></i><span>Second bath</span></button>
+            <button class="rf-room" type="button" data-room="living"><i data-lucide="sofa"></i><span>Living room</span></button>
+            <button class="rf-room" type="button" data-room="dining"><i data-lucide="utensils"></i><span>Dining room</span></button>
+            <button class="rf-room" type="button" data-room="office"><i data-lucide="laptop"></i><span>Home office</span></button>
+            <button class="rf-room" type="button" data-room="bedroom"><i data-lucide="bed"></i><span>Bedroom</span></button>
+            <button class="rf-room" type="button" data-room="entry_mudroom"><i data-lucide="door-open"></i><span>Entry</span></button>
+            <button class="rf-room" type="button" data-room="basement_adu"><i data-lucide="house-plus"></i><span>ADU</span></button>
+            <button class="rf-room" type="button" data-room="entire_home"><i data-lucide="house"></i><span>Entire home</span></button>
           </div>
         </div>
 
-        <!-- Q2: Type of remodel (auto-advances on select) -->
-        <div class="rf-card-panel" id="rfc-type-a" hidden>
-          <p class="rf-card-q">What kind of remodel are you planning?</p>
-          <div class="rf-tiers" id="rf-card-tiers-a">
+        <!-- Q2: Scope (single-select; sets the remodel tier for the Build benchmark) -->
+        <div class="rf-card-panel rfc-type" id="rfc-type-a" hidden>
+          <p class="rf-card-q">What are you hoping to do?</p>
+          <div class="rf-tiers" id="rf-card-changes-a">
             <button class="rf-tier" type="button" data-tier="refresh">
-              <span class="rf-tier-name">Refresh</span>
-              <span class="rf-tier-desc">Budget-friendly updates that refresh the look without major construction.</span>
+              <i data-lucide="paint-roller" class="rf-tier-icon"></i>
+              <span class="rf-tier-text">
+                <span class="rf-tier-name">Refresh</span>
+                <span class="rf-tier-desc">Freshen up the look. New finishes, no construction.</span>
+              </span>
             </button>
             <button class="rf-tier" type="button" data-tier="replace">
-              <span class="rf-tier-name">Replace</span>
-              <span class="rf-tier-desc">Everything replaced, nothing moved. New style, same layout.</span>
+              <i data-lucide="replace" class="rf-tier-icon"></i>
+              <span class="rf-tier-text">
+                <span class="rf-tier-name">Replace</span>
+                <span class="rf-tier-desc">All new, same footprint. Nothing moves.</span>
+              </span>
             </button>
             <button class="rf-tier" type="button" data-tier="reconfigure">
-              <span class="rf-tier-name">Reconfigure</span>
-              <span class="rf-tier-desc">A layout redesigned around how you actually want to live.</span>
+              <i data-lucide="frame" class="rf-tier-icon"></i>
+              <span class="rf-tier-text">
+                <span class="rf-tier-name">Reconfigure</span>
+                <span class="rf-tier-desc">Rethink the layout around how you want to live.</span>
+              </span>
             </button>
           </div>
+          <button class="rf-note-trigger" type="button" id="rf-note-trigger-a">Add a note <span class="rf-note-opt">(optional)</span></button>
         </div>
 
-        <!-- Q3: Rough budget (optional; auto-advances on select) -->
+        <!-- Q3: Rough budget (slider + quick presets; must engage one to continue) -->
         <div class="rf-card-panel" id="rfc-budget-a" hidden>
-          <p class="rf-card-q">What's your rough construction budget?<span class="rf-q-optional">optional</span></p>
-          <div class="rf-budget-grid" id="rf-card-budgets-a">
-            <button class="rf-budget-chip" type="button" data-budget="under_50k">Under $50k</button>
-            <button class="rf-budget-chip" type="button" data-budget="50k_100k">$50k – $100k</button>
-            <button class="rf-budget-chip" type="button" data-budget="100k_200k">$100k – $200k</button>
-            <button class="rf-budget-chip" type="button" data-budget="200k_400k">$200k – $400k</button>
-            <button class="rf-budget-chip" type="button" data-budget="400k_plus">$400k+</button>
-            <button class="rf-budget-chip" type="button" data-budget="not_sure">Not sure yet</button>
+          <p class="rf-card-q">What's your rough build budget?</p>
+          <div class="rf-slider-wrap">
+            <output class="rf-slider-val" id="rf-slider-val-a">$25k</output>
+            <input class="rf-budget-slider" id="rf-budget-slider-a" type="range" min="10000" max="1000000" step="5000" value="25000" aria-label="Rough construction budget" />
+            <div class="rf-slider-scale"><span>$10k</span><span>$1M+</span></div>
+          </div>
+          <div class="rf-budget-presets" id="rf-budget-presets-a">
+            <button class="rf-budget-chip" type="button" data-budget="50000">$50k</button>
+            <button class="rf-budget-chip" type="button" data-budget="100000">$100k</button>
+            <button class="rf-budget-chip" type="button" data-budget="200000">$200k</button>
+            <button class="rf-budget-chip" type="button" data-budget="350000">$350k</button>
+            <button class="rf-budget-chip" type="button" data-budget="500000">$500k</button>
+            <button class="rf-budget-chip" type="button" data-budget="750000">$750k</button>
+            <button class="rf-budget-chip rf-budget-unsure" type="button" data-budget="not_sure">Not sure yet</button>
           </div>
         </div>
 
-        <!-- Reveal: condensed estimate (card has morphed to light) -->
-        <div class="rf-card-panel rfc-reveal" id="rfc-reveal-a" hidden>
-          <p class="rfc-reveal-eyebrow">Your reveal</p>
-          <p class="rfc-reveal-label">Your Premodel design</p>
-          <p class="rfc-reveal-price" id="rfc-price-a"></p>
-          <p class="rfc-reveal-savings" id="rfc-savings-a" hidden>Includes multi-room bundle savings</p>
-          <div class="rfc-reveal-row">
-            <span class="rfc-reveal-row-label">Typical construction for your scope</span>
-            <strong class="rfc-reveal-row-val" id="rfc-constr-a"></strong>
-          </div>
-          <div class="rfc-verdict" id="rfc-verdict-a"></div>
-          <p class="rfc-reveal-nudge">Next, leave your details and we'll confirm everything on a quick, no-pressure call.</p>
-        </div>
+      </div><!-- /front rf-card-body -->
+      <div class="rf-card-nav">
+        <button class="rf-nav-arrow" type="button" id="rf-card-back-a" aria-label="Back" disabled><i data-lucide="arrow-left"></i></button>
+        <div class="rf-dots" id="rf-dots-a"><span class="rf-dot"></span><span class="rf-dot"></span><span class="rf-dot"></span></div>
+        <button class="rf-nav-arrow rf-nav-next" type="button" id="rf-card-next-a" aria-label="Next" disabled><i data-lucide="arrow-right"></i></button>
+      </div>
 
-        <!-- Contact 1: reachability fields -->
-        <div class="rf-card-panel" id="rfc-contact1-a" hidden>
-          <p class="rfc-form-eyebrow">Almost there</p>
-          <h3 class="rfc-form-title">How should we reach you?</h3>
+      <!-- Optional note: a full-bleed in-card view (not a modal), covers the front face.
+           Prompt sits where the questions do; Cancel/Done sit where the nav arrows do. -->
+      <div class="rf-note-view" id="rf-note-overlay-a" hidden>
+        <p class="rf-card-q rf-note-prompt">What do you have in mind?</p>
+        <textarea class="rf-note-input" id="rf-note-input-a" placeholder="For example: must-keeps, style direction, timing, or anything unusual about your space. We'll dig into the details on our visit."></textarea>
+        <div class="rf-note-actions">
+          <button class="rf-note-btn rf-note-cancel" type="button" id="rf-note-cancel-a">Cancel</button>
+          <button class="rf-note-btn rf-note-done" type="button" id="rf-note-done-a">Done</button>
+        </div>
+      </div>
+      </div><!-- /rf-card-front -->
+
+      <!-- ░░ BACK (light): contact + success ░░ -->
+      <div class="rf-card-back flip-face">
+      <div class="rf-card-body" id="rf-card-body-back-a">
+
+        <!-- Contact: final input step — submits (no deposit) -->
+        <div class="rf-card-panel rfc-contact" id="rfc-contact1-a" hidden>
+          <h3 class="rfc-form-title">How can we contact you?</h3>
           <div class="rf-fields">
             <div class="rf-row">
               <div class="rf-field" id="rff-first-a"><label class="rf-label" for="rfi-first-a">First name</label><input class="rf-input" id="rfi-first-a" type="text" placeholder="First" autocomplete="given-name" /><p class="rf-err-msg">Required</p></div>
@@ -2178,42 +2342,95 @@ body[data-palette="saffron"] .toggle-btn {
             </div>
             <div class="rf-field" id="rff-email-a"><label class="rf-label" for="rfi-email-a">Email address</label><input class="rf-input" id="rfi-email-a" type="email" placeholder="you@example.com" autocomplete="email" /><p class="rf-err-msg">Enter a valid email</p></div>
             <div class="rf-row">
-              <div class="rf-field" id="rff-phone-a"><label class="rf-label" for="rfi-phone-a">Phone number</label><input class="rf-input" id="rfi-phone-a" type="tel" placeholder="(206) 555-0100" autocomplete="tel" /><p class="rf-err-msg">Enter a valid phone</p></div>
+              <div class="rf-field" id="rff-phone-a"><label class="rf-label" for="rfi-phone-a">Phone <span class="rf-label-opt">optional</span></label><input class="rf-input" id="rfi-phone-a" type="tel" placeholder="(206) 555-0100" autocomplete="tel" /><p class="rf-err-msg">Enter a valid phone</p></div>
               <div class="rf-field" id="rff-zip-a"><label class="rf-label" for="rfi-zip-a">Zip code</label><input class="rf-input" id="rfi-zip-a" type="text" inputmode="numeric" maxlength="5" placeholder="98101" autocomplete="postal-code" /><p class="rf-err-msg">5-digit zip</p></div>
             </div>
           </div>
-        </div>
-
-        <!-- Contact 2: deposit acknowledgment -->
-        <div class="rf-card-panel" id="rfc-contact2-a" hidden>
-          <p class="rfc-form-eyebrow">One last thing</p>
-          <h3 class="rfc-form-title">Scheduling your visit</h3>
-          <p class="rfc-form-sub">We'll call during business hours (Mon–Fri, 9–5) to get you scheduled, then come scan your space.</p>
-          <label class="rf-ack">
-            <input type="checkbox" id="rf-ack-a" />
-            <p class="rf-ack-text">I understand that scheduling a home visit requires a <strong>refundable $200 deposit</strong>, applied toward my Premodel service if I move forward.</p>
+          <!-- SMS opt-in (A2P 10DLC: explicit consent, business identity, message types,
+               frequency, rates, HELP/STOP, privacy link). Condensed from Premodel's wording. -->
+          <label class="rf-consent" for="rfi-sms-a">
+            <input type="checkbox" class="rf-consent-box" id="rfi-sms-a" />
+            <span class="rf-consent-text"><strong>I agree to receive texts from Premodel: confirmations, reminders, and project updates.</strong> Msg frequency varies. Msg &amp; data rates may apply. Reply HELP for help, STOP to opt out. <a href="#" data-modal-open="privacy" id="rf-privacy-link-a">Privacy Policy</a>.</span>
           </label>
         </div>
 
-        <!-- Success / what's next (condensed) -->
-        <div class="rf-card-panel" id="rfc-success-a" hidden>
-          <div class="rfc-success">
-            <div class="rf-success-icon"><i data-lucide="check"></i></div>
-            <h3 class="rf-success-title">Request received!</h3>
-            <p class="rf-success-sub">We'll call you shortly to schedule your home visit — your Reveal follows soon after.</p>
-            <div class="rfc-success-steps">
-              <div class="rfc-success-step"><span class="rfc-success-dot">1</span><span>We call to schedule &amp; take your refundable deposit</span></div>
-              <div class="rfc-success-step"><span class="rfc-success-dot">2</span><span>We visit and scan your space</span></div>
-              <div class="rfc-success-step"><span class="rfc-success-dot">3</span><span>Your Reveal arrives — yours to keep</span></div>
+        <!-- Confirmation: a how-it-works-style flow timeline, centered below the headline -->
+        <div class="rf-card-panel rfc-success-panel" id="rfc-success-a" hidden>
+          <h3 class="rfc-form-title">Here's what happens next.</h3>
+          <div class="rfc-flow-wrap">
+            <div class="rfc-flow">
+              <div class="rfc-flow-step">
+                <span class="rfc-flow-num is-accent"><i data-lucide="mouse-pointer-click"></i></span>
+                <div class="rfc-flow-body">
+                  <p class="rfc-flow-head">Reveal request sent</p>
+                  <p class="rfc-flow-desc">We reach out within 1 business day to schedule a home visit.</p>
+                </div>
+              </div>
+              <div class="rfc-flow-step">
+                <span class="rfc-flow-num"><i data-lucide="door-open"></i></span>
+                <div class="rfc-flow-body">
+                  <p class="rfc-flow-head">Show us your home</p>
+                  <p class="rfc-flow-desc">Together, we walk your space, take pictures, and talk through your ideas.</p>
+                </div>
+              </div>
+              <div class="rfc-flow-step rfc-flow-end">
+                <span class="rfc-flow-num"><i data-lucide="gallery-vertical-end"></i></span>
+                <div class="rfc-flow-body">
+                  <p class="rfc-flow-head">Review 3 design directions</p>
+                  <p class="rfc-flow-desc">We deliver your Reveals within 3 business days.</p>
+                </div>
+              </div>
             </div>
-          </div>
+            <div class="rfc-flow-sep">Yours to keep, hire us or not.</div>
+            <div class="rfc-flow">
+              <div class="rfc-flow-step rfc-flow-end rfc-flow-muted">
+                <span class="rfc-flow-num"><i data-lucide="file-text"></i></span>
+                <p class="rfc-flow-head">Get a refined plan estimate</p>
+              </div>
+            </div>
+          </div><!-- /rfc-flow-wrap -->
         </div>
 
-      </div><!-- /rf-card-body -->
+      </div><!-- /back rf-card-body -->
+      <div class="rf-card-nav rf-back-nav" id="rf-back-nav-a">
+        <button class="rf-nav-arrow" type="button" id="rf-back-back-a" aria-label="Back"><i data-lucide="arrow-left"></i></button>
+        <button class="rf-submit" type="button" id="rf-submit-a" disabled>Request my Reveal</button>
+      </div>
+      </div><!-- /rf-card-back -->
 
-      <div class="rf-card-nav" id="rf-card-nav-a">
-        <button class="rf-card-back" type="button" id="rf-card-back-a" disabled>Back</button>
-        <button class="rf-card-next" type="button" id="rf-card-next-a" disabled>Next</button>
+      </div><!-- /rf-card-inner -->
+    </div><!-- /rf-card -->
+
+    <!-- Estimate strip — below the card, on the page. 2-col / 3-row: Reveal · Plan · Build.
+         Plan + Build fill once scope (rooms + type) is known; runs off scope, not budget.
+         Persists through the contact step; JS hides it on the confirmation screen. -->
+    <div class="rf-estimate" id="rf-meter-a">
+      <p class="rf-meter-title"><span>Your estimate</span></p>
+      <div class="rf-meter-rows">
+        <div class="rf-meter-row rf-meter-reveal">
+          <span class="rf-meter-num">1</span>
+          <span class="rf-meter-cell-l">
+            <span class="rf-meter-label">Reveal</span>
+            <span class="rf-meter-sub">No obligation</span>
+          </span>
+          <span class="rf-meter-val">$0</span>
+        </div>
+        <div class="rf-meter-row rf-meter-plan" id="rf-meter-plan-a">
+          <span class="rf-meter-num">2</span>
+          <span class="rf-meter-cell-l">
+            <span class="rf-meter-label">Plan</span>
+            <span class="rf-meter-sub rf-meter-plan-pct" id="rf-meter-plan-pct-a">Typically 10%+ of budget</span>
+          </span>
+          <span class="rf-meter-val rf-meter-plannum" id="rf-meter-plan-val-a">—</span>
+        </div>
+        <div class="rf-meter-row rf-meter-build" id="rf-meter-build-a">
+          <span class="rf-meter-num">3</span>
+          <span class="rf-meter-cell-l">
+            <span class="rf-meter-label">Build</span>
+            <span class="rf-meter-sub">Avg. budget in Seattle area</span>
+          </span>
+          <span class="rf-meter-val rf-meter-buildnum" id="rf-meter-build-val-a">—</span>
+        </div>
       </div>
     </div>
 
@@ -2803,10 +3020,10 @@ body[data-palette="saffron"] .toggle-btn {
       <p class="faq-closing">Still have a question we didn't answer? Ask it in the form below. We read every one.</p>
     </section>
 
-    <!-- Anchor section: room selection + deposit disclosure -->
+    <!-- Anchor section: room selection + reassurance -->
     <div class="rf-anchor" id="rf-anchor-b" style="padding:var(--space-5) var(--space-4-5) var(--space-4-5)">
       <p class="rf-eyebrow">Get your estimate</p>
-      <h2 class="rf-title">Book Your Reveal</h2>
+      <h2 class="rf-title">Request Your Reveal</h2>
       <p style="font-size: var(--fs-body);font-weight:500;letter-spacing:-0.01em;color:var(--text-primary);margin:0 0 var(--space-3-5)">Which rooms are you planning to remodel?</p>
       <div class="rf-chips" id="rf-anchor-chips-b">
         <button class="rf-chip" type="button" data-room="kitchen">Kitchen</button>
@@ -2847,7 +3064,7 @@ body[data-palette="saffron"] .toggle-btn {
         </div>
       </div>
       <button class="rf-anchor-cta" type="button" id="rf-anchor-cta-b" disabled>See my estimate →</button>
-      <p style="font-size: var(--fs-small);color:var(--text-secondary);line-height:1.55;margin:var(--space-3) 0 0;text-align:center">A refundable $200 deposit is collected when we schedule your visit — applied in full toward your service if you move forward.</p>
+      <p style="font-size: var(--fs-small);color:var(--text-secondary);line-height:1.55;margin:var(--space-3) 0 0;text-align:center">Your Reveal is free to start and yours to keep, even if you don't move forward.</p>
     </div>
 
     <!-- ── Footer ─────────────────────────────────────────────────────── -->
@@ -2916,7 +3133,7 @@ body[data-palette="saffron"] .toggle-btn {
         </div>
         <!-- Per-room breakdown with bundle discounts -->
         <div class="rf-breakdown" id="rf-pm-breakdown-b" style="margin-bottom:var(--space-1-5)"></div>
-        <p style="font-size: var(--fs-caption);color:var(--text-tertiary);line-height:1.5;margin:0 0 var(--space-4)">Multi-room projects are discounted — up to 30% off on additional rooms.</p>
+        <p style="font-size: var(--fs-caption);color:var(--text-tertiary);line-height:1.5;margin:0 0 var(--space-4)">Multi-room projects are discounted, up to 30% off on additional rooms.</p>
         <!-- Construction cost + budget alignment — one unified section -->
         <div style="border-top:0.5px solid var(--border-divider);padding-top:var(--space-4);margin-bottom:var(--space-4)">
           <p style="font-size: var(--fs-small);color:var(--text-secondary);margin:0 0 var(--space-1)">Estimated construction cost for your scope</p>
@@ -2927,7 +3144,7 @@ body[data-palette="saffron"] .toggle-btn {
         <!-- Design fee education -->
         <div style="border-top:0.5px solid var(--border-divider);padding-top:var(--space-4)">
           <p style="font-size: var(--fs-caption);font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-tertiary);margin:0 0 var(--space-1-5)">Good to know</p>
-          <p style="font-size: var(--fs-small);color:var(--text-secondary);line-height:1.55;margin:0 0 var(--space-2)">Design fees typically run <strong style="color:var(--text-primary);font-weight:500">5–10% of construction costs</strong> — separate from what you pay your contractor. For a project in this range, that's usually:</p>
+          <p style="font-size: var(--fs-small);color:var(--text-secondary);line-height:1.55;margin:0 0 var(--space-2)">Design fees typically run <strong style="color:var(--text-primary);font-weight:500">5–10% of construction costs</strong>, separate from what you pay your contractor. For a project in this range, that's usually:</p>
           <p style="font-size: var(--fs-h2);font-weight:500;letter-spacing:-0.02em;color:var(--text-primary);margin:0 0 var(--space-1)" id="rf-df-range-b"></p>
           <p style="font-size: var(--fs-caption);color:var(--text-tertiary);line-height:1.5;margin:0">Estimated for your scope · Seattle market · in addition to construction costs</p>
         </div>
@@ -2937,7 +3154,7 @@ body[data-palette="saffron"] .toggle-btn {
       <div id="rf-s3-b" hidden>
         <p class="rf-eyebrow">Almost there</p>
         <h2 class="rf-title">How Should We Reach You?</h2>
-        <p class="rf-sub" style="margin-bottom:var(--space-4-5)">We'll call you as soon as possible during business hours (Mon–Fri, 9–5) to answer questions and get you scheduled.</p>
+        <p class="rf-sub" style="margin-bottom:var(--space-4-5)">We'll reach out during business hours (Mon–Fri, 9–5) to answer questions and arrange your home visit.</p>
         <div class="rf-fields">
           <div class="rf-row">
             <div class="rf-field" id="rff-first-b"><label class="rf-label" for="rfi-first-b">First name</label><input class="rf-input" id="rfi-first-b" type="text" placeholder="First" autocomplete="given-name" /><p class="rf-err-msg">Required</p></div>
@@ -2949,7 +3166,7 @@ body[data-palette="saffron"] .toggle-btn {
         </div>
         <label class="rf-ack">
           <input type="checkbox" id="rf-ack-b" />
-          <p class="rf-ack-text">I understand that scheduling a home visit requires a <strong>refundable $200 deposit</strong>, which is applied toward my Premodel service if I move forward.</p>
+          <p class="rf-ack-text">I understand a Premodel team member will visit my home to scan the space and create my <strong>free Reveal</strong>, mine to keep, with no obligation to go further.</p>
         </label>
       </div>
 
@@ -2962,8 +3179,8 @@ body[data-palette="saffron"] .toggle-btn {
           <div class="rf-ns-step">
             <div class="rf-ns-num">1</div>
             <div>
-              <p class="rf-ns-title">We'll call to get you scheduled</p>
-              <p class="rf-ns-desc">We'll set up your home visit and collect a refundable $200 deposit over the phone.</p>
+              <p class="rf-ns-title">We'll reach out to arrange your visit</p>
+              <p class="rf-ns-desc">We'll set up your home visit at a time that works for you. No payment to get started.</p>
             </div>
           </div>
           <div class="rf-ns-step">
@@ -4100,7 +4317,8 @@ body[data-palette="saffron"] .toggle-btn {
     kitchen: 'Kitchen', primary_bath: 'Primary / master bath',
     secondary_bath: 'Secondary bath', living: 'Living room',
     dining: 'Dining room', office: 'Home office',
-    bedroom: 'Bedroom', entry_mudroom: 'Entry / mudroom', basement_adu: 'Basement ADU'
+    bedroom: 'Bedroom', entry_mudroom: 'Entry / mudroom', basement_adu: 'Basement ADU',
+    entire_home: 'Entire home'
   };
 
   // ── Construction cost tables (summed, no discounts, round to $1k) ──────────
@@ -4115,7 +4333,8 @@ body[data-palette="saffron"] .toggle-btn {
       office:         [3000,   30000],
       bedroom:        [3000,   25000],
       entry_mudroom:  [3000,   25000],
-      basement_adu:   [90000, 350000]
+      basement_adu:   [90000, 350000],
+      entire_home:    [80000, 400000]
     },
     reconfigure: {
       kitchen:        [90000,  175000],
@@ -4126,7 +4345,8 @@ body[data-palette="saffron"] .toggle-btn {
       office:         [28000,   60000],
       bedroom:        [22000,   50000],
       entry_mudroom:  [20000,   45000],
-      basement_adu:  [150000,  350000]
+      basement_adu:  [150000,  350000],
+      entire_home:   [300000,  900000]
     }
   };
 
@@ -4141,7 +4361,8 @@ body[data-palette="saffron"] .toggle-btn {
       office:         [3000,    9000],
       bedroom:        [3000,    9000],
       entry_mudroom:  [3000,    8000],
-      basement_adu:   [15000,  40000]
+      basement_adu:   [15000,  40000],
+      entire_home:    [60000, 150000]
     },
     replace: {
       kitchen:        [45000,  90000],
@@ -4152,7 +4373,8 @@ body[data-palette="saffron"] .toggle-btn {
       office:         [12000,  30000],
       bedroom:        [10000,  25000],
       entry_mudroom:  [10000,  25000],
-      basement_adu:   [90000, 175000]
+      basement_adu:   [90000, 175000],
+      entire_home:   [150000, 400000]
     },
     reconfigure: {
       kitchen:        [90000,  175000],
@@ -4163,7 +4385,8 @@ body[data-palette="saffron"] .toggle-btn {
       office:         [28000,   60000],
       bedroom:        [22000,   50000],
       entry_mudroom:  [20000,   45000],
-      basement_adu:  [150000,  350000]
+      basement_adu:  [150000,  350000],
+      entire_home:   [300000,  900000]
     }
   };
 
@@ -4172,12 +4395,14 @@ body[data-palette="saffron"] .toggle-btn {
   var PM_PRICES_RC = {
     kitchen: 1850, primary_bath: 1400, secondary_bath: 912,
     living: 912, dining: 912, office: 912,
-    bedroom: 650, entry_mudroom: 912, basement_adu: 1850
+    bedroom: 650, entry_mudroom: 912, basement_adu: 1850,
+    entire_home: 6000
   };
   var PM_PRICES_RCP = {
     kitchen: 2775, primary_bath: 2100, secondary_bath: 1275,
     living: 1275, dining: 1275, office: 1275,
-    bedroom: 900, entry_mudroom: 1275, basement_adu: 2775
+    bedroom: 900, entry_mudroom: 1275, basement_adu: 2775,
+    entire_home: 9500
   };
   var PM_BASE  = {
     refresh_replace: 1500, gut_reconfigure: 2500,  // Layout B (2-tier)
@@ -4524,121 +4749,285 @@ body[data-palette="saffron"] .toggle-btn {
   function initRevealCard(id) {
     var card        = document.getElementById('rf-card-' + id);
     if (!card) return;
-    var stepsWrap   = document.getElementById('rf-card-steps-' + id);
-    var segs        = stepsWrap.querySelectorAll('.rf-card-seg');
-    var nav         = document.getElementById('rf-card-nav-' + id);
-    var backBtn     = document.getElementById('rf-card-back-' + id);
-    var nextBtn     = document.getElementById('rf-card-next-' + id);
-    var roomChips   = document.querySelectorAll('#rf-card-chips-' + id + ' .rf-chip');
-    var tierBtns    = document.querySelectorAll('#rf-card-tiers-' + id + ' .rf-tier');
-    var budChips    = document.querySelectorAll('#rf-card-budgets-' + id + ' .rf-budget-chip');
-    var ackBox      = document.getElementById('rf-ack-' + id);
+    var backBtn     = document.getElementById('rf-card-back-' + id);     // front: back arrow
+    var nextBtn     = document.getElementById('rf-card-next-' + id);     // front: next arrow
+    var dots        = document.querySelectorAll('#rf-dots-' + id + ' .rf-dot');
+    var backNav     = document.getElementById('rf-back-nav-' + id);      // back face nav
+    var backBackBtn = document.getElementById('rf-back-back-' + id);     // back: back arrow (unflip)
+    var submitBtn   = document.getElementById('rf-submit-' + id);        // back: labeled submit
+    var roomChips   = document.querySelectorAll('#rf-card-chips-' + id + ' .rf-room');
+    var changeBtns  = document.querySelectorAll('#rf-card-changes-' + id + ' .rf-tier');
+    var noteTrigger = document.getElementById('rf-note-trigger-' + id);
+    var noteOverlay = document.getElementById('rf-note-overlay-' + id);
+    var noteInput   = document.getElementById('rf-note-input-' + id);
+    var noteDone    = document.getElementById('rf-note-done-' + id);
+    var noteCancel  = document.getElementById('rf-note-cancel-' + id);
+    var projectNote = '';   // optional internal field; never affects the estimate
+    var slider      = document.getElementById('rf-budget-slider-' + id);
+    var sliderOut   = document.getElementById('rf-slider-val-' + id);
+    var presetBtns  = document.querySelectorAll('#rf-budget-presets-' + id + ' .rf-budget-chip');
+    var planValEl   = document.getElementById('rf-meter-plan-val-' + id);
+    var planPctEl   = document.getElementById('rf-meter-plan-pct-' + id);
+    var planCell    = document.getElementById('rf-meter-plan-' + id);
+    var buildValEl  = document.getElementById('rf-meter-build-val-' + id);
+    var meterEl     = document.getElementById('rf-meter-' + id);          // estimate strip (always mounted)
+    var backBody    = document.getElementById('rf-card-body-back-' + id); // back face body (faded on confirm)
     var ctaBtn      = document.querySelector('.phone-frame[data-layout="' + id + '"] .cta-button');
     var ctaBarWrap  = document.querySelector('.phone-frame[data-layout="' + id + '"] .cta-bar');
     var scrollEl    = document.querySelector('.phone-frame[data-layout="' + id + '"] .phone-scroll');
     var frame       = document.querySelector('.phone-frame[data-layout="' + id + '"]');
 
-    // Step model: 1 rooms · 2 type · 3 budget · 4 reveal · 5 contact-fields ·
-    // 6 contact-ack · 7 success. Phases drive the card's dark→light color morph.
-    var PANELS = ['rooms', 'type', 'budget', 'reveal', 'contact1', 'contact2', 'success'];
-    var LAST   = 7;
-    var step = 1, rooms = [], tier = null, budget = null, advanceTimer = null;
+    // Step model: 1 rooms · 2 type · 3 budget (front) → 4 contact · 5 success (back).
+    // Budget flips straight to contact; no interstitial. FRONT_STEPS is the front-face
+    // question count: to add a signal question back in this slot later, add its panel
+    // here, add a dot in the markup, and bump FRONT_STEPS.
+    var PANELS = ['rooms', 'type', 'budget', 'contact1', 'success'];
+    var FRONT_STEPS = 3;
+    var LAST = PANELS.length;
+    var step = 1, rooms = [], tier = null, budget = null, budgetTouched = false, advanceTimer = null;
+    var prefersReduced = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
 
     function panel(n) { return document.getElementById('rfc-' + PANELS[n - 1] + '-' + id); }
-    function phaseOf(n) { return n <= 3 ? 'questions' : (n === 4 ? 'reveal' : 'contact'); }
     function val(f) { return document.getElementById('rfi-' + f + '-' + id).value.trim(); }
 
     function fieldsValid() {
+      var phone = val('phone');
       return !!(val('first') && val('last')
         && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val('email'))
-        && val('phone').replace(/\D/g, '').length >= 10
-        && /^\d{5}$/.test(val('zip')));
+        && /^\d{5}$/.test(val('zip'))
+        && (phone === '' || phone.replace(/\D/g, '').length >= 10)); // phone optional
     }
 
-    // ── Condensed reveal: hero price + construction range + one-line budget verdict ──
-    var VERDICTS = {
-      aligned:  { cls: 'aligned',  ic: '<polyline points="20 6 9 17 4 12"></polyline>',
-                  txt: 'Your budget looks realistic for this scope.' },
-      tight:    { cls: 'tight',    ic: '<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line>',
-                  txt: 'Workable at the lower end — expect some tradeoffs on finishes.' },
-      too_low:  { cls: 'too_low',  ic: '<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line>',
-                  txt: 'Your budget may be light for this scope — we can help you phase it.' },
-      has_room: { cls: 'has_room', ic: '<circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line>',
-                  txt: 'Your budget has room beyond this scope.' },
-      not_sure: { cls: 'not_sure', ic: '<circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line>',
-                  txt: 'Not sure yet? We’ll help you build a realistic budget.' }
-    };
-    function buildReveal() {
-      var est = calcConstruction(rooms, tier);
-      if (!est) return;
-      var pm = buildPmBreakdown(rooms, tier);
-      document.getElementById('rfc-price-'  + id).textContent = fmtDollars(pm.total);
-      document.getElementById('rfc-savings-' + id).hidden     = rooms.length <= 1;
-      document.getElementById('rfc-constr-' + id).textContent = fmtRange(est.lo, est.hi);
-      var v = VERDICTS[getBudgetState(est.lo, est.hi, budget)] || VERDICTS.not_sure;
-      document.getElementById('rfc-verdict-' + id).innerHTML =
-        '<div class="rfc-verdict-pill ' + v.cls + '">'
-        + '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" '
-        + 'stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">' + v.ic + '</svg>'
-        + '<span>' + v.txt + '</span></div>';
+    // ── Money formatters (compact) ──────────────────────────────────────────────
+    function fmtBudgetK(n) { return n >= 1000000 ? '$1M+' : '$' + Math.round(n / 1000) + 'k'; }
+    // Compact range: "$15–40k" / "$120k–$1M+". The top caps at $1M+ per the benchmark.
+    function rangeCompact(lo, hi) {
+      if (hi >= 1000000) {
+        var loStr = lo >= 1000000 ? '$1M+' : '$' + Math.round(lo / 1000) + 'k';
+        return loStr + '–$1M+';
+      }
+      return '$' + Math.round(lo / 1000) + '–' + Math.round(hi / 1000) + 'k';
     }
+
+    // ── Estimate strip config ───────────────────────────────────────────────────
+    var PM_PCT   = { lo: 0.03, hi: 0.05 }; // PLACEHOLDER Premodel Plan share of build (to be supplied)
+    var PM_FLOOR = 1000;                   // PLACEHOLDER floor (e.g. $1,000 minimum)
+    var STRIP_DASH = '—';
+    var SCOPE_LABEL = { refresh: 'Refresh', replace: 'Replacement', reconfigure: 'Reconfigure' };
+
+    // ── Build benchmark (Seattle / Eastside construction costs, typical bands) ─────
+    // Per-room construction cost by scope tier (what a contractor charges, not our
+    // fee). Wet rooms + tier do most of the work; soft-room tier scaling is loose by
+    // design. ADU and Entire home are special-cased below.
+    var BUILD_BENCH = {
+      kitchen:        { refresh: [15000, 40000], replace: [45000, 95000], reconfigure: [100000, 200000] },
+      primary_bath:   { refresh: [10000, 20000], replace: [25000, 45000], reconfigure: [50000, 95000] },
+      secondary_bath: { refresh: [7000, 15000],  replace: [15000, 30000], reconfigure: [30000, 50000] },
+      living:         { refresh: [3000, 10000],  replace: [10000, 25000], reconfigure: [25000, 55000] },
+      dining:         { refresh: [3000, 8000],   replace: [8000, 20000],  reconfigure: [20000, 45000] },
+      bedroom:        { refresh: [3000, 8000],   replace: [10000, 22000], reconfigure: [20000, 45000] },
+      office:         { refresh: [3000, 8000],   replace: [8000, 20000],  reconfigure: [18000, 40000] },
+      entry_mudroom:  { refresh: [2000, 7000],   replace: [7000, 18000],  reconfigure: [15000, 35000] }
+    };
+    var BUILD_ADU  = [120000, 400000];   // new construction: flat band, tier-independent; adds on top
+    var BUILD_HOME = { refresh: [120000, 250000], replace: [300000, 600000], reconfigure: [500000, 1000000] };
+
+    // Aggregate the selected rooms at a tier into one [lo, hi] Build band.
+    function buildBenchAt(roomList, t) {
+      var lo, hi;
+      if (roomList.indexOf('entire_home') !== -1) {       // priced per sqft; overrides rooms
+        var h = BUILD_HOME[t] || BUILD_HOME.refresh; lo = h[0]; hi = h[1];
+      } else {
+        lo = 0; hi = 0;
+        roomList.forEach(function(r) {
+          if (r === 'basement_adu' || r === 'entire_home') return;
+          var b = BUILD_BENCH[r]; if (b && b[t]) { lo += b[t][0]; hi += b[t][1]; }
+        });
+      }
+      if (roomList.indexOf('basement_adu') !== -1) { lo += BUILD_ADU[0]; hi += BUILD_ADU[1]; } // separate structure
+      lo = roundNearest(lo, 5000);                                          // low → nearest $5k
+      hi = hi >= 100000 ? roundNearest(hi, 10000) : roundNearest(hi, 5000); // high → $10k / $5k
+      return { lo: lo, hi: hi };
+    }
+
+    // Build range from scope. Rooms alone (no type yet) → widest plausible band:
+    // the cheapest tier's low to the priciest tier's high. A type narrows it (upper
+    // drops for a refresh, lower rises for a reconfigure). No rooms → null.
+    function scopeRange() {
+      if (!rooms.length) return null;
+      if (tier) return buildBenchAt(rooms, tier);
+      return { lo: buildBenchAt(rooms, 'refresh').lo, hi: buildBenchAt(rooms, 'reconfigure').hi };
+    }
+
+    // ── Plan sub: industry norm until a type is known, then Premodel's lower % ──────
+    function setPlanSubNorm() {
+      planPctEl.textContent = 'Typically 10%+ of budget';
+      planPctEl.classList.remove('rf-meter-plan-pct--pm');
+    }
+    function setPlanSubPremodel() {
+      planPctEl.textContent = Math.round(PM_PCT.lo * 100) + '–' + Math.round(PM_PCT.hi * 100)
+        + '% of budget (typically 10%+)';
+      planPctEl.classList.add('rf-meter-plan-pct--pm');
+    }
+
+    // ── Range animator: tweens both endpoints from their last values to the new ──────
+    // ones (counts up on first appearance, counts the upper end down as Q2 narrows).
+    // setTimeout fallback lands the final value when rAF is throttled (hidden preview).
+    function makeRangeAnim(el) {
+      var curLo = 0, curHi = 0, raf = null, timer = null;
+      function clear() { if (raf) { cancelAnimationFrame(raf); raf = null; } if (timer) { clearTimeout(timer); timer = null; } }
+      return {
+        reset: function() { clear(); curLo = 0; curHi = 0; el.textContent = STRIP_DASH; },
+        set: function(lo, hi) {
+          clear();
+          if (prefersReduced) { curLo = lo; curHi = hi; el.textContent = rangeCompact(lo, hi); return; }
+          var fromLo = curLo, fromHi = curHi, t0 = null, dur = 460;
+          function frame(ts) {
+            if (t0 === null) t0 = ts;
+            var p = Math.min(1, (ts - t0) / dur), e = 1 - Math.pow(1 - p, 3);
+            el.textContent = rangeCompact(fromLo + (lo - fromLo) * e, fromHi + (hi - fromHi) * e);
+            if (p < 1) raf = requestAnimationFrame(frame); else { curLo = lo; curHi = hi; el.textContent = rangeCompact(lo, hi); }
+          }
+          raf = requestAnimationFrame(frame);
+          timer = setTimeout(function() { clear(); curLo = lo; curHi = hi; el.textContent = rangeCompact(lo, hi); }, dur + 80);
+        }
+      };
+    }
+    var planAnim  = makeRangeAnim(planValEl);
+    var buildAnim = makeRangeAnim(buildValEl);
+
+    function updateMeter() {
+      var br = scopeRange();
+      if (!br) {                            // nothing selected in Q1: reset + the norm
+        planAnim.reset();
+        buildAnim.reset();
+        setPlanSubNorm();
+        return;
+      }
+      buildAnim.set(br.lo, br.hi);
+      var pl = Math.max(PM_FLOOR, roundNearest(br.lo * PM_PCT.lo, 500));
+      var ph = Math.max(PM_FLOOR, roundNearest(br.hi * PM_PCT.hi, 500));
+      planAnim.set(pl, ph);
+      if (tier) setPlanSubPremodel(); else setPlanSubNorm();   // % of build only once type is known
+    }
+
 
     function applyNav(n) {
-      backBtn.disabled = (n === 1);
-      var label = 'Next', disabled = false;
-      if (n === 1)      { disabled = rooms.length === 0; }
-      else if (n === 4) { label = 'Leave your details →'; }
-      else if (n === 5) { disabled = !fieldsValid(); }
-      else if (n === 6) { label = 'Submit request'; disabled = !(ackBox.checked && fieldsValid()); }
-      nextBtn.textContent = label;
-      nextBtn.disabled = disabled;
+      if (n <= FRONT_STEPS) {
+        // Front face: back arrow + step dots + next arrow
+        backBtn.disabled = (n === 1);
+        var nd = false;
+        if (n === 1)      nd = rooms.length === 0;   // need a room
+        else if (n === 2) nd = !tier;                // need a remodel type
+        else if (n === 3) nd = !budgetTouched;       // need to engage budget (incl. "Not sure")
+        nextBtn.disabled = nd;
+        for (var i = 0; i < dots.length; i++) dots[i].classList.toggle('active', i === (n - 1));
+      } else {
+        // Back face (contact / success): labeled submit, hidden on the confirmation
+        backNav.hidden = (n === LAST);
+        submitBtn.disabled = !fieldsValid();
+      }
     }
 
     function showStep(n) {
       step = n;
       for (var i = 1; i <= LAST; i++) panel(i).hidden = (i !== n);
-      card.classList.remove('phase-questions', 'phase-reveal', 'phase-contact');
-      card.classList.add('phase-' + phaseOf(n));
-      segs.forEach(function(s, i) { s.classList.toggle('on', n <= 3 && i < n); });
-      nav.hidden = (n === LAST); // success has no nav
-      if (n === 4) buildReveal();
+      card.classList.toggle('flipped', n > FRONT_STEPS);   // flip to the light contact side
+      // Estimate strip stays mounted through every step, including the confirmation.
       applyNav(n);
       if (window.lucide && window.lucide.createIcons) window.lucide.createIcons();
     }
 
-    function advance(to) {
-      if (advanceTimer) clearTimeout(advanceTimer);
-      advanceTimer = setTimeout(function() { showStep(to); }, 240);
-    }
-
-    // Q1 — rooms (multi-select; Next gated on ≥1)
+    // Q1 — rooms (multi-select; advance via the next arrow). "Entire home" is exclusive
+    // with the individual rooms (ADU can still ride alongside, since it's a separate
+    // structure): selecting it clears the others; selecting a room clears it.
+    function chipByRoom(r) { return document.querySelector('#rf-card-chips-' + id + ' [data-room="' + r + '"]'); }
     roomChips.forEach(function(chip) {
       chip.addEventListener('click', function() {
-        chip.classList.toggle('sel');
+        var r = chip.getAttribute('data-room');
+        var nowOn = chip.classList.toggle('sel');
+        if (nowOn) {
+          if (r === 'entire_home') {
+            roomChips.forEach(function(c) {
+              var cr = c.getAttribute('data-room');
+              if (cr !== 'entire_home' && cr !== 'basement_adu') c.classList.remove('sel');
+            });
+          } else if (r !== 'basement_adu') {
+            var eh = chipByRoom('entire_home'); if (eh) eh.classList.remove('sel');
+          }
+        }
         rooms = Array.prototype.filter.call(roomChips, function(c) {
           return c.classList.contains('sel');
         }).map(function(c) { return c.getAttribute('data-room'); });
-        if (step === 1) nextBtn.disabled = rooms.length === 0;
+        updateMeter();
+        if (step === 1) applyNav(1);
       });
     });
 
-    // Q2 — type (single-select, auto-advance)
-    tierBtns.forEach(function(btn) {
+    // Q2 — scope (single-select). Each tier maps to exactly one Build cost band:
+    // refresh = cosmetic (low), replace = mid, reconfigure = structural (high).
+    changeBtns.forEach(function(btn) {
       btn.addEventListener('click', function() {
-        tierBtns.forEach(function(b) { b.classList.remove('sel'); });
+        changeBtns.forEach(function(b) { b.classList.remove('sel'); });
         btn.classList.add('sel');
         tier = btn.getAttribute('data-tier');
-        advance(3);
+        updateMeter();
+        if (step === 2) applyNav(2);
       });
     });
 
-    // Q3 — budget (optional single-select, auto-advance into the reveal)
-    budChips.forEach(function(btn) {
+    // Optional note: a quiet trigger opens the full-bleed note view (non-gating).
+    // Done saves, Cancel discards. Stored as projectNote; never touches the estimate.
+    function noteTriggerLabel() {
+      if (!noteTrigger) return;
+      noteTrigger.innerHTML = projectNote ? 'Note added' : 'Add a note <span class="rf-note-opt">(optional)</span>';
+      noteTrigger.classList.toggle('has-note', !!projectNote);
+    }
+    function openNote() {
+      if (!noteOverlay) return;
+      if (noteInput) noteInput.value = projectNote;   // load the saved note for editing
+      noteOverlay.hidden = false;
+      if (noteInput) noteInput.focus();
+    }
+    function saveNote() {                              // Done
+      projectNote = noteInput ? noteInput.value.trim() : '';
+      noteTriggerLabel();
+      if (noteOverlay) noteOverlay.hidden = true;
+    }
+    function cancelNote() {                            // Cancel: discard edits
+      if (noteInput) noteInput.value = projectNote;
+      if (noteOverlay) noteOverlay.hidden = true;
+    }
+    if (noteTrigger) noteTrigger.addEventListener('click', openNote);
+    if (noteDone) noteDone.addEventListener('click', saveNote);
+    if (noteCancel) noteCancel.addEventListener('click', cancelNote);
+
+    // The consent "Privacy Policy" link opens the footer privacy modal (its own
+    // data-modal-open handler does the opening); preventDefault stops the surrounding
+    // label from toggling the SMS checkbox and the href="#" jump.
+    var privacyLink = document.getElementById('rf-privacy-link-' + id);
+    if (privacyLink) privacyLink.addEventListener('click', function(e) { e.preventDefault(); });
+
+    // Q3 — budget: slider for precision + quick presets. No auto-advance; the user
+    // must engage one (slider/preset/Not sure) before Continue enables.
+    function setSliderOut(v) { sliderOut.textContent = fmtBudgetK(v); }
+    if (slider) {
+      setSliderOut(+slider.value);
+      slider.addEventListener('input', function() {
+        budgetTouched = true; budget = +slider.value; setSliderOut(budget);
+        presetBtns.forEach(function(b) { b.classList.remove('sel'); });
+        if (step === 3) applyNav(3);   // budget is triage only; strip runs off scope
+      });
+    }
+    presetBtns.forEach(function(btn) {
       btn.addEventListener('click', function() {
-        budChips.forEach(function(b) { b.classList.remove('sel'); });
+        var raw = btn.getAttribute('data-budget');
+        presetBtns.forEach(function(b) { b.classList.remove('sel'); });
         btn.classList.add('sel');
-        budget = btn.getAttribute('data-budget');
-        advance(4);
+        budgetTouched = true;
+        if (raw === 'not_sure') { budget = 'not_sure'; }
+        else { budget = +raw; if (slider) { slider.value = String(budget); setSliderOut(budget); } }
+        if (step === 3) applyNav(3);   // budget is triage only; strip runs off scope
       });
     });
 
@@ -4646,7 +5035,7 @@ body[data-palette="saffron"] .toggle-btn {
     ['first', 'last', 'email', 'phone', 'zip'].forEach(function(f) {
       var el = document.getElementById('rfi-' + f + '-' + id);
       if (!el) return;
-      el.addEventListener('input', function() { if (step === 5) applyNav(5); });
+      el.addEventListener('input', function() { if (step === FRONT_STEPS + 1) applyNav(FRONT_STEPS + 1); });
       el.addEventListener('blur', function() {
         var fld = document.getElementById('rff-' + f + '-' + id);
         var v = el.value.trim(), ok = true;
@@ -4657,24 +5046,37 @@ body[data-palette="saffron"] .toggle-btn {
         fld.classList.toggle('err', !ok);
       });
     });
-    if (ackBox) ackBox.addEventListener('change', function() { if (step === 6) applyNav(6); });
-
-    // Footer nav — forward / submit
-    nextBtn.addEventListener('click', function() {
-      if (step === 5 && !fieldsValid()) return;
-      if (step === 6) { if (ackBox.checked && fieldsValid()) showStep(7); return; }
-      if (step < LAST) showStep(step + 1);
-    });
-    backBtn.addEventListener('click', function() {
-      if (step > 1) showStep(step - 1);
-    });
+    // Front nav: next arrow advances (last front step → flips to contact); back steps back.
+    nextBtn.addEventListener('click', function() { if (step <= FRONT_STEPS) showStep(step + 1); });
+    backBtn.addEventListener('click', function() { if (step > 1) showStep(step - 1); });
+    // Back nav: back arrow unflips to the budget step; labeled submit → confirmation.
+    if (backBackBtn) backBackBtn.addEventListener('click', function() { showStep(FRONT_STEPS); });
+    if (submitBtn) submitBtn.addEventListener('click', function() { if (fieldsValid()) showStep(LAST); });
 
     // Bottom fixed CTA scrolls to the card; IntersectionObserver hides the bar
     // whenever the card is on screen so there's never a duplicate CTA.
+    // Anchor on the "Ready for your reveal?" headline (not the "Start here" eyebrow)
+    // so the eyebrow sits just off-screen above and the full estimate strip below the
+    // card stays in view at Mobile M.
+    var introEl = document.getElementById('start');
+    function scrollToStart() {
+      if (!scrollEl || !introEl) { if (card) card.scrollIntoView({ behavior: 'smooth', block: 'start' }); return; }
+      // Align the "Start here" eyebrow's bottom to the top edge: the eyebrow sits just
+      // off-screen above, the headline tops the view, and the full strip stays visible.
+      var eyebrow = introEl.querySelector('.section-eyebrow');
+      var head = introEl.querySelector('.section-headline');
+      var sr = scrollEl.getBoundingClientRect();
+      var edge = eyebrow ? eyebrow.getBoundingClientRect().bottom
+                         : (head ? head.getBoundingClientRect().top - 8 : introEl.getBoundingClientRect().top);
+      var delta = edge - sr.top + 6;   // +6 pushes the eyebrow decisively off the top
+      var maxScroll = scrollEl.scrollHeight - scrollEl.clientHeight;
+      var target = Math.max(0, Math.min(scrollEl.scrollTop + delta, maxScroll));
+      scrollEl.scrollTo({ top: target, behavior: 'smooth' });
+    }
     if (ctaBtn) ctaBtn.addEventListener('click', function() {
-      requestAnimationFrame(function() {
-        if (card) card.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      });
+      requestAnimationFrame(scrollToStart);
+      // Long smooth scrolls can drift short when content above settles; correct once.
+      setTimeout(scrollToStart, 650);
     });
     if ('IntersectionObserver' in window && ctaBarWrap && card) {
       requestAnimationFrame(function() {

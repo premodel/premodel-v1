@@ -18,6 +18,13 @@
       "runtimeExecutable": "npx",
       "runtimeArgs": ["serve", ".", "--listen", "3001"],
       "port": 3001
+    },
+    {
+      "name": "Static (auto-port)",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["serve", "."],
+      "autoPort": true,
+      "port": 3007
     }
   ]
 }
