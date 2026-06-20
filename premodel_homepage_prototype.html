@@ -2,7 +2,11 @@
 <html lang="en" data-theme="light">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<!-- Tints the iOS Safari status-bar/notch region to match the page surface so the
+     background bleeds into the Dynamic Island instead of leaving a white band.
+     Matches --bg-page (light); the prototype renders light on touch devices. -->
+<meta name="theme-color" content="#f7f4eb" />
 <!-- Bare preview: on a real phone, drop the desktop preview chrome (toolbar + device
      frame) and render the prototype edge-to-edge. Forced on/off with ?bare / ?frame.
      Runs in <head> so the toolbar never flashes before it's hidden. -->
@@ -251,7 +255,7 @@ window.addEventListener('storage', function(e){ if (e.key === 'premodel-tokens')
   --chart-line: #5c5b55; --chart-hatch: #4a4943; --chart-fill-soft: #1f2a38;
 }
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-html, body { margin: 0; padding: 0; background: var(--frame-desk); font-family: var(--font-body); -webkit-font-smoothing: antialiased; color: var(--text-primary); }
+html, body { margin: 0; padding: 0; background: var(--frame-desk); font-family: var(--font-body); -webkit-font-smoothing: antialiased; color: var(--text-primary); overscroll-behavior-y: none; }
 body { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: var(--space-4-5); gap: var(--space-3-5); }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
 
@@ -289,7 +293,7 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .prototype-wrapper[data-bp="desktop"] .phone-frame { border-radius: 12px; }
 /* Layout B has no tablet/desktop treatment yet — it always previews at phone size. */
 .phone-frame[data-layout="b"] { width: min(var(--frame-width), 430px); height: min(var(--frame-height), 932px); }
-.phone-scroll { flex: 1; overflow-y: scroll; overflow-x: hidden; scrollbar-width: thin; }
+.phone-scroll { flex: 1; overflow-y: scroll; overflow-x: hidden; scrollbar-width: thin; overscroll-behavior-y: contain; }
 
 /* Bare preview (real phones / ?bare): no toolbar, no device bezel — the active
    frame fills the viewport so the prototype previews like the live site. */
@@ -398,6 +402,20 @@ html.bare .phone-frame[data-layout="b"] {
 /* 1px hairline on the real photo/video frames in both hero carousels (offset inward to hug the rounded corners). */
 .hero-frame--img, .hero-frame--video { outline: 1px solid var(--border-strong); outline-offset: -1px; }
 @media (prefers-reduced-motion: reduce) { .flip-card-inner, .hero-frame { transition: none; } }
+/* iOS Safari mishandles backface-visibility on a 3D-flipped card that holds a <video>: the
+   reveal (front) face keeps compositing and shows through mirrored — a "backward Before button
+   over a video still" — and the Before face never paints. On touch devices, where this prototype
+   IS the live site, drop the 3D flip entirely and crossfade the two faces by opacity instead.
+   The Before image lives on the back face (and as an under-layer on the front), so fading the
+   back face in/out over the front reproduces the flip with none of the 3D compositing bug. */
+@media (hover: none) and (pointer: coarse) {
+  .flip-card { perspective: none; }
+  .flip-card-inner { transform: none !important; transition: none; transform-style: flat; -webkit-transform-style: flat; }
+  .flip-card-front, .flip-card-back { backface-visibility: visible; -webkit-backface-visibility: visible; }
+  .flip-card-back { transform: none; opacity: 0; transition: opacity 0.5s ease; z-index: 3; }
+  .flip-card.flipped .flip-card-back { opacity: 1; }
+  .flip-card.no-flip-anim .flip-card-back { transition: none; }
+}
 
 .dots { display: flex; justify-content: center; gap: var(--space-1-5); padding: var(--space-3-5) 0 0; align-items: center; }
 .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent-soft); border: 0; padding: 0; margin: 0; appearance: none; -webkit-appearance: none; cursor: pointer; flex: 0 0 7px; display: inline-block; transition: background 0.2s ease; }
@@ -1487,11 +1505,16 @@ body.palette-active .rf-card .rf-tier.sel .rf-tier-name { color: #16365a; }
    panels) regardless of window size, but disappears on actual touch
    devices where the prototype IS the live site. */
 @media (hover: none) and (pointer: coarse) {
-  body { padding: 0; gap: 0; }
+  body { padding: 0; gap: 0; background: var(--bg-page); }
   .prototype-wrapper { gap: 0; }
   .prototype-toolbar { display: none; }
   .brand-guide-link { display: none; }
   .phone-frame { width: 100vw; max-width: none; height: 100vh; height: 100dvh; border: none; border-radius: 0; }
+  /* viewport-fit=cover lets the frame's bg fill the notch; pad the header (and the modal's
+     close button) clear of the Dynamic Island, and lift the close button below it. */
+  .header { padding-top: max(var(--space-3-5), env(safe-area-inset-top)); }
+  .case-modal-close { top: max(14px, calc(env(safe-area-inset-top) + 4px)); }
+  .case-modal-card-scroll { padding-bottom: max(var(--space-6), env(safe-area-inset-bottom)); }
 }
 
 /* ── Palette picker (reviewer chrome) ────────────────────────────────
@@ -3927,6 +3950,21 @@ body[data-palette="saffron"] .toggle-btn {
       ov.querySelector('.project-name').textContent = caseStudyTitle(slide.dataset.name, slide.dataset.meta);
     });
   })();
+  var caseModalCard = document.getElementById('case-modal-card');
+  var caseModalImageReel = document.getElementById('case-modal-images');
+  // Bottom-sheet geometry (mobile/stacked layout only). peek = resting height; full = expanded.
+  var SHEET_EASE = 'cubic-bezier(0.32,0.72,0,1)';
+  function modalH() { return caseModal ? (caseModal.getBoundingClientRect().height || caseModal.offsetHeight) : 0; }
+  function peekH() { return Math.round(modalH() * 0.52); }
+  function fullH() { return Math.round(modalH() - 60); }
+  function syncReelPadding() {
+    if (caseModalImageReel) caseModalImageReel.style.paddingBottom = caseModalColumns() ? '' : caseModalCard.offsetHeight + 'px';
+  }
+  function setCardHeight(px, animate) {
+    if (!caseModalCard) return;
+    caseModalCard.style.transition = animate ? ('height 0.34s ' + SHEET_EASE) : 'none';
+    caseModalCard.style.height = px + 'px';
+  }
   function openCaseModal(slide) {
     if (!caseModal) return;
     caseModalName.textContent = caseStudyTitle(slide.dataset.name, slide.dataset.meta);
@@ -3950,26 +3988,48 @@ body[data-palette="saffron"] .toggle-btn {
       }
     }
     if (caseModalDelivered) caseModalDelivered.style.display = slide.dataset.delivered ? '' : 'none';
-    buildCaseModalReel(slide, document.getElementById('case-modal-images'));
+    buildCaseModalReel(slide, caseModalImageReel);
     caseModal.classList.add('open');
     caseModal.setAttribute('aria-hidden', 'false');
-    requestAnimationFrame(function() {
-      var reel = document.getElementById('case-modal-images');
-      var card = document.getElementById('case-modal-card');
-      var cardScroll = document.getElementById('case-modal-card-scroll');
-      if (reel) reel.scrollTop = 0;
-      if (cardScroll) cardScroll.scrollTop = 0;
-      if (reel && card) reel.style.paddingBottom = caseModalColumns() ? '' : card.offsetHeight + 'px';
-    });
+    caseModalCard.classList.remove('expanded');
+    var columns = caseModalColumns();
+    // Present like a native sheet: the whole panel slides up from the bottom and fades in.
+    // (Columns/desktop dialog just cross-fades — its card is a fixed grid cell, not a sheet.)
+    caseModal.style.transition = 'none';
+    caseModal.style.opacity = '0';
+    if (!columns) { setCardHeight(peekH(), false); caseModal.style.transform = 'translateY(100%)'; }
+    else { caseModalCard.style.transition = ''; caseModalCard.style.height = ''; caseModal.style.transform = ''; }
+    // Commit the hidden pre-state with a forced reflow, then flip to the visible state in the same
+    // tick. The committed reflow lets the transition run without depending on requestAnimationFrame.
+    void caseModal.offsetWidth;
+    caseModal.style.transition = 'opacity 0.3s ease' + (columns ? '' : ', transform 0.42s ' + SHEET_EASE);
+    caseModal.style.opacity = '1';
+    caseModal.style.transform = columns ? '' : 'translateY(0)';
+    if (caseModalImageReel) caseModalImageReel.scrollTop = 0;
+    var cs = document.getElementById('case-modal-card-scroll'); if (cs) cs.scrollTop = 0;
+    syncReelPadding();
   }
   function closeCaseModal() {
-    if (!caseModal) return;
-    caseModal.classList.remove('open');
-    caseModal.setAttribute('aria-hidden', 'true');
-    var reel = document.getElementById('case-modal-images');
-    if (reel) { reel.scrollTop = 0; reel.style.paddingBottom = ''; }
-    var card = document.getElementById('case-modal-card');
-    if (card) { card.classList.remove('expanded'); card.scrollTop = 0; }
+    if (!caseModal || !caseModal.classList.contains('open')) return;
+    var columns = caseModalColumns();
+    var done = false;
+    function finish() {
+      if (done) return; done = true;
+      caseModal.removeEventListener('transitionend', onEnd);
+      caseModal.classList.remove('open');
+      caseModal.setAttribute('aria-hidden', 'true');
+      caseModal.style.transition = ''; caseModal.style.opacity = ''; caseModal.style.transform = '';
+      caseModalCard.style.transition = ''; caseModalCard.style.height = ''; caseModalCard.style.transform = '';
+      caseModalCard.classList.remove('expanded');
+      if (caseModalImageReel) { caseModalImageReel.scrollTop = 0; caseModalImageReel.style.paddingBottom = ''; }
+      var cs = document.getElementById('case-modal-card-scroll'); if (cs) cs.scrollTop = 0;
+    }
+    function onEnd(e) { if (e && e.target !== caseModal) return; finish(); }
+    caseModal.style.transition = 'opacity 0.3s ease' + (columns ? '' : ', transform 0.34s cubic-bezier(0.4,0,1,1)');
+    caseModal.style.opacity = '0';
+    if (!columns) caseModal.style.transform = 'translateY(100%)';
+    caseModal.addEventListener('transitionend', onEnd);
+    setTimeout(onEnd, 420);
   }
   // Layout A slides → #case-modal
   document.querySelectorAll('#project-carousel .project-slide').forEach(function(slide) {
@@ -3981,38 +4041,89 @@ body[data-palette="saffron"] .toggle-btn {
   if (caseModalClose) caseModalClose.addEventListener('click', closeCaseModal);
   if (caseModal) caseModal.addEventListener('click', function(e) { if (e.target === caseModal) closeCaseModal(); });
 
-  // Card expand: tap or swipe-up expands the card; reel padding tracks card height after transition
-  var caseModalCard = document.getElementById('case-modal-card');
-  if (caseModalCard) {
-    var caseModalImageReel = document.getElementById('case-modal-images');
-
-    function syncReelPadding() {
-      if (caseModalImageReel) caseModalImageReel.style.paddingBottom = caseModalColumns() ? '' : caseModalCard.offsetHeight + 'px';
-    }
+  // ── Native bottom-sheet gestures (stacked layout only) ──────────────────────
+  // The text card follows the finger: drag up to grow toward full, drag down to shrink toward
+  // peek, and drag down past peek (or flick down) to dismiss. Pulling down on the image reel
+  // when it's scrolled to the top also dismisses. overscroll-behavior (CSS) already stops these
+  // pulls from triggering Safari's pull-to-refresh.
+  if (caseModalCard && caseModalImageReel) {
     caseModalCard.addEventListener('transitionend', function(e) {
       if (e.propertyName === 'height') syncReelPadding();
     });
 
-    var touchStartY = 0;
+    var dragging = false, decided = false, moved = false, startY = 0, startH = 0, lastY = 0, lastT = 0, vy = 0;
     caseModalCard.addEventListener('touchstart', function(e) {
-      touchStartY = e.touches[0].clientY;
-    }, { passive: true });
-    caseModalCard.addEventListener('touchend', function(e) {
       if (caseModalColumns()) return;
-      var delta = touchStartY - e.changedTouches[0].clientY;
-      if (delta > 20) caseModalCard.classList.add('expanded');
-      else if (delta < -20) caseModalCard.classList.remove('expanded');
+      dragging = true; decided = false; moved = false;
+      startY = e.touches[0].clientY; lastY = startY; lastT = Date.now();
+      startH = caseModalCard.offsetHeight; vy = 0;
     }, { passive: true });
-    caseModalCard.addEventListener('click', function() {
-      if (caseModalColumns()) return;
-      if (!caseModalCard.classList.contains('expanded')) caseModalCard.classList.add('expanded');
-    });
-    if (caseModalImageReel) {
-      caseModalImageReel.addEventListener('click', function() {
-        if (caseModalColumns()) return;
-        caseModalCard.classList.remove('expanded');
-      });
+    caseModalCard.addEventListener('touchmove', function(e) {
+      if (!dragging) return;
+      var y = e.touches[0].clientY, dy = y - startY;
+      if (!decided) {
+        if (Math.abs(dy) < 4) return;
+        var cs = document.getElementById('case-modal-card-scroll');
+        // When expanded, hand the gesture to the inner scroll unless we're at the very top and
+        // pulling DOWN (the intent to collapse / dismiss).
+        if (caseModalCard.classList.contains('expanded') && (dy < 0 || (cs && cs.scrollTop > 0))) { dragging = false; return; }
+        decided = true; moved = true; caseModalCard.style.transition = 'none';
+      }
+      var h = startH - dy, maxH = fullH();
+      if (h > maxH) h = maxH + (h - maxH) * 0.18;   // rubber-band past full
+      if (h < 0) h = 0;
+      caseModalCard.style.height = h + 'px';
+      if (e.cancelable) e.preventDefault();
+      var now = Date.now(), dt = now - lastT; if (dt > 0) vy = (y - lastY) / dt; lastY = y; lastT = now;
+    }, { passive: false });
+    function endCardDrag() {
+      if (!dragging) return; dragging = false;
+      if (!moved) return;                            // a tap → let click handle it
+      var h = caseModalCard.offsetHeight, peek = peekH(), full = fullH();
+      if (vy > 0.9 || (h < peek * 0.6 && vy > -0.3)) { closeCaseModal(); return; }
+      var target = vy < -0.5 ? full : (vy > 0.5 ? peek : (Math.abs(h - full) < Math.abs(h - peek) ? full : peek));
+      setCardHeight(target, true);
+      caseModalCard.classList.toggle('expanded', target === full);
     }
+    caseModalCard.addEventListener('touchend', endCardDrag, { passive: true });
+    caseModalCard.addEventListener('touchcancel', endCardDrag, { passive: true });
+    caseModalCard.addEventListener('click', function() {
+      if (caseModalColumns() || moved) return;
+      if (!caseModalCard.classList.contains('expanded')) { setCardHeight(fullH(), true); caseModalCard.classList.add('expanded'); }
+    });
+
+    var reelDrag = false, reelDY = 0;
+    caseModalImageReel.addEventListener('touchstart', function(e) {
+      if (caseModalColumns()) return;
+      if (caseModalImageReel.scrollTop <= 0) { reelDrag = true; reelDY = 0; startY = e.touches[0].clientY; caseModal.style.transition = 'none'; }
+    }, { passive: true });
+    caseModalImageReel.addEventListener('touchmove', function(e) {
+      if (!reelDrag) return;
+      reelDY = e.touches[0].clientY - startY;
+      if (reelDY > 0) {
+        if (e.cancelable) e.preventDefault();
+        caseModal.style.transform = 'translateY(' + (reelDY * 0.6) + 'px)';
+        caseModal.style.opacity = String(Math.max(0.5, 1 - reelDY / 700));
+      } else { reelDrag = false; caseModal.style.transition = ''; caseModal.style.transform = ''; caseModal.style.opacity = ''; }
+    }, { passive: false });
+    function endReelDrag() {
+      if (!reelDrag) return; reelDrag = false;
+      if (reelDY > 110) { closeCaseModal(); return; }
+      caseModal.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
+      caseModal.style.transform = 'translateY(0)'; caseModal.style.opacity = '1';
+    }
+    caseModalImageReel.addEventListener('touchend', endReelDrag, { passive: true });
+    caseModalImageReel.addEventListener('touchcancel', endReelDrag, { passive: true });
+    caseModalImageReel.addEventListener('click', function() {
+      if (caseModalColumns()) return;
+      if (caseModalCard.classList.contains('expanded')) { setCardHeight(peekH(), true); caseModalCard.classList.remove('expanded'); }
+    });
+
+    window.addEventListener('resize', function() {
+      if (!caseModal.classList.contains('open') || caseModalColumns()) return;
+      setCardHeight(caseModalCard.classList.contains('expanded') ? fullH() : peekH(), false);
+      syncReelPadding();
+    });
   }
 
   // Layout B slides → #case-modal-b
@@ -4338,6 +4449,7 @@ body[data-palette="saffron"] .toggle-btn {
     var scrolly = document.getElementById('cc-scrolly');
     if (!scrolly || !scrollEl) return;
     var track = scrolly.querySelector('.cc-track');
+    var sticky = scrolly.querySelector('.cc-sticky');
     var gline = scrolly.querySelector('.cc-gline');
     var bline = scrolly.querySelector('.cc-bline');
     var fill = scrolly.querySelector('.cc-fill');
@@ -4479,21 +4591,28 @@ body[data-palette="saffron"] .toggle-btn {
     }
 
     function sizeTrack() { track.style.height = (scrollEl.clientHeight * 6.5) + 'px'; }
+    function stickyTop() { var t = parseFloat(getComputedStyle(sticky).top); return isNaN(t) ? 0 : t; }
+    // Progress over the sticky's ACTUAL pin window. The pinned composition (chart + guides +
+    // founder cards) is taller than the viewport, so the sticky unpins once box.bottom passes
+    // sticky.bottom — which is box.height - stickyHeight of scroll, NOT box.height - viewportHeight.
+    // Measuring against viewport height (the old formula) overran the pin: progress only reached
+    // ~0.9 by the time the lock released, so the blue line was still mid-draw. Anchoring the runway
+    // to the sticky's own height makes p hit 1 exactly as the lock releases.
     // Unclamped: values >1 mean the sticky has unlocked and the composition is scrolling normally.
     function progress() {
       var host = scrollEl.getBoundingClientRect();
       var box = scrolly.getBoundingClientRect();
-      var runway = box.height - host.height;
+      var runway = box.height - sticky.offsetHeight;
       if (runway <= 0) return 0;
-      return (host.top - box.top) / runway;
+      return ((host.top + stickyTop()) - box.top) / runway;
     }
     var ticking = false;
-    // The 7 frames span the FULL runway: the blue Premodel line reaches point 7 exactly
-    // as the sticky unlocks, so the page starts moving the moment the chart completes
-    // (no dead scroll at the end).
+    // Finish the chart just shy of the unlock (COMPLETE_AT) so the blue Premodel line reaches the
+    // contented emoji while the screen is still locked, holds a beat fully drawn, then releases.
+    var COMPLETE_AT = 0.92;
     function update() {
       var p = progress();
-      render(clamp(p * 7, 0, 7));
+      render(clamp(p / COMPLETE_AT * 7, 0, 7));
       // Founder cards drift vertically apart only AFTER the sticky unlocks (p > 1 = freeze ends),
       // eased out (quart) over the next stretch of scroll so the finish is barely perceptible.
       if (founders) {
