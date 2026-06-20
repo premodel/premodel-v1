@@ -297,6 +297,11 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 
 /* Bare preview (real phones / ?bare): no toolbar, no device bezel — the active
    frame fills the viewport so the prototype previews like the live site. */
+/* iOS Safari paints the status-bar / Dynamic-Island safe area with the ROOT element's
+   background colour, so the greige --frame-desk left a band above the page. Match the root
+   (and body) to --bg-page so the page colour bleeds up behind the island; theme-color and
+   viewport-fit=cover handle the rest. */
+html.bare, html.bare body { background: var(--bg-page); }
 html.bare body { display: block; min-height: 0; padding: 0; gap: 0; }
 html.bare .prototype-toolbar { display: none; }
 html.bare .prototype-wrapper { gap: 0; }
@@ -404,16 +409,19 @@ html.bare .phone-frame[data-layout="b"] {
 @media (prefers-reduced-motion: reduce) { .flip-card-inner, .hero-frame { transition: none; } }
 /* iOS Safari mishandles backface-visibility on a 3D-flipped card that holds a <video>: the
    reveal (front) face keeps compositing and shows through mirrored — a "backward Before button
-   over a video still" — and the Before face never paints. On touch devices, where this prototype
-   IS the live site, drop the 3D flip entirely and crossfade the two faces by opacity instead.
-   The Before image lives on the back face (and as an under-layer on the front), so fading the
-   back face in/out over the front reproduces the flip with none of the 3D compositing bug. */
+   over a video still" — and the Before face never paints. Keep the real 3D flip everywhere, but
+   on touch devices ALSO hard-cut each face's opacity at the 90° midpoint of the flip (0.3s into
+   the 0.6s rotation) — the instant the face is edge-on and invisible anyway. iOS can't be trusted
+   to hide the away face, so opacity does it; the rotation still animates, so the flip still reads. */
 @media (hover: none) and (pointer: coarse) {
-  .flip-card { perspective: none; }
-  .flip-card-inner { transform: none !important; transition: none; transform-style: flat; -webkit-transform-style: flat; }
-  .flip-card-front, .flip-card-back { backface-visibility: visible; -webkit-backface-visibility: visible; }
-  .flip-card-back { transform: none; opacity: 0; transition: opacity 0.5s ease; z-index: 3; }
-  .flip-card.flipped .flip-card-back { opacity: 1; }
+  /* Linear rotation so the geometric 90° edge-on point lands exactly at the 0.3s time-midpoint,
+     where the opacity hard-cut below swaps faces imperceptibly (no mirrored-video flash). */
+  .flip-card-inner { transition: transform 0.6s linear; }
+  .flip-card-front, .flip-card-back { transition: opacity 0s linear 0.3s; }
+  .flip-card.flipped .flip-card-front { opacity: 0; }
+  .flip-card:not(.flipped) .flip-card-back { opacity: 0; }
+  .flip-card.no-flip-anim .flip-card-inner,
+  .flip-card.no-flip-anim .flip-card-front,
   .flip-card.no-flip-anim .flip-card-back { transition: none; }
 }
 
@@ -1505,7 +1513,7 @@ body.palette-active .rf-card .rf-tier.sel .rf-tier-name { color: #16365a; }
    panels) regardless of window size, but disappears on actual touch
    devices where the prototype IS the live site. */
 @media (hover: none) and (pointer: coarse) {
-  body { padding: 0; gap: 0; background: var(--bg-page); }
+  html, body { padding: 0; gap: 0; background: var(--bg-page); }
   .prototype-wrapper { gap: 0; }
   .prototype-toolbar { display: none; }
   .brand-guide-link { display: none; }
@@ -3957,6 +3965,14 @@ body[data-palette="saffron"] .toggle-btn {
   function modalH() { return caseModal ? (caseModal.getBoundingClientRect().height || caseModal.offsetHeight) : 0; }
   function peekH() { return Math.round(modalH() * 0.52); }
   function fullH() { return Math.round(modalH() - 60); }
+  // Minimized detent: just the drag handle + head (avatar, name, meta) showing. Content is
+  // top-aligned, so the head's offset from the card top is stable regardless of card height.
+  function miniH() {
+    if (!caseModalCard) return Math.round(modalH() * 0.16);
+    var head = caseModalCard.querySelector('.case-modal-head');
+    if (!head) return Math.round(modalH() * 0.16);
+    return Math.round(head.getBoundingClientRect().bottom - caseModalCard.getBoundingClientRect().top + 16);
+  }
   function syncReelPadding() {
     if (caseModalImageReel) caseModalImageReel.style.paddingBottom = caseModalColumns() ? '' : caseModalCard.offsetHeight + 'px';
   }
@@ -4042,14 +4058,22 @@ body[data-palette="saffron"] .toggle-btn {
   if (caseModal) caseModal.addEventListener('click', function(e) { if (e.target === caseModal) closeCaseModal(); });
 
   // ── Native bottom-sheet gestures (stacked layout only) ──────────────────────
-  // The text card follows the finger: drag up to grow toward full, drag down to shrink toward
-  // peek, and drag down past peek (or flick down) to dismiss. Pulling down on the image reel
-  // when it's scrolled to the top also dismisses. overscroll-behavior (CSS) already stops these
-  // pulls from triggering Safari's pull-to-refresh.
+  // Text card: follows the finger between three detents — mini (head only), peek (quote), and
+  // full (reading). Dragging it NEVER closes the modal; it just resizes and snaps to the nearest
+  // detent. Image reel: pulling down when scrolled to the top closes the modal, and scrolling up
+  // into the images minimizes the text card so more photos show. overscroll-behavior (CSS) keeps
+  // these pulls from triggering Safari's pull-to-refresh.
   if (caseModalCard && caseModalImageReel) {
     caseModalCard.addEventListener('transitionend', function(e) {
       if (e.propertyName === 'height') syncReelPadding();
     });
+    function snapCard(h, vy) {
+      var detents = [miniH(), peekH(), fullH()];
+      var projected = h + (-vy) * 100;               // project the flick so a quick swipe carries
+      var target = detents.reduce(function(a, b) { return Math.abs(b - projected) < Math.abs(a - projected) ? b : a; });
+      setCardHeight(target, true);
+      caseModalCard.classList.toggle('expanded', target === fullH());
+    }
 
     var dragging = false, decided = false, moved = false, startY = 0, startH = 0, lastY = 0, lastT = 0, vy = 0;
     caseModalCard.addEventListener('touchstart', function(e) {
@@ -4065,13 +4089,13 @@ body[data-palette="saffron"] .toggle-btn {
         if (Math.abs(dy) < 4) return;
         var cs = document.getElementById('case-modal-card-scroll');
         // When expanded, hand the gesture to the inner scroll unless we're at the very top and
-        // pulling DOWN (the intent to collapse / dismiss).
+        // pulling DOWN (the intent to collapse the panel).
         if (caseModalCard.classList.contains('expanded') && (dy < 0 || (cs && cs.scrollTop > 0))) { dragging = false; return; }
         decided = true; moved = true; caseModalCard.style.transition = 'none';
       }
-      var h = startH - dy, maxH = fullH();
-      if (h > maxH) h = maxH + (h - maxH) * 0.18;   // rubber-band past full
-      if (h < 0) h = 0;
+      var h = startH - dy, maxH = fullH(), minH = miniH();
+      if (h > maxH) h = maxH + (h - maxH) * 0.18;    // rubber-band past full
+      if (h < minH) h = minH - (minH - h) * 0.18;    // rubber-band at mini — never drag to dismiss
       caseModalCard.style.height = h + 'px';
       if (e.cancelable) e.preventDefault();
       var now = Date.now(), dt = now - lastT; if (dt > 0) vy = (y - lastY) / dt; lastY = y; lastT = now;
@@ -4079,16 +4103,12 @@ body[data-palette="saffron"] .toggle-btn {
     function endCardDrag() {
       if (!dragging) return; dragging = false;
       if (!moved) return;                            // a tap → let click handle it
-      var h = caseModalCard.offsetHeight, peek = peekH(), full = fullH();
-      if (vy > 0.9 || (h < peek * 0.6 && vy > -0.3)) { closeCaseModal(); return; }
-      var target = vy < -0.5 ? full : (vy > 0.5 ? peek : (Math.abs(h - full) < Math.abs(h - peek) ? full : peek));
-      setCardHeight(target, true);
-      caseModalCard.classList.toggle('expanded', target === full);
+      snapCard(caseModalCard.offsetHeight, vy);
     }
     caseModalCard.addEventListener('touchend', endCardDrag, { passive: true });
     caseModalCard.addEventListener('touchcancel', endCardDrag, { passive: true });
     caseModalCard.addEventListener('click', function() {
-      if (caseModalColumns() || moved) return;
+      if (caseModalColumns() || moved) return;       // tap cycles up: mini/peek → full
       if (!caseModalCard.classList.contains('expanded')) { setCardHeight(fullH(), true); caseModalCard.classList.add('expanded'); }
     });
 
@@ -4108,16 +4128,19 @@ body[data-palette="saffron"] .toggle-btn {
     }, { passive: false });
     function endReelDrag() {
       if (!reelDrag) return; reelDrag = false;
-      if (reelDY > 110) { closeCaseModal(); return; }
+      if (reelDY > 110) { closeCaseModal(); return; }   // pull-down at top dismisses
       caseModal.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
       caseModal.style.transform = 'translateY(0)'; caseModal.style.opacity = '1';
     }
     caseModalImageReel.addEventListener('touchend', endReelDrag, { passive: true });
     caseModalImageReel.addEventListener('touchcancel', endReelDrag, { passive: true });
-    caseModalImageReel.addEventListener('click', function() {
+    // Scrolling up into the images minimizes the text card so more photos are visible.
+    caseModalImageReel.addEventListener('scroll', function() {
       if (caseModalColumns()) return;
-      if (caseModalCard.classList.contains('expanded')) { setCardHeight(peekH(), true); caseModalCard.classList.remove('expanded'); }
-    });
+      if (caseModalImageReel.scrollTop > 6 && caseModalCard.offsetHeight > miniH() + 4) {
+        setCardHeight(miniH(), true); caseModalCard.classList.remove('expanded');
+      }
+    }, { passive: true });
 
     window.addEventListener('resize', function() {
       if (!caseModal.classList.contains('open') || caseModalColumns()) return;
