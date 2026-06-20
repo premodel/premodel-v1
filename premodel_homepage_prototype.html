@@ -7,6 +7,21 @@
      background bleeds into the Dynamic Island instead of leaving a white band.
      Matches --bg-page (light); the prototype renders light on touch devices. -->
 <meta name="theme-color" content="#f7f4eb" />
+<!-- Bare preview: on a real phone, drop the desktop preview chrome (toolbar + device
+     frame) and render the prototype edge-to-edge. Forced on/off with ?bare / ?frame.
+     Runs in <head> so the toolbar never flashes before it's hidden. -->
+<script>
+(function () {
+  try {
+    var p = new URLSearchParams(location.search);
+    var bare;
+    if (p.has('bare')) bare = p.get('bare') !== '0' && p.get('bare') !== 'false';
+    else if (p.has('frame')) bare = false;
+    else bare = window.matchMedia('(max-width: 700px)').matches;
+    if (bare) document.documentElement.classList.add('bare');
+  } catch (e) {}
+})();
+</script>
 <title>Premodel — See Your Remodel Before You Commit | Seattle</title>
 <meta name="description" content="Premodel turns your remodel ideas into photorealistic Reveals of your actual home — three design directions, an optional VR walkthrough, and a plan you can take to any builder. Serving the greater Seattle area." />
 <link rel="canonical" href="https://premodel.design/" />
@@ -279,6 +294,18 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 /* Layout B has no tablet/desktop treatment yet — it always previews at phone size. */
 .phone-frame[data-layout="b"] { width: min(var(--frame-width), 430px); height: min(var(--frame-height), 932px); }
 .phone-scroll { flex: 1; overflow-y: scroll; overflow-x: hidden; scrollbar-width: thin; overscroll-behavior-y: contain; }
+
+/* Bare preview (real phones / ?bare): no toolbar, no device bezel — the active
+   frame fills the viewport so the prototype previews like the live site. */
+html.bare body { display: block; min-height: 0; padding: 0; gap: 0; }
+html.bare .prototype-toolbar { display: none; }
+html.bare .prototype-wrapper { gap: 0; }
+html.bare .phone-frame,
+html.bare .phone-frame[data-layout="b"] {
+  width: 100%; max-width: none; height: 100vh; height: 100dvh;
+  border: 0; border-radius: 0;
+  transform: none !important; margin: 0 !important;
+}
 /* Trailing scroll room (layout A) so the CTA can lift #start to the top with the
    full reveal card in view; the card sits near the page end otherwise. */
 .phone-frame[data-layout="a"] .phone-scroll { scroll-padding-top: var(--space-4); }
@@ -4612,6 +4639,8 @@ body[data-palette="saffron"] .toggle-btn {
   // transform when wider than the window. Negative margins give back the
   // layout space the transform doesn't, so the page never side-scrolls.
   function fitFrames() {
+    // Bare preview lets the frame fill the viewport via CSS; skip scale-to-fit.
+    if (document.documentElement.classList.contains('bare')) return;
     var opt = sizeSelect.options[sizeSelect.selectedIndex];
     var w = parseFloat(opt.getAttribute('data-w'));
     var h = parseFloat(opt.getAttribute('data-h'));
