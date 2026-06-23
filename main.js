@@ -1435,9 +1435,9 @@
   // the estimate from the shared calculators (so it's layout-agnostic) and POSTs
   // to the serverless intake endpoint. The endpoint posts the lead to Slack.
   var TIER_LABELS = {
-    refresh: 'Refresh — cosmetic update',
-    replace: 'Replace — style makeover',
-    reconfigure: 'Reconfigure — functional fix',
+    refresh: 'Refresh (cosmetic update)',
+    replace: 'Replace (style makeover)',
+    reconfigure: 'Reconfigure (functional fix)',
     refresh_replace: 'Refresh / Replace',
     gut_reconfigure: 'Gut / Reconfigure'
   };

@@ -4,10 +4,16 @@ import type { Lead } from './types.js';
 // ─────────────────────────────────────────────────────────────────────────────
 // Lead → Notion CRM page.
 //
-// ⚠️  The PROPERTY NAMES below must match the live CRM database exactly (Notion
-//     matches by name, case-sensitive). They are confirmed against the real
-//     schema in Phase 3 (inspected via the Notion connector). Adjust the keys in
-//     `buildProperties` if the CRM uses different names; nothing else changes.
+// Mapped against the real "CRM Database" (data source 2faabc3f-eabf-8069-...),
+// the same schema the v0 estimator wrote to. Property names/types below match it
+// exactly (Notion matches by name, case-sensitive). NOTION_DATABASE_ID should be
+// 2faabc3f-eabf-80f1-a807-ca058df0ce63.
+//
+// Deliberately NOT set: "Sync to Quo" (leaving it unchecked means the CRM's
+// OpenPhone/Quo automation never fires — we dropped that pipeline). Service Type,
+// Timeline, and Priority Score are left unset because the v1 form doesn't collect
+// the inputs they need. The v1-specific context (scope, budget range, estimate,
+// layout, consent) is captured in "Internal Notes".
 // ─────────────────────────────────────────────────────────────────────────────
 
 function richText(content: string) {
@@ -18,27 +24,40 @@ function buildProperties(lead: Lead): Record<string, unknown> {
   const { contact, project, estimate, meta } = lead;
   const name = `${contact.firstName} ${contact.lastName}`.trim() || 'New lead';
 
-  const props: Record<string, unknown> = {
-    // Title property — almost always called "Name".
-    Name: { title: [{ text: { content: name } }] },
+  // Roll the v1-specific fields the CRM has no dedicated column for into one note.
+  const internal = [
+    project.tierLabel ? `Scope: ${project.tierLabel}` : null,
+    project.budgetLabel ? `Budget: ${project.budgetLabel}` : null,
+    estimate.pmTotalFormatted ? `Premodel est: ${estimate.pmTotalFormatted}` : null,
+    estimate.constructionRangeFormatted ? `Construction: ${estimate.constructionRangeFormatted}` : null,
+    estimate.designFeeRangeFormatted ? `Design fee: ${estimate.designFeeRangeFormatted}` : null,
+    `Consent: ${project.acknowledged ? 'yes' : 'no'}`,
+    meta.layout ? `Layout ${meta.layout.toUpperCase()}` : null,
+  ]
+    .filter(Boolean)
+    .join(' · ');
 
+  const props: Record<string, unknown> = {
+    Name: { title: [{ text: { content: name } }] },
     'First Name': richText(contact.firstName),
     'Last Name': richText(contact.lastName),
     Email: { email: contact.email || null },
     Phone: { phone_number: contact.phone || null },
     Location: richText(contact.zip),
     Rooms: richText(project.roomLabels.join(', ')),
-
-    'Lead Source': { select: { name: 'Website (Preview)' } },
+    'Lead Source': { select: { name: 'Website Estimator' } },
+    'Lead Type': { select: { name: 'Homeowner' } },
     Status: { select: { name: 'New Lead' } },
+    'Internal Notes': richText(internal),
   };
 
-  if (project.tierLabel) props['Service Type'] = { select: { name: project.tierLabel } };
-  if (project.budgetLabel) props['Budget'] = richText(project.budgetLabel);
+  // Budget column is a dollar number; only set it when the form gave a number
+  // (range chips are already captured in Internal Notes via budgetLabel).
+  const budgetNum = project.budget != null ? Number(project.budget) : NaN;
+  if (Number.isFinite(budgetNum) && budgetNum > 0) props['Budget'] = { number: budgetNum };
+
   if (estimate.pmTotal != null) props['Preliminary Estimate'] = { number: estimate.pmTotal };
-  if (estimate.constructionRangeFormatted) {
-    props['Construction Range'] = richText(estimate.constructionRangeFormatted);
-  }
+
   if (meta.utm && Object.keys(meta.utm).length) {
     props['UTM Source'] = richText(
       Object.entries(meta.utm)

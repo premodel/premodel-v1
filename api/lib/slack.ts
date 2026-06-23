@@ -29,13 +29,13 @@ export function verifySlackSignature(
 
 // ── Lead → Block Kit message ─────────────────────────────────────────────────
 function field(label: string, value: string) {
-  return { type: 'mrkdwn', text: `*${label}:*\n${value || '—'}` };
+  return { type: 'mrkdwn', text: `*${label}:*\n${value || 'n/a'}` };
 }
 
 export function buildLeadBlocks(lead: Lead) {
   const { contact, project, estimate, meta } = lead;
   const name = `${contact.firstName} ${contact.lastName}`.trim();
-  const rooms = project.roomLabels.length ? project.roomLabels.join(', ') : '—';
+  const rooms = project.roomLabels.length ? project.roomLabels.join(', ') : 'n/a';
   const contactLines = [
     contact.email ? `📧 ${contact.email}` : null,
     contact.phone ? `📱 ${contact.phone}` : null,
@@ -72,9 +72,9 @@ export function buildLeadBlocks(lead: Lead) {
       type: 'section',
       fields: [
         field('Rooms', rooms),
-        field('Scope', project.tierLabel || '—'),
-        field('Premodel estimate', estimate.pmTotalFormatted || '—'),
-        field('Construction range', estimate.constructionRangeFormatted || '—'),
+        field('Scope', project.tierLabel || 'n/a'),
+        field('Premodel estimate', estimate.pmTotalFormatted || 'n/a'),
+        field('Construction range', estimate.constructionRangeFormatted || 'n/a'),
       ],
     },
     {
