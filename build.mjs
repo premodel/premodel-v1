@@ -78,7 +78,34 @@ async function buildResponsiveImages(srcDir, outDir) {
   await Promise.all(Array.from({ length: Math.max(2, (os.cpus()?.length || 4)) }, worker));
 
   writeFileSync(path.join(outDir, 'manifest.json'), JSON.stringify(manifest));
-  return { count: files.length, origBytes, variantBytes };
+  return { count: files.length, origBytes, variantBytes, manifest };
+}
+
+// Build a srcset string for a base image in one format.
+function srcsetFor(base, widths, fmt) {
+  return widths.map((w) => `images/${base}-${w}.${fmt} ${w}w`).join(', ');
+}
+
+// Rewrite each static <img src="images/..."> into a <picture> with AVIF + WebP
+// sources (responsive srcset) and the original <img> kept as the universal
+// fallback. Any new image added later is handled automatically on the next build.
+function rewriteImgTags(html, manifest) {
+  return html.replace(/<img\b[^>]*>/gi, (tag) => {
+    const m = tag.match(/\bsrc="(images\/[^"]+)"/i);
+    if (!m) return tag;
+    const e = manifest[m[1]];
+    if (!e) return tag; // non-raster (svg/gif) or unknown — leave untouched
+    const sizes = 'sizes="100vw"'; // generic default; tuned per-layout in a later pass
+    let img = tag;
+    if (!/\bwidth=/i.test(img) && e.w) img = img.replace(/<img\b/i, `<img width="${e.w}" height="${e.h}"`);
+    return (
+      '<picture>' +
+      `<source type="image/avif" srcset="${srcsetFor(e.base, e.widths, 'avif')}" ${sizes}>` +
+      `<source type="image/webp" srcset="${srcsetFor(e.base, e.widths, 'webp')}" ${sizes}>` +
+      img +
+      '</picture>'
+    );
+  });
 }
 rmSync(DIST, { recursive: true, force: true });
 mkdirSync(DIST, { recursive: true });
@@ -134,6 +161,9 @@ html = html.replace(
   '<link rel="canonical"',
   '<meta name="robots" content="noindex, nofollow" />\n<link rel="canonical"',
 );
+
+// Make every static <img> responsive (AVIF/WebP <picture> with srcset).
+html = rewriteImgTags(html, imgStats.manifest);
 
 const min = await minifyHtml(html, {
   collapseWhitespace: true,
