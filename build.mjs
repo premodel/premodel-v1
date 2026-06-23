@@ -12,11 +12,74 @@
 //
 // Output goes to dist/ (served by Vercel). Source files stay untouched.
 
-import { rmSync, mkdirSync, cpSync, readFileSync, writeFileSync, existsSync } from 'node:fs';
+import { rmSync, mkdirSync, cpSync, readFileSync, writeFileSync, existsSync, readdirSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import path from 'node:path';
+import os from 'node:os';
 import { transform } from 'esbuild';
 import { minify as minifyHtml } from 'html-minifier-terser';
+import sharp from 'sharp';
+
+// Single-thread each sharp op so the JS-level pool below controls parallelism
+// without oversubscribing cores.
+sharp.concurrency(1);
 
 const DIST = 'dist';
+
+// Responsive image variants. Each raster in images/ gets AVIF + WebP at these
+// widths (never upscaled) so srcset can serve the smallest sufficient file.
+const IMG_WIDTHS = [400, 800, 1200, 1600, 2000];
+const RASTER = /\.(png|jpe?g)$/i;
+// node_modules/.cache persists across Vercel builds, so unchanged images (keyed
+// by content hash) skip re-encoding and deploys stay fast.
+const IMG_CACHE = 'node_modules/.cache/pmimg';
+
+async function buildResponsiveImages(srcDir, outDir) {
+  mkdirSync(IMG_CACHE, { recursive: true });
+  const files = readdirSync(srcDir).filter((f) => RASTER.test(f));
+  const manifest = {};
+  const tasks = [];
+  let origBytes = 0;
+
+  // Plan every (image, width, format) variant up front, then encode in parallel.
+  for (const file of files) {
+    const buf = readFileSync(path.join(srcDir, file));
+    origBytes += buf.length;
+    const hash = createHash('sha1').update(buf).digest('hex').slice(0, 12);
+    const base = file.replace(RASTER, '');
+    const meta = await sharp(buf).metadata();
+    const origW = meta.width || 0;
+    const widths = [...new Set(IMG_WIDTHS.filter((w) => w < origW).concat(origW))].sort((a, b) => a - b);
+    manifest[`images/${file}`] = { base, widths, formats: ['avif', 'webp'], fallback: `images/${file}`, w: origW, h: meta.height || 0 };
+    for (const w of widths) {
+      for (const fmt of ['avif', 'webp']) {
+        tasks.push({ buf, w, fmt, cacheKey: path.join(IMG_CACHE, `${hash}-${w}.${fmt}`), outPath: path.join(outDir, `${base}-${w}.${fmt}`) });
+      }
+    }
+  }
+
+  let variantBytes = 0;
+  let next = 0;
+  async function worker() {
+    while (next < tasks.length) {
+      const t = tasks[next++];
+      let out;
+      if (existsSync(t.cacheKey)) {
+        out = readFileSync(t.cacheKey);
+      } else {
+        const pipe = sharp(t.buf).resize({ width: t.w, withoutEnlargement: true });
+        out = await (t.fmt === 'avif' ? pipe.avif({ quality: 55 }) : pipe.webp({ quality: 78 })).toBuffer();
+        writeFileSync(t.cacheKey, out);
+      }
+      writeFileSync(t.outPath, out);
+      variantBytes += out.length;
+    }
+  }
+  await Promise.all(Array.from({ length: Math.max(2, (os.cpus()?.length || 4)) }, worker));
+
+  writeFileSync(path.join(outDir, 'manifest.json'), JSON.stringify(manifest));
+  return { count: files.length, origBytes, variantBytes };
+}
 rmSync(DIST, { recursive: true, force: true });
 mkdirSync(DIST, { recursive: true });
 
@@ -29,6 +92,13 @@ const STATIC = [
   'sitemap.xml', 'site.webmanifest',
 ];
 for (const p of STATIC) if (existsSync(p)) cpSync(p, `${DIST}/${p}`, { recursive: true });
+
+// 1b. Generate responsive AVIF/WebP variants for every raster in images/.
+const imgStats = await buildResponsiveImages('images', `${DIST}/images`);
+console.log(
+  `Images: ${imgStats.count} sources → variants ${(imgStats.variantBytes / 1048576).toFixed(1)}MB ` +
+    `(originals ${(imgStats.origBytes / 1048576).toFixed(1)}MB)`,
+);
 
 // 2. Minify the extracted CSS + JS.
 const css = readFileSync('styles.css', 'utf8');
