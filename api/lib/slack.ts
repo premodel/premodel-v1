@@ -45,7 +45,6 @@ export function buildLeadBlocks(lead: Lead) {
     .join('   ');
 
   const sourceBits: string[] = [];
-  if (meta.layout) sourceBits.push(`layout ${meta.layout.toUpperCase()}`);
   if (meta.utm && Object.keys(meta.utm).length) {
     sourceBits.push(
       Object.entries(meta.utm)
