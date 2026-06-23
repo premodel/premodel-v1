@@ -31,7 +31,6 @@ function buildProperties(lead: Lead): Record<string, unknown> {
     estimate.pmTotalFormatted ? `Premodel est: ${estimate.pmTotalFormatted}` : null,
     estimate.constructionRangeFormatted ? `Construction: ${estimate.constructionRangeFormatted}` : null,
     estimate.designFeeRangeFormatted ? `Design fee: ${estimate.designFeeRangeFormatted}` : null,
-    `Text consent: ${project.smsConsent ? 'yes' : 'no'}`,
     meta.layout ? `Layout ${meta.layout.toUpperCase()}` : null,
   ]
     .filter(Boolean)
@@ -48,6 +47,7 @@ function buildProperties(lead: Lead): Record<string, unknown> {
     'Lead Source': { select: { name: 'Website Estimator' } },
     'Lead Type': { select: { name: 'Homeowner' } },
     Status: { select: { name: 'New Lead' } },
+    'Text Consent': { checkbox: project.smsConsent },
     'Internal Notes': richText(internal),
   };
 
