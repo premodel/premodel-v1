@@ -77,6 +77,9 @@ export function buildLeadBlocks(lead: Lead) {
         field('Construction range', estimate.constructionRangeFormatted || 'n/a'),
       ],
     },
+    ...(project.note
+      ? [{ type: 'section', text: { type: 'mrkdwn', text: `*Note:*\n${project.note}` } }]
+      : []),
     {
       type: 'context',
       elements: [
@@ -85,7 +88,7 @@ export function buildLeadBlocks(lead: Lead) {
           text:
             `Submitted ${formatTimestamp(meta.submittedAt)}` +
             (sourceBits.length ? ` · ${sourceBits.join(' · ')}` : '') +
-            ` · ack: ${project.acknowledged ? '✓' : '✗'}`,
+            ` · texts: ${project.smsConsent ? '✓ opted in' : '✗ not opted in'}`,
         },
       ],
     },

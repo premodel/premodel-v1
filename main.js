@@ -1462,7 +1462,8 @@
   }
   function buildLeadPayload(id, rooms, tier, budget) {
     function v(f) { var el = document.getElementById('rfi-' + f + '-' + id); return el ? el.value.trim() : ''; }
-    var ackEl = document.getElementById('rf-ack-' + id);
+    var noteEl = document.getElementById('rf-note-input-' + id);   // Q2 optional note
+    var smsEl  = document.getElementById('rfi-sms-' + id);          // SMS/text consent checkbox
     var est = calcConstruction(rooms, tier);
     var pm  = (rooms.length && tier) ? buildPmBreakdown(rooms, tier) : null;
     return {
@@ -1474,7 +1475,8 @@
         tierLabel: tier ? (TIER_LABELS[tier] || tier) : null,
         budget: budget != null ? String(budget) : null,
         budgetLabel: budgetLabelFor(budget),
-        acknowledged: ackEl ? !!ackEl.checked : true
+        note: noteEl ? noteEl.value.trim() : '',
+        smsConsent: smsEl ? !!smsEl.checked : false
       },
       estimate: {
         pmTotal: pm ? pm.total : null,
