@@ -1,0 +1,25 @@
+# Files kept in the repo but NOT served by the deployment.
+# (node_modules, .git, .vercel are ignored automatically.)
+
+# Design-workshop tool pages (not part of the site)
+premodel_palette_v2.html
+premodel_lockup_explorer.html
+lockup-explorations/
+palette-picker-spec.md
+
+# Unreferenced exploration assets
+premodel-wordmark-sand.png
+premodel_lockup_v2_on-dark-card.png
+premodel_lockup_v2_on-paper.png
+
+# Orphaned / dev-only
+components/
+tools/
+docs/
+start-dev.bat
+LOCAL_PREVIEW.md
+
+# Local env
+.env
+.env.local
+.env*.local

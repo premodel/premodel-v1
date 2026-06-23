@@ -2,6 +2,14 @@
 **/.DS_Store
 images-opt/
 
+# Dependencies / build / local env
+node_modules/
+dist/
+.vercel/
+.env
+.env.local
+.env*.local
+
 # Old standalone exports, kept locally but not tracked
 original_v10.html
 original_v10_with_toolbar.html
