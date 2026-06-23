@@ -31,7 +31,7 @@ function buildProperties(lead: Lead): Record<string, unknown> {
     estimate.pmTotalFormatted ? `Premodel est: ${estimate.pmTotalFormatted}` : null,
     estimate.constructionRangeFormatted ? `Construction: ${estimate.constructionRangeFormatted}` : null,
     estimate.designFeeRangeFormatted ? `Design fee: ${estimate.designFeeRangeFormatted}` : null,
-    `Consent: ${project.acknowledged ? 'yes' : 'no'}`,
+    `Text consent: ${project.smsConsent ? 'yes' : 'no'}`,
     meta.layout ? `Layout ${meta.layout.toUpperCase()}` : null,
   ]
     .filter(Boolean)
@@ -50,6 +50,9 @@ function buildProperties(lead: Lead): Record<string, unknown> {
     Status: { select: { name: 'New Lead' } },
     'Internal Notes': richText(internal),
   };
+
+  // The Q2 free-text note maps to the CRM's "Questions/Notes" column.
+  if (project.note) props['Questions/Notes'] = richText(project.note);
 
   // Budget column is a dollar number; only set it when the form gave a number
   // (range chips are already captured in Internal Notes via budgetLabel).

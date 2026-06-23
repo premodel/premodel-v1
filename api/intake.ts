@@ -30,7 +30,8 @@ function coerceLead(body: Record<string, any>): Lead {
       tierLabel: p.tierLabel != null ? str(p.tierLabel) : null,
       budget: p.budget != null ? str(p.budget) : null,
       budgetLabel: p.budgetLabel != null ? str(p.budgetLabel) : null,
-      acknowledged: !!p.acknowledged,
+      note: str(p.note),
+      smsConsent: !!p.smsConsent,
     },
     estimate: {
       pmTotal: typeof e.pmTotal === 'number' ? e.pmTotal : null,

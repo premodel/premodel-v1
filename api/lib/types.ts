@@ -17,7 +17,8 @@ export interface LeadProject {
   tierLabel: string | null; // e.g. "Reconfigure"
   budget: string | null;    // raw chip value, e.g. "100k_200k"
   budgetLabel: string | null;
-  acknowledged: boolean;
+  note: string;             // Q2 optional free-text note
+  smsConsent: boolean;      // checked the "I agree to receive texts" box
 }
 
 export interface LeadEstimate {
