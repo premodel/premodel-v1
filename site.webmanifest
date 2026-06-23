@@ -1,0 +1,13 @@
+{
+  "name": "Premodel",
+  "short_name": "Premodel",
+  "description": "See your remodel before you commit.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f7f4eb",
+  "theme_color": "#f7f4eb",
+  "icons": [
+    { "src": "assets/favicon-32.png", "sizes": "32x32", "type": "image/png" },
+    { "src": "assets/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
