@@ -9,35 +9,23 @@
   },
   "headers": [
     {
-      "comment": "Staging: keep the preview out of search indexes. Remove this block when (and only when) this becomes the public production site.",
       "source": "/(.*)",
       "headers": [
-        { "key": "X-Robots-Tag", "value": "noindex, nofollow" }
-      ]
-    },
-    {
-      "source": "/(.*)",
-      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow" },
         { "key": "X-Content-Type-Options", "value": "nosniff" },
         { "key": "X-Frame-Options", "value": "SAMEORIGIN" },
         { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
         { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=(), browsing-topics=()" },
-        {
-          "comment": "Page relies on inline scripts/styles, Google Fonts, and data: URI icons. Verify on first deploy and loosen any directive that blocks a needed resource.",
-          "key": "Content-Security-Policy",
-          "value": "default-src 'self'; img-src 'self' data:; media-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self' 'unsafe-inline'; connect-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'"
-        }
+        { "key": "Content-Security-Policy", "value": "default-src 'self'; img-src 'self' data:; media-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self' 'unsafe-inline'; connect-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'" }
       ]
     },
     {
-      "comment": "Long-cache fingerprintable static assets.",
       "source": "/(.*)\\.(css|js|png|jpe?g|svg|webp|avif|mp4|woff2?)",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
       ]
     },
     {
-      "comment": "HTML must always revalidate so content updates ship instantly.",
       "source": "/(.*)\\.html",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }
