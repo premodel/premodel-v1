@@ -1489,7 +1489,10 @@
   }
   // Resolves true when the lead was accepted by the server.
   function submitLead(id, rooms, tier, budget) {
-    return fetch('/api/intake', {
+    // Relative path (not "/api/intake") so it resolves under whatever base the
+    // site is served at — root on *.vercel.app, and /preview/ when proxied
+    // behind premodel.design/preview/.
+    return fetch('api/intake', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(buildLeadPayload(id, rooms, tier, budget))
