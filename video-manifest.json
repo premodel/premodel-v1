@@ -26,5 +26,9 @@
   "images/pf-bath-reveal.mp4": {
     "url": "https://ydqtsdjsxn4huxat.public.blob.vercel-storage.com/videos/pf-bath-reveal.mp4",
     "bytes": 2074275
+  },
+  "images/af-reveal.mp4": {
+    "url": "https://ydqtsdjsxn4huxat.public.blob.vercel-storage.com/videos/af-reveal.mp4",
+    "bytes": 3167635
   }
 }

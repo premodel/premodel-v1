@@ -283,23 +283,19 @@ html.bare .phone-frame {
 /* 1px hairline on the real photo/video frames in both hero carousels (offset inward to hug the rounded corners). */
 .hero-frame--img, .hero-frame--video { outline: 1px solid var(--border-strong); outline-offset: -1px; }
 @media (prefers-reduced-motion: reduce) { .flip-card-inner, .hero-frame { transition: none; } }
-/* iOS Safari mishandles backface-visibility on a 3D-flipped card that holds a <video>: the
-   reveal (front) face keeps compositing and shows through mirrored — a "backward Before button
-   over a video still" — and the Before face never paints. Keep the real 3D flip everywhere, but
-   on touch devices ALSO hard-cut each face's opacity at the 90° midpoint of the flip (0.3s into
-   the 0.6s rotation) — the instant the face is edge-on and invisible anyway. iOS can't be trusted
-   to hide the away face, so opacity does it; the rotation still animates, so the flip still reads. */
-@media (hover: none) and (pointer: coarse) {
-  /* Linear rotation so the geometric 90° edge-on point lands exactly at the 0.3s time-midpoint,
-     where the opacity hard-cut below swaps faces imperceptibly (no mirrored-video flash). */
-  .flip-card-inner { transition: transform 0.6s linear; }
-  .flip-card-front, .flip-card-back { transition: opacity 0s linear 0.3s; }
-  .flip-card.flipped .flip-card-front { opacity: 0; }
-  .flip-card:not(.flipped) .flip-card-back { opacity: 0; }
-  .flip-card.no-flip-anim .flip-card-inner,
-  .flip-card.no-flip-anim .flip-card-front,
-  .flip-card.no-flip-anim .flip-card-back { transition: none; }
-}
+/* Safari (especially iOS) mishandles backface-visibility on a 3D-flipped card that holds a
+   <video>: the away face keeps compositing and shows through mirrored — a "backward button over a
+   video still". So instead of relying on backface-visibility alone, hard-cut each face's opacity at
+   the 90° midpoint of the flip (0.3s into the 0.6s rotation), the instant it's edge-on and invisible
+   anyway. Linear rotation lands the geometric edge-on point exactly at that 0.3s time-midpoint so the
+   swap is imperceptible. Applied on ALL devices so the away face is reliably hidden everywhere. */
+.flip-card-inner { transition: transform 0.6s linear; }
+.flip-card-front, .flip-card-back { transition: opacity 0s linear 0.3s; }
+.flip-card.flipped .flip-card-front { opacity: 0; }
+.flip-card:not(.flipped) .flip-card-back { opacity: 0; }
+.flip-card.no-flip-anim .flip-card-inner,
+.flip-card.no-flip-anim .flip-card-front,
+.flip-card.no-flip-anim .flip-card-back { transition: none; }
 
 .dots { display: flex; justify-content: center; gap: var(--space-1-5); padding: var(--space-3-5) 0 0; align-items: center; }
 .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent-soft); border: 0; padding: 0; margin: 0; appearance: none; -webkit-appearance: none; cursor: pointer; flex: 0 0 7px; display: inline-block; transition: background 0.2s ease; }
