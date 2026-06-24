@@ -1,0 +1,38 @@
+name: Optimize videos
+
+# Runs only when raw videos are added/changed under media-src/. Compresses them
+# with ffmpeg (preinstalled on the runner), uploads to Vercel Blob, updates
+# video-manifest.json, and removes the raw so the repo doesn't carry binaries.
+on:
+  push:
+    paths:
+      - 'media-src/**.mp4'
+
+permissions:
+  contents: write
+
+jobs:
+  optimize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm ci
+      - name: Compress new videos + upload to Blob
+        env:
+          BLOB_READ_WRITE_TOKEN: ${{ secrets.BLOB_READ_WRITE_TOKEN }}
+        run: |
+          shopt -s nullglob
+          files=(media-src/*.mp4)
+          if [ ${#files[@]} -eq 0 ]; then echo "No videos to process."; exit 0; fi
+          node scripts/optimize-video.mjs "${files[@]}"
+      - name: Commit manifest, remove raws
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git rm -q media-src/*.mp4 || true
+          git add video-manifest.json
+          git commit -m "Optimize videos: upload to Blob + update manifest [skip ci]" || { echo "nothing to commit"; exit 0; }
+          git push

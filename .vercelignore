@@ -23,3 +23,6 @@ LOCAL_PREVIEW.md
 .env
 .env.local
 .env*.local
+
+# Raw video drop folder (processed by GitHub Action -> Blob)
+media-src/

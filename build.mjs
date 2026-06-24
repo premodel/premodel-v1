@@ -127,6 +127,18 @@ console.log(
     `(originals ${(imgStats.origBytes / 1048576).toFixed(1)}MB)`,
 );
 
+// 1c. Videos are served from Vercel Blob (see video-manifest.json). Drop the
+// local .mp4 copies from the deploy; the HTML rewrite below points refs at Blob.
+const videoManifest = existsSync('video-manifest.json')
+  ? JSON.parse(readFileSync('video-manifest.json', 'utf8'))
+  : {};
+let droppedMp4 = 0;
+for (const f of readdirSync(`${DIST}/images`).filter((f) => f.endsWith('.mp4'))) {
+  rmSync(`${DIST}/images/${f}`);
+  droppedMp4++;
+}
+console.log(`Videos: ${Object.keys(videoManifest).length} on Blob, dropped ${droppedMp4} local .mp4 from deploy`);
+
 // 2. Minify the extracted CSS + JS.
 const css = readFileSync('styles.css', 'utf8');
 const js = readFileSync('main.js', 'utf8');
@@ -164,6 +176,12 @@ html = html.replace(
 
 // Make every static <img> responsive (AVIF/WebP <picture> with srcset).
 html = rewriteImgTags(html, imgStats.manifest);
+
+// Point every video reference (in <source>, <video>, and data-images JSON) at
+// its Vercel Blob URL.
+for (const [ref, info] of Object.entries(videoManifest)) {
+  html = html.split(ref).join(info.url);
+}
 
 const min = await minifyHtml(html, {
   collapseWhitespace: true,
