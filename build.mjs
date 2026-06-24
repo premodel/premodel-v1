@@ -107,6 +107,40 @@ function rewriteImgTags(html, manifest) {
     );
   });
 }
+
+// Largest generated width <= target (else the smallest available).
+function pickWidth(entry, target) {
+  const le = entry.widths.filter((w) => w <= target);
+  return le.length ? Math.max(...le) : Math.min(...entry.widths);
+}
+
+// Rewrite CSS background-image:url(images/X) into an AVIF/WebP image-set (with a
+// plain WebP url first as the universal fallback). Fixes heavy hero before-images.
+function rewriteBgImages(html, manifest) {
+  return html.replace(/background-image:url\((['"]?)images\/([^'")]+)\1\)/g, (whole, q, file) => {
+    const e = manifest['images/' + file];
+    if (!e) return whole;
+    const w = pickWidth(e, 1600);
+    const avif = `images/${e.base}-${w}.avif`;
+    const webp = `images/${e.base}-${w}.webp`;
+    return `background-image:url('${webp}');background-image:image-set(url('${avif}') type('image/avif'),url('${webp}') type('image/webp'))`;
+  });
+}
+
+// Expand each <link rel="preload" as="image" href="images/X"> into AVIF + WebP
+// preloads (with type, so each browser preloads only the format it will use).
+function rewritePreloads(html, manifest) {
+  return html.replace(/<link rel="preload" as="image" href="images\/([^"]+)"\s*\/?>/g, (whole, file) => {
+    const e = manifest['images/' + file];
+    if (!e) return whole;
+    const w = pickWidth(e, 1600);
+    return (
+      `<link rel="preload" as="image" type="image/avif" href="images/${e.base}-${w}.avif" />` +
+      `<link rel="preload" as="image" type="image/webp" href="images/${e.base}-${w}.webp" />`
+    );
+  });
+}
+
 rmSync(DIST, { recursive: true, force: true });
 mkdirSync(DIST, { recursive: true });
 
@@ -186,6 +220,18 @@ html = html.replace(
 
 // Make every static <img> responsive (AVIF/WebP <picture> with srcset).
 html = rewriteImgTags(html, imgStats.manifest);
+// Optimize CSS background-images (hero before-images) + image preload hints.
+html = rewriteBgImages(html, imgStats.manifest);
+html = rewritePreloads(html, imgStats.manifest);
+
+// Compact manifest for the client so JS-injected gallery/reel images can build
+// responsive <picture> markup. { "images/x.png": { b: base, w: [widths] } }
+const clientManifest = {};
+for (const [k, e] of Object.entries(imgStats.manifest)) clientManifest[k] = { b: e.base, w: e.widths };
+html = html.replace(
+  '<script src="main.js"></script>',
+  `<script>window.__IMG=${JSON.stringify(clientManifest)}</script>\n<script src="main.js"></script>`,
+);
 
 // Point every video reference (in <source>, <video>, and data-images JSON) at
 // its Vercel Blob URL.
