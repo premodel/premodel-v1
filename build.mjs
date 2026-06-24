@@ -132,12 +132,22 @@ console.log(
 const videoManifest = existsSync('video-manifest.json')
   ? JSON.parse(readFileSync('video-manifest.json', 'utf8'))
   : {};
-let droppedMp4 = 0;
 for (const f of readdirSync(`${DIST}/images`).filter((f) => f.endsWith('.mp4'))) {
   rmSync(`${DIST}/images/${f}`);
-  droppedMp4++;
 }
-console.log(`Videos: ${Object.keys(videoManifest).length} on Blob, dropped ${droppedMp4} local .mp4 from deploy`);
+// Preview fallback: a video dropped in media-src/ that isn't on Blob yet is
+// served from its raw so it previews immediately (locally + in PR previews). It
+// auto-upgrades to the Blob URL once the GitHub Action processes it.
+let fallbackVids = 0;
+if (existsSync('media-src')) {
+  for (const f of readdirSync('media-src').filter((f) => f.endsWith('.mp4'))) {
+    if (!videoManifest[`images/${f}`]) {
+      cpSync(`media-src/${f}`, `${DIST}/images/${f}`);
+      fallbackVids++;
+    }
+  }
+}
+console.log(`Videos: ${Object.keys(videoManifest).length} on Blob, ${fallbackVids} previewing from media-src (not yet uploaded)`);
 
 // 2. Minify the extracted CSS + JS.
 const css = readFileSync('styles.css', 'utf8');
