@@ -168,6 +168,9 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
 .prototype-wrapper[data-bp="desktop"] .phone-frame { max-width: none; }
 .prototype-wrapper[data-bp="desktop"] .phone-frame { border-radius: 12px; }
 .phone-scroll { flex: 1; overflow-y: scroll; overflow-x: hidden; scrollbar-width: thin; overscroll-behavior-y: contain; }
+/* <picture> wrappers (responsive images) are transparent to layout so the inner
+   <img> lays out exactly as it did before being wrapped. */
+picture { display: contents; }
 
 /* Bare preview (real phones / ?bare): no toolbar, no device bezel — the active
    frame fills the viewport so the prototype previews like the live site. */
