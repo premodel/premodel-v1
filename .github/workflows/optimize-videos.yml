@@ -1,7 +1,7 @@
 name: Optimize videos
 
 # Runs only when raw videos are added/changed under media-src/. Compresses them
-# with ffmpeg (preinstalled on the runner), uploads to Vercel Blob, updates
+# with ffmpeg (installed in a step below), uploads to Vercel Blob, updates
 # video-manifest.json, and removes the raw so the repo doesn't carry binaries.
 on:
   push:
