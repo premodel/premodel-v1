@@ -34,5 +34,9 @@
   "images/af-reveal.mp4": {
     "url": "https://ydqtsdjsxn4huxat.public.blob.vercel-storage.com/videos/af-reveal.mp4",
     "bytes": 3167635
+  },
+  "images/af-vr.mp4": {
+    "url": "https://ydqtsdjsxn4huxat.public.blob.vercel-storage.com/videos/af-vr.mp4",
+    "bytes": 28407490
   }
 }
