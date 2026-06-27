@@ -24,5 +24,6 @@ LOCAL_PREVIEW.md
 .env.local
 .env*.local
 
-# Raw video drop folder (processed by GitHub Action -> Blob)
-media-src/
+# NOTE: media-src/ is intentionally NOT ignored — the build serves a raw video
+# from there as a preview fallback until the GitHub Action uploads it to Blob.
+# (The Action deletes each raw once it's on Blob, so this stays near-empty.)

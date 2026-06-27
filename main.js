@@ -1,6 +1,26 @@
 (function() {
   if (window.lucide && window.lucide.createIcons) window.lucide.createIcons();
 
+  // Build a responsive <picture> (AVIF/WebP srcset) for a JS-injected image, using
+  // the build-emitted window.__IMG manifest. Falls back to a plain <img> if absent.
+  function respImg(src, alt, styleText) {
+    var img = document.createElement('img');
+    img.loading = 'lazy'; img.decoding = 'async'; img.src = src; img.alt = alt || '';
+    if (styleText) img.style.cssText = styleText;
+    var m = window.__IMG && window.__IMG[src];
+    if (!m) return img;
+    var pic = document.createElement('picture');
+    ['avif', 'webp'].forEach(function(fmt) {
+      var s = document.createElement('source');
+      s.type = 'image/' + fmt;
+      s.srcset = m.w.map(function(w) { return 'images/' + m.b + '-' + w + '.' + fmt + ' ' + w + 'w'; }).join(', ');
+      s.sizes = '(max-width: 700px) 92vw, 760px';
+      pic.appendChild(s);
+    });
+    pic.appendChild(img);
+    return pic;
+  }
+
   var scrollEl = document.getElementById('scroll');
   var steps = scrollEl.querySelectorAll('.step');
   // Scroll-linked reveal: each step's openness tracks how close it is to the focus line,
@@ -494,12 +514,9 @@
             el.playsInline = true;
             el.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block;';
           } else {
-            el = document.createElement('img');
-            el.loading = 'lazy';        // the reel can be 20+ full-res renders — fetch as scrolled
-            el.decoding = 'async';
-            el.src = img.src;
-            el.alt = img.alt || '';
-            el.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block;';
+            // Responsive <picture> (AVIF/WebP srcset) so the reel's full-res renders
+            // download at the size actually shown. The reel can be 20+ images.
+            el = respImg(img.src, img.alt, 'width:100%;height:100%;object-fit:cover;display:block;');
           }
           div.appendChild(el);
         }

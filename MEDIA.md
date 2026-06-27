@@ -28,9 +28,13 @@ Videos can't be optimized in the deploy build, so a GitHub Action handles them.
 
 On push, the **Optimize videos** Action compresses it with ffmpeg, uploads it to
 Vercel Blob, records it in `video-manifest.json`, and deletes the raw. The build
-then serves it from Blob. **It takes ~1–2 minutes after your push** for the
-Action to finish and the video to appear — so on a PR, wait for the preview to
-refresh before reviewing the video.
+then serves it from Blob.
+
+**Previewing is immediate.** Until the Action finishes, the build serves your raw
+`media-src/` file directly, so the video shows up right away — locally and in the
+PR preview. About 1–2 minutes after your push, the Action swaps it for the
+optimized Blob version automatically (the PR preview refreshes on its own). So
+you never wait to *see* it; it just gets lighter shortly after.
 
 One-time setup (already done): the Blob token is a GitHub Actions secret named
 `BLOB_READ_WRITE_TOKEN`.

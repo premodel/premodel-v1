@@ -30,5 +30,9 @@
   "images/js-vr.mp4": {
     "url": "https://ydqtsdjsxn4huxat.public.blob.vercel-storage.com/videos/js-vr.mp4",
     "bytes": 12556274
+  },
+  "images/af-reveal.mp4": {
+    "url": "https://ydqtsdjsxn4huxat.public.blob.vercel-storage.com/videos/af-reveal.mp4",
+    "bytes": 3167635
   }
 }
