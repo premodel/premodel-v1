@@ -512,6 +512,11 @@
             el.loop = true;
             el.muted = true;
             el.playsInline = true;
+            // Simple play/pause + seek (no audio — the clip is muted). Trim the
+            // download/PiP affordances so the native bar stays minimal.
+            el.controls = true;
+            el.controlsList = 'nodownload noplaybackrate';
+            el.disablePictureInPicture = true;
             el.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block;';
           } else {
             // Responsive <picture> (AVIF/WebP srcset) so the reel's full-res renders
