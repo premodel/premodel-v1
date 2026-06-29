@@ -1,3 +1,14 @@
+// ── Analytics (PostHog) ──────────────────────────────────────────────────────
+// Thin wrappers over the global `posthog` (loaded by the snippet in <head>). Both
+// no-op silently when analytics isn't present — local dev / Claude preview skip
+// init, and an ad-blocker can drop the script — so callers never need to guard.
+function pmTrack(event, props) {
+  try { if (window.posthog && window.posthog.capture) window.posthog.capture(event, props || {}); } catch (e) {}
+}
+function pmIdentify(distinctId, props) {
+  try { if (window.posthog && window.posthog.identify && distinctId) window.posthog.identify(distinctId, props || {}); } catch (e) {}
+}
+
 (function() {
   if (window.lucide && window.lucide.createIcons) window.lucide.createIcons();
 
@@ -315,13 +326,20 @@
   // Manual Before/Reveal toggle. A tap takes over from the auto-flip timer for that card: flipping to
   // the Reveal plays its video from the top; flipping to Before keeps the video playing through the
   // flip, then pauses and rewinds it once the flip lands.
-  heroFlipCards.forEach(function(card) {
+  heroFlipCards.forEach(function(card, ci) {
     card.querySelectorAll('.hero-before-btn').forEach(function(btn) {
       btn.addEventListener('click', function(e) {
         e.stopPropagation();
         clearTimeout(heroFlipTimer);
-        if (card.classList.contains('flipped')) heroShowReveal(card);
+        var toReveal = card.classList.contains('flipped');   // currently Before → tap shows Reveal
+        if (toReveal) heroShowReveal(card);
         else heroFlipToBefore(card);
+        // Did the visitor manually toggle a before/after reveal, and on which card?
+        var tag = card.querySelector('.hero-tag');
+        pmTrack('reveal_card_toggled', {
+          card_index: ci, location: tag ? tag.textContent.trim() : '',
+          face: toReveal ? 'reveal' : 'before'
+        });
       });
     });
   });
@@ -329,6 +347,7 @@
   carousel.addEventListener('scroll', updateDots, { passive: true });
   dots.forEach(function(d, i) {
     d.addEventListener('click', function() {
+      pmTrack('hero_carousel_advanced', { method: 'dot', index: i });
       if (isDeck()) { setDeck(i); return; }
       var offset = heroLoopActive() ? 1 : 0;
       carousel.scrollTo({ left: (i + offset) * slideStride(carousel), behavior: 'smooth' });
@@ -345,7 +364,10 @@
     deckDragging = false;
     if (!isDeck() || deckDownX === null) return;
     var dx = e.clientX - deckDownX; deckDownX = null;
-    if (Math.abs(dx) > 50) setDeck(deckIndex + (dx < 0 ? 1 : -1));
+    if (Math.abs(dx) > 50) {
+      pmTrack('hero_carousel_advanced', { method: 'drag', direction: dx < 0 ? 'next' : 'prev' });
+      setDeck(deckIndex + (dx < 0 ? 1 : -1));
+    }
   });
   var deckWheelLock = false;
   carousel.addEventListener('wheel', function(e) {
@@ -354,12 +376,14 @@
     e.preventDefault();
     if (deckWheelLock) return;
     deckWheelLock = true;
+    pmTrack('hero_carousel_advanced', { method: 'wheel', direction: e.deltaX > 0 ? 'next' : 'prev' });
     setDeck(deckIndex + (e.deltaX > 0 ? 1 : -1));
     setTimeout(function() { deckWheelLock = false; }, 420);
   }, { passive: false });
   realHeroSlides().forEach(function(s, idx) {
     s.addEventListener('click', function() {
       if (!isDeck() || idx === deckIndex) return;
+      pmTrack('hero_carousel_advanced', { method: 'card', index: idx });
       setDeck(idx);
     });
   });
@@ -576,6 +600,17 @@
   })();
   var caseModalCard = document.getElementById('case-modal-card');
   var caseModalImageReel = document.getElementById('case-modal-images');
+  // Gallery engagement: track once per open whether the visitor actually scrolled
+  // through the renders (set in openCaseModal, fired by the listener below).
+  var currentCaseProject = '', caseReelScrolled = false;
+  if (caseModalImageReel) {
+    caseModalImageReel.addEventListener('scroll', function() {
+      if (!caseReelScrolled && caseModalImageReel.scrollTop > 40) {
+        caseReelScrolled = true;
+        pmTrack('gallery_reel_scrolled', { project: currentCaseProject });
+      }
+    }, { passive: true });
+  }
   // Bottom-sheet geometry (mobile/stacked layout only). peek = resting height; full = expanded.
   var SHEET_EASE = 'cubic-bezier(0.32,0.72,0,1)';
   function modalH() { return caseModal ? (caseModal.getBoundingClientRect().height || caseModal.offsetHeight) : 0; }
@@ -621,6 +656,15 @@
     }
     if (caseModalDelivered) caseModalDelivered.style.display = slide.dataset.delivered ? '' : 'none';
     buildCaseModalReel(slide, caseModalImageReel);
+    // Analytics: which case study was opened, and reset the per-open "did they scroll
+    // through the renders" flag (fired once, lazily, by the reel scroll listener below).
+    currentCaseProject = slide.dataset.name || '';
+    caseReelScrolled = false;
+    pmTrack('gallery_opened', {
+      project: currentCaseProject,
+      room: (slide.dataset.meta || '').split('·')[0].trim(),
+      location: caseStudyLocation(slide.dataset.meta)
+    });
     caseModal.classList.add('open');
     caseModal.setAttribute('aria-hidden', 'false');
     caseModalCard.classList.remove('expanded');
@@ -1689,6 +1733,14 @@
     var FRONT_STEPS = 3;
     var LAST = PANELS.length;
     var step = 1, rooms = [], tier = null, budget = null, budgetTouched = false, advanceTimer = null;
+    // Analytics: the card is always mounted, so don't count the initial showStep(1)
+    // as a funnel step — that would make "step viewed" == pageviews. We track real
+    // engagement: `reveal_form_started` on the first room tap, then each step the
+    // user navigates to. STEP_NAMES indexes PANELS for readable funnel labels.
+    var STEP_NAMES = ['rooms', 'type', 'budget', 'contact', 'success'];
+    var formMounted = false, formStarted = false;
+    // Budget can be a number or the literal 'not_sure'; normalise for event props.
+    function budgetProp() { return budget === 'not_sure' ? 'not_sure' : budget; }
     var prefersReduced = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
 
     function panel(n) { return document.getElementById('rfc-' + PANELS[n - 1] + '-' + id); }
@@ -1840,6 +1892,16 @@
       // Estimate strip stays mounted through every step, including the confirmation.
       applyNav(n);
       if (window.lucide && window.lucide.createIcons) window.lucide.createIcons();
+      // Funnel: skip the initial mount (n=1 on load); track every navigated step.
+      // `reveal_form_submitted` (fired separately on a successful send) is the
+      // canonical conversion, so we don't double-count the success panel here.
+      if (formMounted && n < LAST) {
+        pmTrack('reveal_form_step_viewed', {
+          step_index: n, step_name: STEP_NAMES[n - 1] || String(n),
+          room_count: rooms.length, rooms: rooms.slice(), scope_type: tier, budget: budgetProp()
+        });
+      }
+      formMounted = true;
     }
 
     // Q1 — rooms (multi-select; advance via the next arrow). "Entire home" is exclusive
@@ -1849,6 +1911,8 @@
     roomChips.forEach(function(chip) {
       chip.addEventListener('click', function() {
         var r = chip.getAttribute('data-room');
+        // First room tap = the visitor has entered the funnel. Fire once.
+        if (!formStarted) { formStarted = true; pmTrack('reveal_form_started', { first_room: r }); }
         var nowOn = chip.classList.toggle('sel');
         if (nowOn) {
           if (r === 'entire_home') {
@@ -1897,6 +1961,7 @@
       projectNote = noteInput ? noteInput.value.trim() : '';
       noteTriggerLabel();
       if (noteOverlay) noteOverlay.hidden = true;
+      if (projectNote) pmTrack('reveal_form_note_added', { length: projectNote.length });
     }
     function cancelNote() {                            // Cancel: discard edits
       if (noteInput) noteInput.value = projectNote;
@@ -1967,8 +2032,30 @@
         submittingA = false;
         submitBtn.disabled = false;
         submitBtn.textContent = prev;
-        if (ok) showStep(LAST);
-        else showFormError(id, SUBMIT_ERR);
+        if (ok) {
+          // Tie this anonymous session (and its replay) to the lead, then record the
+          // conversion. identify() first so the event attaches to the named person.
+          var email = val('email');
+          if (email) {
+            pmIdentify(email, {
+              email: email,
+              name: (val('first') + ' ' + val('last')).trim(),
+              zip: val('zip')
+            });
+          }
+          var pm = (rooms.length && tier) ? buildPmBreakdown(rooms, tier) : null;
+          pmTrack('reveal_form_submitted', {
+            rooms: rooms.slice(), room_count: rooms.length,
+            scope_type: tier, budget: budgetProp(),
+            pm_total: pm ? pm.total : null
+          });
+          showStep(LAST);
+        } else {
+          pmTrack('reveal_form_submit_failed', {
+            room_count: rooms.length, scope_type: tier, budget: budgetProp()
+          });
+          showFormError(id, SUBMIT_ERR);
+        }
       });
     });
 
@@ -1993,6 +2080,7 @@
       scrollEl.scrollTo({ top: target, behavior: 'smooth' });
     }
     if (ctaBtn) ctaBtn.addEventListener('click', function() {
+      pmTrack('cta_clicked', { location: 'sticky_bar' });
       requestAnimationFrame(scrollToStart);
       // Long smooth scrolls can drift short when content above settles; correct once.
       setTimeout(scrollToStart, 650);
