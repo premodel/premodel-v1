@@ -194,9 +194,9 @@ html.bare .phone-frame {
 .header { display: flex; align-items: center; justify-content: space-between; padding: var(--space-3-5) var(--space-4); border-bottom: 0.5px solid var(--border-divider); }
 .header .logo-name { font-size: 16px; font-weight: 500; margin: 0; letter-spacing: -0.005em; display: inline-flex; align-items: center; }
 .header .logo-mark { height: 24px; width: auto; display: block; }
-.header .header-link { font-size: var(--fs-small); color: var(--text-secondary); text-decoration: none; font-weight: 600; }
+.header .header-link { font-size: var(--fs-small); color: var(--accent); text-decoration: none; font-weight: 600; }
 .header button.header-link { appearance: none; -webkit-appearance: none; background: transparent; border: 0; padding: 0; font-family: inherit; line-height: inherit; cursor: pointer; transition: color 0.15s ease; }
-.header button.header-link:hover { color: var(--text-primary); }
+.header button.header-link:hover { color: var(--accent-hover); }
 .header button.header-link:focus-visible { outline: 2px solid var(--text-primary); outline-offset: 2px; border-radius: 2px; }
 .locale-bug { display: inline-block; background: var(--accent-soft); color: var(--accent-hover); font-size: var(--fs-caption); font-weight: 600; letter-spacing: 0.08em; padding: var(--space-0-5) var(--space-1-5); border-radius: 4px; margin-left: var(--space-2); vertical-align: 2px; text-transform: uppercase; }
 
@@ -1011,7 +1011,7 @@ body.palette-active .rf-card .rf-tier.sel .rf-tier-name { color: #16365a; }
 .project-slide::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 38%; background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0) 100%); pointer-events: none; }
 .project-slide-img { width: 100%; aspect-ratio: 1/1; background: var(--media-placeholder); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--space-3); color: rgba(255,255,255,0.36); font-size: var(--fs-caption); letter-spacing: 0.1em; text-transform: uppercase; position: relative; overflow: hidden; }
 .project-slide-img:has(img)::before { display: none; }
-.project-slide-img::before { content: ''; width: 44px; height: 44px; background-color: rgba(255,255,255,0.34); -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'/%3E%3Ccircle cx='9' cy='9' r='2'/%3E%3Cpath d='m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21'/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'/%3E%3Ccircle cx='9' cy='9' r='2'/%3E%3Cpath d='m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21'/%3E%3C/svg%3E") center / contain no-repeat; }
+.project-slide-img::before { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 44px; height: 44px; background-color: rgba(255,255,255,0.34); -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'/%3E%3Ccircle cx='9' cy='9' r='2'/%3E%3Cpath d='m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21'/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'/%3E%3Ccircle cx='9' cy='9' r='2'/%3E%3Cpath d='m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21'/%3E%3C/svg%3E") center / contain no-repeat; }
 .project-overlay { position: absolute; left: 16px; right: 110px; bottom: 14px; color: #fff; pointer-events: none; text-shadow: 0 1px 10px rgba(0,0,0,0.45); z-index: 2; }
 .project-name { font-size: 16px; font-weight: 600; margin: 0 0 var(--space-0-5); letter-spacing: -0.01em; }
 .project-meta { font-size: var(--fs-small); font-weight: 500; margin: 0; opacity: 0.95; letter-spacing: 0.01em; }
@@ -1020,7 +1020,7 @@ body.palette-active .rf-card .rf-tier.sel .rf-tier-name { color: #16365a; }
 .project-cta svg { width: 13px; height: 13px; stroke-width: 2; color: #1a1a18; }
 .project-link { position: absolute; top: 12px; right: 12px; width: 32px; height: 32px; border-radius: 8px; background: rgba(0,0,0,0.32); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); display: flex; align-items: center; justify-content: center; color: #fff; text-decoration: none; transition: background 0.15s; z-index: 2; }
 .project-link:hover { background: rgba(0,0,0,0.5); }
-.project-link svg { width: 16px; height: 16px; stroke-width: 1.75; }
+.project-link svg { width: 16px; height: 16px; stroke-width: 1.75; fill: #fff; }
 .project-dots { display: flex; justify-content: center; gap: var(--space-1-5); padding: var(--space-3-5) 0 0; align-items: center; }
 .project-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent-soft); border: 0; padding: 0; margin: 0; appearance: none; -webkit-appearance: none; cursor: pointer; flex: 0 0 7px; transition: background 0.2s ease; }
 .project-dot.active { background: var(--accent); }
@@ -1272,6 +1272,9 @@ body.palette-active .rf-card .rf-tier.sel .rf-tier-name { color: #16365a; }
 
   /* How it works: centered reading column, same scroll-scrubbed steps */
   .phone-frame[data-layout="a"] .howto-section { max-width: 680px; margin-inline: auto; padding: var(--space-8) var(--space-6) 0; }
+  /* Estimate strip: same centered column so its "Your estimate" divider matches
+     the How it works separators instead of spanning the full page width. */
+  .phone-frame[data-layout="a"] .rf-estimate { max-width: 680px; margin-inline: auto; padding-inline: var(--space-4); }
 
   /* Homeowners: quotes fan out side by side instead of stacking */
   .phone-frame[data-layout="a"] .who-section { padding: var(--space-8) var(--space-6) 0; }
@@ -1402,6 +1405,7 @@ body.palette-active .rf-card .rf-tier.sel .rf-tier-name { color: #16365a; }
   .phone-frame[data-layout="a"] .plan-gallery .tile { flex: none; }
 
   .phone-frame[data-layout="a"] .howto-section { max-width: 720px; padding-top: var(--space-9); }
+  .phone-frame[data-layout="a"] .rf-estimate { max-width: 720px; }
 
   .phone-frame[data-layout="a"] .who-section { max-width: 1240px; margin-inline: auto; padding: var(--space-9) var(--space-7) 0; }
   .phone-frame[data-layout="a"] .quotes { gap: var(--space-4-5); max-width: 1040px; margin-inline: auto; }
