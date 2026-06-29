@@ -2020,8 +2020,16 @@
   var openModal = null;
   var lastTrigger = null;
 
+  // Clear any inline styles left behind by a swipe gesture so the sheet opens clean.
+  function resetSheet(modal) {
+    var card = modal.querySelector('.info-modal-card');
+    if (card) { card.style.transition = ''; card.style.transform = ''; }
+    modal.style.background = ''; modal.style.transition = '';
+  }
+
   function open(modal, trigger) {
     if (!modal) return;
+    resetSheet(modal);
     modal.classList.add('open');
     modal.setAttribute('aria-hidden', 'false');
     openModal = modal;
@@ -2034,6 +2042,7 @@
     if (!openModal) return;
     openModal.classList.remove('open');
     openModal.setAttribute('aria-hidden', 'true');
+    resetSheet(openModal);
     var t = lastTrigger;
     openModal = null;
     lastTrigger = null;
@@ -2054,6 +2063,46 @@
     modal.addEventListener('click', function(e) { if (e.target === modal) close(); });
     var closeBtn = modal.querySelector('[data-modal-close]');
     if (closeBtn) closeBtn.addEventListener('click', close);
+
+    // Swipe-down-to-dismiss on touch — only on the mobile bottom sheet (not the
+    // centered tablet/desktop dialog), mirroring the gallery modal's pull-to-close.
+    var card = modal.querySelector('.info-modal-card');
+    if (card) {
+      var dragging = false, decided = false, startY = 0, dy = 0, lastY = 0, lastT = 0, vy = 0;
+      card.addEventListener('touchstart', function(e) {
+        if (getComputedStyle(modal).alignItems !== 'flex-end') return; // bottom sheet only
+        if (card.scrollTop > 0) return;                                 // let content scroll first
+        dragging = true; decided = false; dy = 0;
+        startY = e.touches[0].clientY; lastY = startY; lastT = Date.now(); vy = 0;
+        card.style.transition = 'none';
+      }, { passive: true });
+      card.addEventListener('touchmove', function(e) {
+        if (!dragging) return;
+        var y = e.touches[0].clientY; dy = y - startY;
+        if (!decided) {
+          if (Math.abs(dy) < 4) return;
+          // Upward, or content not at the top → hand back to native scroll.
+          if (dy < 0 || card.scrollTop > 0) { dragging = false; card.style.transition = ''; return; }
+          decided = true;
+        }
+        if (dy < 0) dy = 0;
+        if (e.cancelable) e.preventDefault();
+        card.style.transform = 'translateY(' + dy + 'px)';
+        modal.style.background = 'rgba(0,0,0,' + Math.max(0, 0.55 * (1 - dy / 600)) + ')';
+        var now = Date.now(), dt = now - lastT; if (dt > 0) vy = (y - lastY) / dt; lastY = y; lastT = now;
+      }, { passive: false });
+      function endDrag() {
+        if (!dragging) return; dragging = false;
+        if (!decided) { card.style.transition = ''; return; }
+        if (dy > 110 || vy > 0.7) { close(); return; }   // past threshold or a quick flick → dismiss
+        card.style.transition = 'transform 0.3s cubic-bezier(0.32,0.72,0,1)';
+        modal.style.transition = 'background 0.3s ease';
+        card.style.transform = 'translateY(0)';
+        modal.style.background = '';
+      }
+      card.addEventListener('touchend', endDrag, { passive: true });
+      card.addEventListener('touchcancel', endDrag, { passive: true });
+    }
   });
 
   document.addEventListener('keydown', function(e) {
