@@ -636,9 +636,17 @@ function pmIdentify(distinctId, props) {
     if (!caseModal) return;
     caseModalName.textContent = caseStudyTitle(slide.dataset.name, slide.dataset.meta);
     if (caseModalAvatar) {
-      var initials = (slide.dataset.name || '').replace(/[^a-zA-Z\s]/g, ' ').trim().split(/\s+/)
-        .map(function(w) { return w.charAt(0); }).join('').slice(0, 2).toUpperCase();
-      caseModalAvatar.textContent = initials;
+      if (slide.dataset.avatar) {
+        caseModalAvatar.textContent = '';
+        caseModalAvatar.classList.add('has-photo');
+        caseModalAvatar.style.backgroundImage = 'url("' + slide.dataset.avatar + '")';
+      } else {
+        caseModalAvatar.classList.remove('has-photo');
+        caseModalAvatar.style.backgroundImage = '';
+        var initials = (slide.dataset.name || '').replace(/[^a-zA-Z\s]/g, ' ').trim().split(/\s+/)
+          .map(function(w) { return w.charAt(0); }).join('').slice(0, 2).toUpperCase();
+        caseModalAvatar.textContent = initials;
+      }
     }
     caseModalMeta.textContent = caseStudyLocation(slide.dataset.meta);
     if (caseModalQuote) caseModalQuote.textContent = slide.dataset.quote || '';
