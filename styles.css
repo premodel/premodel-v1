@@ -1135,17 +1135,70 @@ body.palette-active .rf-card .rf-tier.sel .rf-tier-name { color: #16365a; }
 .info-modal { position: absolute; inset: 0; background: rgba(0,0,0,0.55); display: none; align-items: flex-end; justify-content: center; z-index: 60; }
 .info-modal.open { display: flex; }
 .info-modal-card { width: 100%; background: var(--bg-surface-elevated); border-radius: 20px 20px 0 0; padding: var(--space-5) var(--space-5) var(--space-6); max-height: 86%; overflow-y: auto; position: relative; box-shadow: 0 -8px 24px rgba(0,0,0,0.12); }
+.info-modal-handle { width: 36px; height: 4px; background: var(--border-subtle); border-radius: 999px; margin: calc(var(--space-2) * -1) auto var(--space-4); }
 .info-modal-close { position: absolute; top: 14px; right: 14px; width: 32px; height: 32px; border-radius: 50%; background: var(--bg-surface); border: 0; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--text-secondary); padding: 0; font-family: inherit; }
 .info-modal-close:focus-visible { outline: 2px solid var(--text-primary); outline-offset: 2px; }
 .info-modal-close svg { width: 15px; height: 15px; stroke-width: 2; }
-.info-modal-eyebrow { font-size: var(--fs-caption); letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-tertiary); margin: var(--space-0-5) 0 var(--space-1-5); font-weight: 600; }
-.info-modal-title { font-size: var(--fs-h2); font-weight: 500; letter-spacing: -0.015em; color: var(--text-primary); margin: 0 0 var(--space-4); line-height: 1.15; }
-.info-modal-body { font-size: var(--fs-small); line-height: 1.6; color: var(--text-secondary); }
-.info-modal-body h4 { font-size: var(--fs-small); font-weight: 600; color: var(--text-primary); margin: var(--space-4) 0 var(--space-1-5); letter-spacing: 0.04em; text-transform: uppercase; }
+.info-modal-title { font-family: var(--font-display); font-size: var(--fs-h2); font-weight: var(--display-weight); letter-spacing: -0.01em; color: var(--text-primary); margin: 0 0 var(--space-4); line-height: 1.15; }
+.info-modal-body { font-size: var(--fs-body); font-weight: 500; line-height: 1.55; color: var(--text-secondary); }
+.info-modal-body h4 { font-size: 16px; font-weight: 600; line-height: 1.35; color: var(--text-primary); margin: var(--space-4) 0 var(--space-1-5); }
 .info-modal-body h4:first-child { margin-top: 0; }
-.info-modal-body p { margin: 0 0 var(--space-2-5); }
+.info-modal-body p { margin: 0; }
+[data-modal-name="privacy"] .info-modal-body p { margin: 0 0 var(--space-2-5); }
 .info-modal-body p:last-child { margin-bottom: 0; }
-.info-modal-body a { color: var(--text-primary); }
+.info-modal-body a { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
+.info-modal-updated { font-size: var(--fs-small); color: var(--text-tertiary); margin: var(--space-4) 0 0; }
+
+/* For-builders modal */
+[data-modal-name="builders"] .info-modal-title { text-align: center; text-wrap: balance; font-size: var(--fs-h1); padding: 0 var(--space-5); }
+.builders-hook { text-align: center; font-size: var(--fs-body); font-weight: 400; color: var(--text-secondary); line-height: 1.5; margin: 0 0 var(--space-5); }
+.builders-cards { display: flex; flex-direction: column; gap: 0; margin: var(--space-5) 0; }
+.builders-card { position: relative; background: var(--bg-surface); border: 0.5px solid var(--border-subtle); border-radius: var(--radius-card); box-shadow: var(--shadow-raised); padding: var(--space-5); }
+.builders-card:nth-child(1) { transform: rotate(1.5deg); z-index: 1; }
+.builders-card:nth-child(2) { transform: rotate(-0.5deg); margin-top: var(--space-4); z-index: 2; }
+.builders-card-head { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-2); margin: 0 0 var(--space-3); }
+.info-modal-body .builders-card-title { font-family: var(--font-body); font-size: var(--fs-h3); font-weight: 600; line-height: 1.25; letter-spacing: -0.01em; color: var(--text-primary); margin: 0; }
+.builders-card-badge { position: absolute; right: var(--space-4); display: flex; flex-direction: column; align-items: center; gap: var(--space-2); z-index: 3; }
+.builders-card-pill { background: var(--accent); color: var(--text-on-accent); font-size: var(--fs-caption); font-weight: 700; letter-spacing: 0.02em; padding: var(--space-1) var(--space-2-5); border-radius: 999px; white-space: nowrap; box-shadow: 0 1px 4px rgba(0,0,0,0.12); }
+.builders-card-caption { font-size: var(--fs-caption); font-weight: 600; color: var(--text-secondary); white-space: nowrap; }
+.builders-card-sub { font-size: var(--fs-body); font-weight: 600; color: var(--text-secondary); margin: 0 0 var(--space-2); padding-bottom: var(--space-2); }
+/* Flow timeline content — icons connected by a vertical line, mirroring How-it-works / the confirmation screen */
+.builders-flow { position: relative; }
+.builders-flow-step { display: grid; grid-template-columns: 34px 1fr; gap: var(--space-3); align-items: center; position: relative; padding-bottom: var(--space-3); }
+.builders-flow-step:last-child { padding-bottom: 0; }
+.builders-flow-num { width: 34px; height: 34px; border-radius: 50%; background: var(--bg-surface); color: var(--accent); border: 1.5px solid var(--border-strong); box-sizing: border-box; display: flex; align-items: center; justify-content: center; position: relative; z-index: 1; }
+.builders-flow-num svg { width: 16px; height: 16px; stroke-width: 1.9; }
+.builders-flow-text { align-self: center; font-size: var(--fs-body); font-weight: 600; color: var(--text-primary); line-height: 1.35; margin: 0; }
+.builders-card-close { margin: var(--space-4) 0 0; padding-top: var(--space-3); font-family: var(--font-display); font-style: italic; font-size: var(--fs-body); color: var(--text-primary); line-height: 1.4; }
+.builders-contact-line { margin: 0 0 var(--space-4); }
+.builders-contact-actions { display: flex; gap: var(--space-3); margin-top: var(--space-4); }
+.info-modal-body .builders-btn { flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2); padding: var(--space-3); border-radius: 999px; font-size: var(--fs-body); font-weight: 700; text-decoration: none; border: 1.5px solid var(--accent); background: var(--accent); color: var(--text-on-accent); transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease; }
+.info-modal-body .builders-btn:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
+.info-modal-body .builders-btn-secondary { background: transparent; color: var(--accent); }
+.info-modal-body .builders-btn-secondary:hover { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+.builders-btn svg { width: 18px; height: 18px; stroke-width: 2.5; flex-shrink: 0; }
+
+/* Mobile S: reserve room for the corner badge so the card title wraps instead of colliding with it */
+@container frame (max-width: 359px) {
+  .builders-card-sticker .builders-card-title { padding-right: 76px; }
+}
+
+/* Tablet and up: constrain the cards and fan them out, the way the founder cards stack on mobile */
+@container frame (min-width: 768px) {
+  .builders-cards { align-items: center; }
+  .builders-card { width: 82%; max-width: 360px; }
+  .builders-card:nth-child(1) { transform: translateX(-7%) rotate(-2deg); }
+  .builders-card:nth-child(2) { transform: translateX(7%) rotate(0.5deg); margin-top: 0; }
+}
+
+/* Desktop: widen the builders modal so the cards sit side-by-side, like the founder cards at large sizes */
+@container frame (min-width: 1200px) {
+  .phone-frame[data-layout="a"] [data-modal-name="builders"] .info-modal-card { max-width: 880px; }
+  .builders-cards { flex-direction: row; align-items: stretch; justify-content: center; gap: var(--space-4); }
+  .builders-card { width: 50%; max-width: 380px; margin-top: 0; }
+  .builders-card:nth-child(1) { transform: rotate(-1.5deg); }
+  .builders-card:nth-child(2) { transform: rotate(1.5deg); margin-top: 0; }
+}
 .info-modal-placeholder { font-family: var(--font-display); font-style: italic; font-size: 12.5px; color: var(--text-tertiary); margin: 0; line-height: 1.55; padding: var(--space-3) var(--space-3-5); background: var(--bg-page); border-radius: var(--radius-sm); border: 0.5px dashed var(--border-divider); }
 .info-modal-placeholder + .info-modal-placeholder { margin-top: var(--space-2); }
 
@@ -1293,6 +1346,7 @@ body.palette-active .rf-card .rf-tier.sel .rf-tier-name { color: #16365a; }
   /* Info modals: centered dialog instead of a bottom sheet */
   .phone-frame[data-layout="a"] .info-modal { align-items: center; padding: var(--space-6); }
   .phone-frame[data-layout="a"] .info-modal-card { max-width: 560px; border-radius: var(--radius-modal); }
+  .phone-frame[data-layout="a"] .info-modal-handle { display: none; }
 }
 
 /* ── Desktop (frame ≥ 1200px) — Layout A only ───────────────────────────── */
