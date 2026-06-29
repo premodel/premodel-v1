@@ -1051,6 +1051,7 @@ body.palette-active .rf-card .rf-tier.sel .rf-tier-name { color: #16365a; }
 /* Larger avatar so the pill, name, and meta all sit beside the portrait */
 .case-modal-head { display: flex; align-items: flex-start; gap: var(--space-3-5); margin: 0 0 var(--space-4); }
 .case-modal-avatar { flex: 0 0 auto; width: 66px; height: 66px; border-radius: 999px; background: var(--accent-soft); color: var(--accent-hover); font-family: var(--font-body); font-weight: 600; font-size: var(--fs-h3); letter-spacing: 0.02em; display: flex; align-items: center; justify-content: center; }
+.case-modal-avatar.has-photo { background-size: cover; background-position: center; }
 .case-modal-head-text { min-width: 0; }
 .case-modal-name { font-family: var(--font-display); font-size: var(--fs-h2); font-weight: var(--display-weight); letter-spacing: -0.01em; color: var(--text-primary); margin: 0; }
 .case-modal-meta { font-size: var(--fs-small); color: var(--text-secondary); margin: var(--space-0-5) 0 0; }
