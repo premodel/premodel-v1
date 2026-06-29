@@ -13,3 +13,10 @@ dist/
 # Old standalone exports, kept locally but not tracked
 original_v10.html
 original_v10_with_toolbar.html
+
+# Large raw videos: dropped here locally, pushed straight to Blob via
+# `npm run video` (see video-raw/README.md). Never committed.
+video-raw/*.mp4
+video-raw/*.mov
+video-raw/*.MP4
+video-raw/*.MOV

@@ -11,7 +11,7 @@
 // Token: BLOB_READ_WRITE_TOKEN from env (the Action) or .env.local (local runs).
 
 import { put } from '@vercel/blob';
-import { readFileSync, writeFileSync, existsSync } from 'node:fs';
+import { readFileSync, writeFileSync, existsSync, readdirSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import path from 'node:path';
 import os from 'node:os';
@@ -26,10 +26,20 @@ function getToken() {
 }
 
 const MANIFEST = 'video-manifest.json';
-const inputs = process.argv.slice(2);
+let inputs = process.argv.slice(2);
 if (!inputs.length) {
-  console.error('No input videos given.');
-  process.exit(1);
+  // Local convenience (`npm run video` with no args): process every raw in
+  // video-raw/. That folder is git-ignored, so large originals never enter git
+  // — they go straight to Blob from here. The GitHub Action always passes
+  // explicit media-src files, so this default never affects CI.
+  const dir = 'video-raw';
+  inputs = existsSync(dir)
+    ? readdirSync(dir).filter((f) => f.endsWith('.mp4')).map((f) => path.join(dir, f))
+    : [];
+  if (!inputs.length) {
+    console.error('No input videos. Pass file paths, or drop .mp4s in video-raw/ and re-run.');
+    process.exit(1);
+  }
 }
 
 const token = getToken();

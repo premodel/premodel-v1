@@ -39,6 +39,23 @@ you never wait to *see* it; it just gets lighter shortly after.
 One-time setup (already done): the Blob token is a GitHub Actions secret named
 `BLOB_READ_WRITE_TOKEN`.
 
+## Big video (over ~100MB) — push it to Blob first, then commit
+
+GitHub rejects any single file over 100MB on push, and this repo has no Git LFS,
+so a large raw can't go through `media-src/`. Instead, upload it to Blob locally
+and only commit the (tiny) manifest entry:
+
+1. Drop the raw in **`video-raw/`** (git-ignored — see `video-raw/README.md`).
+2. Run `npm run video` (processes everything in `video-raw/`), or
+   `npm run video -- video-raw/<name>.mp4` for one file. This compresses, uploads
+   to Blob, and updates `video-manifest.json`.
+3. Reference it as **`images/<name>.mp4`** in the markup, same as any video.
+4. Commit `video-manifest.json` + your markup change and push. No raw enters git.
+
+Needs a one-time `.env.local` with `BLOB_READ_WRITE_TOKEN` (the token isn't
+retrievable from GitHub — copy it from the Vercel dashboard → Storage → Blob →
+tokens) and `npm install`. Details in `video-raw/README.md`.
+
 ### Example A — a reveal video in the hero carousel
 Each hero card is a `.flip-card`. The video lives in the front face like this
 (copy an existing card and swap the file names):

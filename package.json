@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "build": "node build.mjs",
-    "dev": "node build.mjs && npx serve dist"
+    "dev": "node build.mjs && npx serve dist",
+    "video": "node scripts/optimize-video.mjs"
   },
   "dependencies": {
     "@notionhq/client": "^2.2.15",
