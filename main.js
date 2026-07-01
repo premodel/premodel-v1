@@ -344,6 +344,34 @@ function pmIdentify(distinctId, props) {
     });
   });
 
+  // Reveal pill: each front-face video is a 3-up montage (Reveal A → B → C) with a brief fade-to-black
+  // between segments, looping. Switch the top-left pill label at each fade's midpoint (screen fully
+  // black), so the change is invisible. Values are the black-frame midpoints per source video, from
+  // ffmpeg blackdetect — segments are near-equal but not exact thirds (there's an end fade), so the
+  // two internal switch points are listed explicitly. Basename match survives the Blob URL rewrite.
+  var REVEAL_SWITCHES = {
+    'bf-2f-reveal.mp4':   [6.31, 12.98],
+    'af-reveal.mp4':      [6.06, 12.73],
+    'pf-bath-reveal.mp4': [5.52, 11.52]
+  };
+  var REVEAL_LABELS = ['Reveal A', 'Reveal B', 'Reveal C'];
+  heroFlipCards.forEach(function(card) {
+    var v = heroVideoOf(card);
+    var pill = card.querySelector('.flip-card-front [data-reveal-pill]');
+    if (!v || !pill) return;
+    var src = v.currentSrc || (v.querySelector('source') ? v.querySelector('source').src : '');
+    var switches = REVEAL_SWITCHES[src.split('/').pop().split('?')[0]] || [];
+    var last = -1;
+    function syncRevealPill() {
+      var t = v.currentTime, i = 0;
+      for (var k = 0; k < switches.length; k++) { if (t >= switches[k]) i = k + 1; }
+      if (i > REVEAL_LABELS.length - 1) i = REVEAL_LABELS.length - 1;
+      if (i !== last) { last = i; pill.textContent = REVEAL_LABELS[i]; }
+    }
+    v.addEventListener('timeupdate', syncRevealPill);
+    v.addEventListener('play', syncRevealPill);
+  });
+
   carousel.addEventListener('scroll', updateDots, { passive: true });
   dots.forEach(function(d, i) {
     d.addEventListener('click', function() {
