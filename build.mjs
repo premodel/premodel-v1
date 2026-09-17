@@ -212,11 +212,17 @@ html = html.replace(/<script>\s*\/\/ Shared token engine[\s\S]*?<\/script>/, '')
 // Strip the "Brand and style guide" tooling link.
 html = html.replace(/<div class="brand-guide-link">[\s\S]*?<\/div>\s*/, '');
 
-// Staging noindex (belt-and-suspenders with the X-Robots-Tag header).
-html = html.replace(
-  '<link rel="canonical"',
-  '<meta name="robots" content="noindex, nofollow" />\n<link rel="canonical"',
-);
+// Crawlability. Production (premodel.design) is the public site and must be
+// indexable by search engines and AI crawlers (ClaudeBot, GPTBot, ...), which
+// honor robots.txt and the robots meta. Every other build (Vercel preview
+// deployments, local) stays noindex + Disallow so PR previews never leak.
+const IS_PROD = process.env.VERCEL_ENV === 'production';
+if (!IS_PROD) {
+  html = html.replace(
+    '<link rel="canonical"',
+    '<meta name="robots" content="noindex, nofollow" />\n<link rel="canonical"',
+  );
+}
 
 // Make every static <img> responsive (AVIF/WebP <picture> with srcset).
 html = rewriteImgTags(html, imgStats.manifest);
@@ -250,7 +256,10 @@ const min = await minifyHtml(html, {
 writeFileSync(`${DIST}/index.html`, min);
 writeFileSync(`${DIST}/premodel_homepage_prototype.html`, min);
 
-// 4. robots.txt — staging disallow.
-writeFileSync(`${DIST}/robots.txt`, 'User-agent: *\nDisallow: /\n');
+// 4. robots.txt — production copies the source file (Allow: / + Sitemap);
+// previews get a blanket Disallow.
+if (IS_PROD) cpSync('robots.txt', `${DIST}/robots.txt`);
+else writeFileSync(`${DIST}/robots.txt`, 'User-agent: *\nDisallow: /\n');
+console.log(`Crawlability: ${IS_PROD ? 'PRODUCTION (indexable)' : 'preview/local (noindex + Disallow)'}`);
 
 console.log(`Built → dist/  (html ${(min.length / 1024).toFixed(0)}kb)`);
