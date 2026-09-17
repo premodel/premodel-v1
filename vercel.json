@@ -9,7 +9,9 @@
   },
   "redirects": [
     { "source": "/preview", "destination": "/", "permanent": true },
-    { "source": "/preview/:path*", "destination": "/", "permanent": true }
+    { "source": "/preview/:path*", "destination": "/", "permanent": true },
+    { "source": "/premodel_homepage_prototype", "destination": "/", "permanent": true },
+    { "source": "/premodel_homepage_prototype.html", "destination": "/", "permanent": true }
   ],
   "headers": [
     {
