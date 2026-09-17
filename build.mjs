@@ -180,6 +180,33 @@ function renderCaseStudies(src) {
     `<h2 id="case-studies-heading">What confidence looks like: client stories</h2>${articles.join('')}</section>`;
 }
 
+function enrichLocalBusiness(src) {
+  const re = /(<script type="application\/ld\+json">\s*)(\{[\s\S]*?"@type":\s*"LocalBusiness"[\s\S]*?)(\s*<\/script>)/;
+  const m = src.match(re);
+  if (!m) return src;
+  const lb = JSON.parse(m[2]);
+  // sameAs: every social profile linked in the footer (plus anything already declared).
+  const footer = src.slice(src.indexOf('<footer class="footer"'));
+  const social = [...footer.matchAll(/class="footer-social-link" href="([^"]+)"/g)].map((x) => x[1]);
+  lb.sameAs = [...new Set([...(lb.sameAs || []), ...social])];
+  // founder: one Person per guide card. Removing a card from the page removes the person here.
+  const founders = [];
+  for (const [card] of src.matchAll(/<article class="why-card founder">[\s\S]*?<\/article>/g)) {
+    const name = (card.match(/class="why-founder-name">([^<]+)</) || [])[1];
+    if (!name) continue;
+    const role = ((card.match(/class="why-founder-role">([\s\S]*?)<\/p>/) || [])[1] || '')
+      .replace(/<br\s*\/?>/g, ' ').replace(/\s+/g, ' ').trim();
+    const linkedin = (card.match(/class="why-founder-linkedin" href="([^"]+)"/) || [])[1];
+    const img = (card.match(/<img[^>]*src="([^"]+)"/) || [])[1];
+    const person = { '@type': 'Person', name: name.trim(), jobTitle: role || 'Co-founder', worksFor: { '@type': 'Organization', name: lb.name } };
+    if (img) person.image = `${lb.url}${img}`;
+    if (linkedin) person.sameAs = [linkedin];
+    founders.push(person);
+  }
+  if (founders.length) lb.founder = founders;
+  return src.replace(re, `$1${JSON.stringify(lb, null, 2)}$3`);
+}
+
 // 1. Static passthrough (allowlist — only what the site actually references).
 const STATIC = [
   'images', 'assets',
@@ -266,6 +293,10 @@ if (!IS_PROD) {
 // static <article> (hidden by default; the modal stays the visible reading surface).
 html = html.replace('<footer class="footer"', renderCaseStudies(html) + '\n<footer class="footer"');
 
+// Enrich the LocalBusiness JSON-LD from the page itself so the schema can never drift
+// from what's visible: sameAs from the footer social links, founder from the guide cards.
+html = enrichLocalBusiness(html);
+
 // Make every static <img> responsive (AVIF/WebP <picture> with srcset).
 html = rewriteImgTags(html, imgStats.manifest);
 // Optimize CSS background-images (hero before-images) + image preload hints.
@@ -296,7 +327,6 @@ const min = await minifyHtml(html, {
   html5: true,
 });
 writeFileSync(`${DIST}/index.html`, min);
-writeFileSync(`${DIST}/premodel_homepage_prototype.html`, min);
 
 // 4. robots.txt — production copies the source file (Allow: / + Sitemap);
 // previews get a blanket Disallow.
