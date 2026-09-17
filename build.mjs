@@ -144,13 +144,49 @@ function rewritePreloads(html, manifest) {
 rmSync(DIST, { recursive: true, force: true });
 mkdirSync(DIST, { recursive: true });
 
+// Custom case-study headlines live in main.js (CASE_TITLES); read them from source so
+// the static articles and the modal never drift.
+function caseTitles() {
+  const m = readFileSync('main.js', 'utf8').match(/var CASE_TITLES = \{([\s\S]*?)\};/);
+  const out = {};
+  if (m) for (const [, k, v] of m[1].matchAll(/'([^']+)':\s*"([^"]+)"/g)) out[k] = v;
+  return out;
+}
+const unesc = (t) => t.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&amp;/g, '&');
+const esc = (t) => t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+function renderCaseStudies(src) {
+  const gallery = src.match(/<div class="project-carousel" id="project-carousel">([\s\S]*?)<\/div>\s*<\/div>\s*<\/div>/);
+  if (!gallery) return '';
+  const titles = caseTitles();
+  const attr = (tag, n) => { const m = tag.match(new RegExp(`data-${n}="([^"]*)"`)); return m ? m[1] : ''; };
+  const articles = [];
+  for (const [tag] of gallery[1].matchAll(/<div class="project-slide"[^>]*>/g)) {
+    const name = attr(tag, 'name'), meta = attr(tag, 'meta'), body = attr(tag, 'body');
+    if (!body) continue;
+    const [room = '', city = ''] = meta.split('·').map((x) => x.trim());
+    const title = titles[name] || `${name}'s ${room.toLowerCase()} premodel`;
+    const quote = attr(tag, 'quote');
+    articles.push(
+      `<article class="case-study" id="case-${name.toLowerCase().replace(/[^a-z]+/g, '-').replace(/-$/, '')}">` +
+      `<h3>${esc(title)}</h3>` +
+      `<p class="case-study-meta">${esc(room)}${city ? ` · ${esc(city)}, WA` : ''}</p>` +
+      (quote ? `<blockquote><p>${esc(quote)}</p><footer>${esc(name)}</footer></blockquote>` : '') +
+      unesc(body) +
+      '</article>',
+    );
+  }
+  if (!articles.length) return '';
+  return `<section id="case-studies" class="case-studies" hidden aria-labelledby="case-studies-heading">` +
+    `<h2 id="case-studies-heading">What confidence looks like: client stories</h2>${articles.join('')}</section>`;
+}
+
 // 1. Static passthrough (allowlist — only what the site actually references).
 const STATIC = [
   'images', 'assets',
   'premodel-logo-full.png',
   'premodel-wordmark-cyanotype.png',
   'premodel-wordmark-tagline-cyanotype.png',
-  'sitemap.xml', 'site.webmanifest',
+  'sitemap.xml', 'site.webmanifest', 'llms.txt',
 ];
 for (const p of STATIC) if (existsSync(p)) cpSync(p, `${DIST}/${p}`, { recursive: true });
 
@@ -223,6 +259,12 @@ if (!IS_PROD) {
     '<meta name="robots" content="noindex, nofollow" />\n<link rel="canonical"',
   );
 }
+
+// Case studies as crawlable HTML. The gallery keeps each story in data-* attributes
+// and only paints it into the modal on click, so crawlers and AI fetchers never see
+// ~900 words of the site's strongest proof content. Render every Layout-A slide as a
+// static <article> (hidden by default; the modal stays the visible reading surface).
+html = html.replace('<footer class="footer"', renderCaseStudies(html) + '\n<footer class="footer"');
 
 // Make every static <img> responsive (AVIF/WebP <picture> with srcset).
 html = rewriteImgTags(html, imgStats.manifest);
