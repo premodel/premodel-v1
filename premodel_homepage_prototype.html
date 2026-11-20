@@ -508,7 +508,7 @@ window.addEventListener('storage', function(e){ if (e.key === 'premodel-tokens')
       <div class="why-chart why-chart--scrolly" id="cc-scrolly">
         <!-- Scrollytelling cost-of-change chart. The whole composition pins in .cc-sticky —
              eyebrow + headline, the chart with the rotating beat caption overlaid on its open
-             top-left, then the "Meet your guides" cards — while .cc-track below provides the
+             top-left, then the "Meet your guide" card, while .cc-track below provides the
              scroll runway. JS scrubs a 0..1 progress into 7 beats, drawing the gray "typical"
              line, then the accent Premodel line, then the gap. SVG holds only drawable geometry;
              all text/pins are HTML in .cc-overlay, positioned in % over the 405x300 viewBox. -->
@@ -527,7 +527,7 @@ window.addEventListener('storage', function(e){ if (e.key === 'premodel-tokens')
             <p class="cc-beat" data-beat="3"><strong class="cc-emotion">Old way:</strong> Plans and samples<br>leave a lot to your imagination.</p>
             <p class="cc-beat" data-beat="4"><strong class="cc-emotion">Old way:</strong> Mid-build fixes can eat<br><mark class="cc-hl">10–15%</mark> of your budget.</p>
             <p class="cc-beat" data-beat="5"><strong class="cc-emotion">Old way:</strong> No wonder <mark class="cc-hl">74%</mark><br>reported remodel regret in 2024.</p>
-            <p class="cc-beat" data-beat="6"><strong class="cc-emotion cc-emotion--pm">Premodel:</strong> Pictures first,<br><mark class="cc-hl">1,200+</mark> and counting.</p>
+            <p class="cc-beat" data-beat="6"><strong class="cc-emotion cc-emotion--pm">Premodel:</strong> Pictures first,<br><mark class="cc-hl">1,500+</mark> and counting.</p>
             <p class="cc-beat" data-beat="7"><strong class="cc-emotion cc-emotion--pm">Premodel:</strong> Everyone sees it<br>the same way before building.</p>
           </div>
 
@@ -599,9 +599,9 @@ window.addEventListener('storage', function(e){ if (e.key === 'premodel-tokens')
             </div>
           </div>
 
-          <h3 class="why-guides-subhead">Meet your guides.</h3>
+          <h3 class="why-guides-subhead">Meet your guide.</h3>
 
-          <p class="why-chart-caption why-founders-note">We learned the hard way, on our own homes. 12×.</p>
+          <p class="why-chart-caption why-founders-note">I learned the hard way, on my own homes.</p>
 
           <div class="why-founders">
         <article class="why-card founder">
@@ -616,22 +616,6 @@ window.addEventListener('storage', function(e){ if (e.key === 'premodel-tokens')
             </a>
           </div>
           <p class="why-founder-quote">"Let's get what's in your head into pictures. I'll help fill in what's missing and shape it into a plan."</p>
-          <p class="why-founder-before"><strong>Background:</strong> 25+ years in design + tech</p>
-        </article>
-
-        <article class="why-card founder">
-          <div class="why-founder-head">
-            <div class="why-founder-portrait"><img loading="lazy" decoding="async" src="images/founder-ps.png" alt="Paige Shaw"></div>
-            <div class="why-founder-meta">
-              <!-- TODO: confirm Paige's surname -->
-              <p class="why-founder-name">Paige Shaw</p>
-              <p class="why-founder-role">Premodel guide,<br>Co-founder</p>
-            </div>
-            <a class="why-founder-linkedin" href="https://www.linkedin.com/in/paigewestshaw/" target="_blank" rel="noopener" aria-label="Paige Shaw on LinkedIn">
-              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/></svg>
-            </a>
-          </div>
-          <p class="why-founder-quote">"I've been in your shoes. I've learned a lot over the multiple remodels I've done. With my background in design and technology, I knew there was a better way to tackle some of the most expensive decisions you'll ever make."</p>
           <p class="why-founder-before"><strong>Background:</strong> 25+ years in design + tech</p>
         </article>
           </div>
@@ -866,8 +850,10 @@ window.addEventListener('storage', function(e){ if (e.key === 'premodel-tokens')
 
     <!-- Estimate strip — below the card, on the page. 2-col / 3-row: Reveal · Plan · Build.
          Plan + Build fill once scope (rooms + type) is known; runs off scope, not budget.
-         Persists through the contact step; JS hides it on the confirmation screen. -->
-    <div class="rf-estimate" id="rf-meter-a">
+         Persists through the contact step; JS hides it on the confirmation screen.
+         Hidden from the page for now (Nov 2026). Kept in the DOM because main.js writes to
+         its rows; remove the hidden attribute to bring it back. -->
+    <div class="rf-estimate" id="rf-meter-a" hidden>
       <p class="rf-meter-title"><span>Your estimate</span></p>
       <div class="rf-meter-rows">
         <div class="rf-meter-row rf-meter-reveal">
